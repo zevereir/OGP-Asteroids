@@ -2,7 +2,7 @@ package asteroids.model;
 
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
-
+e
 /**
  * A class that describes ships and their properties. A ship has a position and
  * a velocity, both are described in a cartesian xy-field. It also has an
