@@ -84,6 +84,7 @@ public class Ship {
 	 * @throws ModelException
 	 *             If x or y is not a number. |(!isValidArray(x,y))
 	 */
+	//ALL VALUES//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density,
 			boolean thrusterActivity,double maxVelocity,double thrusterForce) throws ModelException {
 		setShipRadius(radius);
@@ -106,6 +107,7 @@ public class Ship {
 	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
 	 *         orientation, getDefaultMaxVelocity())
 	 */
+	//WITH DENSITY//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density)
 			throws ModelException {
 		this(x, y, xVelocity, yVelocity, radius, orientation,mass,density,getDefaultThrusterActivity(), getDefaultMaxVelocity(),getDefaultThrusterForce());
@@ -119,6 +121,7 @@ public class Ship {
 	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
 	 *         orientation, getDefaultMaxVelocity())
 	 */
+	//WITHOUT DENSITY//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
 			throws ModelException {
 		this(x, y, xVelocity, yVelocity, radius, orientation,mass,getDefaultDensity(),getDefaultThrusterActivity(),
@@ -134,11 +137,13 @@ public class Ship {
 	 *         getDefaultRadius(), getDefaultOrientation(),
 	 *         getDefaultMaxVelocity());
 	 */
+	//ALL DEFAULT//
 	public Ship() throws ModelException {
 		this(getDefaultPosition()[0], getDefaultPosition()[1], getDefaultVelocity()[0], getDefaultVelocity()[1],
 				getDefaultRadius(), getDefaultOrientation(),getDefaultMass(),getDefaultDensity(), getDefaultThrusterActivity(),getDefaultMaxVelocity(),getDefaultThrusterForce());
 	}
 
+	
 	/// BASIC PROPERTIES ///
 
 	private double[] position;
@@ -151,6 +156,7 @@ public class Ship {
 	private boolean thruster_activity;
 	private double thruster_force;
 
+	
 	/// DEFAULTS ///
 
 	private final static double LOWER_RADIUS = 10;
@@ -229,6 +235,8 @@ public class Ship {
 	public static double getDefaultThrusterForce(){
 		return 1.1E21;
 	}
+	
+	
 	/// GETTERS ///
 
 	/**
@@ -271,6 +279,7 @@ public class Ship {
 		return this.orientation;
 	}
 	
+	//WE NEED TO ADD THE WEIGHT OF BULLETS//
 	public double getShipMass() {
 		return this.mass;
 	}
