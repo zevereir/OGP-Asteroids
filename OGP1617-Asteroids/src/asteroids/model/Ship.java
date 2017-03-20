@@ -159,7 +159,7 @@ public class Ship {
 	
 	/// DEFAULTS ///
 
-	private final static double LOWER_RADIUS = 10;
+	private final static double LOWER_SHIP_RADIUS = 10;
 	private final static double SPEED_OF_LIGHT = 300000;
 	
 	/**
@@ -344,7 +344,7 @@ public class Ship {
 	 * @return True if both x and y are type Double and not of the type NaN.
 	 *         |result = ((! Double.isNaN(x)) && (! Double.isNaN(y)))
 	 */
-	public boolean isValidArray(double x, double y) {
+	static boolean isValidArray(double x, double y) {
 		return ((!Double.isNaN(x)) && (!Double.isNaN(y)));
 	}
 
@@ -410,7 +410,7 @@ public class Ship {
 	 *         squared and yVelocity squared. |result
 	 *         =Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2))
 	 */
-	public double getTotalVelocity(double xVelocity, double yVelocity) {
+	static double getTotalVelocity(double xVelocity, double yVelocity) {
 		return Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2));
 	}
 
@@ -459,9 +459,9 @@ public class Ship {
 	 *             LOWER_RADIUS)
 	 */
 	public void setShipRadius(double radius) throws ModelException {
-		if (radius < LOWER_RADIUS)
+		if (radius < LOWER_SHIP_RADIUS)
 			throw new ModelException(
-					"The radius is lower than the underbound of " + LOWER_RADIUS + " km, please try again.");
+					"The radius is lower than the underbound of " + LOWER_SHIP_RADIUS + " km, please try again.");
 		this.radius = radius;
 	}
 

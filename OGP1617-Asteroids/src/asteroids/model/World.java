@@ -27,6 +27,18 @@ public class World {
 	private final static double  UPPER_WORLD_BOUND = Double.MAX_VALUE;
 	
 	
+	///GETTERS///
+	
+	
+	public double getWorldWidth(){
+		return this.width;
+	}
+	
+	public double getWorldHeight(){
+		return this.height;
+	}
+	
+	
 	///SETTERS///
 	
 	public void setWorldWidth(double width){
