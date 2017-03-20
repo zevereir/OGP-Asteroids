@@ -85,7 +85,7 @@ public class Ship {
 	 *             If x or y is not a number. |(!isValidArray(x,y))
 	 */
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density,
-			double maxVelocity) throws ModelException {
+			boolean thrusterActivity,double maxVelocity,double thrusterForce) throws ModelException {
 		setShipRadius(radius);
 		setShipMaxVelocity(maxVelocity);
 		setShipPosition(x, y);
@@ -93,6 +93,8 @@ public class Ship {
 		setShipDensity(density);
 		setShipMass(mass);
 		setShipVelocity(xVelocity, yVelocity);
+		setThrusterActive(thrusterActivity);
+		setShipThrusterForce(thrusterForce);
 	}
 
 	
@@ -106,7 +108,7 @@ public class Ship {
 	 */
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density)
 			throws ModelException {
-		this(x, y, xVelocity, yVelocity, radius, orientation,mass,density, getDefaultMaxVelocity());
+		this(x, y, xVelocity, yVelocity, radius, orientation,mass,density,getDefaultThrusterActivity(), getDefaultMaxVelocity(),getDefaultThrusterForce());
 	}
 	
 	/**
@@ -119,7 +121,8 @@ public class Ship {
 	 */
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
 			throws ModelException {
-		this(x, y, xVelocity, yVelocity, radius, orientation,mass,getDefaultDensity(), getDefaultMaxVelocity());
+		this(x, y, xVelocity, yVelocity, radius, orientation,mass,getDefaultDensity(),getDefaultThrusterActivity(),
+				getDefaultMaxVelocity(),getDefaultThrusterForce());
 	}
 
 	/**
@@ -133,7 +136,7 @@ public class Ship {
 	 */
 	public Ship() throws ModelException {
 		this(getDefaultPosition()[0], getDefaultPosition()[1], getDefaultVelocity()[0], getDefaultVelocity()[1],
-				getDefaultRadius(), getDefaultOrientation(),getDefaultMass(),getDefaultDensity(), getDefaultMaxVelocity());
+				getDefaultRadius(), getDefaultOrientation(),getDefaultMass(),getDefaultDensity(), getDefaultThrusterActivity(),getDefaultMaxVelocity(),getDefaultThrusterForce());
 	}
 
 	/// BASIC PROPERTIES ///
@@ -145,12 +148,14 @@ public class Ship {
 	private double mass;
 	private double density;
 	private double max_velocity;
+	private boolean thruster_activity;
+	private double thruster_force;
 
 	/// DEFAULTS ///
 
 	private final static double LOWER_RADIUS = 10;
 	private final static double SPEED_OF_LIGHT = 300000;
-
+	
 	/**
 	 * Return the default radius of the ship.
 	 * 
@@ -216,6 +221,14 @@ public class Ship {
 		return 1.42E12;
 	}
 
+	
+	public static boolean getDefaultThrusterActivity(){;
+		return false;
+	}
+	
+	public static double getDefaultThrusterForce(){
+		return 1.1E21;
+	}
 	/// GETTERS ///
 
 	/**
@@ -274,6 +287,14 @@ public class Ship {
 	@Basic
 	public double getShipMaxVelocity() {
 		return this.max_velocity;
+	}
+	
+	public boolean isThrusterActive(){
+		return this.thruster_activity;
+	}
+	
+	public double getShipAcceleration(){
+		return (this.thruster_force/this.getShipMass());
 	}
 
 	/// SETTERS ///
@@ -476,6 +497,20 @@ public class Ship {
 			this.max_velocity = getDefaultMaxVelocity();
 	}
 
+	
+	public void setThrusterActive(boolean thrusterActivity){
+		this.thruster_activity = thrusterActivity;
+	
+	}
+	public void setShipThrusterForce(double thrusterForce){
+		if (thrusterForce <0)
+			thrusterForce = getDefaultThrusterForce();
+		this.thruster_force = thrusterForce;
+	}
+	
+	
+	
+	
 	/// METHODS ON ONE SHIP///
 	/**
 	 * Update the ship's position, assuming it moves in dt seconds at its
@@ -558,6 +593,13 @@ public class Ship {
 	}
 
 
+	public void thrustOn(){
+		setThrusterActive(true);
+	}
+	public void thrustOff(){
+		setThrusterActive(false);
+	}
+	
 	/// METHODS ON TWO SHIPS///
 	/**
 	 * Calculate the distance between two ships.
