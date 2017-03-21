@@ -1,5 +1,8 @@
 package asteroids.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -793,4 +796,9 @@ public class Ship {
 		}
 
 	}
+	
+	///CONNECTIONS WITH OTHER CLASSES///
+	private final Map<String, Bullet> bullets = new HashMap<String, Bullet>();
+	private final World world = new World();
+	
 }
