@@ -13,7 +13,7 @@ import be.kuleuven.cs.som.annotate.*;
  *        that the orientation will be a value between 0 and 2*PI, 0 included.
  *        |(isValidRadian(orientation))
  *
- * @version 9_Mar_17u
+ * @version 21_Mar_19u
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Ship {
@@ -86,7 +86,7 @@ public class Ship {
 	 */
 	//ALL VALUES//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density,
-			boolean thrusterActivity,double maxVelocity,double thrusterForce) throws ModelException {
+			boolean thrusterActivity, double maxVelocity, double thrusterForce) throws ModelException {
 		setShipRadius(radius);
 		setShipMaxVelocity(maxVelocity);
 		setShipPosition(x, y);
@@ -110,7 +110,7 @@ public class Ship {
 	//WITH DENSITY//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density)
 			throws ModelException {
-		this(x, y, xVelocity, yVelocity, radius, orientation,mass,density,getDefaultThrusterActivity(), getDefaultMaxVelocity(),getDefaultThrusterForce());
+		this(x, y, xVelocity, yVelocity, radius, orientation, mass, density, getDefaultThrusterActivity(), getDefaultMaxVelocity(), getDefaultThrusterForce());
 	}
 	
 	/**
