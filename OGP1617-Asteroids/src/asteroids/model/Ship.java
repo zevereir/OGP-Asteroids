@@ -313,6 +313,10 @@ public class Ship {
 	public double getShipAcceleration(){
 		return (this.thruster_force/this.getShipMass());
 	}
+	
+	public World getShipWorld(){
+		return this.world;
+	}
 
 	/// SETTERS ///
 
@@ -799,6 +803,6 @@ public class Ship {
 	
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Map<String, Bullet> bullets = new HashMap<String, Bullet>();
-	private final World world = new World();
+	private final World world = null;
 	
 }

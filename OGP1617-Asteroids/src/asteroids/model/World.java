@@ -2,7 +2,7 @@ package asteroids.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import banking.shares.Purchase;
+import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 /**
  * a class that describes the world 
@@ -31,6 +31,7 @@ public class World {
 	///DEFAULTS///
 	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 	private final static double  UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
+	private final static double OMEGA = 99/100;
 	
 	
 	///GETTERS///
@@ -63,5 +64,33 @@ public class World {
 	 private final Map<String, Ship> ships = new HashMap<String, Ship>();
 	 private final Map<String, Bullet> bullets = new HashMap<String, Bullet>();
 	 
+	///ADDERS///
 	 
+	 public void addShipToWorld(Ship ship) throws ModelException {
+		 double x_position = ship.getShipPosition()[0];
+		 double y_position = ship.getShipPosition()[1];
+		 double radius = ship.getShipRadius();
+		 double upper_ship_bound = OMEGA*(this.height-radius);
+		 double right_ship_bound = OMEGA*(this.width-radius);
+		 
+		 if ((radius < x_position) && (radius < y_position) && (upper_ship_bound > x_position) && 
+				 (right_ship_bound > y_position)&& (!this.hasAsShip(ship))){
+		 	String name = ship.toString();
+		 	ships.put(name, ship); }
+		  else {
+			throw new ModelException("the ship cannot be added to this world");
+		 }
+		
+	 }
+	 
+	 ///HAS///
+	 public boolean hasAsShip(Ship ship){
+		 try {
+	            return this.ships.get(ship.toString()) == ship;
+	        }
+	        catch (NullPointerException exc) {
+	            assert (ship == null) || (ship.getShipWorld() == null);
+	            return false;
+	        }
+	    }
 }
