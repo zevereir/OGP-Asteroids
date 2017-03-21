@@ -3,12 +3,13 @@ package asteroids.facade;
 import java.util.Collection;
 import java.util.Set;
 
+import asteroids.model.Bullet;
 import asteroids.model.Ship;
+import asteroids.model.World;
 import asteroids.part1.facade.*;
 import asteroids.part2.CollisionListener;
-import asteroids.part2.facade.Bullet;
+import asteroids.part2.facade.*;
 import asteroids.part2.facade.IFacade;
-import asteroids.part2.facade.World;
 import asteroids.util.ModelException;
 
 
@@ -458,6 +459,258 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	public Set<? extends Object> getEntities(World world) throws ModelException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public asteroids.model.World getShipWorld(Ship ship) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
+			throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void terminateBullet(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isTerminatedBullet(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double[] getBulletPosition(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double[] getBulletVelocity(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double getBulletRadius(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getBulletMass(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public asteroids.model.World getBulletWorld(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Ship getBulletShip(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Ship getBulletSource(asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.World createWorld(double width, double height) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void terminateWorld(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isTerminatedWorld(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double[] getWorldSize(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<? extends Ship> getWorldShips(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<? extends asteroids.model.Bullet> getWorldBullets(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addShipToWorld(asteroids.model.World world, Ship ship) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeShipFromWorld(asteroids.model.World world, Ship ship) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addBulletToWorld(asteroids.model.World world, asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeBulletFromWorld(asteroids.model.World world, asteroids.model.Bullet bullet)
+			throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadBulletOnShip(Ship ship, asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void loadBulletsOnShip(Ship ship, Collection<asteroids.model.Bullet> bullets) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeBulletFromShip(Ship ship, asteroids.model.Bullet bullet) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double getTimeNextCollision(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double[] getPositionNextCollision(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void evolve(asteroids.model.World world, double dt, CollisionListener collisionListener)
+			throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Object getEntityAt(asteroids.model.World world, double x, double y) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<? extends Object> getEntities(asteroids.model.World world) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.World getShipWorld(Ship ship) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
+			throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.World createWorld(double width, double height) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadBulletsOnShip(Ship ship, Collection<asteroids.model.Bullet> bullets) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public asteroids.model.World getShipWorld(Ship ship) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
+			throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public asteroids.model.World createWorld(double width, double height) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadBulletsOnShip(Ship ship, Collection<asteroids.model.Bullet> bullets) throws ModelException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public World getShipWorld(Ship ship) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
+			throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public World createWorld(double width, double height) throws ModelException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadBulletsOnShip(Ship ship, Collection<Bullet> bullets) throws ModelException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
