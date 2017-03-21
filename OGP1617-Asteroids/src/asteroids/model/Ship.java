@@ -280,6 +280,7 @@ public class Ship {
 	}
 	
 	//WE NEED TO ADD THE WEIGHT OF BULLETS//
+	//this will be done when we make the association//
 	public double getShipMass() {
 		return this.mass;
 	}
