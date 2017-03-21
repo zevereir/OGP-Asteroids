@@ -1,4 +1,7 @@
 package asteroids.model;
+import java.util.HashMap;
+import java.util.Map;
+
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -133,5 +136,9 @@ public class Bullet {
 		else
 			this.max_velocity = getDefaultMaxVelocity();
 	}
+	
+	///CONNECTIONS WITH OTHER CLASSES///
+		private final Ship ship = new Ship();
+		private final World world = new World();
 }
 

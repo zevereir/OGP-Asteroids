@@ -1,4 +1,8 @@
 package asteroids.model;
+import java.util.HashMap;
+import java.util.Map;
+
+import banking.shares.Purchase;
 import be.kuleuven.cs.som.annotate.*;
 /**
  * a class that describes the world 
@@ -55,4 +59,9 @@ public class World {
 		this.height = height;
 	}
 	
+	///CONNECTIONS WITH OTHER CLASSES///
+	 private final Map<String, Ship> ships = new HashMap<String, Ship>();
+	 private final Map<String, Bullet> bullets = new HashMap<String, Bullet>();
+	 
+	 
 }
