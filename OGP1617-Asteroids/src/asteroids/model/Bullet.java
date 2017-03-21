@@ -3,9 +3,10 @@ import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
- * a class that describes a bullet that flys away in the blue blue sky
- * @author sieben
- *
+ * a class that describes a bullet that flies away in the blue blue sky.
+ * 
+ * @version 21_Mar_19u
+ * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Bullet {
 	
@@ -52,6 +53,7 @@ public class Bullet {
 	public double getBulletRadius(){
 		return this.radius;
 	}
+	
 	///Need to be done when we implement the ship-association///
 	public double getBulletOrientation(){
 		null
@@ -68,8 +70,28 @@ public class Bullet {
 	}
 	///SETTERS///
 	
-	public void setBulletPosition(double x, double y){
-		null
+	public void setBulletPosition(double x, double y) throws ModelException {
+		if (!isValidArray(x, y))
+			throw new ModelException("Not a valide coordinate");
+
+		double[] position_array = { x, y };
+
+		this.position = position_array;
+	}
+	
+	/**
+	 * Checks whether an array has two values of the type double.
+	 * 
+	 * @param 	x
+	 *            The first value of the array that has to be checked.
+	 * @param 	y
+	 *            The second value of the array that has to be checked.
+	 * 
+	 * @return 	True if both x and y are type Double and not of the type NaN.
+	 *         |result = ((! Double.isNaN(x)) && (! Double.isNaN(y)))
+	 */
+	static boolean isValidArray(double x, double y) {
+		return ((!Double.isNaN(x)) && (!Double.isNaN(y)));
 	}
 	
 	public void setBulletVelocity(double xVelocity, double yVelocity){

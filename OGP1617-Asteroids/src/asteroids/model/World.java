@@ -2,7 +2,9 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 /**
  * a class that describes the world 
- * @author sieben
+ * 
+ * @version 21_Mar_19u
+ * @authors Sieben Bocklandt and Ruben Broekx
 
  */
 public class World {
@@ -11,11 +13,10 @@ public class World {
 	public World(double width, double height){
 		setWorldWidth(width);
 		setWorldHeight(height);
-		
 	}
 	
 	public World() {
-		this(UPPER_WORLD_BOUND,UPPER_WORLD_BOUND);
+		this(UPPER_WORLD_BOUND_WIDTH, UPPER_WORLD_BOUND_HEIGHT);
 	}
 	
 	///BASIC PROPERTIES///
@@ -24,7 +25,8 @@ public class World {
 	
 	
 	///DEFAULTS///
-	private final static double  UPPER_WORLD_BOUND = Double.MAX_VALUE;
+	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
+	private final static double  UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
 	
 	
 	///GETTERS///
@@ -42,14 +44,14 @@ public class World {
 	///SETTERS///
 	
 	public void setWorldWidth(double width){
-		if (width > UPPER_WORLD_BOUND || width < 0)
-			width = UPPER_WORLD_BOUND;
+		if (width > UPPER_WORLD_BOUND_WIDTH || width < 0)
+			width = UPPER_WORLD_BOUND_WIDTH;
 		this.width = width;
 	}
 	
 	public void setWorldHeight(double height){
-		if (height > UPPER_WORLD_BOUND || height < 0)
-			height = UPPER_WORLD_BOUND;
+		if (height > UPPER_WORLD_BOUND_HEIGHT|| height < 0)
+			height = UPPER_WORLD_BOUND_HEIGHT;
 		this.height = height;
 	}
 	

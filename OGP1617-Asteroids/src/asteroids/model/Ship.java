@@ -85,7 +85,7 @@ public class Ship {
 	 *             If x or y is not a number. |(!isValidArray(x,y))
 	 */
 	//ALL VALUES//
-	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density,
+	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass, double density,
 			boolean thrusterActivity, double maxVelocity, double thrusterForce) throws ModelException {
 		setShipRadius(radius);
 		setShipMaxVelocity(maxVelocity);
@@ -107,11 +107,15 @@ public class Ship {
 	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
 	 *         orientation, getDefaultMaxVelocity())
 	 */
+	
+	/// IS DEZE CONSTRUCTOR ZINNING ?
+	
 	//WITH DENSITY//
-	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass,double density)
+	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass, double density)
 			throws ModelException {
 		this(x, y, xVelocity, yVelocity, radius, orientation, mass, density, getDefaultThrusterActivity(), getDefaultMaxVelocity(), getDefaultThrusterForce());
 	}
+	
 	
 	/**
 	 * Initializes a new ship with given values and a maximum total velocity
@@ -124,8 +128,7 @@ public class Ship {
 	//WITHOUT DENSITY//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
 			throws ModelException {
-		this(x, y, xVelocity, yVelocity, radius, orientation, mass, getDefaultDensity(), getDefaultThrusterActivity(),
-				getDefaultMaxVelocity(), getDefaultThrusterForce());
+		this(x, y, xVelocity, yVelocity, radius, orientation, mass, getDefaultDensity());
 	}
 
 	/**
@@ -140,7 +143,7 @@ public class Ship {
 	//ALL DEFAULT//
 	public Ship() throws ModelException {
 		this(getDefaultPosition()[0], getDefaultPosition()[1], getDefaultVelocity()[0], getDefaultVelocity()[1],
-				getDefaultRadius(), getDefaultOrientation(),getDefaultMass(),getDefaultDensity(), getDefaultThrusterActivity(), getDefaultMaxVelocity(),getDefaultThrusterForce());
+				getDefaultRadius(), getDefaultOrientation(),getDefaultMass());
 	}
 
 	
@@ -289,6 +292,7 @@ public class Ship {
 	public double getShipDensity() {
 		return this.density;
 	}
+	
 	/**
 	 * Returns the maximum total velocity the ship can reach.
 	 * 
@@ -337,12 +341,12 @@ public class Ship {
 	/**
 	 * Checks whether an array has two values of the type double.
 	 * 
-	 * @param x
+	 * @param 	x
 	 *            The first value of the array that has to be checked.
-	 * @param y
+	 * @param 	y
 	 *            The second value of the array that has to be checked.
 	 * 
-	 * @return True if both x and y are type Double and not of the type NaN.
+	 * @return 	True if both x and y are type Double and not of the type NaN.
 	 *         |result = ((! Double.isNaN(x)) && (! Double.isNaN(y)))
 	 */
 	static boolean isValidArray(double x, double y) {
@@ -352,10 +356,10 @@ public class Ship {
 	/**
 	 * Give the ship a new velocity.
 	 * 
-	 * @param xVelocity
+	 * @param 	xVelocity
 	 *            The new velocity of the ship projected on the x-axis
 	 *            (horizontal).
-	 * @param yVelocity
+	 * @param 	yVelocity
 	 *            The new velocity of the ship projected on the y-axis
 	 *            (vertical).
 	 * 
