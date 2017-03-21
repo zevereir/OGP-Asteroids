@@ -124,8 +124,8 @@ public class Ship {
 	//WITHOUT DENSITY//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
 			throws ModelException {
-		this(x, y, xVelocity, yVelocity, radius, orientation,mass,getDefaultDensity(),getDefaultThrusterActivity(),
-				getDefaultMaxVelocity(),getDefaultThrusterForce());
+		this(x, y, xVelocity, yVelocity, radius, orientation, mass, getDefaultDensity(), getDefaultThrusterActivity(),
+				getDefaultMaxVelocity(), getDefaultThrusterForce());
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class Ship {
 	//ALL DEFAULT//
 	public Ship() throws ModelException {
 		this(getDefaultPosition()[0], getDefaultPosition()[1], getDefaultVelocity()[0], getDefaultVelocity()[1],
-				getDefaultRadius(), getDefaultOrientation(),getDefaultMass(),getDefaultDensity(), getDefaultThrusterActivity(),getDefaultMaxVelocity(),getDefaultThrusterForce());
+				getDefaultRadius(), getDefaultOrientation(),getDefaultMass(),getDefaultDensity(), getDefaultThrusterActivity(), getDefaultMaxVelocity(),getDefaultThrusterForce());
 	}
 
 	
