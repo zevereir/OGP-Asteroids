@@ -11,50 +11,29 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 21_Mar_19u
  * @authors Sieben Bocklandt and Ruben Broekx
  */
-public class Bullet {
+public class Bullet extends Entity {
 	
 	///CONSTRUCTOR///
-	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius,double max_velocity) throws ModelException{
-		setBulletPosition(x,y);
-		setBulletVelocity(xVelocity,yVelocity);
-		setBulletRadius(radius);
-		setBulletMaxVelocity(max_velocity);
+	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius,double max_velocity,double density) throws ModelException{
+		super(x,y,xVelocity,yVelocity,radius,max_velocity,density);
 	}
 	
 	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius) throws ModelException{
-		this(x,y,xVelocity,yVelocity,radius,getDefaultMaxVelocity());
+		this(x,y,xVelocity,yVelocity,radius,Entity.getDefaultMaxVelocity(),Entity.getDefaultBulletDensity());
 	}
 
-	
-	///BASIC PROPERTIES///
-	private double[] position;
-	private double[] velocity;
-	private double radius;
-	private double max_velocity;
-	
-	///DEFAULTS///
-	private final static double SPEED_OF_LIGHT = 300000;
-	private final static double LOWER_BULLET_RADIUS = 1;
-	private final static double BULLET_DENSITY = 7.8E12;
-	
-	public static double getDefaultMaxVelocity(){
-		return SPEED_OF_LIGHT;
-	}
-	
-	
-	
 	///GETTERS///
 	
 	public double[] getBulletPosition(){
-		return this.position;
+		return this.getEntityPosition();
 	}
 	
 	public double[] getBulletVelocity(){
-		return this.velocity;
+		return this.getEntityVelocity();
 	}
 	
 	public double getBulletRadius(){
-		return this.radius;
+		return this.getEntityRadius();
 	}
 	
 	///Need to be done when we implement the ship-association///
@@ -63,7 +42,7 @@ public class Bullet {
 	}
 	
 	public double getBulletMaxVelocity(){
-		return this.max_velocity;
+		return this.getEntityMaxVelocity();
 	}
 	public double getBulletDensity(){
 		return BULLET_DENSITY;

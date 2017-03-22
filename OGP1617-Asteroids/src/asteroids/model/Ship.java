@@ -19,7 +19,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @version 21_Mar_19u
  * @authors Sieben Bocklandt and Ruben Broekx
  */
-public class Ship {
+public class Ship extends Entity {
 
 	/// CONSTRUCTORS///
 	
@@ -90,13 +90,9 @@ public class Ship {
 	//ALL VALUES//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass, double density,
 			boolean thrusterActivity, double maxVelocity, double thrusterForce) throws ModelException {
-		setShipRadius(radius);
-		setShipMaxVelocity(maxVelocity);
-		setShipPosition(x, y);
+		super(x,y,xVelocity,yVelocity,radius,maxVelocity,density);
 		setShipOrientation(orientation);
-		setShipDensity(density);
 		setShipMass(mass);
-		setShipVelocity(xVelocity, yVelocity);
 		setThrusterActive(thrusterActivity);
 		setShipThrusterForce(thrusterForce);
 	}
@@ -480,8 +476,7 @@ public class Ship {
 	public void setShipDensity(double density) {
 		if (density < getDefaultDensity())
 			density = getDefaultDensity();
-		else
-			this.density = density;
+		this.density = density;
 			
 	}
 	
