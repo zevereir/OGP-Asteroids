@@ -60,6 +60,9 @@ public class Bullet extends Entity {
 
 		this.position = position_array;
 	}
+	public Ship getBulletShip(){
+		return this.ship;
+	}
 	
 	/**
 	 * Checks whether an array has two values of the type double.

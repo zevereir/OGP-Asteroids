@@ -90,8 +90,7 @@ public class Ship extends Entity {
 	//ALL VALUES//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass, double density,
 			boolean thrusterActivity, double maxVelocity, double thrusterForce) throws ModelException {
-		super(x,y,xVelocity,yVelocity,radius,maxVelocity,density);
-		setShipOrientation(orientation);
+		super(x,y,xVelocity,yVelocity,radius,maxVelocity,density,orientation);
 		setShipMass(mass);
 		setThrusterActive(thrusterActivity);
 		setShipThrusterForce(thrusterForce);

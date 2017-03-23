@@ -5,9 +5,10 @@ import be.kuleuven.cs.som.annotate.*;
 public abstract class Entity {
 	
 	///CONSTRUCTOR///
-	protected Entity(double x, double y, double xVelocity, double yVelocity, double radius,double maxVelocity
-			,double density) throws ModelException{
+	protected Entity(double x, double y, double xVelocity, double yVelocity, double radius,double orientation,
+			double maxVelocity,double density) throws ModelException{
 		setEntityRadius(radius);
+		setEntityOrientation(orientation);
 		setEntityMaxVelocity(maxVelocity);
 		setEntityPosition(x,y);
 		setEntityVelocity(xVelocity,yVelocity);
@@ -20,6 +21,7 @@ public abstract class Entity {
 	private double[] position;
 	private double[] velocity;
 	private double radius;
+	private double orientation;
 	private double max_velocity;
 	private double density;
 	
@@ -86,10 +88,9 @@ public abstract class Entity {
 	}
 	
 	public double getEntityOrientation(){
-		if (this instanceof Ship)
-			return ((Ship)this).getShipOrientation();
-		else
-			return ((Bullet)this).getBulletOrientation();
+		return this.orientation;
+		
+		
 	}
 	
 	public double getEntityMaxVelocity(){
@@ -150,6 +151,40 @@ public abstract class Entity {
 				
 		this.radius = radius;
 				
+	}
+	
+	
+	/**
+	 * Gives the ship a new orientation.
+	 * 
+	 * @param radians
+	 *            The new orientation in radians.
+	 * 
+	 * @pre Radians is a valid orientation for the ship. |
+	 *      isValidRadian(radians)
+	 * 
+	 * @post The new orientation will be equal to the given radians.
+	 *       |new.getShipOrientation() == radians
+	 */
+	public void setEntityOrientation(double orientation){
+		assert isValidRadian(orientation);
+		if (this instanceof Ship)
+			this.orientation = orientation;
+		else
+			this.orientation = ((Bullet)this).getBulletShip().getEntityOrientation();
+	}
+
+	/**
+	 * Checks wether the given radian is in a correct range.
+	 * 
+	 * @param radian
+	 *            The radians that has to be checked.
+	 * 
+	 * @return True if radian is greater or equal than 0 and lower than 2*PI
+	 *         |result = ((0<=radian) && (radian<2*Math.PI))
+	 */
+	public static boolean isValidRadian(double radian) {
+		return ((0 <= radian) && (radian < 2 * Math.PI));
 	}
 	
 	public void setEntityMaxVelocity(double maxVelocity){
