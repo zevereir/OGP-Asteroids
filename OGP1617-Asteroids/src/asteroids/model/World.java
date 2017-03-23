@@ -31,7 +31,7 @@ public class World {
 	///DEFAULTS///
 	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 	private final static double  UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
-	
+	private final static double OMEGA = 99/100;
 	
 	
 	///GETTERS///
@@ -65,33 +65,41 @@ public class World {
 	 private final Set<Bullet> bullets = new HashSet<Bullet>();
 	 
 	///ADDERS///
-	 
-	 public void addShipToWorld(Ship ship) throws ModelException {
-		 double x_position = ship.getShipPosition()[0];
-		 double y_position = ship.getShipPosition()[1];
-		 double radius = ship.getShipRadius();
-		 
-		 double upper_ship_bound = OMEGA*(this.height-radius);
-		 double right_ship_bound = OMEGA*(this.width-radius);
-		 
-		 if ((radius < x_position) && (radius < y_position) && (upper_ship_bound > x_position) && 
-				 (right_ship_bound > y_position)&& (!this.hasAsShip(ship))){
-		 	String name = ship.toString();
-		 	ships.put(name, ship); }
-		  else {
-			throw new ModelException("the ship cannot be added to this world");
-		 }
-		
+	
+	 public void addEntityToWorld(Entity entity) throws ModelException {
+		 if (canHaveAsEntity(entity)){
+		 	if (entity instanceof Ship)
+			 	ships.add((Ship)entity);
+		 	else 
+		 		bullets.add((Bullet)entity);}
+		 else{
+			throw new ModelException("the entity cannot be added to this world");}
 	 }
 	 
+	
+	 
 	 ///HAS///
-	 public boolean hasAsShip(Ship ship){
-		 try {
-	            return this.ships.get(ship.toString()) == ship;
-	        }
-	        catch (NullPointerException exc) {
-	            assert (ship == null) || (ship.getShipWorld() == null);
-	            return false;
-	        }
-	    }
+	 public boolean hasAsEntity(Entity entity){
+		 if (entity instanceof Ship)
+			 return this.ships.contains(entity);
+		 else
+			 return this.bullets.contains(entity);
+	 }        
+	 
+	
+	 ///CHECKERS///
+	 
+	 //OVERLAP,TERMINATE,... NOG BEKIJKEN//
+	 public boolean canHaveAsEntity(Entity entity){
+		 return ((!this.hasAsEntity(entity)) &&(entity.getEntityWorld()==null) &&
+				 (entity.entityFitsInWorld(entity,this)));
+	
+	 }
+	
+	 ///TERMINATION ETC///
+	 private boolean isTerminated=false;
+	 
+	 public boolean isWorldTerminated(){
+		 null
+	 }
 }

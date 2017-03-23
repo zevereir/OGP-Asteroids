@@ -203,9 +203,7 @@ public class Ship extends Entity {
 		return (this.thruster_force/this.getEntityMass());
 	}
 	
-	public World getShipWorld(){
-		return this.world;
-	}
+	
 
 	/// SETTERS ///
 
@@ -225,12 +223,8 @@ public class Ship extends Entity {
 	///CHECKERS///
 	
 	public boolean isValidShipPosition(double x, double y){
-		if ((this.getShipWorld() != null)){
-			double radius = this.getEntityRadius();
-			double upper_ship_bound = OMEGA*(this.getShipWorld().getWorldHeight()-radius);
-			double right_ship_bound = OMEGA*(this.getShipWorld().getWorldWidth()-radius);
-			return ((0 <x-radius) && (0 < y-radius) && (upper_ship_bound > x) &&	
-				 (right_ship_bound > y));}
+		if ((this.getEntityWorld() != null)){
+			return this.entityFitsInWorld(this,this.getEntityWorld());}
 		else
 			return true;		
 	}
@@ -509,6 +503,6 @@ public class Ship extends Entity {
 	
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
-	private final World world = null;
+	
 	
 }

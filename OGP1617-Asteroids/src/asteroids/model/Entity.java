@@ -73,9 +73,20 @@ public abstract class Entity {
 	 *         squared and yVelocity squared. |result
 	 *         =Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2))
 	 */
-	static double getTotalVelocity(double xVelocity, double yVelocity) {
+	public static double getTotalVelocity(double xVelocity, double yVelocity) {
 		return Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2));
 	}
+
+	public boolean entityFitsInWorld(Entity entity, World world){
+		double radius = this.getEntityRadius();
+		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
+		double right_bound = OMEGA*(world.getWorldWidth()-radius);
+		double x = entity.getEntityPosition()[0];
+		double y = entity.getEntityPosition()[1];		
+		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) &&	
+			 (right_bound > y));}
+	
+	
 	
 	///GETTERS///
 	public double[] getEntityPosition(){
@@ -106,7 +117,9 @@ public abstract class Entity {
 		return this.mass;
 	}
 	
-	
+	public World getEntityWorld(){
+		return this.world;
+	}
 	///SETTERS///
 	//BEKIJKEN//
 	public void setEntityPosition(double x, double y) throws ModelException{
@@ -211,6 +224,10 @@ public abstract class Entity {
 		this.mass = mass;
 	}
 	
+	public void setEntityWorld(World world){
+		this.world = world;
+	}
+	
 	///CHECKERS///
 	
 	/**
@@ -241,7 +258,19 @@ public abstract class Entity {
 		return ((0 <= radian) && (radian < 2 * Math.PI));
 	}
 	
+	///TERMINATION ETC///
+	private boolean isTerminated = false;
 	
+	public boolean isEntityTerminated(){
+		return this.isTerminated;
+	}
+	
+	public void Terminate(){
+		null
+	}
+	
+	///RELATIONS WITH OTHER CLASSES///
+	private  World world = null;
 	
 	
 }

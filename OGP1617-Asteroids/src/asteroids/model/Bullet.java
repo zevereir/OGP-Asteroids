@@ -43,11 +43,9 @@ public class Bullet extends Entity {
 		return this.ship;
 	}
 	
-	public World getBulletWorld(){
-		return this.world;
-	}
+	
 	///CONNECTIONS WITH OTHER CLASSES///
 		private final Ship ship = new Ship();
-		private final World world = new World();
+	
 }
 
