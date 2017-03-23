@@ -6,13 +6,14 @@ public abstract class Entity {
 	
 	///CONSTRUCTOR///
 	protected Entity(double x, double y, double xVelocity, double yVelocity, double radius,double orientation,
-			double maxVelocity,double density) throws ModelException{
+			double mass,double maxVelocity,double density) throws ModelException{
 		setEntityRadius(radius);
 		setEntityOrientation(orientation);
 		setEntityMaxVelocity(maxVelocity);
 		setEntityPosition(x,y);
 		setEntityVelocity(xVelocity,yVelocity);
 		setEntityDensity(density);
+		setEntityMass(mass);
 		
 	}
 	
@@ -24,6 +25,7 @@ public abstract class Entity {
 	private double orientation;
 	private double max_velocity;
 	private double density;
+	private double mass;
 	
 	///DEFAULTS///
 	private final static double SPEED_OF_LIGHT = 300000;
@@ -31,6 +33,7 @@ public abstract class Entity {
 	private final static double LOWER_SHIP_RADIUS = 10;
 	
 	
+	public final static double OMEGA = 99/100;
 	
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
@@ -43,21 +46,20 @@ public abstract class Entity {
 		return 7.8E12;
 	}
 	
-	///HELP METHODS///
+	
 	/**
-	 * Checks whether an array has two values of the type double.
+	 * Return the default orientation of the ship.
 	 * 
-	 * @param 	x
-	 *            The first value of the array that has to be checked.
-	 * @param 	y
-	 *            The second value of the array that has to be checked.
-	 * 
-	 * @return 	True if both x and y are type Double and not of the type NaN.
-	 *         |result = ((! Double.isNaN(x)) && (! Double.isNaN(y)))
+	 * @return The default orientation is a value between 0 and 2*PI with 0 =
+	 *         right, PI/2 = up and so on. | 0 <= result <= 2*PI
 	 */
-	static boolean isValidArray(double x, double y) {
-		return ((!Double.isNaN(x)) && (!Double.isNaN(y)));
+	@Immutable
+	public static double getDefaultOrientation() {
+		return 0;
 	}
+	
+	///HELP METHODS///
+	
 	
 	/**
 	 * Returns the total velocity using the euclidian formula.
@@ -74,6 +76,7 @@ public abstract class Entity {
 	static double getTotalVelocity(double xVelocity, double yVelocity) {
 		return Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2));
 	}
+	
 	///GETTERS///
 	public double[] getEntityPosition(){
 		return this.position;
@@ -88,9 +91,7 @@ public abstract class Entity {
 	}
 	
 	public double getEntityOrientation(){
-		return this.orientation;
-		
-		
+		return this.orientation;	
 	}
 	
 	public double getEntityMaxVelocity(){
@@ -101,6 +102,9 @@ public abstract class Entity {
 		return this.density;
 	}
 	
+	public double getEntityMass(){
+		return this.mass;
+	}
 	
 	
 	///SETTERS///
@@ -108,10 +112,16 @@ public abstract class Entity {
 	public void setEntityPosition(double x, double y) throws ModelException{
 		if (!isValidArray(x, y))
 			throw new ModelException("Not a valide coordinate");
-
-		double[] position_array = { x, y };
-
-		this.position = position_array;
+		if (this instanceof Ship )
+			if (((Ship)this).isValidShipPosition(x,y)){
+				double[] position_array = { x, y };
+				this.position = position_array;}
+			else 
+				throw new ModelException("Not a valide coordinate");
+		else
+			null
+		
+		
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
@@ -121,7 +131,6 @@ public abstract class Entity {
 			if (Double.isNaN(yVelocity))
 				yVelocity = 0;
 		}
-
 		if (getTotalVelocity(xVelocity, yVelocity) > this.getEntityMaxVelocity()) {
 			double orientation = this.getEntityOrientation();
 			double xVel = Math.cos(orientation) * this.getEntityMaxVelocity();
@@ -174,18 +183,6 @@ public abstract class Entity {
 			this.orientation = ((Bullet)this).getBulletShip().getEntityOrientation();
 	}
 
-	/**
-	 * Checks wether the given radian is in a correct range.
-	 * 
-	 * @param radian
-	 *            The radians that has to be checked.
-	 * 
-	 * @return True if radian is greater or equal than 0 and lower than 2*PI
-	 *         |result = ((0<=radian) && (radian<2*Math.PI))
-	 */
-	public static boolean isValidRadian(double radian) {
-		return ((0 <= radian) && (radian < 2 * Math.PI));
-	}
 	
 	public void setEntityMaxVelocity(double maxVelocity){
 		if ((maxVelocity < SPEED_OF_LIGHT) && (maxVelocity > 0))
@@ -202,6 +199,51 @@ public abstract class Entity {
 		this.density = density;
 			
 	}
+	
+	///We moeten nog de massa van de bullets toevoegen///
+	public void setEntityMass(double mass){
+		if (this instanceof Ship){	
+			if (mass < 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity() )
+				mass = 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
+		}
+		else
+			mass = (4/3*Math.PI*Math.pow(this.getEntityRadius(),3)*getEntityDensity());
+		this.mass = mass;
+	}
+	
+	///CHECKERS///
+	
+	/**
+	 * Checks whether an array has two values of the type double.
+	 * 
+	 * @param 	x
+	 *            The first value of the array that has to be checked.
+	 * @param 	y
+	 *            The second value of the array that has to be checked.
+	 * 
+	 * @return 	True if both x and y are type Double and not of the type NaN.
+	 *         |result = ((! Double.isNaN(x)) && (! Double.isNaN(y)))
+	 */
+	static boolean isValidArray(double x, double y) {
+		return ((!Double.isNaN(x)) && (!Double.isNaN(y)));
+	}
+	
+	/**
+	 * Checks wether the given radian is in a correct range.
+	 * 
+	 * @param radian
+	 *            The radians that has to be checked.
+	 * 
+	 * @return True if radian is greater or equal than 0 and lower than 2*PI
+	 *         |result = ((0<=radian) && (radian<2*Math.PI))
+	 */
+	public static boolean isValidRadian(double radian) {
+		return ((0 <= radian) && (radian < 2 * Math.PI));
+	}
+	
+	
+	
+	
 }
 	
 

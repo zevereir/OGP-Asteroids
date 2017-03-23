@@ -1,7 +1,7 @@
 package asteroids.model;
-import java.util.HashMap;
-import java.util.Map;
 
+import java.util.HashSet;
+import java.util.Set;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 /**
@@ -31,7 +31,7 @@ public class World {
 	///DEFAULTS///
 	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 	private final static double  UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
-	private final static double OMEGA = 99/100;
+	
 	
 	
 	///GETTERS///
@@ -61,8 +61,8 @@ public class World {
 	}
 	
 	///CONNECTIONS WITH OTHER CLASSES///
-	 private final Map<String, Ship> ships = new HashMap<String, Ship>();
-	 private final Map<String, Bullet> bullets = new HashMap<String, Bullet>();
+	 private final Set<Ship> ships = new HashSet<Ship>();
+	 private final Set<Bullet> bullets = new HashSet<Bullet>();
 	 
 	///ADDERS///
 	 
@@ -70,6 +70,7 @@ public class World {
 		 double x_position = ship.getShipPosition()[0];
 		 double y_position = ship.getShipPosition()[1];
 		 double radius = ship.getShipRadius();
+		 
 		 double upper_ship_bound = OMEGA*(this.height-radius);
 		 double right_ship_bound = OMEGA*(this.width-radius);
 		 
