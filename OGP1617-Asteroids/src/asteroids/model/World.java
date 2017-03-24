@@ -31,7 +31,7 @@ public class World {
 	///DEFAULTS///
 	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 	private final static double  UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
-	private final static double OMEGA = 99/100;
+	private final static double OMEGA = 0.99;
 	
 	
 	///GETTERS///
@@ -100,6 +100,6 @@ public class World {
 	 private boolean isTerminated=false;
 	 
 	 public boolean isWorldTerminated(){
-		 null
+		 return null;
 	 }
 }

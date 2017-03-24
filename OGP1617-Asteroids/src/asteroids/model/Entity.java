@@ -1,5 +1,6 @@
 package asteroids.model;
 import asteroids.util.ModelException;
+import banking.shares.Purchase.State;
 import be.kuleuven.cs.som.annotate.*;
 
 public abstract class Entity {
@@ -32,8 +33,7 @@ public abstract class Entity {
 	private final static double LOWER_BULLET_RADIUS = 1;
 	private final static double LOWER_SHIP_RADIUS = 10;
 	
-	
-	public final static double OMEGA = 99/100;
+	public final static double OMEGA = 0.99;
 	
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
@@ -46,7 +46,6 @@ public abstract class Entity {
 		return 7.8E12;
 	}
 	
-	
 	/**
 	 * Return the default orientation of the ship.
 	 * 
@@ -58,8 +57,8 @@ public abstract class Entity {
 		return 0;
 	}
 	
-	///HELP METHODS///
 	
+	///HELP METHODS///
 	
 	/**
 	 * Returns the total velocity using the euclidian formula.
@@ -83,12 +82,13 @@ public abstract class Entity {
 		double right_bound = OMEGA*(world.getWorldWidth()-radius);
 		double x = entity.getEntityPosition()[0];
 		double y = entity.getEntityPosition()[1];		
-		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) &&	
-			 (right_bound > y));}
 	
+		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) &&	(right_bound > y));
+	}
 	
 	
 	///GETTERS///
+	
 	public double[] getEntityPosition(){
 		return this.position;
 	}
@@ -120,21 +120,24 @@ public abstract class Entity {
 	public World getEntityWorld(){
 		return this.world;
 	}
+	
+	
 	///SETTERS///
-	//BEKIJKEN//
-	public void setEntityPosition(double x, double y) throws ModelException{
+	// --> BEKIJKEN <-- //
+	
+	public void setEntityPosition(double x, double y) throws ModelException {
 		if (!isValidArray(x, y))
 			throw new ModelException("Not a valide coordinate");
-		if (this instanceof Ship )
+		if (this instanceof Ship) {
 			if (((Ship)this).isValidShipPosition(x,y)){
 				double[] position_array = { x, y };
 				this.position = position_array;}
 			else 
 				throw new ModelException("Not a valide coordinate");
-		else
-			null
-		
-		
+		} else if (this instanceof Bullet) {
+			null;
+		} else
+			throw new ModelException("Is not a legal entity");
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
@@ -151,9 +154,7 @@ public abstract class Entity {
 
 			double[] velocity_array = { xVel, yVel };
 			this.velocity = velocity_array;
-		}
-
-		else {
+		} else {
 			double[] velocity_array = { xVelocity, yVelocity };
 			this.velocity = velocity_array;
 		}
@@ -163,16 +164,12 @@ public abstract class Entity {
 	public void setEntityRadius(double radius) throws ModelException{
 		if (radius < 0)
 			throw new ModelException("The given radius is negative");
-		else 
-			if (this instanceof Bullet)
-				if (radius <LOWER_BULLET_RADIUS)
-					throw new ModelException("the given radius is lower than its minimum");
-		if (this instanceof Ship)
-			if (radius <LOWER_SHIP_RADIUS)
-				throw new ModelException("the given radius is lower than its minimum");
+		else if (this instanceof Bullet && radius <LOWER_BULLET_RADIUS)
+			throw new ModelException("the given radius is lower than its minimum");
+		else if (this instanceof Ship && radius <LOWER_SHIP_RADIUS)
+			throw new ModelException("the given radius is lower than its minimum");
 				
-		this.radius = radius;
-				
+		this.radius = radius;	
 	}
 	
 	
@@ -209,24 +206,33 @@ public abstract class Entity {
 				density = getDefaultShipDensity();
 		else if (density<0)
 			density = getDefaultBulletDensity();
-		this.density = density;
-			
+		
+		this.density = density;	
 	}
 	
-	///We moeten nog de massa van de bullets toevoegen///
-	public void setEntityMass(double mass){
+	// --> We moeten nog de massa van de bullets toevoegen <-- //
+	public void setEntityMass(double mass) throws ModelException {
 		if (this instanceof Ship){	
-			if (mass < 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity() )
-				mass = 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
+			if (mass < maximumEntityMass() )
+				mass = maximumEntityMass();
+		} else if (this instanceof Bullet) {
+			if (mass < maximumEntityMass())
+				mass = maximumEntityMass();
+		} else {
+			throw new ModelException("Not a legal entity");
 		}
-		else
-			mass = (4/3*Math.PI*Math.pow(this.getEntityRadius(),3)*getEntityDensity());
+		
 		this.mass = mass;
+	}
+	
+	public double maximumEntityMass() {
+		return (4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity());
 	}
 	
 	public void setEntityWorld(World world){
 		this.world = world;
 	}
+	
 	
 	///CHECKERS///
 	
@@ -246,7 +252,7 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Checks wether the given radian is in a correct range.
+	 * Checks whether the given radian is in a correct range.
 	 * 
 	 * @param radian
 	 *            The radians that has to be checked.
@@ -258,18 +264,22 @@ public abstract class Entity {
 		return ((0 <= radian) && (radian < 2 * Math.PI));
 	}
 	
-	///TERMINATION ETC///
+	
+	/// TERMINATION ///
+	
 	private boolean isTerminated = false;
 	
-	public boolean isEntityTerminated(){
-		return this.isTerminated;
+	public boolean isTerminated(){
+		return this.getState() == State.TERMINATED;
 	}
 	
 	public void Terminate(){
 		null
 	}
 	
+	
 	///RELATIONS WITH OTHER CLASSES///
+	
 	private  World world = null;
 	
 	
