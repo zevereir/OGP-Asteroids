@@ -1,5 +1,6 @@
 package asteroids.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import asteroids.util.ModelException;
@@ -157,24 +158,6 @@ public class Ship extends Entity {
 	 * @return The default position is an array of two rational numbers. |
 	 *         result = {x, y}
 	 */
-	@Immutable
-	public static double[] getDefaultPosition() {
-		double[] array = { 0, 0 };
-		return array;
-	}
-
-
-	/**
-	 * Return the default velocity of the ship.
-	 * 
-	 * @return The default velocity is an array of two rational numbers. |
-	 *         result = (xVelocity, yVelocity)
-	 */
-	@Immutable
-	public static double[] getDefaultVelocity() {
-		double[] array = { 0, 0 };
-		return array;
-	}
 
 	public static double getDefaultMass() {
 		return 4/3*Math.PI * Math.pow(getDefaultRadius(),3)*getDefaultShipDensity();
@@ -203,7 +186,12 @@ public class Ship extends Entity {
 		return (this.thruster_force/this.getEntityMass());
 	}
 	
-	
+	public double getBulletsWeight(){
+		double weight = 0;
+		for (Bullet bullet: this.bullets)
+			weight += bullet.getBulletMass();
+		return weight;
+	}
 
 	/// SETTERS ///
 
@@ -226,7 +214,24 @@ public class Ship extends Entity {
 		if ((this.getEntityWorld() != null)){
 			return this.entityFitsInWorld(this,this.getEntityWorld());}
 		else
-			return true;		
+			return true;
+	}
+		
+	//ZEKER NOG EENS GOED NAKIJKEN (OVERLAP,TERMINATE,...)!!!!!//
+	public boolean canHaveAsBullet(Bullet bullet){
+		 return ((!this.hasAsBullet(bullet)) &&(bullet.getBulletShip()==null) && this.bulletFullyInShip(bullet));
+				 
+	}
+	
+	public boolean bulletFullyInShip(Bullet bullet){
+		double x_between = Math.abs(bullet.getEntityPosition()[0]-this.getEntityPosition()[0]);
+		double y_between = Math.abs(bullet.getEntityPosition()[1]-this.getEntityPosition()[1]);
+		double bullet_radius = bullet.getEntityRadius();
+		double ship_radius = this.getEntityRadius();
+		double distance_between = getEuclidianDistance(x_between, y_between);
+		return ((distance_between + bullet_radius) < ship_radius);
+		
+		
 	}
 	/// METHODS ON ONE SHIP///
 	/**
@@ -348,8 +353,7 @@ public class Ship extends Entity {
 		final double[] first_pos = this.getEntityPosition();
 		final double[] second_pos = otherShip.getEntityPosition();
 
-		final double distance_centers = Math
-				.sqrt(Math.pow(first_pos[0], second_pos[0]) + Math.pow(first_pos[1], second_pos[1]));
+		final double distance_centers = Math.sqrt(Math.pow(first_pos[0], second_pos[0]) + Math.pow(first_pos[1], second_pos[1]));
 		final double distance = distance_centers - (this.getEntityRadius() + otherShip.getEntityRadius());
 
 		return distance;
@@ -500,7 +504,26 @@ public class Ship extends Entity {
 		}
 
 	}
+	///HAS///
+		 public boolean hasAsBullet(Bullet bullet){
+			return this.bullets.contains(bullet);
+		 }       
+	///ADDERS///
+		 
+		 public void addOneBulletToShip(Bullet bullet) throws ModelException{
+			 if (this.canHaveAsBullet(bullet))
+				 this.bullets.add(bullet);
+			 else
+				 throw new ModelException("this bullet can not be loaded on this ship");
+		 }
 	
+		 public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
+			 for (Bullet bullet: bullets)
+				 if (this.canHaveAsBullet(bullet))
+					 this.bullets.add(bullet);
+				 else
+					 throw new ModelException("this bullet can not be loaded on this ship");
+		 }
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	

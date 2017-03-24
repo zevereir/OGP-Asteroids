@@ -21,6 +21,10 @@ public class Bullet extends Entity {
 		this(x,y,xVelocity,yVelocity,radius,Entity.getDefaultOrientation(),getDefaultBulletMass(),
 				Entity.getDefaultMaxVelocity(),Entity.getDefaultBulletDensity());
 	}
+	
+	public Bullet() throws ModelException{
+		this(getDefaultPosition()[0],getDefaultPosition()[1],getDefaultVelocity()[0],getDefaultVelocity()[1],getDefaultRadius());
+	}
 
 	
 	///DEFAULTS///
@@ -43,9 +47,19 @@ public class Bullet extends Entity {
 		return this.ship;
 	}
 	
+	///CHECKERS///
+	public boolean hasWorldAndShip(){
+		return ((this.getBulletShip() != null) && (this.getEntityWorld() != null));
+	}
 	
+	///CHECKERS///
+	
+	//GOED NAKIJKEN//
+	public boolean canHaveAsShip(Ship ship){
+		return ((ship.canHaveAsBullet(this)) || (this.getEntityWorld() != null));
+	}
 	///CONNECTIONS WITH OTHER CLASSES///
-		private final Ship ship = new Ship();
+		private final Ship ship = null;
 	
 }
 
