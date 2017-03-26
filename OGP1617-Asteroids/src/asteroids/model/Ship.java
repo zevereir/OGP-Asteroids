@@ -96,15 +96,6 @@ public class Ship extends Entity {
 	}
 
 	
-	/**
-	 * Initializes a new ship with given values and a maximum total velocity
-	 * equal to the speed of light.
-	 * 
-	 * @effect The ship is initialized with the given values and the default
-	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
-	 *         orientation, getDefaultMaxVelocity())
-	 */
-	
 	
 	/**
 	 * Initializes a new ship with given values and a maximum total velocity
@@ -175,9 +166,7 @@ public class Ship extends Entity {
 	
 	/// GETTERS ///
 
-	//WE NEED TO ADD THE WEIGHT OF BULLETS//
-		//this will be done when we make the association//
-		
+	
 	public boolean isThrusterActive(){
 		return this.thruster_activity;
 	}
@@ -188,10 +177,15 @@ public class Ship extends Entity {
 	
 	public double getBulletsWeight(){
 		double weight = 0;
-		for (Bullet bullet: this.bullets)
-			weight += bullet.getBulletMass();
+		for (Bullet bullet: this.getShipBullets())
+			weight += bullet.getEntityMass();
 		return weight;
 	}
+	
+	public Set<Bullet> getShipBullets(){
+		return this.bullets;
+	}
+	
 
 	/// SETTERS ///
 
@@ -208,14 +202,7 @@ public class Ship extends Entity {
 	
 	
 	
-	///CHECKERS///
 	
-	public boolean isValidShipPosition(double x, double y){
-		if ((this.getEntityWorld() != null)){
-			return this.entityFitsInWorld(this,this.getEntityWorld());}
-		else
-			return true;
-	}
 		
 	//ZEKER NOG EENS GOED NAKIJKEN (OVERLAP,TERMINATE,...)!!!!!//
 	public boolean canHaveAsBullet(Bullet bullet){
@@ -330,6 +317,7 @@ public class Ship extends Entity {
 		 public boolean hasAsBullet(Bullet bullet){
 			return this.bullets.contains(bullet);
 		 }       
+		 
 	///ADDERS///
 		 
 		 public void addOneBulletToShip(Bullet bullet) throws ModelException{

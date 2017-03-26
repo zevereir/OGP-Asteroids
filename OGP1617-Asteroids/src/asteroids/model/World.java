@@ -2,10 +2,8 @@ package asteroids.model;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import asteroids.model.Entity.State;
 import asteroids.util.ModelException;
-import be.kuleuven.cs.som.annotate.*;
+//import be.kuleuven.cs.som.annotate.*;
 /**
  * a class that describes the world 
  * 
@@ -29,6 +27,7 @@ public class World {
 	private double width;
 	private double height;
 	
+
 	
 	///DEFAULTS///
 	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
@@ -45,6 +44,14 @@ public class World {
 	
 	public double getWorldHeight(){
 		return this.height;
+	}
+	
+	public Set<Ship> getWorldShips(){
+		return this.ships;
+	}
+	
+	public Set<Bullet> getWorldBullets(){
+		return this.bullets;
 	}
 	
 	
@@ -70,16 +77,25 @@ public class World {
 	
 	 public void addEntityToWorld(Entity entity) throws ModelException {
 		 if (canHaveAsEntity(entity)){
-		 	if (entity instanceof Ship)
+		 	if (entity instanceof Ship){
 			 	ships.add((Ship)entity);
+		 		((Ship)entity).setEntityInWorld(this);}
 		 	else 
-		 		bullets.add((Bullet)entity);}
+		 		bullets.add((Bullet)entity);
+		 		((Bullet)entity).setEntityInWorld(this);}
 		 else{
 			throw new ModelException("the entity cannot be added to this world");}
 	 }
 	 
 	
-	 
+	 ///REMOVERS///
+	 public void removeEntityFromWorld(Entity entity){
+		 if (entity instanceof Ship){
+			 this.ships.remove((Ship)entity);}
+		 else if (entity instanceof Bullet){
+			 this.bullets.remove((Bullet)entity);		
+		 }
+	 }
 	 ///HAS///
 	 public boolean hasAsEntity(Entity entity){
 		 if (entity instanceof Ship)
@@ -103,35 +119,42 @@ public class World {
 		
 		
 		
-		public void Terminate(){
-			null
-		}
-		
-		private State state = State.NOTTERMINATED;
-		
-		private static enum State {
-			NOTTERMINATED,TERMINATED;	
-		}
-		
-		public State getState(){
-			return this.state;
-		}
-		
-		public boolean isWorldTerminated(){
-			return this.getState() == State.TERMINATED;
-		}
-		
-		public boolean hasWorldProperState(){
-			return (!isWorldTerminated())^isWorldTerminated();
-		}
-		
-		public void setWorldState(State state) throws ModelException{
-			if (state == null)
-				throw new ModelException("this is not a valid state");
-			else
-				this.state = state;
-		}
-		
+	 public void Terminate() throws ModelException{
+		 if (!isWorldTerminated()){
+			 setWorldState(State.TERMINATED);
+			 for (Bullet bullet: this.getWorldBullets())
+				 bullet.setEntityFree();
+			 for (Ship ship:this.getWorldShips())
+				 ship.setEntityFree();			 
+			 }
+		 }
+	 
+
+	 private State state = State.NOTTERMINATED;
+
+	 private static enum State {
+		 NOTTERMINATED,TERMINATED;	
+	 }
+
+	 public State getState(){
+		 return this.state;
+	 }
+
+	 public boolean isWorldTerminated(){
+		 return this.getState() == State.TERMINATED;
+	 }
+
+	 public boolean hasWorldProperState(){
+		 return (!isWorldTerminated())^isWorldTerminated();
+	 }
+
+	 public void setWorldState(State state) throws ModelException{
+		 if (state == null)
+			 throw new ModelException("this is not a valid state");
+		 else
+			 this.state = state;
+	 }
+
 		
 		
 }

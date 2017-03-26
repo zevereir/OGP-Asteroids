@@ -1,7 +1,7 @@
 package asteroids.model;
-import asteroids.model.Entity.State;
+
 import asteroids.util.ModelException;
-import be.kuleuven.cs.som.annotate.*;
+//import be.kuleuven.cs.som.annotate.*;
 
 /**
  * a class that describes a bullet that flies away in the blue blue sky.
@@ -40,9 +40,6 @@ public class Bullet extends Entity {
 	
 	///GETTERS///
 	
-	public double getBulletMass(){
-		return (4/3*Math.PI*Math.pow(this.getEntityRadius(),3)*getEntityDensity());
-	}
 	
 	public Ship getBulletShip(){
 		return this.ship;

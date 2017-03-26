@@ -1,5 +1,4 @@
 package asteroids.model;
-import java.lang.Thread.State;
 
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
@@ -150,18 +149,12 @@ public abstract class Entity {
 	//BEKIJKEN//
 	public void setEntityPosition(double x, double y) throws ModelException{
 		if (!isValidArray(x, y))
-			throw new ModelException("Not a valide coordinate");
-		if (this instanceof Ship ){
-			if (((Ship)this).isValidShipPosition(x,y)){
-				double[] position_array = { x, y };
-				this.position = position_array;}
-			else 
-				throw new ModelException("Not a valide coordinate");
-		}else if (this instanceof Bullet){
-					null;}
-		else
-			throw new ModelException("Is not a legal entity");
-		
+			throw new ModelException("Not a valide coordinate");	
+		else if ((this).isValidEntityPosition(x,y)){
+			double[] position_array = { x, y };
+			this.position = position_array;}
+		else 
+				throw new ModelException("Not a valide coordinate");	
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
@@ -233,19 +226,18 @@ public abstract class Entity {
 	
 	public void setEntityMass(double mass) throws ModelException{
 		if (this instanceof Ship){	
-			if (mass < maximumEntityMass())
-				mass = maximumEntityMass();
+			if (mass < minimumEntityMass())
+				mass = minimumEntityMass();
 		}
 		else if (this instanceof Bullet){
-			if (mass < maximumEntityMass())
-				mass = maximumEntityMass();
+			mass = minimumEntityMass();
 		} else {
 			throw new ModelException("not a legal entity");
 		}
 		this.mass = mass;
 	}
 	
-	public double maximumEntityMass(){
+	public double minimumEntityMass(){
 		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
 	}
 	
@@ -283,13 +275,26 @@ public abstract class Entity {
 		return ((0 <= radian) && (radian < 2 * Math.PI));
 	}
 	
+	public boolean isValidEntityPosition(double x, double y){
+		if ((this.getEntityWorld() != null)){
+			return this.entityFitsInWorld(this,this.getEntityWorld());}
+		else
+			return true;
+	}
 	///TERMINATION AND STATES///
+
 	
-	
-	
-	
-	public void Terminate(){
-		null
+	public void Terminate() throws ModelException{
+		if (this.isEntityFree()){
+			setEntityState(State.TERMINATED);}
+			else if (this.isEntityInWorld()){
+				this.getEntityWorld().removeEntityFromWorld(this);
+				setEntityState(State.TERMINATED);}
+		if (this instanceof Ship){
+			for (Bullet bullet:((Ship)this).getShipBullets()){
+				bullet.Terminate();
+			}
+		}
 	}
 	
 	private State state = State.FREE;
@@ -324,14 +329,16 @@ public abstract class Entity {
 			this.state = state;
 	}
 	
-	public void setEntityInWorld() throws ModelException{
+	public void setEntityInWorld(World world) throws ModelException{
 		assert (!this.isEntityTerminated());
-		this.setEntityState(State.INWORLD);			
+		this.setEntityState(State.INWORLD);	
+		this.setEntityWorld(world);
 	}
 	
 	public void setEntityFree() throws ModelException{
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.FREE);
+		this.setEntityWorld(null);
 	}
 	
 	
