@@ -151,13 +151,69 @@ public class World {
 			}
 		}
 	}
+	
+	
+	public void ShipsCollide(Entity entity1, Entity entity2){
+		final double[] velocity_1 = entity1.getEntityVelocity();
+		final double[] position_1 = entity1.getEntityPosition();
+		final double radius_1 = entity1.getEntityRadius();
+		final double mass_1 = entity1.getEntityMass();
+		
+		if (entity2 == null) {
+			// Zie Sieben zijn stuk code om te zien of hij botst met horizontale of verticale
+			if (horizontale)
+				entity1.setEntityVelocity(velocity_1[0], -velocity_1[1]);
+			else
+				entity1.setEntityVelocity(-velocity_1[0], velocity_1[1]);
+		} else {
+			final double[] velocity_2 = entity2.getEntityVelocity();
+			final double[] position_2 = entity2.getEntityPosition();
+			final double radius_2 = entity2.getEntityRadius();
+			final double mass_2 = entity2.getEntityMass();
+			
+			final double total_radius = (radius_1 + radius_2);
+			final double delta_x = position_2[0]-position_1[0];
+			final double delta_y = position_2[1]-position_1[1];
+			final double[] delta_r = { position_2[0] - position_1[0], position_2[1] - position_1[1] };
+			final double[] delta_v = { velocity_2[0] - velocity_1[0], velocity_2[1] - velocity_1[1] };
+			double delta_v_r = (delta_r[0] * delta_v[0] + delta_r[1] * delta_v[1]);
+			
+			double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
+			double Jx = (BigJ * delta_x) / total_radius;
+			double Jy = (BigJ * delta_y) / total_radius;
+			
+			entity1.setEntityVelocity(velocity_1[0] + Jx/mass_1, velocity_1[1] + Jy/mass_1);
+			entity2.setEntityVelocity(velocity_2[0] - Jx/mass_2, velocity_2[1] - Jy/mass_2);
+		}	
+	}
+	
+	public void BulletAndEntityCollide(Entity entity1, Entity entity2) throws ModelException {
+		entity1.Terminate();
+		entity2.Terminate();
+	}
+	
+	
+	public void BullidAndWorldCollide(Entity entity1, Entity entity2) throws ModelException{
+		if (entity2 != null)
+			throw new ModelException("Bullet will not collide with the world");
+		int counter = ((Bullet)entity1).amountOfBounces;
+		if (counter >= 2)
+			entity1.Terminate();
+		else {
+			((Bullet)entity1).amountOfBounces = counter + 1;
+			double[] Velocity = ((Bullet)entity1).getEntityVelocity();
+			// Zie Sieben zijn stuk code om te zien of hij botst met horizontale of verticale
+			if (horizontale)
+				((Bullet)entity1).setEntityVelocity(Velocity[0], -Velocity[1]);
+			else
+				((Bullet)entity1).setEntityVelocity(-Velocity[0], Velocity[1]);
+		}
+			
+	}
 	 
 	 
 	///TERMINATION AND STATES///
-		
-		
-		
-		
+	
 	public void Terminate() throws ModelException{
 		if (!isWorldTerminated()){
 			setWorldState(State.TERMINATED);

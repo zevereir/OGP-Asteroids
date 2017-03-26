@@ -36,8 +36,16 @@ public class Tests_Part1 {
 	
 	@Test
 	public void test() {
-		boolean waarde = false ^ false ^ false;
-		System.out.println(waarde);
+		int var1 = "a".hashCode();
+		int var2 = "a".hashCode();
+		int var3 = "b".hashCode();
+		System.out.println("a".hashCode());
+		System.out.println("a".hashCode());
+		System.out.println("b".hashCode());
+		System.out.println("c".hashCode());
+		System.out.println(var1 < var3);
+		System.out.println(var1 > var3);
+		
 	}
 	
 /*	

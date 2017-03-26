@@ -38,6 +38,9 @@ public class Bullet extends Entity {
 	}
 	
 	
+	// COUNTER //
+	public int amountOfBounces = 0;
+	
 	///GETTERS///
 	
 	
