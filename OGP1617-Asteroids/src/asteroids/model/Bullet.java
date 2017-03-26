@@ -66,49 +66,49 @@ public class Bullet extends Entity {
 	}
 	
 	///TERMINATION AND STATES///
-	
-	
-		
-		private State state = State.NOTLOADED;
-	
-		private static enum State {
-			LOADED,NOTLOADED;	
-		}
-		
-		public State getBulletLoadedState(){
-			return this.state;
-		}
-		public boolean isBulletLoaded(){
-			return (this.getBulletLoadedState() == State.LOADED);
-		}
-		
-		public boolean hasBulletProperState(){
-			return isBulletLoaded() ^(!isBulletLoaded());
-		}
-		
-		public void setBulletLoadedState(State state) throws ModelException{
-			if (state == null)
-				throw new ModelException("this is not a valid state");
-			else
-				this.state = state;
-		}
-		
-		public void setBulletLoaded(Ship ship) throws ModelException{
-			assert (!this.isEntityTerminated());
-			this.setBulletLoadedState(State.LOADED);
-			this.setBulletShip(ship);
-		}
-		
-		public void setBulletNotLoaded() throws ModelException{
-			assert (!this.isEntityTerminated());
-			this.setBulletLoadedState(State.NOTLOADED);
-			this.setBulletShip(null);
-		}
-	
-		
-		///CONNECTIONS WITH OTHER CLASSES///
-		private  Ship ship = null;
-		private  Ship source_ship = null;
-	
+
+
+
+	private State state = State.NOTLOADED;
+
+	private static enum State {
+		LOADED,NOTLOADED;	
+	}
+
+	public State getBulletLoadedState(){
+		return this.state;
+	}
+	public boolean isBulletLoaded(){
+		return (this.getBulletLoadedState() == State.LOADED);
+	}
+
+	public boolean hasBulletProperState(){
+		return isBulletLoaded() ^(!isBulletLoaded());
+	}
+
+	public void setBulletLoadedState(State state) throws ModelException{
+		if (state == null)
+			throw new ModelException("this is not a valid state");
+		else
+			this.state = state;
+	}
+
+	public void setBulletLoaded(Ship ship) throws ModelException{
+		assert (!this.isEntityTerminated());
+		this.setBulletLoadedState(State.LOADED);
+		this.setBulletShip(ship);
+	}
+
+	public void setBulletNotLoaded() throws ModelException{
+		assert (!this.isEntityTerminated());
+		this.setBulletLoadedState(State.NOTLOADED);
+		this.setBulletShip(null);
+	}
+
+
+	///CONNECTIONS WITH OTHER CLASSES///
+	private  Ship ship = null;
+	private  Ship source_ship = null;
+
 }
 

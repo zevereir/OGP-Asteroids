@@ -226,7 +226,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	}
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) throws ModelException {
-		// TODO Auto-generated method stub
 		ship.setThrusterActive(active);
 	}
 
@@ -308,6 +307,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	@Override
 	public double[] getWorldSize(World world) throws ModelException {
 		return world.getWorldSize();
+	}
 
 	@Override
 	public Set<? extends Ship> getWorldShips(World world) throws ModelException {
@@ -344,7 +344,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	@Override
 	public Set<? extends Bullet> getBulletsOnShip(Ship ship) throws ModelException {
-		ship.getShipBullets();
+		return ship.getShipBullets();
 	}
 
 	@Override

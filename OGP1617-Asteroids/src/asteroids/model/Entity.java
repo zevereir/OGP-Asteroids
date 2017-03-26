@@ -308,8 +308,6 @@ public abstract class Entity {
 	
 	///TERMINATION AND STATES///
 	
-	public void Terminate(){
-		null
 	public void Terminate() throws ModelException{
 		if (this.isEntityFree()){
 			setEntityState(State.TERMINATED);}
