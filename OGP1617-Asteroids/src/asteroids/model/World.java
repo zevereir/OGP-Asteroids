@@ -156,14 +156,19 @@ public class World {
 			for (Object entity: getWorldEntities()) {
 				((Entity)entity).move(TimeToCollision);
 			}	
-			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship)
-				ShipsCollide(collision_entity_1, collision_entity_2);
-			else if (collision_entity_1 instanceof Ship && collision_entity_2 == null)
-				ShipAndWorldCollide(collision_entity_1);
-			else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null)
-				BulletAndWorldCollide(collision_entity_1);
-			else
+			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
+				collisionListener.notify();
+				ShipsCollide(collision_entity_1, collision_entity_2); }
+			else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
+				collisionListener.notify();
+				ShipAndWorldCollide(collision_entity_1);}
+			else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null){
+				collisionListener.notify();
+				BulletAndWorldCollide(collision_entity_1); }
+			else{
+				collisionListener.notify();
 				BulletAndEntityCollide(collision_entity_1, collision_entity_2);
+			}
 			
 			collision_entity_1 = null;
 			collision_entity_2 = null;
@@ -253,9 +258,24 @@ public class World {
 	}
 	
 	public void BulletAndEntityCollide(Entity entity1, Entity entity2) throws ModelException {
-		entity1.Terminate();
-		entity2.Terminate();
+		if (entity1 instanceof Bullet && entity2 instanceof Bullet){
+			entity1.Terminate();
+			entity2.Terminate();}
+		else{
+			if (entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1)){
+				((Ship)entity1).addOneBulletToShip(((Bullet)entity2));
+			}
+			else if (entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2)){
+				((Ship)entity2).addOneBulletToShip(((Bullet)entity1));
+			}
+			else {
+				entity1.Terminate();
+				entity2.Terminate();}
+			}
+				
 	}
+			
+	
 	
 	
 	public void BulletAndWorldCollide(Entity entity) throws ModelException{
