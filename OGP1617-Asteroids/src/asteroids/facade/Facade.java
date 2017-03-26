@@ -121,28 +121,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		return ship.getEntityOrientation();
 	}
 
-	/**
-	 * Update the ship its velocity based on its current velocity, its direction, and the given amount.
-	 * 
-	 * @effect The ship will accalerate with amount.
-	 * 		   |ship.thrust(amount)			
-	 */
-	@Override
-	public void thrust(Ship ship, double amount) {
-		ship.thrust(amount);
-	}
-	
-	/**
-	 * Update the ship it's position, assuming it moves in dt seconds at its current velocity.
-	 * 
-	 * @effect The ship will be moved for dt seconds at it's velocity.
-	 * 		   |ship.move(dt)
-	 * 
-	 */
-	@Override
-	public void move(Ship ship, double dt) throws ModelException {
-		ship.move(dt);
-	}
 
 	/**
 	 * Update the direction of the ship by adding an angle in radians to its current direction.
@@ -402,8 +380,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	@Override
 	public double[] getPositionNextCollision(World world) throws ModelException {
-		return world.getPositionNextCollision();
-	}
+		return world.getPositionNextCollision();	}
 
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
