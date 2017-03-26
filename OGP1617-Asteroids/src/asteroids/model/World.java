@@ -1,12 +1,10 @@
 package asteroids.model;
 
-import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
 import asteroids.part2.CollisionListener;
 import asteroids.util.ModelException;
-import be.kuleuven.cs.som.annotate.*;
 /**
  * a class that describes the world 
  * 
@@ -153,24 +151,27 @@ public class World {
 	// RUBEN //
 	// dt = evolving time (a predetermined value)
 	public void evolve(double dt, CollisionListener collisionListener) throws ModelException {
-		int TimeToCollision = 0;
-		
-		// STEP 1: Predict for all entities the time to collision
-		for (All entities in world) {
-			// STEP 2: Determine the smallest (from all entities) TimeToCollision
-		}
+		double TimeToCollision = getTimeNextCollision();
 		if (TimeToCollision < dt) {
-			// Advance all ships and bullets 'TimeToCollision' seconds (= time till first collision)
-			// Remark! Be aware of the thruster whom can change the velocity of a ship.
-				
-			// STEP 3: Resolve the collision
+			for (Object entity: getWorldEntities()) {
+				((Entity)entity).move(TimeToCollision);
+			}	
+			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship)
+				ShipsCollide(collision_entity_1, collision_entity_2);
+			else if (collision_entity_1 instanceof Ship && collision_entity_2 == null)
+				ShipAndWorldCollide(collision_entity_1);
+			else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null)
+				BulletAndWorldCollide(collision_entity_1);
+			else
+				BulletAndEntityCollide(collision_entity_1, collision_entity_2);
 			
-			// STEP 4: Subtract 'TimeToCollision' from dt and go back to step 1
+			collision_entity_1 = null;
+			collision_entity_2 = null;
+			
+			evolve(dt-TimeToCollision, collisionListener);
 		} else {
-			// STEP 5: Advance all ships and bullets dt seconds
-			for (All entities in world) {
-				// Advance the entity using its current position and velocity
-				// Remark! Be aware of the thruster whom can change the velocity of a ship.
+			for (Object entity: getWorldEntities()) {
+				((Entity)entity).move(dt);
 			}
 		}
 	}
@@ -219,36 +220,36 @@ public class World {
 	
 	public void ShipsCollide(Entity entity1, Entity entity2){
 		final double[] velocity_1 = entity1.getEntityVelocity();
+		final double[] velocity_2 = entity2.getEntityVelocity();
 		final double[] position_1 = entity1.getEntityPosition();
+		final double[] position_2 = entity2.getEntityPosition();
 		final double radius_1 = entity1.getEntityRadius();
+		final double radius_2 = entity2.getEntityRadius();
 		final double mass_1 = entity1.getEntityMass();
+		final double mass_2 = entity2.getEntityMass();
+
+		final double total_radius = (radius_1 + radius_2);
+		final double delta_x = position_2[0]-position_1[0];
+		final double delta_y = position_2[1]-position_1[1];
+		final double[] delta_r = { position_2[0] - position_1[0], position_2[1] - position_1[1] };
+		final double[] delta_v = { velocity_2[0] - velocity_1[0], velocity_2[1] - velocity_1[1] };
+		final double delta_v_r = (delta_r[0] * delta_v[0] + delta_r[1] * delta_v[1]);
+
+		double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
+		double Jx = (BigJ * delta_x) / total_radius;
+		double Jy = (BigJ * delta_y) / total_radius;
+
+		entity1.setEntityVelocity(velocity_1[0] + Jx/mass_1, velocity_1[1] + Jy/mass_1);
+		entity2.setEntityVelocity(velocity_2[0] - Jx/mass_2, velocity_2[1] - Jy/mass_2);
+	}	
 		
-		if (entity2 == null) {
-			// Zie Sieben zijn stuk code om te zien of hij botst met horizontale of verticale
-			if (horizontale)
-				entity1.setEntityVelocity(velocity_1[0], -velocity_1[1]);
-			else
-				entity1.setEntityVelocity(-velocity_1[0], velocity_1[1]);
-		} else {
-			final double[] velocity_2 = entity2.getEntityVelocity();
-			final double[] position_2 = entity2.getEntityPosition();
-			final double radius_2 = entity2.getEntityRadius();
-			final double mass_2 = entity2.getEntityMass();
-			
-			final double total_radius = (radius_1 + radius_2);
-			final double delta_x = position_2[0]-position_1[0];
-			final double delta_y = position_2[1]-position_1[1];
-			final double[] delta_r = { position_2[0] - position_1[0], position_2[1] - position_1[1] };
-			final double[] delta_v = { velocity_2[0] - velocity_1[0], velocity_2[1] - velocity_1[1] };
-			double delta_v_r = (delta_r[0] * delta_v[0] + delta_r[1] * delta_v[1]);
-			
-			double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
-			double Jx = (BigJ * delta_x) / total_radius;
-			double Jy = (BigJ * delta_y) / total_radius;
-			
-			entity1.setEntityVelocity(velocity_1[0] + Jx/mass_1, velocity_1[1] + Jy/mass_1);
-			entity2.setEntityVelocity(velocity_2[0] - Jx/mass_2, velocity_2[1] - Jy/mass_2);
-		}	
+	
+	public void ShipAndWorldCollide(Entity entity) {
+		double[] Velocity = ((Ship)entity).getEntityVelocity();
+		if (collideHorizontalBoundary(entity))
+			((Ship)entity).setEntityVelocity(Velocity[0], -Velocity[1]);
+		else
+			((Ship)entity).setEntityVelocity(-Velocity[0], Velocity[1]);
 	}
 	
 	public void BulletAndEntityCollide(Entity entity1, Entity entity2) throws ModelException {
@@ -257,22 +258,24 @@ public class World {
 	}
 	
 	
-	public void BullidAndWorldCollide(Entity entity1, Entity entity2) throws ModelException{
-		if (entity2 != null)
-			throw new ModelException("Bullet will not collide with the world");
-		int counter = ((Bullet)entity1).amountOfBounces;
+	public void BulletAndWorldCollide(Entity entity) throws ModelException{
+		int counter = ((Bullet)entity).amountOfBounces;
 		if (counter >= 2)
-			entity1.Terminate();
+			entity.Terminate();
 		else {
-			((Bullet)entity1).amountOfBounces = counter + 1;
-			double[] Velocity = ((Bullet)entity1).getEntityVelocity();
-			// Zie Sieben zijn stuk code om te zien of hij botst met horizontale of verticale
-			if (horizontale)
-				((Bullet)entity1).setEntityVelocity(Velocity[0], -Velocity[1]);
+			((Bullet)entity).amountOfBounces = counter + 1;
+			double[] Velocity = ((Bullet)entity).getEntityVelocity();
+			if (collideHorizontalBoundary(entity))
+				((Bullet)entity).setEntityVelocity(Velocity[0], -Velocity[1]);
 			else
-				((Bullet)entity1).setEntityVelocity(-Velocity[0], Velocity[1]);
-		}
-			
+				((Bullet)entity).setEntityVelocity(-Velocity[0], Velocity[1]);
+		}		
+	}
+	
+	
+	public boolean collideHorizontalBoundary(Entity entity){
+		return(entity.getPositionCollisionBoundary()[1]==0 || 
+				entity.getPositionCollisionBoundary()[1]== entity.getEntityWorld().getWorldSize()[1]); 	
 	}
 	 
 	 

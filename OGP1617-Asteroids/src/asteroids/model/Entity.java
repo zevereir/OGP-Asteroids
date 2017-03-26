@@ -276,7 +276,7 @@ public abstract class Entity {
 	
 	public boolean isValidEntityPosition(double x, double y){
 		if ((this.getEntityWorld() != null)){
-			return this.entityFitsInWorld(this,this.getEntityWorld());}
+			return Entity.entityFitsInWorld(this,this.getEntityWorld());}
 		else
 			return true;
 	}
