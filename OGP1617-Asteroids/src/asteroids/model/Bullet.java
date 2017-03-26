@@ -45,6 +45,11 @@ public class Bullet extends Entity {
 		return this.ship;
 	}
 	
+	public Ship getBulletSource(){
+		return this.source_ship;
+		
+	}
+	
 	///CHECKERS///
 	public boolean hasWorldAndShip(){
 		return ((this.isBulletLoaded()) && (this.isEntityInWorld()));
@@ -54,6 +59,10 @@ public class Bullet extends Entity {
 	//GOED NAKIJKEN//
 	public boolean canHaveAsShip(Ship ship){
 		return ((ship.canHaveAsBullet(this)) || (this.isEntityInWorld()));
+	}
+	///SETTERS///
+	public void setBulletShip(Ship ship){
+		this.ship = ship;
 	}
 	
 	///TERMINATION AND STATES///
@@ -84,19 +93,22 @@ public class Bullet extends Entity {
 				this.state = state;
 		}
 		
-		public void setBulletLoaded() throws ModelException{
+		public void setBulletLoaded(Ship ship) throws ModelException{
 			assert (!this.isEntityTerminated());
-			this.setBulletLoadedState(State.LOADED);			
+			this.setBulletLoadedState(State.LOADED);
+			this.setBulletShip(ship);
 		}
 		
 		public void setBulletNotLoaded() throws ModelException{
 			assert (!this.isEntityTerminated());
 			this.setBulletLoadedState(State.NOTLOADED);
+			this.setBulletShip(null);
 		}
 	
 		
 		///CONNECTIONS WITH OTHER CLASSES///
-		private final Ship ship = null;
+		private  Ship ship = null;
+		private  Ship source_ship = null;
 	
 }
 

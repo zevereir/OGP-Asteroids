@@ -100,8 +100,8 @@ public abstract class Entity {
 
 	public boolean entityFitsInWorld(Entity entity, World world){
 		double radius = this.getEntityRadius();
-		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
-		double right_bound = OMEGA*(world.getWorldWidth()-radius);
+		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
+		double right_bound = OMEGA*(world.getWorldSize()[0]-radius);
 		double x = entity.getEntityPosition()[0];
 		double y = entity.getEntityPosition()[1];		
 		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));}

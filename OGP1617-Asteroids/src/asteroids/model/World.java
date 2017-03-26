@@ -38,14 +38,6 @@ public class World {
 	///GETTERS///
 	
 	
-	public double getWorldWidth(){
-		return this.width;
-	}
-	
-	public double getWorldHeight(){
-		return this.height;
-	}
-	
 	public Set<Ship> getWorldShips(){
 		return this.ships;
 	}
@@ -54,7 +46,12 @@ public class World {
 		return this.bullets;
 	}
 	
-	
+	public double[] getWorldSize(){
+		double width = this.width;
+		double height = this.height;
+		double[] size_array = {width,height};
+		return size_array;
+	}
 	///SETTERS///
 	
 	public void setWorldWidth(double width){
@@ -155,6 +152,21 @@ public class World {
 			 this.state = state;
 	 }
 
-		
+	///COLLISIONS ETC///
+	 public double getTimeNextCollision(){
+		 null
+	 }
+	 
+	 public double getPositionNextCollision(){
+		 null
+	 }
+	 
+	 public Object getEntityAt(double x, double y){
+		 null
+	 }
+	 
+	 public Set<Object> getWorldEntities(){
+		 null
+	 }
 		
 }

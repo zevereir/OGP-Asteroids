@@ -186,6 +186,10 @@ public class Ship extends Entity {
 		return this.bullets;
 	}
 	
+	public int getNbBulletsOnShip(){
+		return this.getShipBullets().size();
+	}
+	
 
 	/// SETTERS ///
 
@@ -321,19 +325,33 @@ public class Ship extends Entity {
 	///ADDERS///
 		 
 		 public void addOneBulletToShip(Bullet bullet) throws ModelException{
-			 if (this.canHaveAsBullet(bullet))
-				 this.bullets.add(bullet);
+			 if (this.canHaveAsBullet(bullet)){
+				this.bullets.add(bullet);
+			 	bullet.setBulletLoaded(this);}
 			 else
 				 throw new ModelException("this bullet can not be loaded on this ship");
 		 }
 	
 		 public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
 			 for (Bullet bullet: bullets)
-				 if (this.canHaveAsBullet(bullet))
-					 this.bullets.add(bullet);
-				 else
-					 throw new ModelException("this bullet can not be loaded on this ship");
+				addOneBulletToShip(bullet);
 		 }
+		 
+	///REMOVERS///
+		 
+		 public void removeBulletFromShip(Bullet bullet) throws ModelException{
+			 if (!this.hasAsBullet(bullet)){
+				throw new ModelException("this ship doesn't have this bullet");}
+			 else{
+				this.bullets.remove(bullet);
+			 	bullet.setBulletNotLoaded();	
+			 }
+		 }
+		 
+		 public void fireBullet(){
+			 null
+		 }
+		 
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	
