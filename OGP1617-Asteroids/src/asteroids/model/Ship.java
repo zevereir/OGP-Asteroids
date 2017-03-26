@@ -209,7 +209,7 @@ public class Ship extends Entity {
 	
 	public boolean isValidShipPosition(double x, double y){
 		if ((this.getEntityWorld() != null)){
-			return this.entityFitsInWorld(this,this.getEntityWorld());}
+			return entityFitsInWorld(this,this.getEntityWorld());}
 		else
 			return true;
 	}
@@ -231,38 +231,6 @@ public class Ship extends Entity {
 		
 	}
 	
-	/// METHODS ON ONE SHIP///
-	
-	
-	/**
-	 * Update the ship's position, assuming it moves in dt seconds at its
-	 * current velocity.
-	 * 
-	 * @param dt
-	 *            Delta time is the time in which the ship travels at it's
-	 *            current velocity.
-	 * 
-	 * @effect If the given time is nonnegative, the new position will be the
-	 *         sum of the original position (in x and y) and the traveled
-	 *         distance (velocity(x,y)*dt) in x and y. |if (dt >= 0) |
-	 *         this.setShipPosition(this.getShipPosition[0]+delta_x,
-	 *         this.getShipPosition[1]+delta_y);
-	 * @throws ModelException
-	 *             If delta time is negative. |(dt < 0)
-	 */
-	@Deprecated
-	public void move(double dt) throws ModelException {
-		if (dt < 0)
-			throw new ModelException("Give a positive time please.");
-
-		final double[] velocity = this.getEntityVelocity();
-		final double[] position = this.getEntityPosition();
-		final double delta_x = velocity[0] * dt;
-		final double delta_y = velocity[1] * dt;
-
-		this.setEntityPosition(position[0] + delta_x, position[1] + delta_y);
-	}
-
 	/**
 	 * Update the direction of the ship by adding an angle in radians to its
 	 * current direction. The angle may be negative.
@@ -284,40 +252,7 @@ public class Ship extends Entity {
 		this.setEntityOrientation(this.getEntityOrientation() + angle);
 	}
 
-	/**
-	 * Update the ship its velocity based on its current velocity, its
-	 * direction, and the given amount.
-	 * 
-	 * @param amount
-	 *            The amount of velocity we want to add or subtract from the
-	 *            current velocity.
-	 * 
-	 * @effect If the amount is negative, it will be set on 0. The velocity of
-	 *         the ship will then be set on the x and y value of the velocity it
-	 *         already had. |if (amount < 0) |
-	 *         this.setShipVelocity(this.getShipVelocity()[0],this.getShipVelocity()[1])
-	 * @effect If the amount is positive, the velocity of the ship will be
-	 *         updated with the given amount projected on the x- and y-axis. If
-	 *         the updated velocity is greater than the speed of light, the
-	 *         velocity will be set on the speed of light projected on the x-
-	 *         and y-axis. |if (amount>=0) |
-	 *         this.setShipVelocity(this.getShipVelocity()[0] +
-	 *         amount*Math.cos(this.getShipOrientation()), |
-	 *         this.getShipVelocity()[1] +
-	 *         amount*Math.cos(this.getShipOrientation()));
-	 * 
-	 */
-	@Deprecated
-	public void thrust(double amount) {
-		if (amount < 0)
-			amount = 0;
-		double thrust_x = this.getEntityVelocity()[0] + amount * Math.cos(this.getEntityOrientation());
-		double thrust_y = this.getEntityVelocity()[1] + amount * Math.sin(this.getEntityOrientation());
-
-		this.setEntityVelocity(thrust_x, thrust_y);
-	}
-
-
+	
 	public void thrustOn(){
 		setThrusterActive(true);
 	}

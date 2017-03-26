@@ -54,6 +54,27 @@ public class World {
 		double[] size_array = {width,height};
 		return size_array;
 	}
+	
+	public Set<? extends Object> getWorldEntities(){
+		Set<Object> result = new HashSet<>();
+		Set<Bullet> bullets = this.getWorldBullets();
+		Set<Ship> ships = this.getWorldShips();
+		result.addAll(bullets);
+		result.addAll(ships);		
+		return result;
+	}
+	
+	
+	public Object getEntityAt(double x, double y){
+		double[] search_position = {x,y};
+		
+		for (Object entity: getWorldEntities()){
+			if (((Entity)entity).getEntityPosition() == search_position){
+				return ((Entity)entity);
+			}	
+		}
+		return null;
+	}
 	///SETTERS///
 	
 	// --> RUBEN <-- //
@@ -83,6 +104,8 @@ public class World {
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Set<Ship> ships = new HashSet<Ship>();
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
+	private Entity collision_entity_1 = null;
+	private Entity collision_entity_2 = null;
 	 
 	///ADDERS///
 	
@@ -123,7 +146,7 @@ public class World {
 	// --> OVERLAP,TERMINATE,... NOG BEKIJKEN <-- //
 	public boolean canHaveAsEntity(Entity entity){
 		return ((!this.hasAsEntity(entity)) &&(entity.getEntityWorld()==null) &&
-			(entity.entityFitsInWorld(entity,this)));
+			(Entity.entityFitsInWorld(entity,this)));
 	}
 	
 	
@@ -149,6 +172,47 @@ public class World {
 				// Advance the entity using its current position and velocity
 				// Remark! Be aware of the thruster whom can change the velocity of a ship.
 			}
+		}
+	}
+	
+	
+	public double getTimeNextCollision() throws ModelException{
+		double min_time = Double.POSITIVE_INFINITY;
+		for (Object entity_1: getWorldEntities()){
+			for (Object entity_2: getWorldEntities()){
+				if (entity_2.hashCode()>entity_1.hashCode()){
+					double delta_t = ((Entity)entity_1).getTimeToCollision((Entity)entity_2);
+					if (delta_t < min_time){
+						min_time = delta_t;
+						collision_entity_1 = ((Entity)entity_1);
+						collision_entity_2 = ((Entity)entity_2);
+						}
+					else if (delta_t == Double.POSITIVE_INFINITY){
+						double dt =((Entity)entity_1).getTimeCollisionBoundary();
+						if (dt < min_time){
+							min_time = dt;
+							collision_entity_1 = ((Entity)entity_1);
+							collision_entity_2 = null;
+						}
+					}			
+				}
+			}
+		}
+		return min_time;
+	}
+		
+	
+	public double[] getPositionNextCollision() throws ModelException{
+		if (collision_entity_1 != null && collision_entity_2!= null){
+			return collision_entity_1.getCollisionPosition(collision_entity_2);
+		}
+		else if (collision_entity_1 != null && collision_entity_2 == null){
+			return collision_entity_1.getPositionCollisionBoundary();
+		}
+		else {
+			double infinity = Double.POSITIVE_INFINITY;
+			double[] new_array = {infinity,infinity};
+			return new_array;
 		}
 	}
 	
@@ -213,7 +277,7 @@ public class World {
 	 
 	 
 	///TERMINATION AND STATES///
-	
+
 	public void Terminate() throws ModelException{
 		if (!isWorldTerminated()){
 			setWorldState(State.TERMINATED);

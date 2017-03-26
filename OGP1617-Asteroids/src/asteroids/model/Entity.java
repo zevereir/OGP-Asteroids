@@ -97,8 +97,8 @@ public abstract class Entity {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 
-	public boolean entityFitsInWorld(Entity entity, World world){
-		double radius = this.getEntityRadius();
+	public static boolean entityFitsInWorld(Entity entity, World world){
+		double radius = entity.getEntityRadius();
 		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
 		double right_bound = OMEGA*(world.getWorldSize()[0]-radius);
 		double x = entity.getEntityPosition()[0];
@@ -584,8 +584,18 @@ public abstract class Entity {
 		else{
 			double[] position = this.getEntityPosition();
 			double[] velocity = this.getEntityVelocity();
+			double radius = this.getEntityRadius();
+			double[] size = this.getEntityWorld().getWorldSize();
 			new_x = position[0]+time*velocity[0];
 			new_y = position[1]+time*velocity[1];
+			if (Math.abs(size[0] - position[0]-radius) ==0)
+				new_x += radius;
+			else if ((Math.abs(size[0] - position[0]+radius) == size[0]))
+				new_x -= radius;
+			else if ((Math.abs(size[1] - position[1]-radius)==0))
+					new_y += radius;
+			else
+				new_y -= radius;
 		}
 		double[] new_position = {new_x,new_y};
 		return new_position;
