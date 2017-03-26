@@ -1,4 +1,5 @@
 package asteroids.model;
+import asteroids.model.Entity.State;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -49,16 +50,55 @@ public class Bullet extends Entity {
 	
 	///CHECKERS///
 	public boolean hasWorldAndShip(){
-		return ((this.getBulletShip() != null) && (this.getEntityWorld() != null));
+		return ((this.isBulletLoaded()) && (this.isEntityInWorld()));
 	}
 	
-	///CHECKERS///
 	
 	//GOED NAKIJKEN//
 	public boolean canHaveAsShip(Ship ship){
-		return ((ship.canHaveAsBullet(this)) || (this.getEntityWorld() != null));
+		return ((ship.canHaveAsBullet(this)) || (this.isEntityInWorld()));
 	}
-	///CONNECTIONS WITH OTHER CLASSES///
+	
+	///TERMINATION AND STATES///
+	
+	
+		
+		private State state = State.NOTLOADED;
+	
+		private static enum State {
+			LOADED,NOTLOADED;	
+		}
+		
+		public State getBulletLoadedState(){
+			return this.state;
+		}
+		public boolean isBulletLoaded(){
+			return (this.getBulletLoadedState() == State.LOADED);
+		}
+		
+		public boolean hasBulletProperState(){
+			return isBulletLoaded() ^(!isBulletLoaded());
+		}
+		
+		public void setBulletLoadedState(State state) throws ModelException{
+			if (state == null)
+				throw new ModelException("this is not a valid state");
+			else
+				this.state = state;
+		}
+		
+		public void setBulletLoaded() throws ModelException{
+			assert (!this.isEntityTerminated());
+			this.setBulletLoadedState(State.LOADED);			
+		}
+		
+		public void setBulletNotLoaded() throws ModelException{
+			assert (!this.isEntityTerminated());
+			this.setBulletLoadedState(State.NOTLOADED);
+		}
+	
+		
+		///CONNECTIONS WITH OTHER CLASSES///
 		private final Ship ship = null;
 	
 }

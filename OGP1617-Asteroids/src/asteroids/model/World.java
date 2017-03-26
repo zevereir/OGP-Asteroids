@@ -2,6 +2,8 @@ package asteroids.model;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import asteroids.model.Entity.State;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 /**
@@ -96,10 +98,40 @@ public class World {
 	
 	 }
 	
-	 ///TERMINATION ETC///
-	 private boolean isTerminated=false;
-	 
-	 public boolean isWorldTerminated(){
-		 return null;
-	 }
+	///TERMINATION AND STATES///
+		
+		
+		
+		
+		public void Terminate(){
+			null
+		}
+		
+		private State state = State.NOTTERMINATED;
+		
+		private static enum State {
+			NOTTERMINATED,TERMINATED;	
+		}
+		
+		public State getState(){
+			return this.state;
+		}
+		
+		public boolean isWorldTerminated(){
+			return this.getState() == State.TERMINATED;
+		}
+		
+		public boolean hasWorldProperState(){
+			return (!isWorldTerminated())^isWorldTerminated();
+		}
+		
+		public void setWorldState(State state) throws ModelException{
+			if (state == null)
+				throw new ModelException("this is not a valid state");
+			else
+				this.state = state;
+		}
+		
+		
+		
 }
