@@ -93,6 +93,7 @@ public class Ship extends Entity {
 		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
 		setThrusterActive(thrusterActivity);
 		setShipThrusterForce(thrusterForce);
+		addMultipleBulletsToShip(makeFifteenBullets());
 	}
 
 	
@@ -176,10 +177,19 @@ public class Ship extends Entity {
 	
 	public double getBulletsWeight(){
 		double weight = 0;
-		for (Bullet bullet: this.bullets)
-			weight += bullet.getBulletMass();
+		for (Bullet bullet: this.getShipBullets())
+			weight += bullet.getEntityMass();
 		return weight;
 	}
+	
+	public Set<Bullet> getShipBullets(){
+		return this.bullets;
+	}
+	
+	public int getNbBulletsOnShip(){
+		return this.getShipBullets().size();
+	}
+	
 
 	
 	/// SETTERS ///
@@ -322,23 +332,47 @@ public class Ship extends Entity {
 		return this.bullets.contains(bullet);
 	}       
 	///ADDERS///
-
-	public void addOneBulletToShip(Bullet bullet) throws ModelException{
-		if (this.canHaveAsBullet(bullet))
-			this.bullets.add(bullet);
-		else
-			throw new ModelException("this bullet can not be loaded on this ship");
-	}
-
-	public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
-		for (Bullet bullet: bullets)
-			if (this.canHaveAsBullet(bullet))
+		 
+		 public void addOneBulletToShip(Bullet bullet) throws ModelException{
+			 if (this.canHaveAsBullet(bullet)){
 				this.bullets.add(bullet);
-			else
-				throw new ModelException("this bullet can not be loaded on this ship");
-	}
+			 	bullet.setBulletLoaded(this);}
+			 else
+				 throw new ModelException("this bullet can not be loaded on this ship");
+		 }
 	
+
+		 public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
+			 for (Bullet bullet: bullets)
+				addOneBulletToShip(bullet);
+		 }
+		 
+	///REMOVERS///
+		 
+		 public void removeBulletFromShip(Bullet bullet) throws ModelException{
+			 if (!this.hasAsBullet(bullet)){
+				throw new ModelException("this ship doesn't have this bullet");}
+			 else{
+				this.bullets.remove(bullet);
+			 	bullet.setBulletNotLoaded();	
+			 }
+		 }
+		 
+		 public void fireBullet(){
+			 null
+		 }
+		 
 	
+	/// HELP FUNCTIONS///
+		 public Set<Bullet> makeFifteenBullets() throws ModelException{
+			Set<Bullet> result = new HashSet<>();
+			double x_position = this.getEntityPosition()[0];
+			double y_position = this.getEntityPosition()[1];
+			for (int i=0; i <15; i++){
+				 Bullet bullet = new Bullet(x_position,y_position,0,0,0.5*this.getEntityRadius());
+				 result.add(bullet);}
+			return result; 
+		 }
 	///CONNECTIONS WITH OTHER CLASSES///
 	
 	private final Set<Bullet> bullets = new HashSet<Bullet>();

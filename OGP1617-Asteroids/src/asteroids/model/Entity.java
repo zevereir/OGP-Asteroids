@@ -1,7 +1,4 @@
 package asteroids.model;
-import java.lang.Thread.State;
-
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
@@ -102,8 +99,8 @@ public abstract class Entity {
 
 	public boolean entityFitsInWorld(Entity entity, World world){
 		double radius = this.getEntityRadius();
-		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
-		double right_bound = OMEGA*(world.getWorldWidth()-radius);
+		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
+		double right_bound = OMEGA*(world.getWorldSize()[0]-radius);
 		double x = entity.getEntityPosition()[0];
 		double y = entity.getEntityPosition()[1];		
 		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));}
@@ -151,17 +148,12 @@ public abstract class Entity {
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double x, double y) throws ModelException{
 		if (!isValidArray(x, y))
-			throw new ModelException("Not a valide coordinate");
-		if (this instanceof Ship ){
-			if (((Ship)this).isValidShipPosition(x,y)){
-				double[] position_array = { x, y };
-				this.position = position_array;}
-			else 
-				throw new ModelException("Not a valide coordinate");
-		}else if (this instanceof Bullet){
-					null;}
-		else
-			throw new ModelException("Is not a legal entity");
+			throw new ModelException("Not a valide coordinate");	
+		else if ((this).isValidEntityPosition(x,y)){
+			double[] position_array = { x, y };
+			this.position = position_array;}
+		else 
+				throw new ModelException("Not a valide coordinate");	
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
@@ -233,17 +225,17 @@ public abstract class Entity {
 	
 	public void setEntityMass(double mass) throws ModelException{
 		if (this instanceof Ship){	
-			if (mass < maximumEntityMass())
-				mass = maximumEntityMass();
-		} else if (this instanceof Bullet){
-			mass = maximumEntityMass();
+			if (mass < minimumEntityMass())
+				mass = minimumEntityMass();
+		}else if (this instanceof Bullet){
+			mass = minimumEntityMass();
 		} else {
 			throw new ModelException("not a legal entity");
 		}
 		this.mass = mass;
 	}
 	
-	public double maximumEntityMass(){
+	public double minimumEntityMass(){
 		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
 	}
 	
@@ -282,6 +274,12 @@ public abstract class Entity {
 		return ((0 <= radian) && (radian < 2 * Math.PI));
 	}
 	
+	public boolean isValidEntityPosition(double x, double y){
+		if ((this.getEntityWorld() != null)){
+			return this.entityFitsInWorld(this,this.getEntityWorld());}
+		else
+			return true;
+	}
 	
 	// RUBEN //
 	public void move(double dt) throws ModelException {
@@ -312,6 +310,17 @@ public abstract class Entity {
 	
 	public void Terminate(){
 		null
+	public void Terminate() throws ModelException{
+		if (this.isEntityFree()){
+			setEntityState(State.TERMINATED);}
+			else if (this.isEntityInWorld()){
+				this.getEntityWorld().removeEntityFromWorld(this);
+				setEntityState(State.TERMINATED);}
+		if (this instanceof Ship){
+			for (Bullet bullet:((Ship)this).getShipBullets()){
+				bullet.Terminate();
+			}
+		}
 	}
 	
 	private State state = State.FREE;
@@ -346,14 +355,16 @@ public abstract class Entity {
 			this.state = state;
 	}
 	
-	public void setEntityInWorld() throws ModelException{
+	public void setEntityInWorld(World world) throws ModelException{
 		assert (!this.isEntityTerminated());
-		this.setEntityState(State.INWORLD);			
+		this.setEntityState(State.INWORLD);	
+		this.setEntityWorld(world);
 	}
 	
 	public void setEntityFree() throws ModelException{
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.FREE);
+		this.setEntityWorld(null);
 	}
 	
 	
@@ -538,7 +549,50 @@ public abstract class Entity {
 		}
 
 	}
-
+	
+	public double getTimeCollisionBoundary(){
+		if (this.isEntityFree() || this.isEntityTerminated()){
+			return Double.POSITIVE_INFINITY;}
+		else {
+			double[] position = this.getEntityPosition();
+			double[] velocity = this.getEntityVelocity();
+			double[] size = this.getEntityWorld().getWorldSize();
+			double radius = this.getEntityRadius();
+			double x_distance = Math.abs(size[0] - position[0]-radius);
+			double y_distance = Math.abs(size[1] - position[1]-radius);
+			
+			double dtx = (x_distance / velocity[0]);
+			double dty = (y_distance / velocity[1]);
+			
+			if (dtx > dty){
+				return dty;}
+			else if (dty > dtx){
+				return dtx;}
+			else {
+				return Double.POSITIVE_INFINITY;}
+		
+		}
+		
+		
+	} 
+	
+	public double[] getPositionCollisionBoundary(){
+		double time = getTimeCollisionBoundary();
+		double new_x = 0;
+		double new_y = 0;
+		if (time == Double.POSITIVE_INFINITY){
+			new_x = Double.POSITIVE_INFINITY;
+			new_y = Double.POSITIVE_INFINITY;}
+		else{
+			double[] position = this.getEntityPosition();
+			double[] velocity = this.getEntityVelocity();
+			new_x = position[0]+time*velocity[0];
+			new_y = position[1]+time*velocity[1];
+		}
+		double[] new_position = {new_x,new_y};
+		return new_position;
+	}
+	
 	
 	///RELATIONS WITH OTHER CLASSES///
 	private  World world = null;
