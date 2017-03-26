@@ -523,7 +523,50 @@ public abstract class Entity {
 		}
 
 	}
-
+	
+	public double getTimeCollisionBoundary(){
+		if (this.isEntityFree() || this.isEntityTerminated()){
+			return Double.POSITIVE_INFINITY;}
+		else {
+			double[] position = this.getEntityPosition();
+			double[] velocity = this.getEntityVelocity();
+			double[] size = this.getEntityWorld().getWorldSize();
+			double radius = this.getEntityRadius();
+			double x_distance = Math.abs(size[0] - position[0]-radius);
+			double y_distance = Math.abs(size[1] - position[1]-radius);
+			
+			double dtx = (x_distance / velocity[0]);
+			double dty = (y_distance / velocity[1]);
+			
+			if (dtx > dty){
+				return dty;}
+			else if (dty > dtx){
+				return dtx;}
+			else {
+				return Double.POSITIVE_INFINITY;}
+		
+		}
+		
+		
+	} 
+	
+	public double[] getPositionCollisionBoundary(){
+		double time = getTimeCollisionBoundary();
+		double new_x = 0;
+		double new_y = 0;
+		if (time == Double.POSITIVE_INFINITY){
+			new_x = Double.POSITIVE_INFINITY;
+			new_y = Double.POSITIVE_INFINITY;}
+		else{
+			double[] position = this.getEntityPosition();
+			double[] velocity = this.getEntityVelocity();
+			new_x = position[0]+time*velocity[0];
+			new_y = position[1]+time*velocity[1];
+		}
+		double[] new_position = {new_x,new_y};
+		return new_position;
+	}
+	
 	
 	///RELATIONS WITH OTHER CLASSES///
 	private  World world = null;

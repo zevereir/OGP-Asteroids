@@ -153,11 +153,13 @@ public class World {
 	 }
 
 	///COLLISIONS ETC///
+	 
+	 
 	 public double getTimeNextCollision(){
 		 null
 	 }
 	 
-	 public double getPositionNextCollision(){
+	 public double[] getPositionNextCollision(){
 		 null
 	 }
 	 

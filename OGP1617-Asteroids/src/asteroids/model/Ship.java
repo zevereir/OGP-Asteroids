@@ -93,6 +93,7 @@ public class Ship extends Entity {
 		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
 		setThrusterActive(thrusterActivity);
 		setShipThrusterForce(thrusterForce);
+		addMultipleBulletsToShip(makeFifteenBullets());
 	}
 
 	
@@ -352,6 +353,17 @@ public class Ship extends Entity {
 			 null
 		 }
 		 
+	
+	/// HELP FUNCTIONS///
+		 public Set<Bullet> makeFifteenBullets() throws ModelException{
+			Set<Bullet> result = new HashSet<>();
+			double x_position = this.getEntityPosition()[0];
+			double y_position = this.getEntityPosition()[1];
+			for (int i=0; i <15; i++){
+				 Bullet bullet = new Bullet(x_position,y_position,0,0,0.5*this.getEntityRadius());
+				 result.add(bullet);}
+			return result; 
+		 }
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	

@@ -377,13 +377,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	@Override
 	public double getTimeCollisionBoundary(Object object) throws ModelException {
-		return 
+		return ((Entity)object).getTimeCollisionBoundary();
 	}
 
 	@Override
 	public double[] getPositionCollisionBoundary(Object object) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return ((Entity)object).getPositionCollisionBoundary();
 	}
 
 	@Override
