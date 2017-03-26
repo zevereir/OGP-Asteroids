@@ -1,9 +1,9 @@
 package asteroids.model;
 
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
-import asteroids.model.Entity.State;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 /**
@@ -50,15 +50,27 @@ public class World {
 	
 	///SETTERS///
 	
+	// --> RUBEN <-- //
+	// --> Negative values become positive values, containing the same absolute value! <-- //
 	public void setWorldWidth(double width){
-		if (width > UPPER_WORLD_BOUND_WIDTH || width < 0)
+		if (width > UPPER_WORLD_BOUND_WIDTH)
 			width = UPPER_WORLD_BOUND_WIDTH;
+		else if (width < 0) {
+			width = Math.abs(width);
+			if (width > UPPER_WORLD_BOUND_WIDTH)
+				width = UPPER_WORLD_BOUND_WIDTH;
+		}
 		this.width = width;
 	}
-	
+	// --> RUBEN <-- //
 	public void setWorldHeight(double height){
-		if (height > UPPER_WORLD_BOUND_HEIGHT|| height < 0)
+		if (height > UPPER_WORLD_BOUND_HEIGHT)
 			height = UPPER_WORLD_BOUND_HEIGHT;
+		else if (height < 0) {
+			height = Math.abs(height);
+			if (height > UPPER_WORLD_BOUND_HEIGHT)
+				height = UPPER_WORLD_BOUND_HEIGHT;
+		}
 		this.height = height;
 	}
 	
@@ -68,69 +80,97 @@ public class World {
 	 
 	///ADDERS///
 	
-	 public void addEntityToWorld(Entity entity) throws ModelException {
-		 if (canHaveAsEntity(entity)){
-		 	if (entity instanceof Ship)
-			 	ships.add((Ship)entity);
-		 	else 
-		 		bullets.add((Bullet)entity);}
-		 else{
+	public void addEntityToWorld(Entity entity) throws ModelException {
+		if (canHaveAsEntity(entity)){
+			if (entity instanceof Ship)
+				ships.add((Ship)entity);
+			else 
+				bullets.add((Bullet)entity);}
+		else{
 			throw new ModelException("the entity cannot be added to this world");}
-	 }
+	}
 	 
 	
 	 
-	 ///HAS///
-	 public boolean hasAsEntity(Entity entity){
-		 if (entity instanceof Ship)
-			 return this.ships.contains(entity);
-		 else
-			 return this.bullets.contains(entity);
-	 }        
+	///HAS///
+	public boolean hasAsEntity(Entity entity){
+		if (entity instanceof Ship)
+			return this.ships.contains(entity);
+		else
+			return this.bullets.contains(entity);
+	}        
+	
+	///CHECKERS///
+	
+	
+	// --> OVERLAP,TERMINATE,... NOG BEKIJKEN <-- //
+	public boolean canHaveAsEntity(Entity entity){
+		return ((!this.hasAsEntity(entity)) &&(entity.getEntityWorld()==null) &&
+			(entity.entityFitsInWorld(entity,this)));
+	}
+	
+	
+	// RUBEN //
+	// dt = evolving time (a predetermined value)
+	public void evolve(double dt, CollisionListener collisionListener) throws ModelException {
+		int TimeToCollision = 0;
+		
+		// STEP 1: Predict for all entities the time to collision
+		for (All entities in world) {
+			// STEP 2: Determine the smallest (from all entities) TimeToCollision
+		}
+		if (TimeToCollision < dt) {
+			// Advance all ships and bullets 'TimeToCollision' seconds (= time till first collision)
+			// Remark! Be aware of the thruster whom can change the velocity of a ship.
+				
+			// STEP 3: Resolve the collision
+			
+			// STEP 4: Subtract 'TimeToCollision' from dt and go back to step 1
+		} else {
+			// STEP 5: Advance all ships and bullets dt seconds
+			for (All entities in world) {
+				// Advance the entity using its current position and velocity
+				// Remark! Be aware of the thruster whom can change the velocity of a ship.
+			}
+		}
+	}
 	 
-	
-	 ///CHECKERS///
 	 
-	 //OVERLAP,TERMINATE,... NOG BEKIJKEN//
-	 public boolean canHaveAsEntity(Entity entity){
-		 return ((!this.hasAsEntity(entity)) &&(entity.getEntityWorld()==null) &&
-				 (entity.entityFitsInWorld(entity,this)));
-	
-	 }
-	
 	///TERMINATION AND STATES///
 		
 		
 		
 		
-		public void Terminate(){
-			null
-		}
-		
-		private State state = State.NOTTERMINATED;
-		
-		private static enum State {
-			NOTTERMINATED,TERMINATED;	
-		}
-		
-		public State getState(){
-			return this.state;
-		}
-		
-		public boolean isWorldTerminated(){
-			return this.getState() == State.TERMINATED;
-		}
-		
-		public boolean hasWorldProperState(){
-			return (!isWorldTerminated())^isWorldTerminated();
-		}
-		
-		public void setWorldState(State state) throws ModelException{
-			if (state == null)
-				throw new ModelException("this is not a valid state");
-			else
-				this.state = state;
-		}
+	public void Terminate(){
+		null
+	}
+	
+	private State state = State.NOTTERMINATED;
+	
+	private static enum State {
+		NOTTERMINATED,TERMINATED;	
+	}
+	
+	public State getState(){
+		return this.state;
+	}
+	
+	public boolean isWorldTerminated(){
+		return this.getState() == State.TERMINATED;
+	}
+	
+	
+	// --> Nodig? <-- //
+	public boolean hasWorldProperState(){
+		return (!isWorldTerminated()) ^ isWorldTerminated();
+	}
+	
+	public void setWorldState(State state) throws ModelException{
+		if (state == null)
+			throw new ModelException("this is not a valid state");
+		else
+			this.state = state;
+	}
 		
 		
 		

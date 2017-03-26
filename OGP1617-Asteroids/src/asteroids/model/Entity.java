@@ -1,6 +1,8 @@
 package asteroids.model;
 import java.lang.Thread.State;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
@@ -16,7 +18,6 @@ public abstract class Entity {
 		setEntityVelocity(xVelocity,yVelocity);
 		setEntityDensity(density);
 		setEntityMass(mass);
-		
 	}
 	
 
@@ -109,7 +110,7 @@ public abstract class Entity {
 	
 	
 	
-	///GETTERS///
+	/// GETTERS ///
 	public double[] getEntityPosition(){
 		return this.position;
 	}
@@ -137,17 +138,17 @@ public abstract class Entity {
 	public double getEntityMass(){
 		if (this instanceof Ship){
 			double bullets_weight = ((Ship)this).getBulletsWeight();
-			return this.mass + bullets_weight;}
-		else
-			return this.mass;
-				
+			return this.mass + bullets_weight;
+		} else
+			return this.mass;	
 	}
 	
 	public World getEntityWorld(){
 		return this.world;
 	}
-	///SETTERS///
-	//BEKIJKEN//
+	
+	/// SETTERS ///
+	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double x, double y) throws ModelException{
 		if (!isValidArray(x, y))
 			throw new ModelException("Not a valide coordinate");
@@ -161,7 +162,6 @@ public abstract class Entity {
 					null;}
 		else
 			throw new ModelException("Is not a legal entity");
-		
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
@@ -191,7 +191,7 @@ public abstract class Entity {
 		if ((radius < 0) || (this instanceof Bullet && radius <LOWER_BULLET_RADIUS) || (this instanceof Ship && radius <LOWER_SHIP_RADIUS))
 			throw new ModelException("The given radius is not possible");
 		this.radius = radius;	
-			  	}
+	}
 	
 	
 	/**
@@ -235,10 +235,8 @@ public abstract class Entity {
 		if (this instanceof Ship){	
 			if (mass < maximumEntityMass())
 				mass = maximumEntityMass();
-		}
-		else if (this instanceof Bullet){
-			if (mass < maximumEntityMass())
-				mass = maximumEntityMass();
+		} else if (this instanceof Bullet){
+			mass = maximumEntityMass();
 		} else {
 			throw new ModelException("not a legal entity");
 		}
@@ -253,7 +251,8 @@ public abstract class Entity {
 		this.world = world;
 	}
 	
-	///CHECKERS///
+	
+	/// CHECKERS ///
 	
 	/**
 	 * Checks whether an array has two values of the type double.
@@ -283,10 +282,33 @@ public abstract class Entity {
 		return ((0 <= radian) && (radian < 2 * Math.PI));
 	}
 	
+	
+	// RUBEN //
+	public void move(double dt) throws ModelException {
+		if (dt < 0)
+			throw new ModelException("Give a positive time please.");
+		
+		final double[] velocity = this.getEntityVelocity();
+		double vel_x = velocity[0];
+		double vel_y = velocity[1];
+				
+		if (this instanceof Ship && ((Ship)this).isThrusterActive()) {
+			final double acceleration = ((Ship)this).getShipAcceleration();
+			final double orientation = ((Ship)this).getEntityOrientation();
+			vel_x += acceleration*Math.cos(orientation)*dt;
+			vel_y += acceleration*Math.sin(orientation)*dt;
+			this.setEntityVelocity(vel_x, vel_y);
+		}
+
+		final double[] position = this.getEntityPosition();
+		final double delta_x = vel_x * dt;
+		final double delta_y = vel_y * dt;
+
+		this.setEntityPosition(position[0] + delta_x, position[1] + delta_y);
+	}
+	
+	
 	///TERMINATION AND STATES///
-	
-	
-	
 	
 	public void Terminate(){
 		null
@@ -314,7 +336,7 @@ public abstract class Entity {
 	}
 	
 	public boolean hasEntityProperState(){
-		return isEntityInWorld() ^isEntityFree() ^isEntityTerminated();
+		return isEntityInWorld() ^ isEntityFree() ^ isEntityTerminated();
 	}
 	
 	public void setEntityState(State state) throws ModelException{

@@ -104,16 +104,6 @@ public class Ship extends Entity {
 	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
 	 *         orientation, getDefaultMaxVelocity())
 	 */
-	
-	
-	/**
-	 * Initializes a new ship with given values and a maximum total velocity
-	 * equal to the speed of light.
-	 * 
-	 * @effect The ship is initialized with the given values and the default
-	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
-	 *         orientation, getDefaultMaxVelocity())
-	 */
 	//WITHOUT DENSITY,MAX_VELOCITY,THRUSTER_ACTIVITY,THRUSTER_FORCE//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
 			throws ModelException {
@@ -175,8 +165,6 @@ public class Ship extends Entity {
 	
 	/// GETTERS ///
 
-	//WE NEED TO ADD THE WEIGHT OF BULLETS//
-		//this will be done when we make the association//
 		
 	public boolean isThrusterActive(){
 		return this.thruster_activity;
@@ -193,8 +181,8 @@ public class Ship extends Entity {
 		return weight;
 	}
 
+	
 	/// SETTERS ///
-
 	
 	public void setThrusterActive(boolean thrusterActivity){
 		this.thruster_activity = thrusterActivity;
@@ -207,7 +195,6 @@ public class Ship extends Entity {
 	}
 	
 	
-	
 	///CHECKERS///
 	
 	public boolean isValidShipPosition(double x, double y){
@@ -217,7 +204,7 @@ public class Ship extends Entity {
 			return true;
 	}
 		
-	//ZEKER NOG EENS GOED NAKIJKEN (OVERLAP,TERMINATE,...)!!!!!//
+	// --> ZEKER NOG EENS GOED NAKIJKEN (OVERLAP,TERMINATE,...)!!!!! <-- //
 	public boolean canHaveAsBullet(Bullet bullet){
 		 return ((!this.hasAsBullet(bullet)) &&(bullet.getBulletShip()==null) && this.bulletFullyInShip(bullet));
 				 
@@ -233,7 +220,10 @@ public class Ship extends Entity {
 		
 		
 	}
+	
 	/// METHODS ON ONE SHIP///
+	
+	
 	/**
 	 * Update the ship's position, assuming it moves in dt seconds at its
 	 * current velocity.
@@ -326,27 +316,31 @@ public class Ship extends Entity {
 	}
 	
 
-	///HAS///
-		 public boolean hasAsBullet(Bullet bullet){
-			return this.bullets.contains(bullet);
-		 }       
-	///ADDERS///
-		 
-		 public void addOneBulletToShip(Bullet bullet) throws ModelException{
-			 if (this.canHaveAsBullet(bullet))
-				 this.bullets.add(bullet);
-			 else
-				 throw new ModelException("this bullet can not be loaded on this ship");
-		 }
+	/// HAS ///
 	
-		 public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
-			 for (Bullet bullet: bullets)
-				 if (this.canHaveAsBullet(bullet))
-					 this.bullets.add(bullet);
-				 else
-					 throw new ModelException("this bullet can not be loaded on this ship");
-		 }
+	public boolean hasAsBullet(Bullet bullet){
+		return this.bullets.contains(bullet);
+	}       
+	///ADDERS///
+
+	public void addOneBulletToShip(Bullet bullet) throws ModelException{
+		if (this.canHaveAsBullet(bullet))
+			this.bullets.add(bullet);
+		else
+			throw new ModelException("this bullet can not be loaded on this ship");
+	}
+
+	public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
+		for (Bullet bullet: bullets)
+			if (this.canHaveAsBullet(bullet))
+				this.bullets.add(bullet);
+			else
+				throw new ModelException("this bullet can not be loaded on this ship");
+	}
+	
+	
 	///CONNECTIONS WITH OTHER CLASSES///
+	
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	
 	

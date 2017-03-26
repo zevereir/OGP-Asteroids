@@ -31,8 +31,16 @@ public class Tests_Part1 {
 		facade = new Facade();
 	}
 	
+	public int var = 1;
+	public int var2 = 2;
 	
+	@Test
+	public void test() {
+		boolean waarde = false ^ false ^ false;
+		System.out.println(waarde);
+	}
 	
+/*	
 	/// CREATE SHIP ///
 
 	public Ship[] create_ships() throws ModelException {
@@ -348,5 +356,5 @@ public class Tests_Part1 {
 
 		ship1.getCollisionPosition(ship1);
 	}
-
+*/
 }
