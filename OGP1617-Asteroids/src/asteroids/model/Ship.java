@@ -311,7 +311,7 @@ public class Ship extends Entity {
 			double radiusShip = this.getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
 
-			double[] positionBullet = {positionShip[0] + Math.cos(orientation)*(radiusShip + radiusBullet), 
+			double[] positionBullet = {positionShip[0] + Math.cos(orientation)*(radiusShip + radiusBullet+1), 
 					positionShip[1] + Math.sin(orientation)*(radiusShip + radiusBullet + 1)};
 			
 			bullet.setEntityPosition(positionBullet[0], positionBullet[1]);

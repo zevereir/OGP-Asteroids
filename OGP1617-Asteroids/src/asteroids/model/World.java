@@ -269,14 +269,8 @@ public class World {
 		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1) ){
 			((Ship)entity1).addOneBulletToShip((Bullet)entity2);
 		} else {
-			if (entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1)){
-				((Ship)entity1).addOneBulletToShip(((Bullet)entity2));
-			}else if (entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2)){
-				((Ship)entity2).addOneBulletToShip(((Bullet)entity1));
-			}else {
-				entity1.Terminate();
-				entity2.Terminate();
-			}
+			entity1.Terminate();
+			entity2.Terminate();
 		}
 	}
 			
