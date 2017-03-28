@@ -45,6 +45,7 @@ public abstract class Entity {
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
 	}
+	
 	public static double getDefaultShipDensity() {
 		return 1.42E12;
 	}
@@ -53,13 +54,11 @@ public abstract class Entity {
 		return 7.8E12;
 	}
 	
-
 	@Immutable
 	public static double[] getDefaultPosition() {
 		double[] array = { 0, 0 };
 		return array;
 	}
-
 
 	/**
 	 * Return the default velocity of the ship.
@@ -73,7 +72,6 @@ public abstract class Entity {
 		return array;
 	}
 	
-	
 	/**
 	 * Return the default orientation of the ship.
 	 * 
@@ -84,9 +82,9 @@ public abstract class Entity {
 	public static double getDefaultOrientation() {
 		return 0;
 	}
+
 	
 	///HELP METHODS///
-	
 	
 	/**
 	 * Returns the total velocity using the euclidian formula.
@@ -104,24 +102,40 @@ public abstract class Entity {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 
-	
 	public static boolean entityFitsInWorld(Entity entity, World world){
 		double radius = entity.getEntityRadius();
 		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
 		double right_bound = OMEGA*(world.getWorldSize()[0]-radius);
-		double x = entity.getEntityPosition()[0];
-		double y = entity.getEntityPosition()[1];		
-		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));}
+		double x = entity.getEntityPositionX();
+		double y = entity.getEntityPositionY();		
+		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));
+	}
 	
-	
-	
+
 	/// GETTERS ///
+
 	public double[] getEntityPosition(){
 		return this.position;
 	}
 	
+	public double getEntityPositionX(){
+		return this.getEntityPosition()[0];
+	}
+	
+	public double getEntityPositionY(){
+		return this.getEntityPosition()[1];
+	}
+	
 	public double[] getEntityVelocity(){
 		return this.velocity;
+	}
+	
+	public double getEntityVelocityX() {
+		return this.getEntityVelocity()[0];
+	}
+	
+	public double getEntityVelocityY() {
+		return this.getEntityVelocity()[1];
 	}
 	
 	public double getEntityRadius(){
@@ -154,45 +168,72 @@ public abstract class Entity {
 	
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
-	public void setEntityPosition(double x, double y) throws ModelException{
-		if (!isValidArray(x, y))
-			throw new ModelException("Not a valide coordinate");	
-		else if ((this).isValidEntityPosition(x,y)){
-			double[] position_array = { x, y };
-			this.position = position_array;}
-		else 
-				throw new ModelException("Not a valide coordinate");	
+	public void setEntityPosition(double x, double y) {
+		if (!isValidEntityPosition(x, y))
+			throw new IllegalArgumentException();
+		
+		double[] position_array = { x, y };
+		this.position = position_array;
+	}
+	
+	public boolean isValidEntityPosition(double x, double y){
+		if ((Double.isNaN(x)) || (Double.isNaN(y)))
+			return false;
+		
+		if ((this.getEntityWorld() != null))
+			return Entity.entityFitsInWorld(this,this.getEntityWorld());
+		
+		return true;
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
-		if (!isValidArray(xVelocity, yVelocity)) {
+		if (isValidEntityVelocity(xVelocity, yVelocity)){
+			double[] velocity_array = { xVelocity, yVelocity };
+			this.velocity = velocity_array;
+		} else{
 			if (Double.isNaN(xVelocity))
 				xVelocity = 0;
 			if (Double.isNaN(yVelocity))
 				yVelocity = 0;
-		}
-		if (getEuclidianDistance(xVelocity, yVelocity) > this.getEntityMaxVelocity()) {
-			double orientation = this.getEntityOrientation();
-			double xVel = Math.cos(orientation) * this.getEntityMaxVelocity();
-			double yVel = Math.sin(orientation) * this.getEntityMaxVelocity();
-
-			double[] velocity_array = { xVel, yVel };
-			this.velocity = velocity_array;
-		}
-
-		else {
-			double[] velocity_array = { xVelocity, yVelocity };
+			
+			if (getEuclidianDistance(xVelocity, yVelocity) > this.getEntityMaxVelocity()) {
+				double orientation = this.getEntityOrientation();
+				xVelocity = Math.cos(orientation) * this.getEntityMaxVelocity();
+				yVelocity = Math.sin(orientation) * this.getEntityMaxVelocity();
+			}
+				
+			double[] velocity_array = {xVelocity, yVelocity};
 			this.velocity = velocity_array;
 		}
 	}
 	
+	public boolean isValidEntityVelocity(double xVelocity, double yVelocity) {
+		if ((Double.isNaN(xVelocity)) || (Double.isNaN(yVelocity)))
+			return false;
+		
+		if (Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2)) > this.getEntityMaxVelocity())
+			return false;
+		
+		return true;
+	}
 	
 	public void setEntityRadius(double radius) throws ModelException{
-		if ((radius < 0) || (this instanceof Bullet && radius <LOWER_BULLET_RADIUS) || (this instanceof Ship && radius <LOWER_SHIP_RADIUS))
-			throw new ModelException("The given radius is not possible");
-		this.radius = radius;	
+		if (isValidRadius(radius))
+			this.radius = radius;	
 	}
 	
+	public boolean isValidRadius(double radius) {
+		if (radius < 0)
+			return false;
+		
+		if (this instanceof Bullet && ( (radius < LOWER_BULLET_RADIUS) || (radius > ((Bullet)this).getBulletShip().getEntityRadius()) ) )
+			return false;
+			
+		if (this instanceof Ship && radius < LOWER_SHIP_RADIUS)
+			return false;
+			
+		return true;		
+	}
 	
 	/**
 	 * Gives the ship a new orientation.
@@ -207,10 +248,13 @@ public abstract class Entity {
 	 *       |new.getShipOrientation() == radians
 	 */
 	public void setEntityOrientation(double orientation){
-		assert isValidRadian(orientation);
+		assert isValidOrientation(orientation);
 		this.orientation = orientation;
 	}
 
+	public boolean isValidOrientation(double orientation){
+		return ((0 <= orientation) && (orientation < 2 * Math.PI));		
+	}
 	
 	public void setEntityMaxVelocity(double maxVelocity){
 		if ((maxVelocity < SPEED_OF_LIGHT) && (maxVelocity > 0))
@@ -220,80 +264,68 @@ public abstract class Entity {
 	}
 	
 	public void setEntityDensity(double density){
-		if ((this instanceof Ship) && (density <getDefaultShipDensity()))
-				density = getDefaultShipDensity();
-		else if (density<0)
-			density = getDefaultBulletDensity();
-		this.density = density;
-			
+		if (this instanceof Bullet)
+			this.density = getDefaultBulletDensity();
+		
+		else if (isValidDensity(density))
+			this.density = density;
+		
+		else
+			this.density = getDefaultShipDensity();
+	}
+	
+	public boolean isValidDensity(double density) {
+		if ( (this instanceof Ship) && (density < getDefaultShipDensity()) )
+			return false;
+		
+		if (density < 0)
+			return false;
+		
+		return true;
 	}
 	
 	public void setEntityMass(double mass) throws ModelException{
-		if (this instanceof Ship){	
-			if (mass < minimumEntityMass())
-				mass = minimumEntityMass();
-		}else if (this instanceof Bullet){
-			mass = minimumEntityMass();
-		} else {
-			throw new ModelException("not a legal entity");
+		if (isValidMass(mass))
+			this.mass = mass;
+		else{
+			if (this instanceof Ship)
+				this.mass = minimumShipMass();
+			else
+				this.mass = bulletMass();
 		}
-		this.mass = mass;
 	}
 	
-	public double minimumEntityMass(){
+	public boolean isValidMass(double mass) {
+		if (mass == Double.NaN)
+			return false;
+		
+		if (mass < minimumShipMass())
+			return false;
+		
+		if (this instanceof Bullet && mass != bulletMass())
+			return false;
+		
+		return true;
+	}
+	
+	public double minimumShipMass(){
 		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
+	}
+	
+	public double bulletMass() {
+		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();		
 	}
 	
 	public void setEntityWorld(World world){
 		this.world = world;
 	}
 	
-	
-	/// CHECKERS ///
-	
-	/**
-	 * Checks whether an array has two values of the type double.
-	 * 
-	 * @param 	x
-	 *            The first value of the array that has to be checked.
-	 * @param 	y
-	 *            The second value of the array that has to be checked.
-	 * 
-	 * @return 	True if both x and y are type Double and not of the type NaN.
-	 *         |result = ((! Double.isNaN(x)) && (! Double.isNaN(y)))
-	 */
-	static boolean isValidArray(double x, double y) {
-		return ((!Double.isNaN(x)) && (!Double.isNaN(y)));
-	}
-	
-	/**
-	 * Checks whether the given radian is in a correct range.
-	 * 
-	 * @param radian
-	 *            The radians that has to be checked.
-	 * 
-	 * @return True if radian is greater or equal than 0 and lower than 2*PI
-	 *         |result = ((0<=radian) && (radian<2*Math.PI))
-	 */
-	public static boolean isValidRadian(double radian) {
-		return ((0 <= radian) && (radian < 2 * Math.PI));
-	}
-	
-	public boolean isValidEntityPosition(double x, double y){
-		if ((this.getEntityWorld() != null)){
-			return Entity.entityFitsInWorld(this,this.getEntityWorld());}
-		else
-			return true;
-	}
-	
-	
 	public void move(double dt) throws ModelException {
 		if (dt < 0)
 			throw new ModelException("Give a positive time please.");
 		
-		final double[] velocity = this.getEntityVelocity();
-		double vel_x = velocity[0];
-		double vel_y = velocity[1];
+		double vel_x = getEntityVelocityX();
+		double vel_y = getEntityVelocityY();
 				
 		if (this instanceof Ship && ((Ship)this).isThrusterActive()) {
 			final double acceleration = ((Ship)this).getShipAcceleration();
@@ -303,11 +335,10 @@ public abstract class Entity {
 			this.setEntityVelocity(vel_x, vel_y);
 		}
 
-		final double[] position = this.getEntityPosition();
 		final double delta_x = vel_x * dt;
 		final double delta_y = vel_y * dt;
 
-		this.setEntityPosition(position[0] + delta_x, position[1] + delta_y);
+		this.setEntityPosition(getEntityPositionX() + delta_x, getEntityPositionY() + delta_y);
 	}
 	
 	
@@ -398,10 +429,12 @@ public abstract class Entity {
 		if (this.equals(otherEntity))
 			return 0;
 
-		final double[] first_pos = this.getEntityPosition();
-		final double[] second_pos = otherEntity.getEntityPosition();
-		final double x_distance = Math.abs(first_pos[0]-second_pos[0]);
-		final double y_distance = Math.abs(first_pos[1]-second_pos[1]);
+		final double first_posX = this.getEntityPositionX();
+		final double first_posY = this.getEntityPositionY();
+		final double second_posX = otherEntity.getEntityPositionX();
+		final double second_posY = otherEntity.getEntityPositionY();
+		final double x_distance = Math.abs(first_posX-second_posX);
+		final double y_distance = Math.abs(first_posY-second_posY);
 		final double distance_centers = getEuclidianDistance(x_distance, y_distance);
 		final double distance = distance_centers - (this.getEntityRadius() + otherEntity.getEntityRadius());
 
@@ -450,19 +483,25 @@ public abstract class Entity {
 	 *         |(this.overlap(otherShip))
 	 */
 	public double getTimeToCollision(Entity otherEntity) throws ModelException {
-		double[] velocity_1 = this.getEntityVelocity();
-		double[] velocity_2 = otherEntity.getEntityVelocity();
-		double[] position_1 = this.getEntityPosition();
-		double[] position_2 = otherEntity.getEntityPosition();
+		double velocity_1X = this.getEntityVelocityX();
+		double velocity_1Y = this.getEntityVelocityY();
+		double velocity_2X = otherEntity.getEntityVelocityX();
+		double velocity_2Y = otherEntity.getEntityVelocityY();
+		double position_1X = this.getEntityPositionX();
+		double position_1Y = this.getEntityPositionY();
+		double position_2X = otherEntity.getEntityPositionX();
+		double position_2Y = otherEntity.getEntityPositionY();
 		double radius_1 = this.getEntityRadius();
 		double radius_2 = otherEntity.getEntityRadius();
 		double total_radius = (radius_1 + radius_2);
 
-		double[] delta_r = { position_2[0] - position_1[0], position_2[1] - position_1[1] };
-		double[] delta_v = { velocity_2[0] - velocity_1[0], velocity_2[1] - velocity_1[1] };
-		double delta_r_r = Math.pow(delta_r[0], 2) + Math.pow(delta_r[1], 2);
-		double delta_v_v = Math.pow(delta_v[0], 2) + Math.pow(delta_v[1], 2);
-		double delta_v_r = (delta_r[0] * delta_v[0] + delta_r[1] * delta_v[1]);
+		double delta_rX = position_2X - position_1X;
+		double delta_rY = position_2Y - position_1Y;
+		double delta_vX = velocity_2X - velocity_1X;
+		double delta_vY = velocity_2Y - velocity_1Y;
+		double delta_r_r = Math.pow(delta_rX, 2) + Math.pow(delta_rY, 2);
+		double delta_v_v = Math.pow(delta_vX, 2) + Math.pow(delta_vY, 2);
+		double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
 
 		if (this.overlap(otherEntity))
@@ -517,10 +556,14 @@ public abstract class Entity {
 	 */
 	public double[] getCollisionPosition(Entity otherEntity) throws ModelException {
 
-		double[] velocity_1 = this.getEntityVelocity();
-		double[] velocity_2 = otherEntity.getEntityVelocity();
-		double[] position_1 = this.getEntityPosition();
-		double[] position_2 = otherEntity.getEntityPosition();
+		double velocity_1X = this.getEntityVelocityX();
+		double velocity_1Y = this.getEntityVelocityY();
+		double velocity_2X = otherEntity.getEntityVelocityX();
+		double velocity_2Y = otherEntity.getEntityVelocityY();
+		double position_1X = this.getEntityPositionX();
+		double position_1Y = this.getEntityPositionY();
+		double position_2X = otherEntity.getEntityPositionX();
+		double position_2Y = otherEntity.getEntityPositionY();
 		double radius_1 = this.getEntityRadius();
 
 		double time_till_overlapping = this.getTimeToCollision(otherEntity);
@@ -532,13 +575,13 @@ public abstract class Entity {
 			return null;
 
 		else {
-			double[] pos_collide1 = { position_1[0] + velocity_1[0] * time_till_overlapping,
-					position_1[1] + velocity_1[1] * time_till_overlapping };
-			double[] pos_collide2 = { position_2[0] + velocity_2[0] * time_till_overlapping,
-					position_2[1] + velocity_2[1] * time_till_overlapping };
+			double pos_collide1X = position_1X + velocity_1X * time_till_overlapping;
+			double pos_collide1Y = position_1Y + velocity_1Y * time_till_overlapping;
+			double pos_collide2X = position_2X + velocity_2X * time_till_overlapping;
+			double pos_collide2Y =position_2Y + velocity_2Y * time_till_overlapping;
 
-			double delta_x = (pos_collide2[0] - pos_collide1[0]);
-			double delta_y = (pos_collide2[1] - pos_collide1[1]);
+			double delta_x = (pos_collide2X - pos_collide1X);
+			double delta_y = (pos_collide2Y - pos_collide1Y);
 			double omega;
 
 			if (delta_x > 0) {
@@ -547,8 +590,8 @@ public abstract class Entity {
 				omega = Math.atan(delta_y / delta_x) + Math.PI;
 			}
 
-			double[] position_collide = { pos_collide1[0] + radius_1 * Math.cos(omega),
-					pos_collide1[1] + radius_1 * Math.sin(omega) };
+			double[] position_collide = { pos_collide1X + radius_1 * Math.cos(omega),
+					pos_collide1Y + radius_1 * Math.sin(omega) };
 
 			return position_collide;
 		}
@@ -559,15 +602,18 @@ public abstract class Entity {
 		if (this.isEntityFree() || this.isEntityTerminated()){
 			return Double.POSITIVE_INFINITY;}
 		else {
-			double[] position = this.getEntityPosition();
-			double[] velocity = this.getEntityVelocity();
-			double[] size = this.getEntityWorld().getWorldSize();
+			double positionX = this.getEntityPositionX();
+			double positionY = this.getEntityPositionY();
+			double velocityX = this.getEntityVelocityX();
+			double velocityY = this.getEntityVelocityY();
+			double sizeX = this.getEntityWorld().getWorldWidth();
+			double sizeY = this.getEntityWorld().getWorldHeight();
 			double radius = this.getEntityRadius();
-			double x_distance = Math.abs(size[0] - position[0]-radius);
-			double y_distance = Math.abs(size[1] - position[1]-radius);
+			double x_distance = Math.abs(sizeX - positionX-radius);
+			double y_distance = Math.abs(sizeY - positionY-radius);
 			
-			double dtx = (x_distance / velocity[0]);
-			double dty = (y_distance / velocity[1]);
+			double dtx = (x_distance / velocityX);
+			double dty = (y_distance / velocityY);
 			
 			if (dtx >= dty){
 				return dty;}
@@ -589,17 +635,19 @@ public abstract class Entity {
 			new_x = Double.POSITIVE_INFINITY;
 			new_y = Double.POSITIVE_INFINITY;}
 		else{
-			double[] position = this.getEntityPosition();
-			double[] velocity = this.getEntityVelocity();
+			double positionX = this.getEntityPositionX();
+			double positionY = this.getEntityPositionY();
+			double velocityX = this.getEntityVelocityX();
+			double velocityY = this.getEntityVelocityY();
 			double radius = this.getEntityRadius();
 			double[] size = this.getEntityWorld().getWorldSize();
-			new_x = position[0]+time*velocity[0];
-			new_y = position[1]+time*velocity[1];
-			if (Math.abs(size[0] - position[0]-radius) ==0)
+			new_x = positionX+time*velocityX;
+			new_y = positionY+time*velocityY;
+			if (Math.abs(sizeX - positionX-radius) ==0)
 				new_x += radius;
-			else if ((Math.abs(size[0] - position[0]+radius) == size[0]))
+			else if ((Math.abs(sizeX - positionX+radius) == sizeX))
 				new_x -= radius;
-			else if ((Math.abs(size[1] - position[1]-radius)==0))
+			else if ((Math.abs(sizeY - positionY-radius)==0))
 					new_y += radius;
 			else
 				new_y -= radius;
@@ -610,9 +658,8 @@ public abstract class Entity {
 	
 	
 	///RELATIONS WITH OTHER CLASSES///
+	
 	private  World world = null;
-	
-	
 }
 	
 
