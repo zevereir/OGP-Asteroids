@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Spliterator;
+
 
 import asteroids.part2.CollisionListener;
 import asteroids.util.ModelException;
@@ -41,13 +41,17 @@ public class World {
 	
 	///GETTERS///
 	
-	
-	public Collection<Ship> getWorldShips(){
-		return this.ships.values();
+	public Set<Ship> getWorldShips(){
+		Set<Ship> result = new HashSet<Ship>();
+		result.addAll(this.ships.values());
+		return  result;
 	}
 	
-	public Collection<Bullet> getWorldBullets(){
-		return this.bullets.values();
+	public  Set<Bullet> getWorldBullets(){
+		Set<Bullet> result = new HashSet<Bullet>();
+		result.addAll(this.bullets.values());
+		return  result;
+		
 	}
 	
 	public double[] getWorldSize(){

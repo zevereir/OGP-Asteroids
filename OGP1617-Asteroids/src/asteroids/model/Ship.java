@@ -179,14 +179,16 @@ public class Ship extends Entity {
 	
 	public double getBulletsWeight(){
 		double weight = 0;
-		for (Bullet bullet: this.getShipBullets().values())
+		for (Bullet bullet: this.getShipBullets())
 			weight += bullet.getEntityMass();
 		return weight;
 	}
 	
-	public Map<Integer,Bullet> getShipBullets(){
-		return this.bullets;
-	}
+	public Set<Bullet> getShipBullets(){
+		Set<Bullet> result = new HashSet<Bullet>();
+		result.addAll(this.bullets.values());
+		return result;
+				}
 	
 	public int getNbBulletsOnShip(){
 		return this.getShipBullets().size();
@@ -297,13 +299,13 @@ public class Ship extends Entity {
 
 	private double initialFiringVelocity = 250;
 
-	public void fireBullet(){
+	public void fireBullet() throws ModelException{
 		if (! bullets.isEmpty()) {
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
 			Integer key = entry.getKey();
 			Bullet bullet = entry.getValue();
 
-			bullet.setBulletSource(this);
+			bullet.setBulletSourceShip(this);
 			bullet.setEntityInWorld(this.getEntityWorld());
 			bullets.remove(key);
 
