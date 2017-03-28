@@ -14,7 +14,7 @@ import asteroids.util.ModelException;
 /**
  * A test class for the class Ship.
  * 
- * @version 9_Mar_17u
+ * @version 28th of march
  * @authors Sieben Bocklandt and Ruben Broekx
  *
  */
@@ -31,24 +31,6 @@ public class Tests_Part1 {
 		facade = new Facade();
 	}
 	
-	public int var = 1;
-	public int var2 = 2;
-	
-	@Test
-	public void test() {
-		int var1 = "a".hashCode();
-		int var2 = "a".hashCode();
-		int var3 = "b".hashCode();
-		System.out.println("a".hashCode());
-		System.out.println("a".hashCode());
-		System.out.println("b".hashCode());
-		System.out.println("c".hashCode());
-		System.out.println(var1 < var3);
-		System.out.println(var1 > var3);
-		
-	}
-	
-/*	
 	/// CREATE SHIP ///
 
 	public Ship[] create_ships() throws ModelException {
@@ -75,24 +57,24 @@ public class Tests_Part1 {
 		assertNotNull(ship1);
 
 		// POSITION
-		double[] position = ship1.getShipPosition();
+		double[] position = ship1.getEntityPosition();
 		assertNotNull(position);
 		assertEquals(0, position[0], EPSILON);
 		assertEquals(0, position[1], EPSILON);
 
 		// VELOCITY
-		double[] velocity = ship1.getShipVelocity();
+		double[] velocity = ship1.getEntityVelocity();
 		assertEquals(0, velocity[0], EPSILON);
 		assertEquals(0, velocity[1], EPSILON);
 
 		// RADIUS
-		assertEquals(10, ship1.getShipRadius(), EPSILON);
+		assertEquals(10, ship1.getEntityRadius(), EPSILON);
 
 		// ORIENTATION
-		assertEquals(0, ship1.getShipOrientation(), EPSILON);
+		assertEquals(0, ship1.getEntityOrientation(), EPSILON);
 		
 		//MAXVELOCITY
-		assertEquals(SPEED_OF_LIGHT, ship1.getShipMaxVelocity(), EPSILON);
+		assertEquals(SPEED_OF_LIGHT, ship1.getEntityMaxVelocity(), EPSILON);
 	}
 	
 	
@@ -106,8 +88,8 @@ public class Tests_Part1 {
 		// POSITION
 		double newX = 10;
 		double newY = 10;
-		ship1.setShipPosition(newX, newY);
-		double[] position = ship1.getShipPosition();
+		ship1.setEntityPosition(newX, newY);
+		double[] position = ship1.getEntityPosition();
 		assertNotNull(position);
 		assertNotEquals(0, position[0], EPSILON);
 		assertEquals(newY, position[1], EPSILON);
@@ -115,25 +97,25 @@ public class Tests_Part1 {
 		// VELOCITY
 		double newVx = -10;
 		double newVy = -10;
-		ship1.setShipVelocity(newVx, newVy);
-		double[] velocity = ship1.getShipVelocity();
+		ship1.setEntityVelocity(newVx, newVy);
+		double[] velocity = ship1.getEntityVelocity();
 		assertEquals(newVx, velocity[0], EPSILON);
 		assertNotEquals(0, velocity[1], EPSILON);
 
 		// RADIUS
 		double newRadius = 100;
-		ship1.setShipRadius(newRadius);
-		assertEquals(newRadius, ship1.getShipRadius(), EPSILON);
+		ship1.setEntityRadius(newRadius);
+		assertEquals(newRadius, ship1.getEntityRadius(), EPSILON);
 
 		// ORIENTATION
 		double newOrientation = Math.PI;
-		ship1.setShipOrientation(newOrientation);
-		assertEquals(newOrientation, ship1.getShipOrientation(), EPSILON);
+		ship1.setEntityOrientation(newOrientation);
+		assertEquals(newOrientation, ship1.getEntityOrientation(), EPSILON);
 		
 		//MAXVELOCITY
 		double newMaxVelocity_1 = 280000;
-		ship1.setShipMaxVelocity(newMaxVelocity_1);
-		assertEquals(newMaxVelocity_1, ship1.getShipMaxVelocity(), EPSILON);
+		ship1.setEntityMaxVelocity(newMaxVelocity_1);
+		assertEquals(newMaxVelocity_1, ship1.getEntityMaxVelocity(), EPSILON);
 		
 	}
 
@@ -142,14 +124,14 @@ public class Tests_Part1 {
 	@Test(expected = ModelException.class)
 	public final void TestNaNPosition() throws ModelException {
 		Ship ship1 = create_ships()[0];
-		ship1.setShipPosition(Double.NaN, 20);
+		ship1.setEntityPosition(Double.NaN, 20);
 	}
 
 	@Test
 	public final void TestVelocityAboveSpeedOfLight() throws ModelException {
 		Ship ship7 = create_ships()[6];
-		double[] velocity = ship7.getShipVelocity();
-		double orientation = ship7.getShipOrientation();
+		double[] velocity = ship7.getEntityVelocity();
+		double orientation = ship7.getEntityOrientation();
 		assertEquals(SPEED_OF_LIGHT * Math.cos(orientation), velocity[0], EPSILON);
 		assertEquals(SPEED_OF_LIGHT * Math.sin(orientation), velocity[1], EPSILON);
 	}
@@ -158,15 +140,15 @@ public class Tests_Part1 {
 	public final void TestNegativeRadius() throws ModelException {
 		Ship ship1 = create_ships()[0];
 		double falseRadius = -1;
-		ship1.setShipRadius(falseRadius);
+		ship1.setEntityRadius(falseRadius);
 	}
 		
 	@Test
 	public final void TestMaxVelocityAboveSpeedOfLight() throws ModelException {
 		Ship ship1 = create_ships()[0];
 		double newMaxVelocity_1 = 540000;
-		ship1.setShipMaxVelocity(newMaxVelocity_1);
-		assertEquals(SPEED_OF_LIGHT, ship1.getShipMaxVelocity(), EPSILON);
+		ship1.setEntityMaxVelocity(newMaxVelocity_1);
+		assertEquals(SPEED_OF_LIGHT, ship1.getEntityMaxVelocity(), EPSILON);
 	}
 	
 	/// TEST METHODS ONE SHIP ///
@@ -176,43 +158,43 @@ public class Tests_Part1 {
 		// MOVE
 		Ship ship2 = create_ships()[1];
 		ship2.move(10);
-		double[] position = ship2.getShipPosition();
+		double[] position = ship2.getEntityPosition();
 		assertEquals(0, position[0], EPSILON);
 		assertEquals(0, position[1], EPSILON);
 
 		Ship ship3 = create_ships()[2];
 		ship3.move(5);
-		double[] position_3 = ship3.getShipPosition();
+		double[] position_3 = ship3.getEntityPosition();
 		assertEquals(50, position_3[0], EPSILON);
 		assertEquals(0, position_3[1], EPSILON);
 
 		Ship ship7 = create_ships()[6];
 		ship7.move(2 * Math.sqrt(2));
-		double[] position_7 = ship7.getShipPosition();
+		double[] position_7 = ship7.getEntityPosition();
 		assertEquals(position_7[0], 10 + 2 * SPEED_OF_LIGHT, EPSILON);
 		assertEquals(position_7[1], 10 + 2 * SPEED_OF_LIGHT, EPSILON);
 
 		// TURN
 		ship7.turn(Math.PI);
-		double orientation_7 = ship7.getShipOrientation();
+		double orientation_7 = ship7.getEntityOrientation();
 		assertEquals(5 * Math.PI / 4, orientation_7, EPSILON);
 		ship7.turn(-3 * Math.PI / 4);
-		double orientation_7_2 = ship7.getShipOrientation();
+		double orientation_7_2 = ship7.getEntityOrientation();
 		assertEquals(Math.PI / 2, orientation_7_2, EPSILON);
 
-		// THRUST
+		/*// THRUST
 		ship2.thrust(5);
-		double[] velocity = ship2.getShipVelocity();
+		double[] velocity = ship2.getEntityVelocity();
 		assertEquals(0, velocity[0], EPSILON);
 		assertEquals(-15, velocity[1], EPSILON);
 
-		ship7.setShipVelocity(100, 100);
-		ship7.setShipOrientation(Math.PI / 5);
+		ship7.setEntityVelocity(100, 100);
+		ship7.setEntityOrientation(Math.PI / 5);
 		ship7.thrust(10);
-		double[] velocity_7 = ship7.getShipVelocity();
+		double[] velocity_7 = ship7.getEntityVelocity();
 		assertEquals(100 + 10 * Math.cos(Math.PI / 5), velocity_7[0], EPSILON);
 		assertEquals(100 + 10 * Math.sin(Math.PI / 5), velocity_7[1], EPSILON);
-	}
+*/	}
 
 	// EXCEPTIONS//
 
@@ -222,18 +204,18 @@ public class Tests_Part1 {
 		double negativeDt = -10;
 		ship1.move(negativeDt);
 	}
-
+/*
 	@Test
 	public void TestNegativeThrustAmount() throws ModelException {
 		Ship ship7 = create_ships()[6];
-		double[] velocityBefore = ship7.getShipVelocity();
+		double[] velocityBefore = ship7.getEntityVelocity();
 		double negativeThrustAmount = -10;
 		ship7.thrust(negativeThrustAmount);
-		double[] velocityAfter = ship7.getShipVelocity();
+		double[] velocityAfter = ship7.getEntityVelocity();
 		assertEquals(velocityAfter[0], velocityBefore[0], EPSILON);
 		assertEquals(velocityAfter[1], velocityBefore[1], EPSILON);
 	}
-	
+*/	
 	
 	
 	/// TEST METHODES TWO SHIPS ///
@@ -364,5 +346,5 @@ public class Tests_Part1 {
 
 		ship1.getCollisionPosition(ship1);
 	}
-*/
+
 }
