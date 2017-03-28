@@ -1,7 +1,9 @@
 package asteroids.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
@@ -16,7 +18,7 @@ import be.kuleuven.cs.som.annotate.*;
  *        that the orientation will be a value between 0 and 2*PI, 0 included.
  *        |(isValidRadian(orientation))
  *
- * @version 21_Mar_19u
+ * @version 28th of march
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Ship extends Entity {
@@ -268,34 +270,58 @@ public class Ship extends Entity {
 	}       
 	///ADDERS///
 		 
-		 public void addOneBulletToShip(Bullet bullet) throws ModelException{
-			 if (this.canHaveAsBullet(bullet)){
-				this.bullets.add(bullet);
-			 	bullet.setBulletLoaded(this);}
-			 else
-				 throw new ModelException("this bullet can not be loaded on this ship");
-		 }
-	
+	public void addOneBulletToShip(Bullet bullet) throws ModelException{
+		if (this.canHaveAsBullet(bullet)){
+			this.bullets.put(bullet.hashCode(), bullet);
+			bullet.setBulletLoaded(this);}
+		else
+			throw new ModelException("this bullet can not be loaded on this ship");
+	}
 
-		 public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
-			 for (Bullet bullet: bullets)
-				addOneBulletToShip(bullet);
-		 }
+
+	public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
+		for (Bullet bullet: bullets)
+			addOneBulletToShip(bullet);
+	}
 		 
 	///REMOVERS///
 		 
-		 public void removeBulletFromShip(Bullet bullet) throws ModelException{
-			 if (!this.hasAsBullet(bullet)){
-				throw new ModelException("this ship doesn't have this bullet");}
-			 else{
-				this.bullets.remove(bullet);
-			 	bullet.setBulletNotLoaded();	
-			 }
-		 }
-		 
-		 public void fireBullet(){
-			 // sdf
-		 }
+	public void removeBulletFromShip(Bullet bullet) throws ModelException{
+		if (!this.hasAsBullet(bullet)){
+			throw new ModelException("this ship doesn't have this bullet");}
+		else{
+			this.bullets.remove(bullet);
+			bullet.setBulletNotLoaded();	
+		}
+	}
+
+	private double initialFiringVelocity = 250;
+
+	public void fireBullet(){
+		if (! bullets.isEmpty()) {
+			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
+			Integer key = entry.getKey();
+			Bullet bullet = entry.getValue();
+
+			bullet.setBulletSource(this);
+			bullet.setEntityInWorld(this.getEntityWorld());
+			bullets.remove(key);
+
+			double[] positionShip = this.getEntityPosition();
+			double orientation = this.getEntityOrientation();
+			double radiusShip = this.getEntityRadius();
+			double radiusBullet = bullet.getEntityRadius();
+
+			double[] positionBullet = {positionShip[0] + Math.cos(orientation)*(radiusShip + radiusBullet), 
+					positionShip[1] + Math.sin(orientation)*(radiusShip + radiusBullet + 1)};
+			bullet.setEntityPosition(positionBullet[0], positionBullet[1]);
+			bullet.setEntityOrientation(orientation);
+			bullet.setEntityVelocity(initialFiringVelocity*Math.cos(orientation), initialFiringVelocity*Math.sin(orientation));
+
+			if (!entityFitsInWorld(bullet, this.getEntityWorld()))
+				bullet.Terminate();
+		}
+	}
 		 
 	
 	/// HELP FUNCTIONS///
@@ -310,7 +336,7 @@ public class Ship extends Entity {
 		 }
 	///CONNECTIONS WITH OTHER CLASSES///
 	
-	private final Set<Bullet> bullets = new HashSet<Bullet>();
+	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
 	
 	
 }

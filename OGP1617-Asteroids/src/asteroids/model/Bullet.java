@@ -6,7 +6,7 @@ import asteroids.util.ModelException;
 /**
  * a class that describes a bullet that flies away in the blue blue sky.
  * 
- * @version 21_Mar_19u
+ * @version 28th of march
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Bullet extends Entity {

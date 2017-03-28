@@ -3,6 +3,13 @@ package asteroids.model;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
+/**
+ * a class that describes and modifies all the entities.
+ * 
+ * @version 28th of march
+ * @authors Sieben Bocklandt and Ruben Broekx
+
+ */
 public abstract class Entity {
 	
 	///CONSTRUCTOR///

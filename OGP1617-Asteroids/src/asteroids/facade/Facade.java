@@ -14,7 +14,7 @@ import asteroids.util.ModelException;
 /**
  * A class that can be used to connect the IFacade class with the class Ship.
  * 
- * @version 21_Mar_21u
+ * @version 28th of march
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Facade implements asteroids.part2.facade.IFacade  {

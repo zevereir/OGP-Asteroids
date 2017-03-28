@@ -8,7 +8,7 @@ import asteroids.util.ModelException;
 /**
  * a class that describes the world 
  * 
- * @version 21_Mar_19u
+ * @version 28th of march
  * @authors Sieben Bocklandt and Ruben Broekx
 
  */
@@ -260,19 +260,21 @@ public class World {
 	public void BulletAndEntityCollide(Entity entity1, Entity entity2) throws ModelException {
 		if (entity1 instanceof Bullet && entity2 instanceof Bullet){
 			entity1.Terminate();
-			entity2.Terminate();}
-		else{
+			entity2.Terminate();
+		} else if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2) ){
+			((Ship)entity2).addOneBulletToShip((Bullet)entity1);
+		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1) ){
+			((Ship)entity1).addOneBulletToShip((Bullet)entity2);
+		} else {
 			if (entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1)){
 				((Ship)entity1).addOneBulletToShip(((Bullet)entity2));
-			}
-			else if (entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2)){
+			}else if (entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2)){
 				((Ship)entity2).addOneBulletToShip(((Bullet)entity1));
-			}
-			else {
+			}else {
 				entity1.Terminate();
-				entity2.Terminate();}
+				entity2.Terminate();
 			}
-				
+		}
 	}
 			
 	
