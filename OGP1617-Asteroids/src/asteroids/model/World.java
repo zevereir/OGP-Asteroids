@@ -292,11 +292,11 @@ public class World {
 	
 	
 	public void BulletAndWorldCollide(Entity entity) throws ModelException{
-		int counter = ((Bullet)entity).amountOfBounces;
+		int counter = ((Bullet)entity).getAmountOfBounces();
 		if (counter >= 2)
 			entity.Terminate();
 		else {
-			((Bullet)entity).amountOfBounces = counter + 1;
+			((Bullet)entity).setAmountOfBounces(counter + 1);
 			double[] Velocity = ((Bullet)entity).getEntityVelocity();
 			if (collideHorizontalBoundary(entity))
 				((Bullet)entity).setEntityVelocity(Velocity[0], -Velocity[1]);

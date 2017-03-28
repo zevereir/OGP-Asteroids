@@ -38,12 +38,11 @@ public class Bullet extends Entity {
 	}
 	
 	
-	// COUNTER //
-	public int amountOfBounces = 0;
-	
 	///GETTERS///
 	
-	
+	public int getAmountOfBounces(){
+		return this.amountOfBounces;
+	}
 	public Ship getBulletShip(){
 		return this.ship;
 	}
@@ -54,15 +53,12 @@ public class Bullet extends Entity {
 	}
 	
 	///CHECKERS///
-	public boolean hasWorldAndShip(){
-		return ((this.isBulletLoaded()) && (this.isEntityInWorld()));
-	}
 	
-	
-	//GOED NAKIJKEN//
+	//---> GOED NAKIJKEN <----//
 	public boolean canHaveAsShip(Ship ship){
 		return ((ship.canHaveAsBullet(this)) || (this.isEntityInWorld()));
 	}
+	
 	///SETTERS///
 	public void setBulletShip(Ship ship){
 		this.ship = ship;
@@ -72,10 +68,12 @@ public class Bullet extends Entity {
 		this.source_ship = ship;
 	}
 	
+	public void setAmountOfBounces(int amount){
+		this.amountOfBounces = amount;
+	}
+	
 	///TERMINATION AND STATES///
-
-
-
+	
 	private State state = State.NOTLOADED;
 
 	private static enum State {
@@ -101,7 +99,7 @@ public class Bullet extends Entity {
 	}
 
 	public void setBulletLoaded(Ship ship) throws ModelException{
-		assert (!this.isEntityTerminated());
+		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
 		this.setBulletLoadedState(State.LOADED);
 		this.setBulletShip(ship);
 	}
@@ -117,6 +115,8 @@ public class Bullet extends Entity {
 	private  Ship ship = null;
 	
 	private  Ship source_ship = null;
-
+	
+	/// COUNTER ///
+	private int amountOfBounces = 0;
 }
 

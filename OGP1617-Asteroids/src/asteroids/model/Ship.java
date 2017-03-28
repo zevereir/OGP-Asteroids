@@ -107,7 +107,7 @@ public class Ship extends Entity {
 	 *         maximum total velocity. |this(x, y, xVelocity, yVelocity, radius,
 	 *         orientation, getDefaultMaxVelocity())
 	 */
-	//WITHOUT DENSITY,MAX_VELOCITY,THRUSTER_ACTIVITY,THRUSTER_FORCE//
+	//NORMAL CONSTRUCTOR//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
 			throws ModelException {
 		this(x, y, xVelocity, yVelocity, radius, orientation, mass,Entity.getDefaultMaxVelocity(),
@@ -145,12 +145,6 @@ public class Ship extends Entity {
 		return 1;
 	}
 
-	/**
-	 * Return the default position of the ship.
-	 * 
-	 * @return The default position is an array of two rational numbers. |
-	 *         result = {x, y}
-	 */
 
 	public static double getDefaultMass() {
 		return 4/3*Math.PI * Math.pow(getDefaultRadius(),3)*getDefaultShipDensity();
@@ -165,6 +159,7 @@ public class Ship extends Entity {
 		return 1.1E21;
 	}
 	
+	private double initialFiringVelocity = 250;
 	
 	/// GETTERS ///
 
@@ -260,6 +255,7 @@ public class Ship extends Entity {
 	public void thrustOn(){
 		setThrusterActive(true);
 	}
+	
 	public void thrustOff(){
 		setThrusterActive(false);
 	}
@@ -270,12 +266,15 @@ public class Ship extends Entity {
 	public boolean hasAsBullet(Bullet bullet){
 		return this.bullets.containsValue(bullet);
 	}       
+	
+	
 	///ADDERS///
 		 
 	public void addOneBulletToShip(Bullet bullet) throws ModelException{
 		if (this.canHaveAsBullet(bullet)){
 			this.bullets.put(bullet.hashCode(), bullet);
-			bullet.setBulletLoaded(this);}
+			bullet.setBulletLoaded(this);
+			bullet.setEntityOrientation(this.getEntityOrientation());}
 		else
 			throw new ModelException("this bullet can not be loaded on this ship");
 	}
@@ -286,28 +285,26 @@ public class Ship extends Entity {
 			addOneBulletToShip(bullet);
 	}
 		 
+	
 	///REMOVERS///
 		 
 	public void removeBulletFromShip(Bullet bullet) throws ModelException{
 		if (!this.hasAsBullet(bullet)){
 			throw new ModelException("this ship doesn't have this bullet");}
 		else{
-			this.bullets.remove(bullet);
+			this.bullets.remove(bullet.hashCode());
 			bullet.setBulletNotLoaded();	
 		}
 	}
 
-	private double initialFiringVelocity = 250;
-
 	public void fireBullet() throws ModelException{
 		if (! bullets.isEmpty()) {
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
-			Integer key = entry.getKey();
 			Bullet bullet = entry.getValue();
 
 			bullet.setBulletSourceShip(this);
-			bullet.setEntityInWorld(this.getEntityWorld());
-			bullets.remove(key);
+			this.getEntityWorld().addEntityToWorld(bullet);
+			this.removeBulletFromShip(bullet);
 
 			double[] positionShip = this.getEntityPosition();
 			double orientation = this.getEntityOrientation();
@@ -316,6 +313,7 @@ public class Ship extends Entity {
 
 			double[] positionBullet = {positionShip[0] + Math.cos(orientation)*(radiusShip + radiusBullet), 
 					positionShip[1] + Math.sin(orientation)*(radiusShip + radiusBullet + 1)};
+			
 			bullet.setEntityPosition(positionBullet[0], positionBullet[1]);
 			bullet.setEntityOrientation(orientation);
 			bullet.setEntityVelocity(initialFiringVelocity*Math.cos(orientation), initialFiringVelocity*Math.sin(orientation));
@@ -336,7 +334,9 @@ public class Ship extends Entity {
 				 result.add(bullet);}
 			return result; 
 		 }
-	///CONNECTIONS WITH OTHER CLASSES///
+	
+		 
+		///CONNECTIONS WITH OTHER CLASSES///
 	
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
 	

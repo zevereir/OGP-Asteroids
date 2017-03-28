@@ -207,10 +207,7 @@ public abstract class Entity {
 	 */
 	public void setEntityOrientation(double orientation){
 		assert isValidRadian(orientation);
-		if (this instanceof Ship)
-			this.orientation = orientation;
-		else
-			this.orientation = ((Bullet)this).getBulletShip().getEntityOrientation();
+		this.orientation = orientation;
 	}
 
 	
