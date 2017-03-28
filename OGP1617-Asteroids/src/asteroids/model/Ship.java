@@ -179,14 +179,16 @@ public class Ship extends Entity {
 	
 	public double getBulletsWeight(){
 		double weight = 0;
-		for (Bullet bullet: this.getShipBullets().values())
+		for (Bullet bullet: this.getShipBullets())
 			weight += bullet.getEntityMass();
 		return weight;
 	}
 	
-	public Map<Integer,Bullet> getShipBullets(){
-		return this.bullets;
-	}
+	public Set<Bullet> getShipBullets(){
+		Set<Bullet> result = new HashSet<Bullet>();
+		result.addAll(this.bullets.values());
+		return result;
+				}
 	
 	public int getNbBulletsOnShip(){
 		return this.getShipBullets().size();
