@@ -1,7 +1,11 @@
 package asteroids.model;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.Spliterator;
 
 import asteroids.part2.CollisionListener;
 import asteroids.util.ModelException;
@@ -38,12 +42,12 @@ public class World {
 	///GETTERS///
 	
 	
-	public Set<Ship> getWorldShips(){
-		return this.ships;
+	public Collection<Ship> getWorldShips(){
+		return this.ships.values();
 	}
 	
-	public Set<Bullet> getWorldBullets(){
-		return this.bullets;
+	public Collection<Bullet> getWorldBullets(){
+		return this.bullets.values();
 	}
 	
 	public double[] getWorldSize(){
@@ -55,17 +59,17 @@ public class World {
 	
 	public Set<? extends Object> getWorldEntities(){
 		Set<Object> result = new HashSet<>();
-		Set<Bullet> bullets = this.getWorldBullets();
-		Set<Ship> ships = this.getWorldShips();
+		Collection<Bullet> bullets = this.getWorldBullets();
+		Collection<Ship> ships = this.getWorldShips();
 		result.addAll(bullets);
 		result.addAll(ships);		
 		return result;
 	}
 	
+
 	
 	public Object getEntityAt(double x, double y){
-		double[] search_position = {x,y};
-		
+		double[] search_position = {x,y};		
 		for (Object entity: getWorldEntities()){
 			if (((Entity)entity).getEntityPosition() == search_position){
 				return ((Entity)entity);
@@ -73,6 +77,9 @@ public class World {
 		}
 		return null;
 	}
+	
+	
+			
 	///SETTERS///
 	
 	// --> RUBEN <-- //
@@ -100,8 +107,8 @@ public class World {
 	}
 	
 	///CONNECTIONS WITH OTHER CLASSES///
-	private final Set<Ship> ships = new HashSet<Ship>();
-	private final Set<Bullet> bullets = new HashSet<Bullet>();
+	private final Map<Integer,Ship> ships = new HashMap<Integer,Ship>();
+	private final Map<Integer,Bullet> bullets = new HashMap<Integer,Bullet>();
 	private Entity collision_entity_1 = null;
 	private Entity collision_entity_2 = null;
 	 
@@ -110,10 +117,10 @@ public class World {
 	public void addEntityToWorld(Entity entity) throws ModelException {
 		if (canHaveAsEntity(entity)){
 			if (entity instanceof Ship){
-				ships.add((Ship)entity);
+				ships.put(((Ship)entity).hashCode(),(Ship)entity);
 		 		((Ship)entity).setEntityInWorld(this); 
 		 	} else {
-				bullets.add((Bullet)entity);
+				bullets.put(((Bullet)entity).hashCode(),(Bullet)entity);
 				((Bullet)entity).setEntityInWorld(this);
 			}
 		} else{
@@ -125,17 +132,17 @@ public class World {
 	///REMOVERS///
 	public void removeEntityFromWorld(Entity entity){
 		if (entity instanceof Ship){
-			this.ships.remove((Ship)entity);}
+			this.ships.remove(((Ship)entity).hashCode());}
 		else if (entity instanceof Bullet){
-			this.bullets.remove((Bullet)entity);		
+			this.bullets.remove(((Bullet)entity).hashCode());		
 		}
 	}
 	///HAS///
 	public boolean hasAsEntity(Entity entity){
 		if (entity instanceof Ship)
-			return this.ships.contains(entity);
+			return this.ships.containsValue(entity);
 		else
-			return this.bullets.contains(entity);
+			return this.bullets.containsValue(entity);
 	}        
 	
 	///CHECKERS///
