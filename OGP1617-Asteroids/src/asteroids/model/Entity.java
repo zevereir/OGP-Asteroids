@@ -228,8 +228,9 @@ public abstract class Entity {
 		if (radius < 0)
 			return false;
 		
-		if (this instanceof Bullet && ( (radius < LOWER_BULLET_RADIUS) || (radius > ((Bullet)this).getBulletShip().getEntityRadius()) ) )
+		if (this instanceof Bullet &&  (radius < LOWER_BULLET_RADIUS))
 			return false;
+		
 			
 		if (this instanceof Ship && radius < LOWER_SHIP_RADIUS)
 			return false;
@@ -311,7 +312,7 @@ public abstract class Entity {
 	}
 	
 	public double minimumShipMass(){
-		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
+		return 4*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity()/3;
 	}
 	
 	public double bulletMass() {

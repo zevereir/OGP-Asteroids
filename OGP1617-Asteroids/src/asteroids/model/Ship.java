@@ -146,7 +146,7 @@ public class Ship extends Entity {
 
 
 	public static double getDefaultMass() {
-		return 4/3*Math.PI * Math.pow(getDefaultRadius(),3)*getDefaultShipDensity();
+		return 4*Math.PI * Math.pow(getDefaultRadius(),3)*getDefaultShipDensity()/3;
 	}
 	
 	
@@ -245,7 +245,7 @@ public class Ship extends Entity {
 	 *         |this.setShipOrientation(this.getShipOrientation() + angle)
 	 */
 	public void turn(double angle) {
-		assert isValidRadian(this.getEntityOrientation() + angle);
+		assert isValidOrientation((this.getEntityOrientation() + angle));
 		assert this instanceof Ship;
 		this.setEntityOrientation(this.getEntityOrientation() + angle);
 	}
