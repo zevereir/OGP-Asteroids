@@ -1,6 +1,5 @@
 package asteroids.model;
 
-import asteroids.util.ModelException;
 //import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -13,17 +12,17 @@ public class Bullet extends Entity {
 	
 	///CONSTRUCTOR///
 	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius,double orientation
-			,double mass,double maxVelocity,double density) throws ModelException{
+			,double mass,double maxVelocity,double density) {
 		
 		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
 		}
 	
-	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius) throws ModelException{
+	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius){
 		this(x,y,xVelocity,yVelocity,radius,Entity.getDefaultOrientation(),getDefaultBulletMass(),
 				Entity.getDefaultMaxVelocity(),Entity.getDefaultBulletDensity());
 	}
 	
-	public Bullet() throws ModelException{
+	public Bullet(){
 		this(getDefaultPosition()[0],getDefaultPosition()[1],getDefaultVelocity()[0],getDefaultVelocity()[1],getDefaultRadius());
 	}
 
@@ -91,20 +90,20 @@ public class Bullet extends Entity {
 		return isBulletLoaded() ^(!isBulletLoaded());
 	}
 
-	public void setBulletLoadedState(State state) throws ModelException{
+	public void setBulletLoadedState(State state) {
 		if (state == null)
-			throw new ModelException("this is not a valid state");
+			throw new IllegalStateException();
 		else
 			this.state = state;
 	}
 
-	public void setBulletLoaded(Ship ship) throws ModelException{
+	public void setBulletLoaded(Ship ship) {
 		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
 		this.setBulletLoadedState(State.LOADED);
 		this.setBulletShip(ship);
 	}
 
-	public void setBulletNotLoaded() throws ModelException{
+	public void setBulletNotLoaded() {
 		assert (!this.isEntityTerminated());
 		this.setBulletLoadedState(State.NOTLOADED);
 		this.setBulletShip(null);

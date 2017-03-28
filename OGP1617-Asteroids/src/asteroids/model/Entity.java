@@ -1,6 +1,6 @@
 package asteroids.model;
 
-import asteroids.util.ModelException;
+
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -14,7 +14,7 @@ public abstract class Entity {
 	
 	///CONSTRUCTOR///
 	protected Entity(double x, double y, double xVelocity, double yVelocity, double radius,double orientation,
-			double mass,double maxVelocity,double density) throws ModelException{
+			double mass,double maxVelocity,double density) {
 		setEntityRadius(radius);
 		setEntityOrientation(orientation);
 		setEntityMaxVelocity(maxVelocity);
@@ -154,14 +154,14 @@ public abstract class Entity {
 	
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
-	public void setEntityPosition(double x, double y) throws ModelException{
+	public void setEntityPosition(double x, double y) {
 		if (!isValidArray(x, y))
-			throw new ModelException("Not a valide coordinate");	
+			throw new IllegalArgumentException();	
 		else if ((this).isValidEntityPosition(x,y)){
 			double[] position_array = { x, y };
 			this.position = position_array;}
 		else 
-				throw new ModelException("Not a valide coordinate");	
+				throw new IllegalArgumentException();	
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
@@ -187,9 +187,9 @@ public abstract class Entity {
 	}
 	
 	
-	public void setEntityRadius(double radius) throws ModelException{
+	public void setEntityRadius(double radius){
 		if ((radius < 0) || (this instanceof Bullet && radius <LOWER_BULLET_RADIUS) || (this instanceof Ship && radius <LOWER_SHIP_RADIUS))
-			throw new ModelException("The given radius is not possible");
+			throw new IllegalArgumentException();
 		this.radius = radius;	
 	}
 	
@@ -228,14 +228,14 @@ public abstract class Entity {
 			
 	}
 	
-	public void setEntityMass(double mass) throws ModelException{
+	public void setEntityMass(double mass) {
 		if (this instanceof Ship){	
 			if (mass < minimumEntityMass())
 				mass = minimumEntityMass();
 		}else if (this instanceof Bullet){
 			mass = minimumEntityMass();
 		} else {
-			throw new ModelException("not a legal entity");
+			throw new IllegalArgumentException();
 		}
 		this.mass = mass;
 	}
@@ -287,9 +287,9 @@ public abstract class Entity {
 	}
 	
 	
-	public void move(double dt) throws ModelException {
+	public void move(double dt)  {
 		if (dt < 0)
-			throw new ModelException("Give a positive time please.");
+			throw new IllegalArgumentException();
 		
 		final double[] velocity = this.getEntityVelocity();
 		double vel_x = velocity[0];
@@ -313,7 +313,7 @@ public abstract class Entity {
 	
 	///TERMINATION AND STATES///
 	
-	public void Terminate() throws ModelException{
+	public void Terminate() {
 		if (this.isEntityFree()){
 			setEntityState(State.TERMINATED);}
 		else if (this.isEntityInWorld()){
@@ -353,20 +353,20 @@ public abstract class Entity {
 		return isEntityInWorld() ^ isEntityFree() ^ isEntityTerminated();
 	}
 	
-	public void setEntityState(State state) throws ModelException{
+	public void setEntityState(State state) {
 		if (state == null)
-			throw new ModelException("this is not a valid state");
+			throw new IllegalArgumentException();
 		else
 			this.state = state;
 	}
 	
-	public void setEntityInWorld(World world) throws ModelException{
+	public void setEntityInWorld(World world){
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.INWORLD);	
 		this.setEntityWorld(world);
 	}
 	
-	public void setEntityFree() throws ModelException{
+	public void setEntityFree() {
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.FREE);
 		this.setEntityWorld(null);
@@ -449,7 +449,7 @@ public abstract class Entity {
 	 *         If the two ships overlap.
 	 *         |(this.overlap(otherShip))
 	 */
-	public double getTimeToCollision(Entity otherEntity) throws ModelException {
+	public double getTimeToCollision(Entity otherEntity) {
 		double[] velocity_1 = this.getEntityVelocity();
 		double[] velocity_2 = otherEntity.getEntityVelocity();
 		double[] position_1 = this.getEntityPosition();
@@ -466,8 +466,7 @@ public abstract class Entity {
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
 
 		if (this.overlap(otherEntity))
-			throw new ModelException("The two enties are overlapping");
-
+			throw new IllegalArgumentException();
 		else if (delta_v_r > 0)
 			return Double.POSITIVE_INFINITY;
 
@@ -515,7 +514,7 @@ public abstract class Entity {
 	 *         If the two ships are overlapping.
 	 *         |(this.overlap(otherShip))
 	 */
-	public double[] getCollisionPosition(Entity otherEntity) throws ModelException {
+	public double[] getCollisionPosition(Entity otherEntity){
 
 		double[] velocity_1 = this.getEntityVelocity();
 		double[] velocity_2 = otherEntity.getEntityVelocity();
@@ -526,7 +525,7 @@ public abstract class Entity {
 		double time_till_overlapping = this.getTimeToCollision(otherEntity);
 
 		if (this.overlap(otherEntity))
-			throw new ModelException("The two entities are overlapping");
+			throw new IllegalArgumentException();
 
 		else if (time_till_overlapping == Double.POSITIVE_INFINITY)
 			return null;
