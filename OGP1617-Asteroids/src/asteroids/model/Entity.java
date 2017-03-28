@@ -104,6 +104,7 @@ public abstract class Entity {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 
+	
 	public static boolean entityFitsInWorld(Entity entity, World world){
 		double radius = entity.getEntityRadius();
 		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
@@ -285,7 +286,7 @@ public abstract class Entity {
 			return true;
 	}
 	
-	// RUBEN //
+	
 	public void move(double dt) throws ModelException {
 		if (dt < 0)
 			throw new ModelException("Give a positive time please.");
@@ -315,12 +316,14 @@ public abstract class Entity {
 	public void Terminate() throws ModelException{
 		if (this.isEntityFree()){
 			setEntityState(State.TERMINATED);}
-			else if (this.isEntityInWorld()){
-				this.getEntityWorld().removeEntityFromWorld(this);
-				setEntityState(State.TERMINATED);}
+		else if (this.isEntityInWorld()){
+			this.getEntityWorld().removeEntityFromWorld(this);
+			setEntityState(State.TERMINATED);}
 		if (this instanceof Ship){
 			for (Bullet bullet:((Ship)this).getShipBullets()){
+				((Ship)this).removeBulletFromShip(bullet);
 				bullet.Terminate();
+				
 			}
 		}
 	}
@@ -566,7 +569,7 @@ public abstract class Entity {
 			double dtx = (x_distance / velocity[0]);
 			double dty = (y_distance / velocity[1]);
 			
-			if (dtx > dty){
+			if (dtx >= dty){
 				return dty;}
 			else if (dty > dtx){
 				return dtx;}

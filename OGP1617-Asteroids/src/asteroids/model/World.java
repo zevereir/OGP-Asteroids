@@ -63,10 +63,8 @@ public class World {
 	
 	public Set<? extends Object> getWorldEntities(){
 		Set<Object> result = new HashSet<>();
-		Collection<Bullet> bullets = this.getWorldBullets();
-		Collection<Ship> ships = this.getWorldShips();
-		result.addAll(bullets);
-		result.addAll(ships);		
+		result.addAll(this.getWorldBullets());
+		result.addAll(this.getWorldShips());		
 		return result;
 	}
 	
@@ -86,27 +84,21 @@ public class World {
 			
 	///SETTERS///
 	
-	// --> RUBEN <-- //
-	// --> Negative values become positive values, containing the same absolute value! <-- //
 	public void setWorldWidth(double width){
+		if (width < 0) {
+		width = Math.abs(width);}
 		if (width > UPPER_WORLD_BOUND_WIDTH)
-			width = UPPER_WORLD_BOUND_WIDTH;
-		else if (width < 0) {
-			width = Math.abs(width);
-			if (width > UPPER_WORLD_BOUND_WIDTH)
-				width = UPPER_WORLD_BOUND_WIDTH;
-		}
+			width = UPPER_WORLD_BOUND_WIDTH;	
+		
 		this.width = width;
 	}
-	// --> RUBEN <-- //
+
 	public void setWorldHeight(double height){
+		if (height < 0) {
+			height = Math.abs(height);
+		}
 		if (height > UPPER_WORLD_BOUND_HEIGHT)
 			height = UPPER_WORLD_BOUND_HEIGHT;
-		else if (height < 0) {
-			height = Math.abs(height);
-			if (height > UPPER_WORLD_BOUND_HEIGHT)
-				height = UPPER_WORLD_BOUND_HEIGHT;
-		}
 		this.height = height;
 	}
 	
@@ -120,12 +112,11 @@ public class World {
 	
 	public void addEntityToWorld(Entity entity) throws ModelException {
 		if (canHaveAsEntity(entity)){
+			entity.setEntityInWorld(this);
 			if (entity instanceof Ship){
 				ships.put(((Ship)entity).hashCode(),(Ship)entity);
-		 		((Ship)entity).setEntityInWorld(this); 
 		 	} else {
 				bullets.put(((Bullet)entity).hashCode(),(Bullet)entity);
-				((Bullet)entity).setEntityInWorld(this);
 			}
 		} else{
 			throw new ModelException("the entity cannot be added to this world");
@@ -134,12 +125,13 @@ public class World {
 	 
 	
 	///REMOVERS///
-	public void removeEntityFromWorld(Entity entity){
+	public void removeEntityFromWorld(Entity entity) throws ModelException{
 		if (entity instanceof Ship){
 			this.ships.remove(((Ship)entity).hashCode());}
 		else if (entity instanceof Bullet){
 			this.bullets.remove(((Bullet)entity).hashCode());		
 		}
+		entity.setEntityFree();
 	}
 	///HAS///
 	public boolean hasAsEntity(Entity entity){
