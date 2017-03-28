@@ -9,7 +9,7 @@ import asteroids.model.Ship;
 import asteroids.model.World;
 import asteroids.part2.CollisionListener;
 import asteroids.util.ModelException;
-import kuleuven.annotations.doglets;
+import be.kuleuven.cs.som.annotate.*;
 
 
 /**
