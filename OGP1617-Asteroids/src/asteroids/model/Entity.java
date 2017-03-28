@@ -107,8 +107,8 @@ public abstract class Entity {
 	
 	public static boolean entityFitsInWorld(Entity entity, World world){
 		double radius = entity.getEntityRadius();
-		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
-		double right_bound = OMEGA*(world.getWorldSize()[0]-radius);
+		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
+		double right_bound = OMEGA*(world.getWorldWidth()-radius);
 		double x = entity.getEntityPosition()[0];
 		double y = entity.getEntityPosition()[1];		
 		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));}
@@ -560,10 +560,11 @@ public abstract class Entity {
 		else {
 			double[] position = this.getEntityPosition();
 			double[] velocity = this.getEntityVelocity();
-			double[] size = this.getEntityWorld().getWorldSize();
+			double height = this.getEntityWorld().getWorldSize()[1];
+			double width = this.getEntityWorld().getWorldSize()[0];
 			double radius = this.getEntityRadius();
-			double x_distance = Math.abs(size[0] - position[0]-radius);
-			double y_distance = Math.abs(size[1] - position[1]-radius);
+			double x_distance = Math.abs(width - position[0]-radius);
+			double y_distance = Math.abs(height- position[1]-radius);
 			
 			double dtx = (x_distance / velocity[0]);
 			double dty = (y_distance / velocity[1]);
@@ -591,14 +592,15 @@ public abstract class Entity {
 			double[] position = this.getEntityPosition();
 			double[] velocity = this.getEntityVelocity();
 			double radius = this.getEntityRadius();
-			double[] size = this.getEntityWorld().getWorldSize();
+			double width = this.getEntityWorld().getWorldSize()[0];
+			double height = this.getEntityWorld().getWorldSize()[1];
 			new_x = position[0]+time*velocity[0];
 			new_y = position[1]+time*velocity[1];
-			if (Math.abs(size[0] - position[0]-radius) ==0)
+			if (Math.abs(width - position[0]-radius) ==0)
 				new_x += radius;
-			else if ((Math.abs(size[0] - position[0]+radius) == size[0]))
+			else if ((Math.abs(width - position[0]+radius) == width))
 				new_x -= radius;
-			else if ((Math.abs(size[1] - position[1]-radius)==0))
+			else if ((Math.abs(height - position[1]-radius)==0))
 					new_y += radius;
 			else
 				new_y -= radius;

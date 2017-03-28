@@ -57,6 +57,12 @@ public class World {
 		double[] size_array = {width,height};
 		return size_array;
 	}
+	public double getWorldWidth(){
+		return this.getWorldSize()[0];
+	}
+	public double getWorldHeight(){
+		return this.getWorldSize()[1];
+	}
 	
 	public Set<? extends Object> getWorldEntities(){
 		Set<Object> result = new HashSet<>();
@@ -80,6 +86,11 @@ public class World {
 	
 			
 	///SETTERS///
+	public void setWorldSize(double width, double height){
+		setWorldWidth(width);
+		setWorldHeight(height);
+	}
+	
 	
 	public void setWorldWidth(double width){
 		if (width < 0) {
@@ -291,7 +302,7 @@ public class World {
 	
 	public boolean collideHorizontalBoundary(Entity entity){
 		return(entity.getPositionCollisionBoundary()[1]==0 || 
-				entity.getPositionCollisionBoundary()[1]== entity.getEntityWorld().getWorldSize()[1]); 	
+				entity.getPositionCollisionBoundary()[1]== entity.getEntityWorld().getWorldHeight()); 	
 	}
 	 
 	 
