@@ -297,13 +297,13 @@ public class Ship extends Entity {
 
 	private double initialFiringVelocity = 250;
 
-	public void fireBullet(){
+	public void fireBullet() throws ModelException{
 		if (! bullets.isEmpty()) {
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
 			Integer key = entry.getKey();
 			Bullet bullet = entry.getValue();
 
-			bullet.setBulletSource(this);
+			bullet.setBulletSourceShip(this);
 			bullet.setEntityInWorld(this.getEntityWorld());
 			bullets.remove(key);
 

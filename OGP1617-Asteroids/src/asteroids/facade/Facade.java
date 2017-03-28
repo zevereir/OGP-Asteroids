@@ -26,22 +26,22 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * Returns a Ship with default values.
 	 * 
 	 * @post 	The ship has a circular shape with radius 1. 
-	 * 			| ship.getShipRadius() == 1;
+	 * 		  | ship.getShipRadius() == 1;
 	 * @post 	The position of the ship will be {0,0}
-	 * 			| ship.getShipPosition() = {0,0};
+	 * 		  | ship.getShipPosition() = {0,0};
 	 * @post 	The ship's orientation will be equal to 0, which means it's facing right.
-	 *  		| ship.getShipOrientation() = 0;
+	 *  	  | ship.getShipOrientation() = 0;
 	 * @post 	The ship's velocity will be {0,0}.
-	 * 			| ship.getShipVelocity() = {0,0};
+	 * 		  | ship.getShipVelocity() = {0,0};
 	 * @post    The ship's maximum velocity will be equal to the speed of light.
-	 * 			|ship.getShipMaximumVelocity == SPEED_OF_LIGHT
+	 * 		  | ship.getShipMaximumVelocity == SPEED_OF_LIGHT
 	 * 
 	 * @return  A ship with default values will be returned.
-	 * 			|result = Ship()
+	 * 		  | result = Ship()
 	 * 
 	 * @throws  Modelexception
 	 * 			If the default radius or the default position is not correct.
-	 * 			|(getDefaultRadius <LOWER_RADIUS || !isValidArray(getDefaultPosition))
+	 * 		  | (getDefaultRadius <LOWER_RADIUS || !isValidArray(getDefaultPosition))
 	 */
 	@Override
 	public Ship createShip() throws ModelException {
@@ -52,8 +52,8 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Returns a ship with given parameters. 
 	
-	 * @return A new ship with given properties and a default maximum velocity will be returned.
-	 * 		   |result = Ship(x, y, xVelocity, yVelocity, radius, orientation)
+	 * @return	A new ship with given properties and a default maximum velocity will be returned.
+	 * 		  | result = Ship(x, y, xVelocity, yVelocity, radius, orientation)
 	 */
 	@Override
 	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass)
@@ -69,8 +69,8 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 *  @param 	ship
 	 *  		The ship whose location is asked .
 	 *  
-	 *  @return The ship's position.
-	 *  		|result =ship.getShipPosition()
+	 *  @return	The ship's position.
+	 *  	  | result =ship.getShipPosition()
 	 */
 	@Override
 	public double[] getShipPosition(Ship ship) {
@@ -85,11 +85,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 			The ship whose velocity is asked.
 	 * 
 	 * @return  The ship's velocity.
-	 *  		|result =ship.getShipVelocity()
+	 *  	  | result =ship.getShipVelocity()
 	 */
 	@Override
 	public double[] getShipVelocity(Ship ship) {
-
 		return ship.getEntityVelocity();
 	}
 	
@@ -100,11 +99,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 			The ship whose radius is asked.
 	 * 
 	 * @return  The ship's radius.
-	 *  		|result =ship.getShipRadius()
+	 *  	  | result =ship.getShipRadius()
 	 */
 	@Override
 	public double getShipRadius(Ship ship) {
-
 		return ship.getEntityRadius();
 	}
 	
@@ -115,7 +113,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 			The ship whose orientation is asked.
 	 * 
 	 * @return  The ship's orientation.
-	 *  		|result =ship.getShipOrientation()
+	 *  	  | result =ship.getShipOrientation()
 	 */
 	@Override
 	public double getShipOrientation(Ship ship) {
@@ -127,7 +125,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * Update the direction of the ship by adding an angle in radians to its current direction.
 	 * 
 	 * @effect  The ship will turn with the given angle.
-	 * 			|ship.turn(angle)
+	 * 		  | ship.turn(angle)
 	 */
 	@Override
 	public void turn(Ship ship, double angle) {
@@ -137,8 +135,8 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Calculate the distance between two ships.
 	 * 
-	 * @return The distance between these ships.
-	 * 		   |result = ship1.getDistanceBetween(ship2)
+	 * @return	The distance between these ships.
+	 * 		  | result = ship1.getDistanceBetween(ship2)
 	 */
 	@Override
 	public double getDistanceBetween(Ship ship1, Ship ship2) {
@@ -149,7 +147,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * Returns a boolean saying if the two ships are overlapping.
 	 * 
 	 * @return	Return True if the two ships overlap. 
-	 * 			|result = ship1.overlap(ship2)
+	 * 		  | result = ship1.overlap(ship2)
 	 */
 	@Override
 	public boolean overlap(Ship ship1, Ship ship2) {
@@ -159,8 +157,8 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Calculates the number of seconds until, if ever, the first collision between two ships will take place.
 	 * 
-	 * @return The seconds until collision or null if they never collide.
-	 *		   |result= ship1.getTimeToCollision(ship2)
+	 * @return	The seconds until collision or null if they never collide.
+	 *		  | result= ship1.getTimeToCollision(ship2)
 	 */
 	@Override
 	public double getTimeToCollision(Ship ship1, Ship ship2) throws ModelException {
@@ -170,50 +168,83 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Calculates the position, if there is one, of the collision between two ships.
 	 * 
-	 * @return The position where the ships will collide. If they don't, positive infinity is returned.
-	 * 		   |result = ship1.getCollisionPosition
+	 * @return 	The position where the ships will collide. If they don't, positive infinity is returned.
+	 * 		  | result = ship1.getCollisionPosition
 	 */
 	@Override
 	public double[] getCollisionPosition(Ship ship1, Ship ship2) throws ModelException {
 		return ship1.getCollisionPosition(ship2);
 	}
 
+	/**
+	 * Terminate a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public void terminateShip(Ship ship) throws ModelException {
 		ship.Terminate();
-		
 	}
 
+	/**
+	 * Check if a given ship is terminated.
+	 * @see implementation
+	 */
 	@Override
 	public boolean isTerminatedShip(Ship ship) throws ModelException {
 		return ship.isEntityTerminated();
 	}
 
+	/**
+	 * Get the mass of a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public double getShipMass(Ship ship) throws ModelException {
 		return ship.getEntityMass();
 	}
 
+	/**
+	 * Return the world to which the ship belongs to.
+	 * @see implementation
+	 */
 	@Override
 	public World getShipWorld(Ship ship) throws ModelException {
 		return ship.getEntityWorld();
 	}
 
+	/**
+	 * Check if the thruster of the ship is active.
+	 * @see implementation
+	 */
 	@Override
 	public boolean isShipThrusterActive(Ship ship) throws ModelException {
 		return ship.isThrusterActive();
 	}
+
+	/**
+	 * Turn the thruster of a given ship on if true, turn it off if false.
+	 * @see implementation
+	 */
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) throws ModelException {
 		ship.setThrusterActive(active);
 	}
 
+	/**
+	 * Return a given ship its acceleration.
+	 * @see implementation
+	 */
 	@Override
 	public double getShipAcceleration(Ship ship) throws ModelException {
 		return ship.getShipAcceleration();
 	}
 
+	
 	///BULLET///
+	/**
+	 * Create a bullet with given values.
+	 * @see implementation
+	 */
 	@Override
 	public Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
 			throws ModelException {
@@ -221,76 +252,130 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		return bullet;
 	}
 
+	/**
+	 * Terminate a given bullet.
+	 * @see implementation
+	 */
 	@Override
 	public void terminateBullet(Bullet bullet) throws ModelException {
 		bullet.Terminate();
 		
 	}
 
+	/**
+	 * Check if a given bullet is terminated.
+	 * @see implementation
+	 */
 	@Override
 	public boolean isTerminatedBullet(Bullet bullet) throws ModelException {
 		return bullet.isEntityTerminated();
 	}
 
+	/**
+	 * Return the position of a given bullet.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getBulletPosition(Bullet bullet) throws ModelException {
 		return bullet.getEntityPosition();
 	}
 
+	/**
+	 * Return the velocity of a given bullet.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getBulletVelocity(Bullet bullet) throws ModelException {
 		return bullet.getEntityVelocity();
 	}
 
+	/**
+	 * Return the radius of a given bullet.
+	 * @see implementation
+	 */
 	@Override
 	public double getBulletRadius(Bullet bullet) throws ModelException {
 		return bullet.getEntityRadius();
 	}
 
+	/**
+	 * Return the mass of a given bullet.
+	 * @see implementation
+	 */
 	@Override
 	public double getBulletMass(Bullet bullet) throws ModelException {
 		return bullet.getEntityMass();
 	}
 
+	/**
+	 * Return the world to which the bullet belongs to.
+	 * @see implementation
+	 */
 	@Override
 	public World getBulletWorld(Bullet bullet) throws ModelException {
 		return bullet.getEntityWorld();
 	}
 
+	/**
+	 * Return the ship to which the bullet belongs to when the bullet is in a ship.
+	 * @see implementation
+	 */
 	@Override
 	public Ship getBulletShip(Bullet bullet) throws ModelException {
 		return bullet.getBulletShip();
 	}
 
+	/**
+	 * Return the ship to which the bullet belongs to when the bullet is in the world.
+	 * @see implementation
+	 */
 	@Override
 	public Ship getBulletSource(Bullet bullet) throws ModelException {
 		return bullet.getBulletSource();
 	}
 
 	///WORLD///
-	
+	/**
+	 * Create a rectangular world with a given width and a given height.
+	 * @see implementation
+	 */
 	@Override
 	public World createWorld(double width, double height) throws ModelException {
 		World world = new World(width, height);
 		return world;
 	}
 
+	/**
+	 * Terminate a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void terminateWorld(World world) throws ModelException {
 		world.Terminate();
-		
 	}
 
+	/**
+	 * Check if a given world is terminated.
+	 * @see implementation
+	 */
 	@Override
 	public boolean isTerminatedWorld(World world) throws ModelException {
 		return world.isWorldTerminated();
 	}
 
+	/**
+	 * Get the size (width and height) of a given world.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getWorldSize(World world) throws ModelException {
 		return world.getWorldSize();
 	}
 
+	/**
+	 * Return a set of all the the ships in a given world.
+	 * @see implementation
+	 */
 	@Override
 	public Set<? extends Ship> getWorldShips(World world) throws ModelException {
 		return world.getWorldShips();
