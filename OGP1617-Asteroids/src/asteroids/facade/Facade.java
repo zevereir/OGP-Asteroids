@@ -374,7 +374,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	}
 
 	/**
-	 * Return a set of all the the ships in a given world.
+	 * Return a set of all the ships in a given world.
 	 * @see implementation
 	 */
 	@Override
@@ -382,111 +382,189 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		return world.getWorldShips();
 	}
 
+	/**
+	 * Return a set of all the bullets in a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public Set<? extends Bullet> getWorldBullets(World world) throws ModelException {
 		return world.getWorldBullets();
 	}
 
+	/**
+	 * Add a given ship to a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void addShipToWorld(World world, Ship ship) throws ModelException {
 		world.addEntityToWorld(ship);
 	}
 
+	/**
+	 * Remove a given ship from a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void removeShipFromWorld(World world, Ship ship) throws ModelException {
 		world.removeEntityFromWorld(ship);
-		
 	}
 
+	/**
+	 * Add a given bullet to a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void addBulletToWorld(World world, Bullet bullet) throws ModelException {
 		world.addEntityToWorld(bullet);
-		
 	}
 
+	/**
+	 * Remove a given bullet from a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void removeBulletFromWorld(World world, Bullet bullet) throws ModelException {
 		world.removeEntityFromWorld(bullet);
-		
 	}
 
 	///BULLETS AND SHIPS///
+	/**
+	 * Return the set of bullets that belongs to a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public Set<? extends Bullet> getBulletsOnShip(Ship ship) throws ModelException {
 		return ship.getShipBullets();
 	}
 
+	/**
+	 * Return the amount of bullets that are on a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public int getNbBulletsOnShip(Ship ship) throws ModelException {
 		return ship.getNbBulletsOnShip();
 	}
 
+	/**
+	 * Load a given bullet onto a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public void loadBulletOnShip(Ship ship, Bullet bullet) throws ModelException {
 		ship.addOneBulletToShip(bullet);
-		
 	}
 
+	/**
+	 * Load a collection of bullets onto a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public void loadBulletsOnShip(Ship ship, Collection<Bullet> bullets) throws ModelException {
 		ship.addMultipleBulletsToShip(bullets);		
 	}
 
+	/**
+	 * Remove a given bullet from a given ship.
+	 * @see implementation
+	 */
 	@Override
 	public void removeBulletFromShip(Ship ship, Bullet bullet) throws ModelException {
 		ship.removeBulletFromShip(bullet);
-		
 	}
 
+	/**
+	 * Fire a bullet from the given ship, if possible.
+	 * @see implementation
+	 */
 	@Override
 	public void fireBullet(Ship ship) throws ModelException {
 		ship.fireBullet();
-		
 	}
 
 	///COLLISIONS///
+	/**
+	 * Return the time until a given entity will collide with the boundary of the world it's in.
+	 * 	Positive infinity will be returned if the collision won't take place.
+	 * @see implementation
+	 */
 	@Override
 	public double getTimeCollisionBoundary(Object object) throws ModelException {
 		return ((Entity)object).getTimeCollisionBoundary();
 	}
 
+	/**
+	 * Return the position where the entity would collide with the boundary of the world it's in.
+	 *  [infinity, infinity] would be returned if no collision takes place.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getPositionCollisionBoundary(Object object) throws ModelException {
 		return ((Entity)object).getPositionCollisionBoundary();
 	}
 
+	/**
+	 * Return the time until two given entities will collide with each other.
+	 * 	Positive infinity will be returned if the collision won't take place.
+	 * @see implementation
+	 */
 	@Override
 	public double getTimeCollisionEntity(Object entity1, Object entity2) throws ModelException {
 		return ((Entity)entity1).getTimeToCollision((Entity)entity2);
 	}
 
+	/**
+	 * Return the position where two given entities would collide.
+	 *  [infinity, infinity] would be returned if no collision takes place.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getPositionCollisionEntity(Object entity1, Object entity2) throws ModelException {
 		return ((Entity)entity1).getCollisionPosition(((Entity)entity2));
 	}
 
+	/**
+	 * Return the time till the first collision in a world will take place.
+	 *  Positive infinity would be returned if no collision takes place.
+	 * @see implementation
+	 */
 	@Override
 	public double getTimeNextCollision(World world) throws ModelException {
 		return world.getTimeNextCollision();
 	}
 
+	/**
+	 * Return the position where the first collision in a world will take place.
+	 *  [infinity, infinity] would be returned if no collision takes place.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getPositionNextCollision(World world) throws ModelException {
 		return world.getPositionNextCollision();	}
 
 	///EVOLVE AND ENTITIES///
+	/**
+	 * Evolve the world over dt time.
+	 * @see implementation
+	 */
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
 		world.evolve(dt,collisionListener);
-		
 	}
 
+	/**
+	 * Return the entity at a given position, if there is an entity at this given position.
+	 * @see implementation
+	 */
 	@Override
 	public Object getEntityAt(World world, double x, double y) throws ModelException {
-	
 		return world.getEntityAt(x, y);
 	}
 
+	/**
+	 * Return all the entities that are in a given world.
+	 * @see implementation
+	 */
 	@Override
 	public Set<? extends Object> getEntities(World world) throws ModelException {
 		return world.getWorldEntities();
