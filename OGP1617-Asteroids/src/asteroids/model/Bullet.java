@@ -68,6 +68,10 @@ public class Bullet extends Entity {
 		this.ship = ship;
 	}
 	
+	public void setBulletSourceShip(Ship ship){
+		this.source_ship = ship;
+	}
+	
 	///TERMINATION AND STATES///
 
 
@@ -111,6 +115,7 @@ public class Bullet extends Entity {
 
 	///CONNECTIONS WITH OTHER CLASSES///
 	private  Ship ship = null;
+	
 	private  Ship source_ship = null;
 
 }

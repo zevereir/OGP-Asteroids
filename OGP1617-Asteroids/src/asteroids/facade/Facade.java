@@ -19,8 +19,9 @@ import asteroids.util.ModelException;
  */
 public class Facade implements asteroids.part2.facade.IFacade  {
 		
-	/// METHODS /// 
 	
+	
+	///SHIP///
 	/**
 	 * Returns a Ship with default values.
 	 * 
@@ -212,6 +213,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		return ship.getShipAcceleration();
 	}
 
+	///BULLET///
 	@Override
 	public Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
 			throws ModelException {
@@ -265,6 +267,8 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		return bullet.getBulletSource();
 	}
 
+	///WORLD///
+	
 	@Override
 	public World createWorld(double width, double height) throws ModelException {
 		World world = new World(width, height);
@@ -320,6 +324,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		
 	}
 
+	///BULLETS AND SHIPS///
 	@Override
 	public Set<? extends Bullet> getBulletsOnShip(Ship ship) throws ModelException {
 		return ship.getShipBullets();
@@ -353,6 +358,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		
 	}
 
+	///COLLISIONS///
 	@Override
 	public double getTimeCollisionBoundary(Object object) throws ModelException {
 		return ((Entity)object).getTimeCollisionBoundary();
@@ -382,6 +388,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	public double[] getPositionNextCollision(World world) throws ModelException {
 		return world.getPositionNextCollision();	}
 
+	///EVOLVE AND ENTITIES///
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
 		world.evolve(dt,collisionListener);

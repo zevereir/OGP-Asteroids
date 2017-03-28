@@ -1,7 +1,11 @@
 package asteroids.model;
 
+
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+
+import java.util.Map;
 import java.util.Set;
 import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
@@ -177,12 +181,12 @@ public class Ship extends Entity {
 	
 	public double getBulletsWeight(){
 		double weight = 0;
-		for (Bullet bullet: this.getShipBullets())
+		for (Bullet bullet: this.getShipBullets().values())
 			weight += bullet.getEntityMass();
 		return weight;
 	}
 	
-	public Set<Bullet> getShipBullets(){
+	public Map<Integer,Bullet> getShipBullets(){
 		return this.bullets;
 	}
 	
@@ -191,7 +195,7 @@ public class Ship extends Entity {
 	}
 	
 
-	
+
 	/// SETTERS ///
 	
 	public void setThrusterActive(boolean thrusterActivity){
@@ -264,13 +268,13 @@ public class Ship extends Entity {
 	/// HAS ///
 	
 	public boolean hasAsBullet(Bullet bullet){
-		return this.bullets.contains(bullet);
+		return this.bullets.containsValue(bullet);
 	}       
 	///ADDERS///
 		 
 		 public void addOneBulletToShip(Bullet bullet) throws ModelException{
 			 if (this.canHaveAsBullet(bullet)){
-				this.bullets.add(bullet);
+				this.bullets.put(bullet.hashCode(), bullet);
 			 	bullet.setBulletLoaded(this);}
 			 else
 				 throw new ModelException("this bullet can not be loaded on this ship");
@@ -310,7 +314,7 @@ public class Ship extends Entity {
 		 }
 	///CONNECTIONS WITH OTHER CLASSES///
 	
-	private final Set<Bullet> bullets = new HashSet<Bullet>();
+	private final Map<Integer,Bullet> bullets = new HashMap <Integer,Bullet>();
 	
 	
 }
