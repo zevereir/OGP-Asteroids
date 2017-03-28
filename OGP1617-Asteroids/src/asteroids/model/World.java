@@ -1,14 +1,11 @@
 package asteroids.model;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-
 import asteroids.part2.CollisionListener;
-import asteroids.util.ModelException;
+
 /**
  * a class that describes the world 
  * 
@@ -60,6 +57,12 @@ public class World {
 		double[] size_array = {width,height};
 		return size_array;
 	}
+	public double getWorldWidth(){
+		return this.getWorldSize()[0];
+	}
+	public double getWorldHeight(){
+		return this.getWorldSize()[1];
+	}
 	
 	public Set<? extends Object> getWorldEntities(){
 		Set<Object> result = new HashSet<>();
@@ -83,6 +86,11 @@ public class World {
 	
 			
 	///SETTERS///
+	public void setWorldSize(double width, double height){
+		setWorldWidth(width);
+		setWorldHeight(height);
+	}
+	
 	
 	public void setWorldWidth(double width){
 		if (width < 0) {
@@ -110,7 +118,7 @@ public class World {
 	 
 	///ADDERS///
 	
-	public void addEntityToWorld(Entity entity) throws ModelException {
+	public void addEntityToWorld(Entity entity) {
 		if (canHaveAsEntity(entity)){
 			entity.setEntityInWorld(this);
 			if (entity instanceof Ship){
@@ -119,13 +127,13 @@ public class World {
 				bullets.put(((Bullet)entity).hashCode(),(Bullet)entity);
 			}
 		} else{
-			throw new ModelException("the entity cannot be added to this world");
+			throw new IllegalArgumentException() ;
 		}
 	}
 	 
 	
 	///REMOVERS///
-	public void removeEntityFromWorld(Entity entity) throws ModelException{
+	public void removeEntityFromWorld(Entity entity) {
 		if (entity instanceof Ship){
 			this.ships.remove(((Ship)entity).hashCode());}
 		else if (entity instanceof Bullet){
@@ -153,7 +161,7 @@ public class World {
 	
 	// RUBEN //
 	// dt = evolving time (a predetermined value)
-	public void evolve(double dt, CollisionListener collisionListener) throws ModelException {
+	public void evolve(double dt, CollisionListener collisionListener) {
 		double TimeToCollision = getTimeNextCollision();
 		if (TimeToCollision < dt) {
 			for (Object entity: getWorldEntities()) {
@@ -185,7 +193,7 @@ public class World {
 	}
 	
 	
-	public double getTimeNextCollision() throws ModelException{
+	public double getTimeNextCollision() {
 		double min_time = Double.POSITIVE_INFINITY;
 		for (Object entity_1: getWorldEntities()){
 			for (Object entity_2: getWorldEntities()){
@@ -211,7 +219,7 @@ public class World {
 	}
 		
 	
-	public double[] getPositionNextCollision() throws ModelException{
+	public double[] getPositionNextCollision() {
 		if (collision_entity_1 != null && collision_entity_2!= null){
 			return collision_entity_1.getCollisionPosition(collision_entity_2);
 		}
@@ -260,7 +268,7 @@ public class World {
 			((Ship)entity).setEntityVelocity(-Velocity[0], Velocity[1]);
 	}
 	
-	public void BulletAndEntityCollide(Entity entity1, Entity entity2) throws ModelException {
+	public void BulletAndEntityCollide(Entity entity1, Entity entity2){
 		if (entity1 instanceof Bullet && entity2 instanceof Bullet){
 			entity1.Terminate();
 			entity2.Terminate();
@@ -277,7 +285,7 @@ public class World {
 	
 	
 	
-	public void BulletAndWorldCollide(Entity entity) throws ModelException{
+	public void BulletAndWorldCollide(Entity entity) {
 		int counter = ((Bullet)entity).getAmountOfBounces();
 		if (counter >= 2)
 			entity.Terminate();
@@ -294,13 +302,13 @@ public class World {
 	
 	public boolean collideHorizontalBoundary(Entity entity){
 		return(entity.getPositionCollisionBoundary()[1]==0 || 
-				entity.getPositionCollisionBoundary()[1]== entity.getEntityWorld().getWorldSize()[1]); 	
+				entity.getPositionCollisionBoundary()[1]== entity.getEntityWorld().getWorldHeight()); 	
 	}
 	 
 	 
 	///TERMINATION AND STATES///
 
-	public void Terminate() throws ModelException{
+	public void Terminate() {
 		if (!isWorldTerminated()){
 			setWorldState(State.TERMINATED);
 			for (Bullet bullet: this.getWorldBullets())
@@ -329,9 +337,9 @@ public class World {
 		return (!isWorldTerminated())^isWorldTerminated();
 	}
 
-	public void setWorldState(State state) throws ModelException{
+	public void setWorldState(State state) {
 		if (state == null)
-			throw new ModelException("this is not a valid state");
+			throw new IllegalStateException();
 		else
 			this.state = state;
 	}

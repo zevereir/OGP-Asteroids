@@ -1,6 +1,6 @@
 package asteroids.model;
 
-import asteroids.util.ModelException;
+
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -14,7 +14,7 @@ public abstract class Entity {
 	
 	///CONSTRUCTOR///
 	protected Entity(double x, double y, double xVelocity, double yVelocity, double radius,double orientation,
-			double mass,double maxVelocity,double density) throws ModelException{
+			double mass,double maxVelocity,double density) {
 		setEntityRadius(radius);
 		setEntityOrientation(orientation);
 		setEntityMaxVelocity(maxVelocity);
@@ -104,8 +104,8 @@ public abstract class Entity {
 
 	public static boolean entityFitsInWorld(Entity entity, World world){
 		double radius = entity.getEntityRadius();
-		double upper_bound = OMEGA*(world.getWorldSize()[1]-radius);
-		double right_bound = OMEGA*(world.getWorldSize()[0]-radius);
+		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
+		double right_bound = OMEGA*(world.getWorldWidth()-radius);
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
 		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));
@@ -217,9 +217,11 @@ public abstract class Entity {
 		return true;
 	}
 	
-	public void setEntityRadius(double radius) throws ModelException{
+	public void setEntityRadius(double radius) {
 		if (isValidRadius(radius))
-			this.radius = radius;	
+			this.radius = radius;
+		else
+			throw new IllegalArgumentException();
 	}
 	
 	public boolean isValidRadius(double radius) {
@@ -284,7 +286,7 @@ public abstract class Entity {
 		return true;
 	}
 	
-	public void setEntityMass(double mass) throws ModelException{
+	public void setEntityMass(double mass) {
 		if (isValidMass(mass))
 			this.mass = mass;
 		else{
@@ -320,9 +322,9 @@ public abstract class Entity {
 		this.world = world;
 	}
 	
-	public void move(double dt) throws ModelException {
+	public void move(double dt){
 		if (dt < 0)
-			throw new ModelException("Give a positive time please.");
+			throw new IllegalArgumentException();
 		
 		double vel_x = getEntityVelocityX();
 		double vel_y = getEntityVelocityY();
@@ -344,7 +346,7 @@ public abstract class Entity {
 	
 	///TERMINATION AND STATES///
 	
-	public void Terminate() throws ModelException{
+	public void Terminate() {
 		if (this.isEntityFree()){
 			setEntityState(State.TERMINATED);}
 		else if (this.isEntityInWorld()){
@@ -353,8 +355,7 @@ public abstract class Entity {
 		if (this instanceof Ship){
 			for (Bullet bullet:((Ship)this).getShipBullets()){
 				((Ship)this).removeBulletFromShip(bullet);
-				bullet.Terminate();
-				
+				bullet.Terminate();	
 			}
 		}
 	}
@@ -384,20 +385,20 @@ public abstract class Entity {
 		return isEntityInWorld() ^ isEntityFree() ^ isEntityTerminated();
 	}
 	
-	public void setEntityState(State state) throws ModelException{
+	public void setEntityState(State state) {
 		if (state == null)
-			throw new ModelException("this is not a valid state");
+			throw new IllegalArgumentException();
 		else
 			this.state = state;
 	}
 	
-	public void setEntityInWorld(World world) throws ModelException{
+	public void setEntityInWorld(World world){
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.INWORLD);	
 		this.setEntityWorld(world);
 	}
 	
-	public void setEntityFree() throws ModelException{
+	public void setEntityFree() {
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.FREE);
 		this.setEntityWorld(null);
@@ -482,7 +483,7 @@ public abstract class Entity {
 	 *         If the two ships overlap.
 	 *         |(this.overlap(otherShip))
 	 */
-	public double getTimeToCollision(Entity otherEntity) throws ModelException {
+	public double getTimeToCollision(Entity otherEntity) {
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
 		double velocity_2X = otherEntity.getEntityVelocityX();
@@ -505,8 +506,8 @@ public abstract class Entity {
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
 
 		if (this.overlap(otherEntity))
-			throw new ModelException("The two enties are overlapping");
-
+			throw new IllegalArgumentException();
+			
 		else if (delta_v_r > 0)
 			return Double.POSITIVE_INFINITY;
 
@@ -554,7 +555,7 @@ public abstract class Entity {
 	 *         If the two ships are overlapping.
 	 *         |(this.overlap(otherShip))
 	 */
-	public double[] getCollisionPosition(Entity otherEntity) throws ModelException {
+	public double[] getCollisionPosition(Entity otherEntity){
 
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
@@ -569,7 +570,7 @@ public abstract class Entity {
 		double time_till_overlapping = this.getTimeToCollision(otherEntity);
 
 		if (this.overlap(otherEntity))
-			throw new ModelException("The two entities are overlapping");
+			throw new IllegalArgumentException();
 
 		else if (time_till_overlapping == Double.POSITIVE_INFINITY)
 			return null;
@@ -606,11 +607,11 @@ public abstract class Entity {
 			double positionY = this.getEntityPositionY();
 			double velocityX = this.getEntityVelocityX();
 			double velocityY = this.getEntityVelocityY();
-			double sizeX = this.getEntityWorld().getWorldWidth();
-			double sizeY = this.getEntityWorld().getWorldHeight();
+			double width = this.getEntityWorld().getWorldWidth();
+			double height = this.getEntityWorld().getWorldHeight();
 			double radius = this.getEntityRadius();
-			double x_distance = Math.abs(sizeX - positionX-radius);
-			double y_distance = Math.abs(sizeY - positionY-radius);
+			double x_distance = Math.abs(width - positionX-radius);
+			double y_distance = Math.abs(height - positionY-radius);
 			
 			double dtx = (x_distance / velocityX);
 			double dty = (y_distance / velocityY);
@@ -640,14 +641,15 @@ public abstract class Entity {
 			double velocityX = this.getEntityVelocityX();
 			double velocityY = this.getEntityVelocityY();
 			double radius = this.getEntityRadius();
-			double[] size = this.getEntityWorld().getWorldSize();
+			double width = this.getEntityWorld().getWorldWidth();
+			double height = this.getEntityWorld().getWorldHeight();
 			new_x = positionX+time*velocityX;
 			new_y = positionY+time*velocityY;
-			if (Math.abs(sizeX - positionX-radius) ==0)
+			if (Math.abs(width - positionX-radius) ==0)
 				new_x += radius;
-			else if ((Math.abs(sizeX - positionX+radius) == sizeX))
+			else if ((Math.abs(width - positionX+radius) == width))
 				new_x -= radius;
-			else if ((Math.abs(sizeY - positionY-radius)==0))
+			else if ((Math.abs(height - positionY-radius)==0))
 					new_y += radius;
 			else
 				new_y -= radius;

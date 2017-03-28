@@ -46,8 +46,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public Ship createShip() throws ModelException {
-		Ship ship = new Ship();
-		return ship;
+		try {
+			Ship ship = new Ship();
+			return ship;
+		} catch (IllegalArgumentException illegalArgumentException ) {
+			throw new ModelException("these are no valid default arguments");
+		}
 	}
 	
 	/**
@@ -58,9 +62,13 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass)
-			throws ModelException {
-		Ship ship = new Ship(x, y, xVelocity, yVelocity, radius, orientation, mass);
-		return ship;
+			throws ModelException{
+		try {
+			Ship ship = new Ship(x, y, xVelocity, yVelocity, radius, orientation, mass);
+			return ship;
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are no valid arguments");
+		}
 	}
 
 	/**
@@ -163,7 +171,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double getTimeToCollision(Ship ship1, Ship ship2) throws ModelException {
-		return ship1.getTimeToCollision(ship2);
+		try {
+			return ship1.getTimeToCollision(ship2);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are no valid arguments");
+		}
 	}
 
 	/**
@@ -174,7 +186,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double[] getCollisionPosition(Ship ship1, Ship ship2) throws ModelException {
-		return ship1.getCollisionPosition(ship2);
+		try {
+			return ship1.getCollisionPosition(ship2);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are no valid arguments");
+		}
 	}
 
 	/**
@@ -183,7 +199,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void terminateShip(Ship ship) throws ModelException {
-		ship.Terminate();
+		try {
+			ship.Terminate();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -192,7 +212,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public boolean isTerminatedShip(Ship ship) throws ModelException {
-		return ship.isEntityTerminated();
+		try {
+			return ship.isEntityTerminated();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -201,7 +225,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double getShipMass(Ship ship) throws ModelException {
-		return ship.getEntityMass();
+		try {
+			return ship.getEntityMass();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -210,7 +238,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public World getShipWorld(Ship ship) throws ModelException {
-		return ship.getEntityWorld();
+		try {
+			return ship.getEntityWorld();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -219,7 +251,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public boolean isShipThrusterActive(Ship ship) throws ModelException {
-		return ship.isThrusterActive();
+		try {
+			return ship.isThrusterActive();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -228,7 +264,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) throws ModelException {
-		ship.setThrusterActive(active);
+		try {
+			ship.setThrusterActive(active);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -237,7 +277,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double getShipAcceleration(Ship ship) throws ModelException {
-		return ship.getShipAcceleration();
+		try {
+			return ship.getShipAcceleration();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	
@@ -249,8 +293,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	@Override
 	public Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
 			throws ModelException {
-		Bullet bullet = new Bullet(x, y, xVelocity, yVelocity, radius);
-		return bullet;
+		try {
+			Bullet bullet = new Bullet(x, y, xVelocity, yVelocity, radius);
+			return bullet;
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this are not valid arguments");
+		}
 	}
 
 	/**
@@ -259,7 +307,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void terminateBullet(Bullet bullet) throws ModelException {
-		bullet.Terminate();
+		try {
+			bullet.Terminate();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 		
 	}
 
@@ -269,7 +321,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public boolean isTerminatedBullet(Bullet bullet) throws ModelException {
-		return bullet.isEntityTerminated();
+		try {
+			return bullet.isEntityTerminated();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -342,8 +398,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public World createWorld(double width, double height) throws ModelException {
-		World world = new World(width, height);
-		return world;
+		try {
+			World world = new World(width, height);
+			return world;
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -352,7 +412,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void terminateWorld(World world) throws ModelException {
-		world.Terminate();
+		try {
+			world.Terminate();
+		} catch (IllegalStateException illegalStateException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -397,7 +461,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void addShipToWorld(World world, Ship ship) throws ModelException {
-		world.addEntityToWorld(ship);
+		try {
+			world.addEntityToWorld(ship);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -415,7 +483,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void addBulletToWorld(World world, Bullet bullet) throws ModelException {
-		world.addEntityToWorld(bullet);
+		try {
+			world.addEntityToWorld(bullet);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -452,7 +524,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void loadBulletOnShip(Ship ship, Bullet bullet) throws ModelException {
-		ship.addOneBulletToShip(bullet);
+		try {
+			ship.addOneBulletToShip(bullet);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -461,7 +537,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void loadBulletsOnShip(Ship ship, Collection<Bullet> bullets) throws ModelException {
-		ship.addMultipleBulletsToShip(bullets);		
+		try {
+			ship.addMultipleBulletsToShip(bullets);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}		
 	}
 
 	/**
@@ -470,7 +550,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void removeBulletFromShip(Ship ship, Bullet bullet) throws ModelException {
-		ship.removeBulletFromShip(bullet);
+		try {
+			ship.removeBulletFromShip(bullet);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -479,7 +563,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void fireBullet(Ship ship) throws ModelException {
-		ship.fireBullet();
+		try {
+			ship.fireBullet();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	///COLLISIONS///
@@ -490,7 +578,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double getTimeCollisionBoundary(Object object) throws ModelException {
-		return ((Entity)object).getTimeCollisionBoundary();
+		try {
+			return ((Entity)object).getTimeCollisionBoundary();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -500,7 +592,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double[] getPositionCollisionBoundary(Object object) throws ModelException {
-		return ((Entity)object).getPositionCollisionBoundary();
+		try {
+			return ((Entity)object).getPositionCollisionBoundary();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -510,7 +606,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double getTimeCollisionEntity(Object entity1, Object entity2) throws ModelException {
-		return ((Entity)entity1).getTimeToCollision((Entity)entity2);
+		try {
+			return ((Entity)entity1).getTimeToCollision((Entity)entity2);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -520,7 +620,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double[] getPositionCollisionEntity(Object entity1, Object entity2) throws ModelException {
-		return ((Entity)entity1).getCollisionPosition(((Entity)entity2));
+		try {
+			return ((Entity)entity1).getCollisionPosition(((Entity)entity2));
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -530,7 +634,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double getTimeNextCollision(World world) throws ModelException {
-		return world.getTimeNextCollision();
+		try {
+			return world.getTimeNextCollision();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("this is not a valid argument");
+		}
 	}
 
 	/**
@@ -540,7 +648,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public double[] getPositionNextCollision(World world) throws ModelException {
-		return world.getPositionNextCollision();	}
+		try {
+			return world.getPositionNextCollision();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}	
+		}
 
 	///EVOLVE AND ENTITIES///
 	/**
@@ -549,7 +662,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
-		world.evolve(dt,collisionListener);
+		try {
+			world.evolve(dt,collisionListener);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -558,7 +675,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public Object getEntityAt(World world, double x, double y) throws ModelException {
-		return world.getEntityAt(x, y);
+		try {
+			return world.getEntityAt(x, y);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 
 	/**
@@ -567,6 +688,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 */
 	@Override
 	public Set<? extends Object> getEntities(World world) throws ModelException {
-		return world.getWorldEntities();
+		try {
+			return world.getWorldEntities();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments");
+		}
 	}
 }

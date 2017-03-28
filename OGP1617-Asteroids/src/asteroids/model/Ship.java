@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import asteroids.util.ModelException;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -91,7 +90,7 @@ public class Ship extends Entity {
 	 */
 	//ALL VALUES//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass, 
-			double maxVelocity,double density, boolean thrusterActivity,  double thrusterForce) throws ModelException {
+			double maxVelocity,double density, boolean thrusterActivity,  double thrusterForce)  {
 		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
 		setThrusterActive(thrusterActivity);
 		setShipThrusterForce(thrusterForce);
@@ -109,7 +108,7 @@ public class Ship extends Entity {
 	 */
 	//NORMAL CONSTRUCTOR//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
-			throws ModelException {
+		 {
 		this(x, y, xVelocity, yVelocity, radius, orientation, mass,Entity.getDefaultMaxVelocity(),
 				Entity.getDefaultShipDensity(),getDefaultThrusterActivity(),getDefaultThrusterForce());
 	}
@@ -124,7 +123,7 @@ public class Ship extends Entity {
 	 *         getDefaultMaxVelocity());
 	 */
 	//ALL DEFAULT//
-	public Ship() throws ModelException {
+	public Ship() {
 		this(getDefaultPosition()[0], getDefaultPosition()[1], getDefaultVelocity()[0], getDefaultVelocity()[1],
 				getDefaultRadius(), Entity.getDefaultOrientation(),getDefaultMass());
 	}
@@ -270,17 +269,17 @@ public class Ship extends Entity {
 	
 	///ADDERS///
 		 
-	public void addOneBulletToShip(Bullet bullet) throws ModelException{
+	public void addOneBulletToShip(Bullet bullet) {
 		if (this.canHaveAsBullet(bullet)){
 			this.bullets.put(bullet.hashCode(), bullet);
 			bullet.setBulletLoaded(this);
 			bullet.setEntityOrientation(this.getEntityOrientation());}
 		else
-			throw new ModelException("this bullet can not be loaded on this ship");
+			throw new IllegalArgumentException();
 	}
 
 
-	public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws ModelException{
+	public void addMultipleBulletsToShip(Collection<Bullet> bullets){
 		for (Bullet bullet: bullets)
 			addOneBulletToShip(bullet);
 	}
@@ -288,16 +287,16 @@ public class Ship extends Entity {
 	
 	///REMOVERS///
 		 
-	public void removeBulletFromShip(Bullet bullet) throws ModelException{
+	public void removeBulletFromShip(Bullet bullet) {
 		if (!this.hasAsBullet(bullet)){
-			throw new ModelException("this ship doesn't have this bullet");}
+			throw new IllegalArgumentException();}
 		else{
 			this.bullets.remove(bullet.hashCode());
 			bullet.setBulletNotLoaded();	
 		}
 	}
 
-	public void fireBullet() throws ModelException{
+	public void fireBullet(){
 		if (! bullets.isEmpty()) {
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
@@ -325,7 +324,7 @@ public class Ship extends Entity {
 		 
 	
 	/// HELP FUNCTIONS///
-		 public Set<Bullet> makeFifteenBullets() throws ModelException{
+		 public Set<Bullet> makeFifteenBullets(){
 			Set<Bullet> result = new HashSet<>();
 			double x_position = this.getEntityPosition()[0];
 			double y_position = this.getEntityPosition()[1];
