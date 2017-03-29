@@ -124,7 +124,15 @@ public abstract class Entity {
 		double squared_discriminant = Math.sqrt(discriminant);
 		double root1 = ((-b)+squared_discriminant)/(2*a);
 		double root2 = ((-b)+squared_discriminant)/(2*a);
-		return Math.min(root1, root2);
+		if (root1 < root2 && root1 >= 0)
+			return root1;
+		else if (root2 <= root1 && root2>=0)
+			return root2;
+		else if (root1 >=0 && root2 <0)
+			return root1;
+		else 
+			return root2;
+		
 		
 	}
 
@@ -540,25 +548,40 @@ public abstract class Entity {
 			double radius = this.getEntityRadius();
 			double x_distance = Math.abs(width - positionX-radius);
 			double y_distance = Math.abs(height - positionY-radius);
-			double dtx = 0;
-			double dty = 0;
+			double orientation = this.getEntityOrientation();
+			double dtx_right = 0;
+			double dtx_left = 0;
+			double dty_up = 0;
+			double dty_down = 0;
 			
 			if ((this instanceof Ship && ((Ship)this).isThrusterActive())){
 				double acceleration = ((Ship)this).getShipAcceleration();
-				double orientation = ((Ship)this).getEntityOrientation();
+				
 				
 				double a = (acceleration*orientation);
-				dtx = SolveQuadraticToSmallest(a, velocityX, (-x_distance));
-				dty = SolveQuadraticToSmallest(a, velocityY, (-y_distance));
+				dtx_right = SolveQuadraticToSmallest(a, velocityX, (-x_distance));
+				dty_up = SolveQuadraticToSmallest(a, velocityY, (-y_distance));
+				dtx_left = SolveQuadraticToSmallest(a, velocityX, (-positionX));
+				dty_down = SolveQuadraticToSmallest(a, velocityY, (-positionY));
 			}
 			else{	
-			dtx = (x_distance / velocityX);
-			dty = (y_distance / velocityY);
+			dtx_right = (x_distance / velocityX);
+			dty_up = (y_distance / velocityY);
+			dtx_left = (positionX / velocityX);
+			dty_down = (positionY / velocityY);
 			}
-			if (dtx >= dty){
-				return dty;}
-			else if (dty > dtx){
-				return dtx;}
+			if (dtx_right<0){
+				dtx_right = Double.POSITIVE_INFINITY;}
+			if (dtx_left<0){
+				dtx_left = Double.POSITIVE_INFINITY;}
+			if (dty_up<0){
+				dty_up = Double.POSITIVE_INFINITY;}
+			if (dty_down<0){
+				dty_down = Double.POSITIVE_INFINITY;}
+			if (Math.min(dtx_left, dtx_right) < Math.min(dty_up, dty_down)){
+				return Math.min(dtx_left, dtx_right);}
+			else if (Math.min(dtx_left, dtx_right) > Math.min(dty_up, dty_down)){
+				return Math.min(dty_up, dty_down);}
 			else {
 				return Double.POSITIVE_INFINITY;}
 		
