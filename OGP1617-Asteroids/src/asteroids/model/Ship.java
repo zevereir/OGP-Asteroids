@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import asteroids.model.Entity.State;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -160,6 +162,12 @@ public class Ship extends Entity {
 	
 	private double initialFiringVelocity = 250;
 	
+	private final static double LOWER_SHIP_RADIUS = 10;
+	
+	public double minimumShipMass(){
+		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
+	}
+	
 	/// GETTERS ///
 
 		
@@ -188,6 +196,10 @@ public class Ship extends Entity {
 		return this.getShipBullets().size();
 	}
 	
+	public double getEntityMass() {
+		double bullets_weight = ((Ship)this).getBulletsWeight();
+		return this.mass + bullets_weight;	
+}
 
 	
 	/// SETTERS ///
@@ -202,6 +214,21 @@ public class Ship extends Entity {
 		this.thruster_force = thrusterForce;
 	}
 	
+	public void setEntityDensity(double density){
+
+		if (isValidDensity(density))
+			this.density = density;
+		
+		else
+			this.density = getDefaultShipDensity();
+	}
+	
+	public void setEntityMass(double mass) {
+		if (isValidMass(mass))
+			this.mass = mass;
+		else
+			this.mass = minimumShipMass();	
+	}
 	
 	///CHECKERS///
 	
@@ -227,6 +254,25 @@ public class Ship extends Entity {
 		return ((distance_between + bullet_radius) < ship_radius);
 		
 		
+	}
+	
+	public boolean isValidRadius(double radius) {
+		if ((radius < 0) || (radius < LOWER_SHIP_RADIUS) )
+			return false;
+		else
+			return true;		
+	}
+	
+	public boolean isValidDensity(double density) {
+		if (( density < getDefaultShipDensity())||(density < 0) )
+			return false;		
+		return true;
+	}
+	
+	public boolean isValidMass(double mass) {
+		if ((mass == Double.NaN) || (mass < minimumShipMass())) 
+			return false;		
+		return true;
 	}
 	
 	/**
@@ -322,7 +368,41 @@ public class Ship extends Entity {
 		}
 	}
 		 
+	///MOVE///
+	public void move(double dt){
+		if (dt < 0)
+			throw new IllegalArgumentException();
+		
+		double vel_x = getEntityVelocityX();
+		double vel_y = getEntityVelocityY();
+				
+		if (this.isThrusterActive()) {
+			final double acceleration = this.getShipAcceleration();
+			final double orientation = this.getEntityOrientation();
+			vel_x += acceleration*Math.cos(orientation)*dt;
+			vel_y += acceleration*Math.sin(orientation)*dt;
+			this.setEntityVelocity(vel_x, vel_y);
+		}
+
+		final double delta_x = vel_x * dt;
+		final double delta_y = vel_y * dt;
+
+		this.setEntityPosition(getEntityPositionX() + delta_x, getEntityPositionY() + delta_y);
+	}
+	///TERMINATE///
 	
+	public void Terminate() {
+		if (this.isEntityFree()){
+			setEntityState(State.TERMINATED);}
+		else if (this.isEntityInWorld()){
+			this.getEntityWorld().removeEntityFromWorld(this);
+			setEntityState(State.TERMINATED);}
+		for (Bullet bullet:this.getShipBullets()){
+			this.removeBulletFromShip(bullet);
+			bullet.Terminate();	
+			}
+		}
+
 	/// HELP FUNCTIONS///
 		 public Set<Bullet> makeFifteenBullets(){
 			Set<Bullet> result = new HashSet<>();

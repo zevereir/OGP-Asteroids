@@ -76,12 +76,10 @@ public class World {
 	
 	public Object getEntityAt(double x, double y){
 		double[] search_position = {x,y};		
-		for (Object entity: getWorldEntities()){
-			if (((Entity)entity).getEntityPosition() == search_position){
-				return ((Entity)entity);
-			}	
-		}
-		return null;
+		if (entity_positions.containsKey(search_position))
+				return entity_positions.get(search_position);
+		else
+			return null;
 	}
 	
 	
@@ -113,6 +111,7 @@ public class World {
 	
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Map<Integer,Ship> ships = new HashMap<Integer,Ship>();
+	private final Map<double[],Entity> entity_positions = new HashMap<double[],Entity>();
 	private final Map<Integer,Bullet> bullets = new HashMap<Integer,Bullet>();
 	private Entity collision_entity_1 = null;
 	private Entity collision_entity_2 = null;
@@ -127,10 +126,12 @@ public class World {
 		 	} else {
 				bullets.put(((Bullet)entity).hashCode(),(Bullet)entity);
 			}
+			entity_positions.put(entity.getEntityPosition(),entity);
 		} else{
 			throw new IllegalArgumentException() ;
 		}
 	}
+	
 	 
 	
 	///REMOVERS///
@@ -140,6 +141,7 @@ public class World {
 		else if (entity instanceof Bullet){
 			this.bullets.remove(((Bullet)entity).hashCode());		
 		}
+		entity_positions.remove(entity.getEntityPosition());
 		entity.setEntityFree();
 	}
 	///HAS///
@@ -175,7 +177,9 @@ public class World {
 		double TimeToCollision = getTimeNextCollision();
 		if (TimeToCollision < dt) {
 			for (Object entity: getWorldEntities()) {
+				entity_positions.remove(((Entity)entity).getEntityPosition());
 				((Entity)entity).move(TimeToCollision);
+				entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 			}
 			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 				collisionListener.notify();

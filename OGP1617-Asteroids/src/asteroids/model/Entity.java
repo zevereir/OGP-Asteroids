@@ -26,33 +26,32 @@ public abstract class Entity {
 	
 
 	///BASIC PROPERTIES///
-	private double[] position;
-	private double[] velocity;
-	private double radius;
-	private double orientation;
-	private double max_velocity;
-	private double density;
-	private double mass;
+	protected double[] position;
+	protected double[] velocity;
+	protected double radius;
+	protected double orientation;
+	protected double max_velocity;
+	protected double density;
+	protected double mass;
 	
 	///DEFAULTS///
 	private final static double SPEED_OF_LIGHT = 300000;
-	private final static double LOWER_BULLET_RADIUS = 1;
-	private final static double LOWER_SHIP_RADIUS = 10;
 	
-	
+
 	public final static double OMEGA = 0.99;
 	
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
 	}
 	
-	public static double getDefaultShipDensity() {
+	public static double getDefaultShipDensity(){
 		return 1.42E12;
 	}
 	
-	public static double getDefaultBulletDensity() {
+	public static double getDefaultBulletDensity(){
 		return 7.8E12;
 	}
+	
 	
 	@Immutable
 	public static double[] getDefaultPosition() {
@@ -154,13 +153,8 @@ public abstract class Entity {
 		return this.density;
 	}
 	
-	public double getEntityMass(){
-		if (this instanceof Ship){
-			double bullets_weight = ((Ship)this).getBulletsWeight();
-			return this.mass + bullets_weight;
-		} else
-			return this.mass;	
-	}
+	public abstract double getEntityMass();
+		
 	
 	public World getEntityWorld(){
 		return this.world;
@@ -211,7 +205,7 @@ public abstract class Entity {
 		if ((Double.isNaN(xVelocity)) || (Double.isNaN(yVelocity)))
 			return false;
 		
-		if (Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2)) > this.getEntityMaxVelocity())
+		if (getEuclidianDistance(xVelocity, yVelocity) > this.getEntityMaxVelocity())
 			return false;
 		
 		return true;
@@ -224,18 +218,9 @@ public abstract class Entity {
 			throw new IllegalArgumentException();
 	}
 	
-	public boolean isValidRadius(double radius) {
-		if (radius < 0)
-			return false;
-		
-		if (this instanceof Bullet && (radius < LOWER_BULLET_RADIUS))
-			return false;
-		
-		if (this instanceof Ship && radius < LOWER_SHIP_RADIUS)
-			return false;
+	public abstract boolean isValidRadius(double radius);
 			
-		return true;		
-	}
+	
 	
 	/**
 	 * Gives the ship a new orientation.
@@ -265,105 +250,30 @@ public abstract class Entity {
 			this.max_velocity = SPEED_OF_LIGHT;
 	}
 	
-	public void setEntityDensity(double density){
-		if (this instanceof Bullet)
-			this.density = getDefaultBulletDensity();
+	public abstract void setEntityDensity(double density);
 		
-		else if (isValidDensity(density))
-			this.density = density;
-		
-		else
-			this.density = getDefaultShipDensity();
-	}
 	
-	public boolean isValidDensity(double density) {
-		if ( (this instanceof Ship) && (density < getDefaultShipDensity()) )
-			return false;
-		
-		if (density < 0)
-			return false;
-		
-		return true;
-	}
+	public abstract boolean isValidDensity(double density); 
 	
-	public void setEntityMass(double mass) {
-		if (isValidMass(mass))
-			this.mass = mass;
-		else{
-			if (this instanceof Ship)
-				this.mass = minimumShipMass();
-			else
-				this.mass = bulletMass();
-		}
-	}
+	public abstract void setEntityMass(double mass); 
 	
-	public boolean isValidMass(double mass) {
-		if (mass == Double.NaN)
-			return false;
-		
-		if (mass < minimumShipMass())
-			return false;
-		
-		if (this instanceof Bullet && mass != bulletMass())
-			return false;
-		
-		return true;
-	}
-	
-	public double minimumShipMass(){
-		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
-	}
-	
-	public double bulletMass() {
-		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();		
-	}
-	
+	public abstract boolean isValidMass(double mass);
+
 	public void setEntityWorld(World world){
 		this.world = world;
 	}
 	
-	public void move(double dt){
-		if (dt < 0)
-			throw new IllegalArgumentException();
+	public abstract  void move(double dt);
 		
-		double vel_x = getEntityVelocityX();
-		double vel_y = getEntityVelocityY();
-				
-		if (this instanceof Ship && ((Ship)this).isThrusterActive()) {
-			final double acceleration = ((Ship)this).getShipAcceleration();
-			final double orientation = ((Ship)this).getEntityOrientation();
-			vel_x += acceleration*Math.cos(orientation)*dt;
-			vel_y += acceleration*Math.sin(orientation)*dt;
-			this.setEntityVelocity(vel_x, vel_y);
-		}
-
-		final double delta_x = vel_x * dt;
-		final double delta_y = vel_y * dt;
-
-		this.setEntityPosition(getEntityPositionX() + delta_x, getEntityPositionY() + delta_y);
-	}
-	
 	
 	///TERMINATION AND STATES///
 	
-	public void Terminate() {
-		if (this.isEntityFree()){
-			setEntityState(State.TERMINATED);}
-		else if (this.isEntityInWorld()){
-			this.getEntityWorld().removeEntityFromWorld(this);
-			setEntityState(State.TERMINATED);}
-		if (this instanceof Ship){
-			for (Bullet bullet:((Ship)this).getShipBullets()){
-				((Ship)this).removeBulletFromShip(bullet);
-				bullet.Terminate();	
-			}
-		}
-	}
+	public abstract void Terminate(); 
 	
 	private State state = State.FREE;
 	
 	//FREE = GEEN WORLD, INWORLD = WEL EEN WORLD
-	private static enum State {
+	protected static enum State {
 		FREE,INWORLD,TERMINATED;	
 	}
 	

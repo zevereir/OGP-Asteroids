@@ -1,5 +1,6 @@
 package asteroids.model;
 
+import asteroids.model.Entity.State;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -36,6 +37,15 @@ public class Bullet extends Entity {
 		return 4/3*Math.PI*Math.pow(getDefaultRadius(),3)*getDefaultBulletDensity();
 	}
 	
+	private final static double LOWER_BULLET_RADIUS = 1;
+	
+	public double getDefaultDensity(){ 
+		return 7.8E12;
+	}
+	
+	public double bulletMass() {
+		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();		
+	}
 	
 	///GETTERS///
 	
@@ -51,11 +61,35 @@ public class Bullet extends Entity {
 		
 	}
 	
+	public double getEntityMass() {
+		return this.mass;	
+}
+	
 	///CHECKERS///
 	
 	//---> GOED NAKIJKEN <----//
 	public boolean canHaveAsShip(Ship ship){
 		return ((ship.canHaveAsBullet(this)) || (this.isEntityInWorld()));
+	}
+	
+	public boolean isValidRadius(double radius) {
+		if ((radius < 0) || (radius < LOWER_BULLET_RADIUS) )
+			return false;
+		else
+			return true;		
+	}
+	
+	public boolean isValidDensity(double density) {
+		if (( density < getDefaultBulletDensity())||(density < 0) )
+			return false;
+		else		
+		return true;
+	}
+	
+	public boolean isValidMass(double mass) {
+		if ((mass == Double.NaN) || (mass != bulletMass()))
+			return false;		
+		return true;
 	}
 	
 	///SETTERS///
@@ -71,26 +105,39 @@ public class Bullet extends Entity {
 		this.amountOfBounces = amount;
 	}
 	
+	public void setEntityDensity(double density){
+		this.density = getDefaultBulletDensity();
+		
+	}
+	
+	public void setEntityMass(double mass) {
+		if (isValidMass(mass))
+			this.mass = mass;
+		else
+				this.mass = bulletMass();
+		
+	}
+	
 	///TERMINATION AND STATES///
 	
-	private State state = State.NOTLOADED;
+	private BulletState state = BulletState.NOTLOADED;
 
-	private static enum State {
+	private static enum BulletState {
 		LOADED,NOTLOADED;	
 	}
 
-	public State getBulletLoadedState(){
+	public BulletState getBulletLoadedState(){
 		return this.state;
 	}
 	public boolean isBulletLoaded(){
-		return (this.getBulletLoadedState() == State.LOADED);
+		return (this.getBulletLoadedState() == BulletState.LOADED);
 	}
 
 	public boolean hasBulletProperState(){
 		return isBulletLoaded() ^(!isBulletLoaded());
 	}
 
-	public void setBulletLoadedState(State state) {
+	public void setBulletLoadedState(BulletState state) {
 		if (state == null)
 			throw new IllegalStateException();
 		else
@@ -99,16 +146,39 @@ public class Bullet extends Entity {
 
 	public void setBulletLoaded(Ship ship) {
 		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
-		this.setBulletLoadedState(State.LOADED);
+		this.setBulletLoadedState(BulletState.LOADED);
 		this.setBulletShip(ship);
 	}
 
 	public void setBulletNotLoaded() {
 		assert (!this.isEntityTerminated());
-		this.setBulletLoadedState(State.NOTLOADED);
+		this.setBulletLoadedState(BulletState.NOTLOADED);
 		this.setBulletShip(null);
 	}
+	
+	public void Terminate() {
+		if (this.isEntityFree()){
+			setEntityState(State.TERMINATED);}
+		else if (this.isEntityInWorld()){
+			this.getEntityWorld().removeEntityFromWorld(this);
+			setEntityState(State.TERMINATED);}
+		}
+	
 
+	///MOVE///
+	public void move(double dt){
+		if (dt < 0)
+			throw new IllegalArgumentException();
+		
+		double vel_x = getEntityVelocityX();
+		double vel_y = getEntityVelocityY();
+
+		final double delta_x = vel_x * dt;
+		final double delta_y = vel_y * dt;
+
+		this.setEntityPosition(getEntityPositionX() + delta_x, getEntityPositionY() + delta_y);
+	}
+	
 
 	///CONNECTIONS WITH OTHER CLASSES///
 	private  Ship ship = null;
