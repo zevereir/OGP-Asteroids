@@ -1,6 +1,4 @@
 package asteroids.model;
-
-import asteroids.model.Entity.State;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -69,7 +67,7 @@ public class Bullet extends Entity {
 	
 	//---> GOED NAKIJKEN <----//
 	public boolean canHaveAsShip(Ship ship){
-		return ((ship.canHaveAsBullet(this)) || (this.isEntityInWorld()));
+		return (ship.canHaveAsBullet(this));
 	}
 	
 	public boolean isValidRadius(double radius) {

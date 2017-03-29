@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import asteroids.model.Entity.State;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -96,7 +94,6 @@ public class Ship extends Entity {
 		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
 		setThrusterActive(thrusterActivity);
 		setShipThrusterForce(thrusterForce);
-		addMultipleBulletsToShip(makeFifteenBullets());
 	}
 
 	
@@ -239,10 +236,19 @@ public class Ship extends Entity {
 			return true;
 	}
 		
-	// --> ZEKER NOG EENS GOED NAKIJKEN (OVERLAP,TERMINATE,...)!!!!! <-- //
+	
 	public boolean canHaveAsBullet(Bullet bullet){
-		 return ((!this.hasAsBullet(bullet)) &&(bullet.getBulletShip()==null) && this.bulletFullyInShip(bullet));
-				 
+		if (this.hasAsBullet(bullet))
+			 return false;
+		if(bullet.getBulletShip()!=null) 
+			return false;
+		if (!this.bulletFullyInShip(bullet))
+			return false;
+		if (bullet.isEntityTerminated())
+			return false;
+		if (this.isEntityTerminated())
+			return false;
+		return true;	 
 	}
 	
 	public boolean bulletFullyInShip(Bullet bullet){
@@ -344,27 +350,28 @@ public class Ship extends Entity {
 
 	public void fireBullet(){
 		if (! bullets.isEmpty()) {
+			
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
-
+			
 			bullet.setBulletSourceShip(this);
-			this.getEntityWorld().addEntityToWorld(bullet);
 			this.removeBulletFromShip(bullet);
-
+			
 			double[] positionShip = this.getEntityPosition();
 			double orientation = this.getEntityOrientation();
 			double radiusShip = this.getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
-
 			double[] positionBullet = {positionShip[0] + Math.cos(orientation)*(radiusShip + radiusBullet+1), 
 					positionShip[1] + Math.sin(orientation)*(radiusShip + radiusBullet + 1)};
 			
-			bullet.setEntityPosition(positionBullet[0], positionBullet[1]);
+			try {
+				bullet.setEntityPosition(positionBullet[0], positionBullet[1]);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				bullet.Terminate();
+			}
 			bullet.setEntityOrientation(orientation);
 			bullet.setEntityVelocity(initialFiringVelocity*Math.cos(orientation), initialFiringVelocity*Math.sin(orientation));
-
-			if (!entityFitsInWorld(bullet, this.getEntityWorld()))
-				bullet.Terminate();
+			this.getEntityWorld().addEntityToWorld(bullet);	
 		}
 	}
 		 
@@ -386,7 +393,6 @@ public class Ship extends Entity {
 
 		final double delta_x = vel_x * dt;
 		final double delta_y = vel_y * dt;
-
 		this.setEntityPosition(getEntityPositionX() + delta_x, getEntityPositionY() + delta_y);
 	}
 	///TERMINATE///
@@ -403,16 +409,6 @@ public class Ship extends Entity {
 			}
 		}
 
-	/// HELP FUNCTIONS///
-		 public Set<Bullet> makeFifteenBullets(){
-			Set<Bullet> result = new HashSet<>();
-			double x_position = this.getEntityPosition()[0];
-			double y_position = this.getEntityPosition()[1];
-			for (int i=0; i <15; i++){
-				 Bullet bullet = new Bullet(x_position,y_position,0,0,0.5*this.getEntityRadius());
-				 result.add(bullet);}
-			return result; 
-		 }
 	
 		 
 		///CONNECTIONS WITH OTHER CLASSES///

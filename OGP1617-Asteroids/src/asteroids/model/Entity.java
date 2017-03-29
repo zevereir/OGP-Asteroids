@@ -107,9 +107,26 @@ public abstract class Entity {
 		double right_bound = OMEGA*(world.getWorldWidth()-radius);
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
-		return ((0 <x-radius) && (0 < y-radius) && (upper_bound > x) && (right_bound > y));
+		
+		if ((0>x-radius)|| (0>y-radius) || (upper_bound<x) || (right_bound < y)){	
+			return false;}
+		for (Object otherEntity: world.getWorldEntities()){
+			if (entity.overlap((Entity)otherEntity)){
+				return false;
+				}
+			}
+		return true;
 	}
 	
+	public double SolveQuadraticToSmallest(double a, double b ,double c){
+		double discriminant = Math.pow(b, 2) - 4*a*c;
+		assert (discriminant >= 0);
+		double squared_discriminant = Math.sqrt(discriminant);
+		double root1 = ((-b)+squared_discriminant)/(2*a);
+		double root2 = ((-b)+squared_discriminant)/(2*a);
+		return Math.min(root1, root2);
+		
+	}
 
 	/// GETTERS ///
 
@@ -163,19 +180,19 @@ public abstract class Entity {
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double x, double y) {
-		if (!isValidEntityPosition(x, y))
-			throw new IllegalArgumentException();
+		if (!isValidEntityPosition(x, y)){
+			throw new IllegalArgumentException();}
 		
 		double[] position_array = { x, y };
 		this.position = position_array;
 	}
 	
 	public boolean isValidEntityPosition(double x, double y){
-		if ((Double.isNaN(x)) || (Double.isNaN(y)))
-			return false;
+		if ((Double.isNaN(x)) || (Double.isNaN(y))){
+			return false;}
 		
 		if ((this.getEntityWorld() != null))
-			return Entity.entityFitsInWorld(this,this.getEntityWorld());
+			return entityFitsInWorld(this,this.getEntityWorld());
 		
 		return true;
 	}
@@ -347,8 +364,7 @@ public abstract class Entity {
 		final double x_distance = Math.abs(first_posX-second_posX);
 		final double y_distance = Math.abs(first_posY-second_posY);
 		final double distance_centers = getEuclidianDistance(x_distance, y_distance);
-		final double distance = distance_centers - (this.getEntityRadius() + otherEntity.getEntityRadius());
-
+		final double distance = distance_centers - OMEGA*(this.getEntityRadius() + otherEntity.getEntityRadius());
 		return distance;
 	}
 	
@@ -394,6 +410,8 @@ public abstract class Entity {
 	 *         |(this.overlap(otherShip))
 	 */
 	public double getTimeToCollision(Entity otherEntity) {
+		if ((!this.isEntityInWorld() && this.hasEntityProperState()) || (!otherEntity.isEntityInWorld() && otherEntity.hasEntityProperState()))
+				throw new IllegalArgumentException();				
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
 		double velocity_2X = otherEntity.getEntityVelocityX();
@@ -510,7 +528,7 @@ public abstract class Entity {
 	}
 	
 	public double getTimeCollisionBoundary(){
-		if (this.isEntityFree() || this.isEntityTerminated()){
+		if (!this.isEntityInWorld() && this.hasEntityProperState()){
 			return Double.POSITIVE_INFINITY;}
 		else {
 			double positionX = this.getEntityPositionX();
@@ -522,10 +540,21 @@ public abstract class Entity {
 			double radius = this.getEntityRadius();
 			double x_distance = Math.abs(width - positionX-radius);
 			double y_distance = Math.abs(height - positionY-radius);
+			double dtx = 0;
+			double dty = 0;
 			
-			double dtx = (x_distance / velocityX);
-			double dty = (y_distance / velocityY);
-			
+			if ((this instanceof Ship && ((Ship)this).isThrusterActive())){
+				double acceleration = ((Ship)this).getShipAcceleration();
+				double orientation = ((Ship)this).getEntityOrientation();
+				
+				double a = (acceleration*orientation);
+				dtx = SolveQuadraticToSmallest(a, velocityX, (-x_distance));
+				dty = SolveQuadraticToSmallest(a, velocityY, (-y_distance));
+			}
+			else{	
+			dtx = (x_distance / velocityX);
+			dty = (y_distance / velocityY);
+			}
 			if (dtx >= dty){
 				return dty;}
 			else if (dty > dtx){
@@ -555,11 +584,11 @@ public abstract class Entity {
 			double height = this.getEntityWorld().getWorldHeight();
 			new_x = positionX+time*velocityX;
 			new_y = positionY+time*velocityY;
-			if (Math.abs(width - positionX-radius) ==0)
+			if (Math.abs(width - new_x-radius) ==0)
 				new_x += radius;
-			else if ((Math.abs(width - positionX+radius) == width))
+			else if ((Math.abs(width - new_x+radius) == width))
 				new_x -= radius;
-			else if ((Math.abs(height - positionY-radius)==0))
+			else if ((Math.abs(height - new_y-radius)==0))
 					new_y += radius;
 			else
 				new_y -= radius;

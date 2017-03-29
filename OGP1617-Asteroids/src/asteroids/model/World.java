@@ -132,8 +132,6 @@ public class World {
 		}
 	}
 	
-	 
-	
 	///REMOVERS///
 	public void removeEntityFromWorld(Entity entity) {
 		if (entity instanceof Ship){
@@ -161,8 +159,14 @@ public class World {
 			return false;
 		if (entity.getEntityWorld()!=null)
 			return false;
-		if (!Entity.entityFitsInWorld(entity,this))
-			return false;
+		if (entity instanceof Ship){
+			if (!Entity.entityFitsInWorld(entity,this))
+				return false;}
+		if (entity instanceof Bullet){
+			if(((Bullet)entity).getBulletSource() == null){
+				if (!Entity.entityFitsInWorld(entity,this))
+					return false;}
+			}
 		if (entity.isEntityTerminated())
 			return false;
 		if (this.isWorldTerminated())
@@ -171,10 +175,13 @@ public class World {
 	}
 	
 	
-	// RUBEN //
+	///----> PROBLEMEN MET THRUSTER <------///
 	// dt = evolving time (a predetermined value)
 	public void evolve(double dt, CollisionListener collisionListener) {
 		double TimeToCollision = getTimeNextCollision();
+		System.out.println(TimeToCollision);
+		double CollisionPositionX = getPositionNextCollision()[0];
+		double CollisionPositionY = getPositionNextCollision()[1];
 		if (TimeToCollision < dt) {
 			for (Object entity: getWorldEntities()) {
 				entity_positions.remove(((Entity)entity).getEntityPosition());
@@ -182,16 +189,20 @@ public class World {
 				entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 			}
 			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
-				collisionListener.notify();
+				if (collisionListener !=null)
+					collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
 				ShipsCollide(collision_entity_1, collision_entity_2); }
 			else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
-				collisionListener.notify();
+				if (collisionListener !=null)
+					collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
 				ShipAndWorldCollide(collision_entity_1);}
 			else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null){
-				collisionListener.notify();
+				if (collisionListener !=null)
+					collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
 				BulletAndWorldCollide(collision_entity_1); }
 			else{
-				collisionListener.notify();
+				if (collisionListener !=null)
+					collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
 				BulletAndEntityCollide(collision_entity_1, collision_entity_2);
 			}
 			
@@ -211,6 +222,12 @@ public class World {
 	public double getTimeNextCollision() {
 		double min_time = Double.POSITIVE_INFINITY;
 		for (Object entity_1: getWorldEntities()){
+			double dt =((Entity)entity_1).getTimeCollisionBoundary();
+			if (dt < min_time){
+				min_time = dt;
+				collision_entity_1 = ((Entity)entity_1);
+				collision_entity_2 = null;
+				}
 			for (Object entity_2: getWorldEntities()){
 				if (entity_2.hashCode()>entity_1.hashCode()){
 					double delta_t = ((Entity)entity_1).getTimeToCollision((Entity)entity_2);
@@ -218,16 +235,10 @@ public class World {
 						min_time = delta_t;
 						collision_entity_1 = ((Entity)entity_1);
 						collision_entity_2 = ((Entity)entity_2);
-					} else if (delta_t == Double.POSITIVE_INFINITY){
-						double dt =((Entity)entity_1).getTimeCollisionBoundary();
-						if (dt < min_time){
-							min_time = dt;
-							collision_entity_1 = ((Entity)entity_1);
-							collision_entity_2 = null;
 						}
 					}			
 				}
-			}
+			
 		}
 		return min_time;
 	}
