@@ -228,9 +228,9 @@ public abstract class Entity {
 		if (radius < 0)
 			return false;
 		
-		if (this instanceof Bullet && ( (radius < LOWER_BULLET_RADIUS) || (radius > ((Bullet)this).getBulletShip().getEntityRadius()) ) )
+		if (this instanceof Bullet && (radius < LOWER_BULLET_RADIUS))
 			return false;
-			
+		
 		if (this instanceof Ship && radius < LOWER_SHIP_RADIUS)
 			return false;
 			
@@ -483,7 +483,7 @@ public abstract class Entity {
 	 *         If the two ships overlap.
 	 *         |(this.overlap(otherShip))
 	 */
-	public double getTimeToCollision(Entity otherEntity) {
+	public double getTimeToCollision(Entity otherEntity) throws IllegalArgumentException{
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
 		double velocity_2X = otherEntity.getEntityVelocityX();

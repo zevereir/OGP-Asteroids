@@ -166,7 +166,7 @@ public class World {
 		if (TimeToCollision < dt) {
 			for (Object entity: getWorldEntities()) {
 				((Entity)entity).move(TimeToCollision);
-			}	
+			}
 			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 				collisionListener.notify();
 				ShipsCollide(collision_entity_1, collision_entity_2); }
@@ -184,7 +184,8 @@ public class World {
 			collision_entity_1 = null;
 			collision_entity_2 = null;
 			
-			evolve(dt-TimeToCollision, collisionListener);
+			double newTime = dt - TimeToCollision;
+			evolve(newTime, collisionListener);
 		} else {
 			for (Object entity: getWorldEntities()) {
 				((Entity)entity).move(dt);
@@ -203,8 +204,7 @@ public class World {
 						min_time = delta_t;
 						collision_entity_1 = ((Entity)entity_1);
 						collision_entity_2 = ((Entity)entity_2);
-						}
-					else if (delta_t == Double.POSITIVE_INFINITY){
+					} else if (delta_t == Double.POSITIVE_INFINITY){
 						double dt =((Entity)entity_1).getTimeCollisionBoundary();
 						if (dt < min_time){
 							min_time = dt;

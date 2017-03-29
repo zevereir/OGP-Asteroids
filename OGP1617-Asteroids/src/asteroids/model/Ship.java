@@ -245,7 +245,7 @@ public class Ship extends Entity {
 	 *         |this.setShipOrientation(this.getShipOrientation() + angle)
 	 */
 	public void turn(double angle) {
-		assert isValidRadian(this.getEntityOrientation() + angle);
+		assert isValidOrientation(this.getEntityOrientation() + angle);
 		assert this instanceof Ship;
 		this.setEntityOrientation(this.getEntityOrientation() + angle);
 	}
