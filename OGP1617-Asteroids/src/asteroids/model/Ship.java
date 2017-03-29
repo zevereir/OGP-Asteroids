@@ -146,7 +146,7 @@ public class Ship extends Entity {
 
 
 	public static double getDefaultMass() {
-		return 4/3*Math.PI * Math.pow(getDefaultRadius(),3)*getDefaultShipDensity();
+		return (4.0/3.0)*Math.PI * Math.pow(getDefaultRadius(),3)*getDefaultShipDensity();
 	}
 	
 	

@@ -311,7 +311,7 @@ public abstract class Entity {
 	}
 	
 	public double minimumShipMass(){
-		return 4/3*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
+		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();
 	}
 	
 	public double bulletMass() {
@@ -483,7 +483,7 @@ public abstract class Entity {
 	 *         If the two ships overlap.
 	 *         |(this.overlap(otherShip))
 	 */
-	public double getTimeToCollision(Entity otherEntity) throws IllegalArgumentException{
+	public double getTimeToCollision(Entity otherEntity) {
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
 		double velocity_2X = otherEntity.getEntityVelocityX();

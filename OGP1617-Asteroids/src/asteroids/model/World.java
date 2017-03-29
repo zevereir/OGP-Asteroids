@@ -1,5 +1,6 @@
 package asteroids.model;
 
+//import be.kuleuven.cs.som.annotate.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -154,8 +155,17 @@ public class World {
 	
 	// --> OVERLAP,TERMINATE,... NOG BEKIJKEN <-- //
 	public boolean canHaveAsEntity(Entity entity){
-		return ((!this.hasAsEntity(entity)) &&(entity.getEntityWorld()==null) &&
-			(Entity.entityFitsInWorld(entity,this)));
+		if (this.hasAsEntity(entity))
+			return false;
+		if (entity.getEntityWorld()!=null)
+			return false;
+		if (!Entity.entityFitsInWorld(entity,this))
+			return false;
+		if (entity.isEntityTerminated())
+			return false;
+		if (this.isWorldTerminated())
+			return false;
+		return true;			
 	}
 	
 	
