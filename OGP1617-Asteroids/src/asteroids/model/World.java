@@ -189,7 +189,6 @@ public class World {
 		}
 		
 		double TimeToCollision = getTimeNextCollision();
-		System.out.println(TimeToCollision);
 		double CollisionPositionX = getPositionNextCollision()[0];
 		double CollisionPositionY = getPositionNextCollision()[1];
 		if (TimeToCollision < dt) {

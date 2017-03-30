@@ -539,11 +539,11 @@ public abstract class Entity {
 			double dty_down = Double.POSITIVE_INFINITY;
 			if (velocityX != 0){
 			dtx_right = (x_distance / velocityX);
-			dtx_left = (positionX / velocityX);
+			dtx_left = (positionX / (-velocityX));
 			}
 			if (velocityY !=0){
-			dty_up = (y_distance / velocityY);
-			dty_down = (positionY / velocityY);
+			dty_up = (y_distance /velocityY);
+			dty_down = (positionY / (-velocityY));
 			}
 			
 			if (dtx_right<0){
