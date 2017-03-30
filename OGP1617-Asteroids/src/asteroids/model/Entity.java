@@ -110,15 +110,16 @@ public abstract class Entity {
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
 		System.out.println("Check pos x: "+x+" and check pos y: "+y);
+		
 		if ((0 > x-radius)|| (0 > y-radius) || (upper_bound < x) || (right_bound < y)){	
 			System.out.println("Not");
-			return false;}
+			return false;
+		}
 		for (Object otherEntity: world.getWorldEntities()){
-			if (entity.overlap((Entity)otherEntity)){
-				System.out.println("Overlap?");
+			if (entity.overlap((Entity)otherEntity) && !entity.equals(otherEntity)){
 				return false;
-				}
 			}
+		}
 		return true;
 	}
 	
