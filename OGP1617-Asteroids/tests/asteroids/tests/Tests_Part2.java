@@ -47,13 +47,14 @@ public class Tests_Part2 {
 		Ship ship6 = facade.createShip(1000, 1000, 10, 0, 100,0,0);
 		Ship ship7 = facade.createShip(10000, 10000, SPEED_OF_LIGHT, SPEED_OF_LIGHT, 100, Math.PI / 4,0);
 		Ship ship8 = facade.createShip(10001,10001,0,0,100,0,0);
-		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8};
+		Ship ship9 = facade.createShip(0,0,0,0,10,0,0);
+		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9};
 
 		return Total;
 	}
 	
 	
-	///CREATE BAD SHIPS///
+	/// CREATE BAD SHIPS ///
 	
 	//ILLEGAL RADIUS
 	@Test(expected = ModelException.class)
@@ -67,7 +68,21 @@ public class Tests_Part2 {
 		Ship ship1 = facade.createShip(0, 0, 0, 0, 10, Math.PI * 10,0);
 	}
 	
+	
+	///OVERLAP///
+	public void doNotOverlap() throws ModelException{
+		Ship ship1 = create_ships()[0];
+		Ship ship2 = create_ships()[1];
+		assert (facade.overlap(ship1, ship2));
+	}
 
+	public void doOverlap() throws ModelException{
+		Ship ship1 = create_ships()[0];
+		Ship ship8 = create_ships()[7];
+		assertFalse (facade.overlap(ship1, ship8));
+	}
+	
+	
 	///TERMINATE///
 	@Test
 	public void testShipTerminate1() throws ModelException {
@@ -78,11 +93,11 @@ public class Tests_Part2 {
 
 	@Test(expected = ModelException.class)
 	public void testShipTerminate2() throws ModelException {
-		Ship ship1 = create_ships()[6];
-		facade.terminateShip(ship1);
-		assert (facade.isTerminatedShip(ship1));
+		Ship ship7 = create_ships()[6];
+		facade.terminateShip(ship7);
+		assert (facade.isTerminatedShip(ship7));
 		Bullet bullet = create_bullets()[2];
-		facade.loadBulletOnShip(ship1, bullet);
+		facade.loadBulletOnShip(ship7, bullet);
 	}
 	
 	
@@ -90,18 +105,33 @@ public class Tests_Part2 {
 	@Test
 	public void testShipGetters() throws ModelException {
 		Ship ship1 = create_ships()[0];
+		Ship ship7 = create_ships()[6];
+		Ship ship9 = create_ships()[8];
+		World world = create_Worlds()[0];
+		
 		assertNotNull(ship1);
-
+		assertNotNull(ship9);
+		
 		// POSITION
 		double[] position = facade.getShipPosition(ship1);
 		assertNotNull(position);
 		assertEquals(10000, position[0], EPSILON);
 		assertEquals(10000, position[1], EPSILON);
+		
+		try {
+			world.addEntityToWorld(ship9);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			// Ship9 will not be added into the world
+		}
+		assertFalse (ship9.isEntityInWorld());
 
 		// VELOCITY
 		double[] velocity = facade.getShipVelocity(ship1);
 		assertEquals(0, velocity[0], EPSILON);
 		assertEquals(0, velocity[1], EPSILON);
+		double[] velocity7 = facade.getShipVelocity(ship7);
+		assertEquals(SPEED_OF_LIGHT*Math.cos(Math.PI/4), velocity7[0], EPSILON);
+		assertEquals(SPEED_OF_LIGHT*Math.sin(Math.PI/4), velocity7[1], EPSILON);
 
 		// RADIUS
 		assertEquals(10, facade.getShipRadius(ship1), EPSILON);
@@ -110,65 +140,67 @@ public class Tests_Part2 {
 		assertEquals(0, facade.getShipOrientation(ship1), EPSILON);
 		
 		// MASS
-		assertTrue(0 != facade.getShipMass(ship1) );
-		
+		assertFalse(0 == facade.getShipMass(ship1) );
 	}
 	
+	
 	///CREATE BULLET///
-		public Bullet[] create_bullets() throws ModelException{
-			Bullet bullet1 = facade.createBullet(10000, 10000, 0, 0, 3);
-			Bullet bullet2 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet3 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet4 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet5 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet6 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet7 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet8 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet9 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet bullet10 = facade.createBullet(10000, 10000, 10, 10, 3);
-			Bullet[] Total ={bullet1, bullet2,bullet3,bullet4,bullet5,bullet6,bullet7,bullet8,bullet9,bullet10};
-			return Total;
-		}
-		public Set<Bullet> bulletsInSet() throws ModelException{
-		 Set<Bullet> bulletset = new HashSet<Bullet>();
-		 for (Bullet bullet: create_bullets())
-			 bulletset.add(bullet);
-		 return bulletset;
-		}
-		
-		
-		///CREATE BAD BULLETS///
-		@Test(expected = ModelException.class)
-		public void create_bad_bullet_radius() throws ModelException{
-			Bullet bullet1 = facade.createBullet(0, 0, 0, 0, -10);
-		}
-		
-		///GETTERS///
-		@Test
-		public void testBulletGetters() throws ModelException {
-			Bullet bullet = create_bullets()[0];
-			assertNotNull(bullet);
-
-			// POSITION
-			double[] position = facade.getBulletPosition(bullet);
-			assertNotNull(position);
-			assertEquals(10000, position[0], EPSILON);
-			assertEquals(10000, position[1], EPSILON);
+	public Bullet[] create_bullets() throws ModelException{
+		Bullet bullet1 = facade.createBullet(10000, 10000, 0, 0, 3);
+		Bullet bullet2 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet3 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet4 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet5 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet6 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet7 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet8 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet9 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet10 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet[] Total ={bullet1, bullet2,bullet3,bullet4,bullet5,bullet6,bullet7,bullet8,bullet9,bullet10};
+		return Total;
+	}
+	public Set<Bullet> bulletsInSet() throws ModelException{
+		Set<Bullet> bulletset = new HashSet<Bullet>();
+		for (Bullet bullet: create_bullets())
+			bulletset.add(bullet);
+		return bulletset;
+	}
 
 
-			// RADIUS
-			assertEquals(3, facade.getBulletRadius(bullet), EPSILON);
+	///CREATE BAD BULLETS///
+	@Test(expected = ModelException.class)
+	public void create_bad_bullet_radius() throws ModelException{
+		Bullet bullet1 = facade.createBullet(0, 0, 0, 0, -10);
+	}
 
-			
-			// VELOCITY
-			double[] velocity = facade.getBulletVelocity(bullet);
-			assertEquals(0, velocity[0], EPSILON);
-			assertEquals(0, velocity[1], EPSILON);
-			
-			// MASS
-			assertTrue(0 != facade.getBulletMass(bullet) );
-			
-		}
+	///GETTERS///
+	@Test
+	public void testBulletGetters() throws ModelException {
+		Bullet bullet = create_bullets()[0];
+		assertNotNull(bullet);
+
+		// POSITION
+		double[] position = facade.getBulletPosition(bullet);
+		assertNotNull(position);
+		assertEquals(10000, position[0], EPSILON);
+		assertEquals(10000, position[1], EPSILON);
+
+
+		// RADIUS
+		assertEquals(3, facade.getBulletRadius(bullet), EPSILON);
+
+
+		// VELOCITY
+		double[] velocity = facade.getBulletVelocity(bullet);
+		assertEquals(0, velocity[0], EPSILON);
+		assertEquals(0, velocity[1], EPSILON);
+
+		// MASS
+		assertTrue(0 != facade.getBulletMass(bullet) );
+
+	}
+
+	
 	///CREATE WORLD///
 	public World[] create_Worlds() throws ModelException{
 		World world1 = facade.createWorld(30000, 30000);
@@ -197,7 +229,6 @@ public class Tests_Part2 {
 		assert (facade.getShipWorld(ship7) == world1);
 		assert (facade.getWorldShips(world1).contains(ship7));
 	}
-	
 	
 	
 	///FIRING///

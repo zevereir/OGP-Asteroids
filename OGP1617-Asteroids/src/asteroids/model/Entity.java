@@ -531,12 +531,15 @@ public abstract class Entity {
 			double width = this.getEntityWorld().getWorldWidth();
 			double height = this.getEntityWorld().getWorldHeight();
 			double radius = this.getEntityRadius();
+			
 			double x_distance = Math.abs(width - positionX-radius);
 			double y_distance = Math.abs(height - positionY-radius);			
+			
 			double dtx_right = Double.POSITIVE_INFINITY;
 			double dtx_left = Double.POSITIVE_INFINITY;
 			double dty_up = Double.POSITIVE_INFINITY;
 			double dty_down = Double.POSITIVE_INFINITY;
+			
 			if (velocityX != 0){
 			dtx_right = (x_distance / velocityX);
 			dtx_left = (positionX / (-velocityX));
@@ -554,16 +557,15 @@ public abstract class Entity {
 				dty_up = Double.POSITIVE_INFINITY;}
 			if (dty_down<0){
 				dty_down = Double.POSITIVE_INFINITY;}
+			
 			if (Math.min(dtx_left, dtx_right) < Math.min(dty_up, dty_down)){
 				return Math.min(dtx_left, dtx_right);}
 			else if (Math.min(dtx_left, dtx_right) > Math.min(dty_up, dty_down)){
-				return Math.min(dty_up, dty_down);}
-			else {
-				return Double.POSITIVE_INFINITY;}
-		
+				return Math.min(dty_up, dty_down);
+			}else {
+				return Double.POSITIVE_INFINITY;
+			}
 		}
-		
-		
 	} 
 	
 	public double[] getPositionCollisionBoundary(){
@@ -581,8 +583,10 @@ public abstract class Entity {
 			double radius = this.getEntityRadius();
 			double width = this.getEntityWorld().getWorldWidth();
 			double height = this.getEntityWorld().getWorldHeight();
+			
 			new_x = positionX+time*velocityX;
 			new_y = positionY+time*velocityY;
+			
 			if (Math.abs(width - new_x-radius) ==0)
 				new_x += radius;
 			else if ((Math.abs(width - new_x+radius) == width))
@@ -592,6 +596,7 @@ public abstract class Entity {
 			else
 				new_y -= radius;
 		}
+		
 		double[] new_position = {new_x,new_y};
 		return new_position;
 	}

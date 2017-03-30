@@ -238,17 +238,17 @@ public class World {
 				collision_entity_2 = null;
 				}
 			for (Object entity_2: getWorldEntities()){
-				if (entity_2.hashCode()>entity_1.hashCode()){
+				if (entity_2.hashCode() > entity_1.hashCode()){
 					double delta_t = ((Entity)entity_1).getTimeToCollision((Entity)entity_2);
 					if (delta_t < min_time){
 						min_time = delta_t;
 						collision_entity_1 = ((Entity)entity_1);
 						collision_entity_2 = ((Entity)entity_2);
-						}
-					}			
-				}
-			
+					}
+				}			
+			}	
 		}
+		
 		return min_time;
 	}
 		

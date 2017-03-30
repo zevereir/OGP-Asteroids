@@ -75,11 +75,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 	Returns the position of the ship as an array of length 2, with the x-coordinate at index 0 and the
 	 *  y-coordinate at index 1.
 	 *  
-	 *  @param 	ship
+	 * @param 	ship
 	 *  		The ship whose location is asked .
 	 *  
-	 *  @return	The ship's position.
+	 * @return	The ship's position.
 	 *  	  | result =ship.getShipPosition()
+	 * 
 	 * @throws ModelException 
 	 */
 	@Override
@@ -100,6 +101,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 
 	 * @return  The ship's velocity.
 	 *  	  | result =ship.getShipVelocity()
+	 * 
 	 * @throws ModelException 
 	 */
 	@Override
@@ -169,6 +171,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 
 	 * @return	The distance between these ships.
 	 * 		  | result = ship1.getDistanceBetween(ship2)
+	 * 
 	 * @throws ModelException 
 	 */
 	@Override
@@ -185,6 +188,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 
 	 * @return	Return True if the two ships overlap. 
 	 * 		  | result = ship1.overlap(ship2)
+	 * 
 	 * @throws ModelException 
 	 */
 	@Override
@@ -228,6 +232,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Terminate a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -241,6 +246,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if a given ship is terminated.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -254,6 +260,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Get the mass of a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -267,6 +274,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the world to which the ship belongs to.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -280,6 +288,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if the thruster of the ship is active.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -293,6 +302,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Turn the thruster of a given ship on if true, turn it off if false.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -306,6 +316,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return a given ship its acceleration.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -321,6 +332,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	///BULLET///
 	/**
 	 * Create a bullet with given values.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -336,6 +348,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Terminate a given bullet.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -345,11 +358,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #20");
 		}
-		
 	}
 
 	/**
 	 * Check if a given bullet is terminated.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -363,6 +376,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the position of a given bullet.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -377,6 +391,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the velocity of a given bullet.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -391,6 +406,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the radius of a given bullet.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -405,6 +421,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the mass of a given bullet.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -419,6 +436,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the world to which the bullet belongs to.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -433,6 +451,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the ship to which the bullet belongs to when the bullet is in a ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -447,6 +466,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the ship to which the bullet belongs to when the bullet is in the world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -462,6 +482,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	///WORLD///
 	/**
 	 * Create a rectangular world with a given width and a given height.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -476,6 +497,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Terminate a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -489,6 +511,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if a given world is terminated.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -503,6 +526,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Get the size (width and height) of a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -517,6 +541,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return a set of all the ships in a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -531,6 +556,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return a set of all the bullets in a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -545,6 +571,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Add a given ship to a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -558,6 +585,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Remove a given ship from a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -571,6 +599,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Add a given bullet to a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -584,6 +613,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Remove a given bullet from a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -597,6 +627,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	///BULLETS AND SHIPS///
 	/**
 	 * Return the set of bullets that belongs to a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -611,6 +642,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the amount of bullets that are on a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -624,6 +656,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Load a given bullet onto a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -637,6 +670,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Load a collection of bullets onto a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -650,6 +684,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Remove a given bullet from a given ship.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -663,6 +698,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Fire a bullet from the given ship, if possible.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -678,6 +714,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the time until a given entity will collide with the boundary of the world it's in.
 	 * 	Positive infinity will be returned if the collision won't take place.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -692,6 +729,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the position where the entity would collide with the boundary of the world it's in.
 	 *  [infinity, infinity] would be returned if no collision takes place.
+	 *  
 	 * @see implementation
 	 */
 	@Override
@@ -706,6 +744,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the time until two given entities will collide with each other.
 	 * 	Positive infinity will be returned if the collision won't take place.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -720,6 +759,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the position where two given entities would collide.
 	 *  [infinity, infinity] would be returned if no collision takes place.
+	 *  
 	 * @see implementation
 	 */
 	@Override
@@ -734,6 +774,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the time till the first collision in a world will take place.
 	 *  Positive infinity would be returned if no collision takes place.
+	 *  
 	 * @see implementation
 	 */
 	@Override
@@ -748,6 +789,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the position where the first collision in a world will take place.
 	 *  [infinity, infinity] would be returned if no collision takes place.
+	 *  
 	 * @see implementation
 	 */
 	@Override
@@ -762,6 +804,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	///EVOLVE AND ENTITIES///
 	/**
 	 * Evolve the world over dt time.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -775,6 +818,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the entity at a given position, if there is an entity at this given position.
+	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -788,6 +832,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return all the entities that are in a given world.
+	 * 
 	 * @see implementation
 	 */
 	@Override
