@@ -382,7 +382,7 @@ public class Ship extends Entity {
 		if (this.isEntityFree()){
 			setEntityState(State.TERMINATED);}
 		else if (this.isEntityInWorld()){
-			this.getEntityWorld().removeEntityFromWorld(this);
+			this.getEntityWorld().refEntityFromWorld(this);
 			setEntityState(State.TERMINATED);}
 		for (Bullet bullet:this.getShipBullets()){
 			this.removeBulletFromShip(bullet);

@@ -274,8 +274,8 @@ public abstract class Entity {
 	
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
-		if (dt < 0){
-			throw new IllegalArgumentException();}
+		if (dt < 0)
+			throw new IllegalArgumentException();
 			
 		
 		double vel_x = this.getEntityVelocityX();
