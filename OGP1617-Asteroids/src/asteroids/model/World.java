@@ -178,6 +178,7 @@ public class World {
 	///----> PROBLEMEN MET THRUSTER <------///
 	// dt = evolving time (a predetermined value)
 	public void evolve(double dt, CollisionListener collisionListener) {
+	
 		for (Ship ship: getWorldShips()){
 			if (ship.isThrusterActive()) {
 				final double acceleration = ship.getShipAcceleration();
@@ -187,6 +188,7 @@ public class World {
 				ship.setEntityVelocity(vel_x, vel_y);
 			}
 		}
+		
 		
 		double TimeToCollision = getTimeNextCollision();
 		double CollisionPositionX = getPositionNextCollision()[0];

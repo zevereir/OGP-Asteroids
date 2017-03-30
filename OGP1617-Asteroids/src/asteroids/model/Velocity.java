@@ -1,9 +1,19 @@
 package asteroids.model;
 
-public class Velocity {
+import be.kuleuven.cs.som.annotate.Value;
 
-	double xVel;
-	double yVel;
+@Value
+public class Velocity {
+	public Velocity(double xVel, double yVel){
+		setXVel(xVel);
+		setYVel(yVel);
+	}
+	public Velocity(){
+		this(0,0);
+	}
+
+	private double xVel;
+	private double yVel;
 	
 	public double getXVel() {
 		return xVel;
