@@ -177,8 +177,8 @@ public class World {
 	
 	///----> PROBLEMEN MET THRUSTER <------///
 	// dt = evolving time (a predetermined value)
-	public void evolve(double dt, CollisionListener collisionListener) {
-	
+	public void evolve(double dt, CollisionListener collisionListener,boolean withThruster) {
+		if (withThruster){
 		for (Ship ship: getWorldShips()){
 			if (ship.isThrusterActive()) {
 				final double acceleration = ship.getShipAcceleration();
@@ -186,11 +186,13 @@ public class World {
 				double vel_x = ship.getEntityVelocityX()+ acceleration*Math.cos(orientation)*dt;
 				double vel_y = ship.getEntityVelocityY()+acceleration*Math.sin(orientation)*dt;
 				ship.setEntityVelocity(vel_x, vel_y);
+				}
 			}
 		}
 		
 		
 		double TimeToCollision = getTimeNextCollision();
+		System.out.println(TimeToCollision);
 		double CollisionPositionX = getPositionNextCollision()[0];
 		double CollisionPositionY = getPositionNextCollision()[1];
 		if (TimeToCollision < dt) {
@@ -222,8 +224,9 @@ public class World {
 			collision_entity_2 = null;
 			
 			double newTime = dt - TimeToCollision;
-			/////----->>>> THRUSTER AFZETTEN??? <<<------//////
-			evolve(newTime, collisionListener);
+			
+			evolve(newTime, collisionListener,false);
+			
 		} else {
 			for (Object entity: getWorldEntities()) {			
 				((Entity)entity).move(dt,collision_entity_1,collision_entity_2);
