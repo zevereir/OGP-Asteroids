@@ -194,7 +194,8 @@ public class World {
 		if (TimeToCollision < dt) {
 			for (Object entity: getWorldEntities()) {
 				entity_positions.remove(((Entity)entity).getEntityPosition());
-				((Entity)entity).move(TimeToCollision);
+				((Entity)entity).move(TimeToCollision,collision_entity_1,collision_entity_2);
+				
 				entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 			}
 			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
@@ -219,10 +220,11 @@ public class World {
 			collision_entity_2 = null;
 			
 			double newTime = dt - TimeToCollision;
+			/////----->>>> THRUSTER AFZETTEN??? <<<------//////
 			evolve(newTime, collisionListener);
 		} else {
-			for (Object entity: getWorldEntities()) {
-				((Entity)entity).move(dt);
+			for (Object entity: getWorldEntities()) {			
+				((Entity)entity).move(dt,collision_entity_1,collision_entity_2);
 			}
 		}
 	}
