@@ -26,8 +26,8 @@ public abstract class Entity {
 	
 
 	///BASIC PROPERTIES///
-	protected double[] position;
-	protected double[] velocity;
+	protected Position position;
+	protected Velocity velocity;
 	protected double radius;
 	protected double orientation;
 	protected double max_velocity;
@@ -123,27 +123,27 @@ public abstract class Entity {
 	/// GETTERS ///
 
 	public double[] getEntityPosition(){
-		return this.position;
+		return this.position.getPositionArray();
 	}
 	
 	public double getEntityPositionX(){
-		return this.getEntityPosition()[0];
+		return this.position.getX();
 	}
 	
 	public double getEntityPositionY(){
-		return this.getEntityPosition()[1];
+		return this.position.getY();
 	}
 	
 	public double[] getEntityVelocity(){
-		return this.velocity;
+		return this.velocity.getVelocityArray();
 	}
 	
 	public double getEntityVelocityX() {
-		return this.getEntityVelocity()[0];
+		return this.velocity.getXVel();
 	}
 	
 	public double getEntityVelocityY() {
-		return this.getEntityVelocity()[1];
+		return this.velocity.getYVel();
 	}
 	
 	public double getEntityRadius(){
@@ -175,8 +175,8 @@ public abstract class Entity {
 		if (!isValidEntityPosition(x, y)){
 			throw new IllegalArgumentException();}
 		
-		double[] position_array = { x, y };
-		this.position = position_array;
+		this.position.setX(x);
+		this.position.setY(y);
 	}
 	
 	public boolean isValidEntityPosition(double x, double y){
@@ -190,10 +190,7 @@ public abstract class Entity {
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
-		if (isValidEntityVelocity(xVelocity, yVelocity)){
-			double[] velocity_array = { xVelocity, yVelocity };
-			this.velocity = velocity_array;
-		} else{
+		if (!isValidEntityVelocity(xVelocity, yVelocity)){
 			if (Double.isNaN(xVelocity))
 				xVelocity = 0;
 			if (Double.isNaN(yVelocity))
@@ -203,12 +200,13 @@ public abstract class Entity {
 				double orientation = this.getEntityOrientation();
 				xVelocity = Math.cos(orientation) * this.getEntityMaxVelocity();
 				yVelocity = Math.sin(orientation) * this.getEntityMaxVelocity();
+				}
 			}
 				
-			double[] velocity_array = {xVelocity, yVelocity};
-			this.velocity = velocity_array;
+			this.velocity.setXVel(xVelocity);
+			this.velocity.setYVel(yVelocity);
 		}
-	}
+	
 	
 	public boolean isValidEntityVelocity(double xVelocity, double yVelocity) {
 		if ((Double.isNaN(xVelocity)) || (Double.isNaN(yVelocity)))
@@ -539,8 +537,8 @@ public abstract class Entity {
 	}
 	
 	public void setPositionWhenColliding(double x, double y){
-		double[] new_position = {x,y};
-		this.position = new_position;
+		this.position.setX(x);
+		this.position.setY(y);
 	}
 		
 	public double getTimeCollisionBoundary(){

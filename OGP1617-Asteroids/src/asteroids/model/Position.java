@@ -18,6 +18,11 @@ public class Position {
 		Y = y;
 	}
 	
+	public double[] getPositionArray(){
+		double[] result = {X,Y};
+		return result;
+	}
+	
 	
 	
 }
