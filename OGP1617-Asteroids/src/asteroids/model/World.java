@@ -174,7 +174,7 @@ public class World {
 		return true;			
 	}
 	
-	
+
 	// dt = evolving time (a predetermined value)
 	public void evolve(double dt, CollisionListener collisionListener, boolean WithThruster) {
 		System.out.println("Delta T= "+dt);
@@ -190,15 +190,13 @@ public class World {
 				}
 			}
 		}
-			
+
 		// Determine time till the first collision
-
 		double TimeToCollision = getTimeNextCollision();
-
-
+		System.out.println("Time till next collision= "+TimeToCollision);
 		double CollisionPositionX = getPositionNextCollision()[0];
 		double CollisionPositionY = getPositionNextCollision()[1];
-		
+
 		// TimeToCollision is smaller than the evolve-time
 		if (TimeToCollision < dt) {
 			// Update the positions of the entities, along with the 'entity_positions'-Map
@@ -209,11 +207,11 @@ public class World {
 				// Method 'move' will check if the given entity 'entity' is one of the entities who will collide, these entities
 				//  are: 'entity_1' and 'entity_2' (entity_2 can be null when the entity collides with the world)
 				((Entity)entity).move(TimeToCollision,collision_entity_1,collision_entity_2);
-				
+
 				// Update the Map 'entity_positions' for each entity with its new position
 				entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 			}
-			
+
 			// Check and execute the type of collision
 			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 				if (collisionListener !=null)
@@ -232,30 +230,21 @@ public class World {
 					collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
 				BulletAndEntityCollide(collision_entity_1, collision_entity_2);
 			}
-			
+
 			double newTime = dt - TimeToCollision;
 
-				
 			// Invoke the method evolve in a recursive way, make sure that the thrusters will be turned off, otherwise the velocity
 			//  will keep incrementing
 			evolve(newTime, collisionListener, false);
 		} 
-		
+
 		// TimeToCollision is bigger than the evolve-time, which means no collision will take place when we evolve over the dt-time
 		else {
 			for (Object entity: getWorldEntities())	{
 				System.out.println("For-loop");
 				((Entity)entity).move(dt);
-
-			
-			evolve(newTime, collisionListener,false);
-			
-		} else {
-			for (Object entity: getWorldEntities()) {			
-				((Entity)entity).move(dt,collision_entity_1,collision_entity_2);
-
 			}
-				
+
 		}
 	}
 	
