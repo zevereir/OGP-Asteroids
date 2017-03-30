@@ -176,6 +176,7 @@ public class World {
 	
 	
 	// dt = evolving time (a predetermined value)
+<<<<<<< HEAD
 	public void evolve(double dt, CollisionListener collisionListener, boolean WithThruster) {
 		System.out.println("Delta T= "+dt);
 		// Accelerate if thruster is on, this will have an influence on the getTimeNextCollision() method
@@ -187,13 +188,33 @@ public class World {
 					double vel_x = ship.getEntityVelocityX()+ acceleration*Math.cos(orientation)*dt;
 					double vel_y = ship.getEntityVelocityY()+acceleration*Math.sin(orientation)*dt;
 					ship.setEntityVelocity(vel_x, vel_y);
+=======
+	public void evolve(double dt, CollisionListener collisionListener,boolean withThruster) {
+		if (withThruster){
+		for (Ship ship: getWorldShips()){
+			if (ship.isThrusterActive()) {
+				final double acceleration = ship.getShipAcceleration();
+				final double orientation = ship.getEntityOrientation();
+				double vel_x = ship.getEntityVelocityX()+ acceleration*Math.cos(orientation)*dt;
+				double vel_y = ship.getEntityVelocityY()+acceleration*Math.sin(orientation)*dt;
+				ship.setEntityVelocity(vel_x, vel_y);
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 				}
 			}
 		}
+<<<<<<< HEAD
 			
 		// Determine time till the first collision
+=======
+		
+		
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 		double TimeToCollision = getTimeNextCollision();
+<<<<<<< HEAD
 		System.out.println("Time till next collision= "+TimeToCollision);
+=======
+		System.out.println(TimeToCollision);
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 		double CollisionPositionX = getPositionNextCollision()[0];
 		double CollisionPositionY = getPositionNextCollision()[1];
 		
@@ -232,6 +253,7 @@ public class World {
 			}
 			
 			double newTime = dt - TimeToCollision;
+<<<<<<< HEAD
 				
 			// Invoke the method evolve in a recursive way, make sure that the thrusters will be turned off, otherwise the velocity
 			//  will keep incrementing
@@ -243,6 +265,14 @@ public class World {
 			for (Object entity: getWorldEntities())	{
 				System.out.println("For-loop");
 				((Entity)entity).move(dt);
+=======
+			
+			evolve(newTime, collisionListener,false);
+			
+		} else {
+			for (Object entity: getWorldEntities()) {			
+				((Entity)entity).move(dt,collision_entity_1,collision_entity_2);
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 			}
 				
 		}

@@ -810,7 +810,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
 		try {
+<<<<<<< HEAD
 			world.evolve(dt,collisionListener, true);
+=======
+			world.evolve(dt,collisionListener,true);
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #50");
 		}
