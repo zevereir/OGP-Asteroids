@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package asteroids.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -347,9 +346,9 @@ public class Tests_Part1 {
 
 		ship1.getCollisionPosition(ship1);
 	}
-
 }
-=======
+
+
 //package asteroids.tests;
 //
 //import static org.junit.Assert.assertEquals;
@@ -700,4 +699,3 @@ public class Tests_Part1 {
 //	}
 //
 //}
->>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
