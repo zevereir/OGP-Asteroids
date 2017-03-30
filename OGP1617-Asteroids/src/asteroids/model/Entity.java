@@ -272,8 +272,26 @@ public abstract class Entity {
 		this.world = world;
 	}
 	
-	public abstract  void move(double dt);
+	///MOVE///
+	public void move(double dt,Entity entity1, Entity entity2){
+		if (dt < 0){
+			throw new IllegalArgumentException();}
+			
 		
+		double vel_x = this.getEntityVelocityX();
+		double vel_y = this.getEntityVelocityY();
+
+
+		final double delta_x = vel_x * dt;
+		final double delta_y = vel_y * dt;
+		if (this == entity1){
+			this.setPositionWhenColliding(delta_x, delta_y);}
+		else if (this == entity2)
+			this.setPositionWhenColliding(delta_x, delta_y);
+		else 
+			this.setEntityPosition(this.getEntityPositionX() + delta_x, this.getEntityPositionY() + delta_y);
+	}
+	
 	
 	///TERMINATION AND STATES///
 	
@@ -520,6 +538,11 @@ public abstract class Entity {
 
 	}
 	
+	public void setPositionWhenColliding(double x, double y){
+		double[] new_position = {x,y};
+		this.position = new_position;
+	}
+		
 	public double getTimeCollisionBoundary(){
 		if (!this.isEntityInWorld() && this.hasEntityProperState()){
 			return Double.POSITIVE_INFINITY;}
@@ -580,21 +603,9 @@ public abstract class Entity {
 			double positionY = this.getEntityPositionY();
 			double velocityX = this.getEntityVelocityX();
 			double velocityY = this.getEntityVelocityY();
-			double radius = this.getEntityRadius();
-			double width = this.getEntityWorld().getWorldWidth();
-			double height = this.getEntityWorld().getWorldHeight();
 			
 			new_x = positionX+time*velocityX;
 			new_y = positionY+time*velocityY;
-			
-			if (Math.abs(width - new_x-radius) ==0)
-				new_x += radius;
-			else if ((Math.abs(width - new_x+radius) == width))
-				new_x -= radius;
-			else if ((Math.abs(height - new_y-radius)==0))
-					new_y += radius;
-			else
-				new_y -= radius;
 		}
 		
 		double[] new_position = {new_x,new_y};

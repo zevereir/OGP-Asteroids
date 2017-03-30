@@ -375,19 +375,7 @@ public class Ship extends Entity {
 		}
 	}
 		 
-	///MOVE///
-	public void move(double dt){
-		if (dt < 0)
-			throw new IllegalArgumentException();
-		
-		double vel_x = getEntityVelocityX();
-		double vel_y = getEntityVelocityY();
-				
-
-		final double delta_x = vel_x * dt;
-		final double delta_y = vel_y * dt;
-		this.setEntityPosition(getEntityPositionX() + delta_x, getEntityPositionY() + delta_y);
-	}
+	
 	///TERMINATE///
 	
 	public void Terminate() {
