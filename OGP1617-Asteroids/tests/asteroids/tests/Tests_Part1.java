@@ -151,7 +151,7 @@ public class Tests_Part1 {
 		assertEquals(SPEED_OF_LIGHT, ship1.getEntityMaxVelocity(), EPSILON);
 	}
 	
-	/// TEST METHODS ONE SHIP ///
+	/*/// TEST METHODS ONE SHIP ///
 
 	@Test
 	public void TestMethodsOneShip() throws ModelException {
@@ -182,7 +182,7 @@ public class Tests_Part1 {
 		double orientation_7_2 = ship7.getEntityOrientation();
 		assertEquals(Math.PI / 2, orientation_7_2, EPSILON);
 
-		/*// THRUST
+		// THRUST
 		ship2.thrust(5);
 		double[] velocity = ship2.getEntityVelocity();
 		assertEquals(0, velocity[0], EPSILON);
@@ -194,7 +194,7 @@ public class Tests_Part1 {
 		double[] velocity_7 = ship7.getEntityVelocity();
 		assertEquals(100 + 10 * Math.cos(Math.PI / 5), velocity_7[0], EPSILON);
 		assertEquals(100 + 10 * Math.sin(Math.PI / 5), velocity_7[1], EPSILON);
-*/	}
+	}
 
 	// EXCEPTIONS//
 
@@ -204,7 +204,7 @@ public class Tests_Part1 {
 		double negativeDt = -10;
 		ship1.move(negativeDt);
 	}
-/*
+
 	@Test
 	public void TestNegativeThrustAmount() throws ModelException {
 		Ship ship7 = create_ships()[6];
@@ -215,10 +215,10 @@ public class Tests_Part1 {
 		assertEquals(velocityAfter[0], velocityBefore[0], EPSILON);
 		assertEquals(velocityAfter[1], velocityBefore[1], EPSILON);
 	}
-*/	
 	
 	
-	/// TEST METHODES TWO SHIPS ///
+	
+*/	/// TEST METHODES TWO SHIPS ///
 	
 	// DISTANCE BETWEEN 
 	

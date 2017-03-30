@@ -175,29 +175,44 @@ public class World {
 	}
 	
 	
-	///----> PROBLEMEN MET THRUSTER <------///
 	// dt = evolving time (a predetermined value)
-	public void evolve(double dt, CollisionListener collisionListener) {
-		for (Ship ship: getWorldShips()){
-			if (ship.isThrusterActive()) {
-				final double acceleration = ship.getShipAcceleration();
-				final double orientation = ship.getEntityOrientation();
-				double vel_x = ship.getEntityVelocityX()+ acceleration*Math.cos(orientation)*dt;
-				double vel_y = ship.getEntityVelocityY()+acceleration*Math.sin(orientation)*dt;
-				ship.setEntityVelocity(vel_x, vel_y);
+	public void evolve(double dt, CollisionListener collisionListener, boolean WithThruster) {
+		System.out.println("Delta T= "+dt);
+		// Accelerate if thruster is on, this will have an influence on the getTimeNextCollision() method
+		if (WithThruster){
+			for (Ship ship: getWorldShips()){
+				if (ship.isThrusterActive()) {
+					final double acceleration = ship.getShipAcceleration();
+					final double orientation = ship.getEntityOrientation();
+					double vel_x = ship.getEntityVelocityX()+ acceleration*Math.cos(orientation)*dt;
+					double vel_y = ship.getEntityVelocityY()+acceleration*Math.sin(orientation)*dt;
+					ship.setEntityVelocity(vel_x, vel_y);
+				}
 			}
 		}
-		
+			
+		// Determine time till the first collision
 		double TimeToCollision = getTimeNextCollision();
+		System.out.println("Time till next collision= "+TimeToCollision);
 		double CollisionPositionX = getPositionNextCollision()[0];
 		double CollisionPositionY = getPositionNextCollision()[1];
+		
+		// TimeToCollision is smaller than the evolve-time
 		if (TimeToCollision < dt) {
+			// Update the positions of the entities, along with the 'entity_positions'-Map
+			// Clear the out-dated Map 'entity_positions'
+			entity_positions.clear();
 			for (Object entity: getWorldEntities()) {
-				entity_positions.remove(((Entity)entity).getEntityPosition());
+				// Move the entity over the predefined time 'TimeToCollision'
+				// Method 'move' will check if the given entity 'entity' is one of the entities who will collide, these entities
+				//  are: 'entity_1' and 'entity_2' (entity_2 can be null when the entity collides with the world)
 				((Entity)entity).move(TimeToCollision,collision_entity_1,collision_entity_2);
 				
+				// Update the Map 'entity_positions' for each entity with its new position
 				entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 			}
+			
+			// Check and execute the type of collision
 			if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 				if (collisionListener !=null)
 					collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
@@ -216,24 +231,29 @@ public class World {
 				BulletAndEntityCollide(collision_entity_1, collision_entity_2);
 			}
 			
-			collision_entity_1 = null;
-			collision_entity_2 = null;
-			
 			double newTime = dt - TimeToCollision;
-			/////----->>>> THRUSTER AFZETTEN??? <<<------//////
-			evolve(newTime, collisionListener);
-		} else {
-			for (Object entity: getWorldEntities()) {			
-				((Entity)entity).move(dt,collision_entity_1,collision_entity_2);
+				
+			// Invoke the method evolve in a recursive way, make sure that the thrusters will be turned off, otherwise the velocity
+			//  will keep incrementing
+			evolve(newTime, collisionListener, false);
+		} 
+		
+		// TimeToCollision is bigger than the evolve-time, which means no collision will take place when we evolve over the dt-time
+		else {
+			for (Object entity: getWorldEntities())	{
+				System.out.println("For-loop");
+				((Entity)entity).move(dt);
 			}
+				
 		}
 	}
 	
 	
 	public double getTimeNextCollision() {
 		double min_time = Double.POSITIVE_INFINITY;
+		
 		for (Object entity_1: getWorldEntities()){
-			double dt =((Entity)entity_1).getTimeCollisionBoundary();
+			double dt = ((Entity)entity_1).getTimeCollisionBoundary();
 			if (dt < min_time){
 				min_time = dt;
 				collision_entity_1 = ((Entity)entity_1);
@@ -250,7 +270,7 @@ public class World {
 				}			
 			}	
 		}
-		
+		System.out.println(min_time);
 		return min_time;
 	}
 		

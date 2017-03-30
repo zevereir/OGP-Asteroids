@@ -102,16 +102,20 @@ public abstract class Entity {
 	}
 
 	public static boolean entityFitsInWorld(Entity entity, World world){
+		
 		double radius = entity.getEntityRadius();
+		System.out.println("Radius: "+radius);
 		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
 		double right_bound = OMEGA*(world.getWorldWidth()-radius);
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
-		
-		if ((0>x-radius)|| (0>y-radius) || (upper_bound<x) || (right_bound < y)){	
+		System.out.println("Check pos x: "+x+" and check pos y: "+y);
+		if ((0 > x-radius)|| (0 > y-radius) || (upper_bound < x) || (right_bound < y)){	
+			System.out.println("Not");
 			return false;}
 		for (Object otherEntity: world.getWorldEntities()){
 			if (entity.overlap((Entity)otherEntity)){
+				System.out.println("Overlap?");
 				return false;
 				}
 			}
@@ -172,6 +176,7 @@ public abstract class Entity {
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double x, double y) {
+		System.out.println("x: "+x+" and y: "+y);
 		if (!isValidEntityPosition(x, y)){
 			throw new IllegalArgumentException();}
 		
@@ -183,8 +188,12 @@ public abstract class Entity {
 		if ((Double.isNaN(x)) || (Double.isNaN(y))){
 			return false;}
 		
-		if ((this.getEntityWorld() != null))
+		if ((this.getEntityWorld() != null)) {
+			System.out.println(this.getEntityWorld().getWorldHeight());
+			System.out.println("2: "+this.getEntityWorld().getWorldWidth());
+			
 			return entityFitsInWorld(this,this.getEntityWorld());
+		}
 		
 		return true;
 	}
@@ -274,8 +283,9 @@ public abstract class Entity {
 	
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
-		if (dt < 0)
+		if (dt < 0) {
 			throw new IllegalArgumentException();
+		}
 			
 		
 		double vel_x = this.getEntityVelocityX();
@@ -285,11 +295,21 @@ public abstract class Entity {
 		final double delta_x = vel_x * dt;
 		final double delta_y = vel_y * dt;
 		if (this == entity1){
-			this.setPositionWhenColliding(delta_x, delta_y);}
-		else if (this == entity2)
+			System.out.println("set pos entity1");
 			this.setPositionWhenColliding(delta_x, delta_y);
-		else 
+		} else if (this == entity2) {
+			System.out.println("set pos entity2");
+			this.setPositionWhenColliding(delta_x, delta_y);
+		} else {
+			System.out.println("set pos else");
 			this.setEntityPosition(this.getEntityPositionX() + delta_x, this.getEntityPositionY() + delta_y);
+			System.out.println("huh?");
+		}
+	}
+	
+	// Move all the entities over dt-time, neglecting the fact that the entities can collide with each other or the boundary
+	public void move(double dt) {
+		move(dt, null, null);
 	}
 	
 	
