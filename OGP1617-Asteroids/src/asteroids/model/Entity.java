@@ -118,23 +118,7 @@ public abstract class Entity {
 		return true;
 	}
 	
-	public double SolveQuadraticToSmallest(double a, double b ,double c){
-		double discriminant = Math.pow(b, 2) - 4*a*c;
-		assert (discriminant >= 0);
-		double squared_discriminant = Math.sqrt(discriminant);
-		double root1 = ((-b)+squared_discriminant)/(2*a);
-		double root2 = ((-b)+squared_discriminant)/(2*a);
-		if (root1 < root2 && root1 >= 0)
-			return root1;
-		else if (root2 <= root1 && root2>=0)
-			return root2;
-		else if (root1 >=0 && root2 <0)
-			return root1;
-		else 
-			return root2;
-		
-		
-	}
+	
 
 	/// GETTERS ///
 
@@ -547,29 +531,20 @@ public abstract class Entity {
 			double height = this.getEntityWorld().getWorldHeight();
 			double radius = this.getEntityRadius();
 			double x_distance = Math.abs(width - positionX-radius);
-			double y_distance = Math.abs(height - positionY-radius);
-			double orientation = this.getEntityOrientation();
-			double dtx_right = 0;
-			double dtx_left = 0;
-			double dty_up = 0;
-			double dty_down = 0;
-			
-			if ((this instanceof Ship && ((Ship)this).isThrusterActive())){
-				double acceleration = ((Ship)this).getShipAcceleration();
-				
-				
-				double a = (acceleration*orientation);
-				dtx_right = SolveQuadraticToSmallest(a, velocityX, (-x_distance));
-				dty_up = SolveQuadraticToSmallest(a, velocityY, (-y_distance));
-				dtx_left = SolveQuadraticToSmallest(a, velocityX, (-positionX));
-				dty_down = SolveQuadraticToSmallest(a, velocityY, (-positionY));
-			}
-			else{	
+			double y_distance = Math.abs(height - positionY-radius);			
+			double dtx_right = Double.POSITIVE_INFINITY;
+			double dtx_left = Double.POSITIVE_INFINITY;
+			double dty_up = Double.POSITIVE_INFINITY;
+			double dty_down = Double.POSITIVE_INFINITY;
+			if (velocityX != 0){
 			dtx_right = (x_distance / velocityX);
-			dty_up = (y_distance / velocityY);
 			dtx_left = (positionX / velocityX);
+			}
+			if (velocityY !=0){
+			dty_up = (y_distance / velocityY);
 			dty_down = (positionY / velocityY);
 			}
+			
 			if (dtx_right<0){
 				dtx_right = Double.POSITIVE_INFINITY;}
 			if (dtx_left<0){

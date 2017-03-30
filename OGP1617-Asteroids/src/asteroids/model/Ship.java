@@ -383,13 +383,6 @@ public class Ship extends Entity {
 		double vel_x = getEntityVelocityX();
 		double vel_y = getEntityVelocityY();
 				
-		if (this.isThrusterActive()) {
-			final double acceleration = this.getShipAcceleration();
-			final double orientation = this.getEntityOrientation();
-			vel_x += acceleration*Math.cos(orientation)*dt;
-			vel_y += acceleration*Math.sin(orientation)*dt;
-			this.setEntityVelocity(vel_x, vel_y);
-		}
 
 		final double delta_x = vel_x * dt;
 		final double delta_y = vel_y * dt;
