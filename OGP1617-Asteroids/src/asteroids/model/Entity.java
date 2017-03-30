@@ -188,8 +188,8 @@ public abstract class Entity {
 			return false;}
 		
 		if ((this.getEntityWorld() != null)) {
-			System.out.println(this.getEntityWorld().getWorldHeight());
-			System.out.println("2: "+this.getEntityWorld().getWorldWidth());
+			System.out.println("Width" + this.getEntityWorld().getWorldHeight());
+			System.out.println("Height: "+this.getEntityWorld().getWorldWidth());
 			
 			return entityFitsInWorld(this,this.getEntityWorld());
 		}
