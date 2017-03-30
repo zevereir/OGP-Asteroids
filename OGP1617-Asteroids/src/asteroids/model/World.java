@@ -192,8 +192,10 @@ public class World {
 		}
 			
 		// Determine time till the first collision
+
 		double TimeToCollision = getTimeNextCollision();
-		System.out.println("Time till next collision= "+TimeToCollision);
+
+
 		double CollisionPositionX = getPositionNextCollision()[0];
 		double CollisionPositionY = getPositionNextCollision()[1];
 		
@@ -232,6 +234,7 @@ public class World {
 			}
 			
 			double newTime = dt - TimeToCollision;
+
 				
 			// Invoke the method evolve in a recursive way, make sure that the thrusters will be turned off, otherwise the velocity
 			//  will keep incrementing
@@ -243,6 +246,14 @@ public class World {
 			for (Object entity: getWorldEntities())	{
 				System.out.println("For-loop");
 				((Entity)entity).move(dt);
+
+			
+			evolve(newTime, collisionListener,false);
+			
+		} else {
+			for (Object entity: getWorldEntities()) {			
+				((Entity)entity).move(dt,collision_entity_1,collision_entity_2);
+
 			}
 				
 		}
