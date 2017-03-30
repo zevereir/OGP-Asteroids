@@ -339,8 +339,6 @@ public class World {
 	}
 			
 	
-	
-	
 	public void BulletAndWorldCollide(Entity entity) {
 		int counter = ((Bullet)entity).getAmountOfBounces();
 		if (counter >= 2)
