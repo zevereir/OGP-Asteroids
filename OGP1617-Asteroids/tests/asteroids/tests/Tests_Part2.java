@@ -51,15 +51,17 @@ public class Tests_Part2 {
 
 		return Total;
 	}
+	
+	
 	///CREATE BAD SHIPS///
 	
-	//ILLEGAL RADIUS//
+	//ILLEGAL RADIUS
 	@Test(expected = ModelException.class)
 	public void create_bad_ship_radius() throws ModelException{
 		Ship ship1 = facade.createShip(0, 0, 0, 0, -10, 0,0);
 	}
 	
-	//ILLEGAL ORIENTATION//
+	//ILLEGAL ORIENTATION
 	@Test(expected =AssertionError.class)
 	public void create_bad_ship_orientation() throws ModelException{
 		Ship ship1 = facade.createShip(0, 0, 0, 0, 10, Math.PI * 10,0);
@@ -85,7 +87,6 @@ public class Tests_Part2 {
 	
 	
 	/// TEST GETTERS ///
-
 	@Test
 	public void testShipGetters() throws ModelException {
 		Ship ship1 = create_ships()[0];
@@ -142,7 +143,7 @@ public class Tests_Part2 {
 			Bullet bullet1 = facade.createBullet(0, 0, 0, 0, -10);
 		}
 		
-		//GETTERS
+		///GETTERS///
 		@Test
 		public void testBulletGetters() throws ModelException {
 			Bullet bullet = create_bullets()[0];
@@ -219,9 +220,8 @@ public class Tests_Part2 {
 		assertEquals(10,facade.getNbBulletsOnShip(ship7));
 	}
 	
-	///COLLISIONS ETC///
 
-	
+	///COLLISIONS ETC///
 	
 	// OVERLAP
 	@Test

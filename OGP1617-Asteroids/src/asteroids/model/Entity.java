@@ -403,7 +403,8 @@ public abstract class Entity {
 	 */
 	public double getTimeToCollision(Entity otherEntity) {
 		if ((!this.isEntityInWorld() && this.hasEntityProperState()) || (!otherEntity.isEntityInWorld() && otherEntity.hasEntityProperState()))
-				throw new IllegalArgumentException();				
+			throw new IllegalArgumentException();				
+		
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
 		double velocity_2X = otherEntity.getEntityVelocityX();
