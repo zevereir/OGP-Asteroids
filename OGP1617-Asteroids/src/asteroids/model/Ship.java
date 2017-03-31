@@ -141,7 +141,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	public static double getDefaultRadius() {
-		return 10.01;
+		return 10;
 	}
 
 	public static double getDefaultMass() {
@@ -296,7 +296,7 @@ public class Ship extends Entity {
 	
 	// The radius of a ship has to be (strict) bigger than the lower-bound 'LOWER_SHIP_RADIUS'.
 	public boolean isValidRadius(double radius) {
-		return (radius > LOWER_SHIP_RADIUS);
+		return (radius >= LOWER_SHIP_RADIUS);
 	}
 	
 	public boolean isValidDensity(double density) {

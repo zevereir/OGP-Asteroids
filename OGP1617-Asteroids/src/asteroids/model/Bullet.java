@@ -35,7 +35,7 @@ public class Bullet extends Entity {
 		return (4.0/3.0) * Math.PI * Math.pow(getDefaultRadius(),3) * getDefaultBulletDensity();
 	}
 	
-	private final static double LOWER_BULLET_RADIUS = 3;
+	private final static double LOWER_BULLET_RADIUS = 1;
 	
 	static double getDefaultBulletDensity(){ 
 		return 7.8E12;
@@ -70,7 +70,7 @@ public class Bullet extends Entity {
 	}
 	
 	public boolean isValidRadius(double radius) {
-		return (radius > LOWER_BULLET_RADIUS);
+		return (radius >= LOWER_BULLET_RADIUS);
 	}
 	
 	// The mass density rho of each bullet is the same, namely 7.8·1012kg/km^3.

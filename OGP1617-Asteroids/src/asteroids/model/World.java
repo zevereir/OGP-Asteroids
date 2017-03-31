@@ -75,7 +75,7 @@ public class World {
 
 	
 	public Object getEntityAt(double x, double y){
-		String search_position = x+","+y;
+		String search_position = ""+x+","+y+"";
 		
 		if (entity_positions.containsKey(search_position)){
 				return entity_positions.get(search_position);}
