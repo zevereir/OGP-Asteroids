@@ -49,7 +49,9 @@ public class Tests_Part2 {
 		Ship ship8 = facade.createShip(10001,10001,0,0,100,0,0);
 		Ship ship9 = facade.createShip(0,0,0,0,10,0,0);
 		Ship ship10 = facade.createShip(29000,10000,200,0,200,0,0);
-		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10};
+		Ship ship11 = facade.createShip(10000,29000,0,200,200,0,0);
+		Ship ship12 = facade.createShip(10000,10000,1000,1500,1000,0,0);
+		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10,ship11,ship12};
 
 		return Total;
 	}
@@ -150,21 +152,24 @@ public class Tests_Part2 {
 	///CREATE BULLET///
 	public Bullet[] create_bullets() throws ModelException{
 		Bullet bullet1 = facade.createBullet(10000, 10000, 0, 0, 3);
-		Bullet bullet2 = facade.createBullet(10000, 10000, 10, 10, 3);
-		Bullet bullet3 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet2 = facade.createBullet(10000, 10000, 10, 0, 3);
+		Bullet bullet3 = facade.createBullet(10000, 10000, -10, 0, 3);
 		Bullet bullet4 = facade.createBullet(10000, 10000, 10, 10, 3);
 		Bullet bullet5 = facade.createBullet(10000, 10000, 10, 10, 3);
 		Bullet bullet6 = facade.createBullet(10000, 10000, 10, 10, 3);
 		Bullet bullet7 = facade.createBullet(10000, 10000, 10, 10, 3);
-		Bullet bullet8 = facade.createBullet(10000, 10000, 10, 10, 3);
-		Bullet bullet9 = facade.createBullet(10000, 10000, 10, 10, 3);
+		Bullet bullet8 = facade.createBullet(10000, 10000, 4999, 3000, 4);
+		Bullet bullet9 = facade.createBullet(29000, 10000, 10000, 0, 3);
 		Bullet bullet10 = facade.createBullet(10000, 10000, 10, 10, 3);
-		Bullet[] Total ={bullet1, bullet2,bullet3,bullet4,bullet5,bullet6,bullet7,bullet8,bullet9,bullet10};
+		Bullet bullet11 = facade.createBullet(29500, 10000, 0, 0, 3);
+		
+		Bullet[] Total ={bullet1, bullet2,bullet3,bullet4,bullet5,bullet6,bullet7,bullet8,bullet9,bullet10,bullet11};
 		return Total;
 	}
 	public Set<Bullet> bulletsInSet() throws ModelException{
 		Set<Bullet> bulletset = new HashSet<Bullet>();
 		for (Bullet bullet: create_bullets())
+			if (!(facade.getBulletPosition(bullet)[0] != 10000))
 			bulletset.add(bullet);
 		return bulletset;
 	}
@@ -251,7 +256,7 @@ public class Tests_Part2 {
 		Ship ship7 = create_ships()[6];
 		facade.addShipToWorld(world1, ship7);
 		facade.loadBulletsOnShip(ship7,bulletsInSet());
-		assertEquals(10,facade.getNbBulletsOnShip(ship7));
+		assertEquals(9,facade.getNbBulletsOnShip(ship7));
 	}
 	
 
@@ -377,41 +382,119 @@ public class Tests_Part2 {
 		facade.getCollisionPosition(ship1,ship1);
 	}
 
-
-	///EVOLVE///
-	@Test
-	public final void TestEvolve1() throws ModelException{
-		Ship ship1 = create_ships()[0];
-		Ship ship2 = create_ships()[1];
-		Ship ship6 = create_ships()[5];
-		World world = create_Worlds()[0];
-		facade.addShipToWorld(world, ship1);
-		facade.addShipToWorld(world, ship2);
-		facade.addShipToWorld(world, ship6);
-		
-		facade.evolve(world, 11,null);
-		assertEquals(10,facade.getShipVelocity(ship6)[0],EPSILON);
-		assertEquals(1110,facade.getShipPosition(ship6)[0],EPSILON);
-	}
-	@Test
-	public final void TestEvolve2() throws ModelException{
-		Ship ship10 = create_ships()[9];	
-		World world = create_Worlds()[0];
-		facade.addShipToWorld(world, ship10);
-		assertEquals(world, facade.getShipWorld(ship10));
-		assertEquals(200,facade.getShipVelocity(ship10)[0],EPSILON);
-		assertEquals(4.0,facade.getTimeNextCollision(world),EPSILON);
-		assertEquals(30000,facade.getPositionNextCollision(world)[0],EPSILON);
-		assertEquals(10000,facade.getPositionNextCollision(world)[1],EPSILON);
-		facade.evolve(world, 6,null);
-		assertEquals(-200,facade.getShipVelocity(ship10)[0],EPSILON);	
-	}
-	
-
-	
-
-
-	
-	
+//
+//	///EVOLVE///
+//	//-->two ships<--//
+//	@Test
+//	public final void TestEvolve1() throws ModelException{
+//		Ship ship1 = create_ships()[0];
+//		Ship ship2 = create_ships()[1];
+//		Ship ship6 = create_ships()[5];
+//		World world = create_Worlds()[0];
+//		facade.addShipToWorld(world, ship1);
+//		facade.addShipToWorld(world, ship2);
+//		facade.addShipToWorld(world, ship6);
+//		
+//		facade.evolve(world, 11,null);
+//		assertEquals(10,facade.getShipVelocity(ship6)[0],EPSILON);
+//		assertEquals(1110,facade.getShipPosition(ship6)[0],EPSILON);
+//	}
+//	
+//	//--> ship to right boundary <--//
+//	@Test
+//	public final void TestEvolve2() throws ModelException{
+//		Ship ship10 = create_ships()[9];	
+//		World world = create_Worlds()[0];
+//		facade.addShipToWorld(world, ship10);
+//		assertEquals(world, facade.getShipWorld(ship10));
+//		assertEquals(200,facade.getShipVelocity(ship10)[0],EPSILON);
+//		assertEquals(4.0,facade.getTimeNextCollision(world),EPSILON);
+//		assertEquals(30000,facade.getPositionNextCollision(world)[0],EPSILON);
+//		assertEquals(10000,facade.getPositionNextCollision(world)[1],EPSILON);
+//		facade.evolve(world, 6,null);
+//		assertEquals(-200,facade.getShipVelocity(ship10)[0],EPSILON);	
+//	}
+//	
+//	//--> ship to upper boundary <--//
+//	@Test
+//	public final void TestEvolve3() throws ModelException{
+//		Ship ship11 = create_ships()[10];	
+//		World world = create_Worlds()[0];
+//		facade.addShipToWorld(world, ship11);
+//		assertEquals(world, facade.getShipWorld(ship11));
+//		assertEquals(200,facade.getShipVelocity(ship11)[1],EPSILON);
+//		assertEquals(4.0,facade.getTimeNextCollision(world),EPSILON);
+//		assertEquals(10000,facade.getPositionNextCollision(world)[0],EPSILON);
+//		assertEquals(30000,facade.getPositionNextCollision(world)[1],EPSILON);
+//		facade.evolve(world, 6,null);
+//		assertEquals(-200,facade.getShipVelocity(ship11)[1],EPSILON);
+//	}
+//	//--> ship to boundary diagonal path<-- //
+//	@Test
+//	public final void TestEvolve4() throws ModelException{
+//		Ship ship12 = create_ships()[11];	
+//		World world = create_Worlds()[0];
+//		facade.addShipToWorld(world, ship12);
+//		assertEquals(world, facade.getShipWorld(ship12));
+//		facade.evolve(world, 14,null);
+//		assertEquals(-1500,facade.getShipVelocity(ship12)[1],EPSILON);	
+//		facade.evolve(world,7,null);
+//		assertEquals(-1000,facade.getShipVelocity(ship12)[0],EPSILON);	
+//		
+//	}
+//	
+//	//--> bullet to boundary (2 bounces) <--//
+//	@Test
+//	public final void TestEvolve5() throws ModelException{
+//		Bullet bullet = create_bullets()[8];
+//		World world = create_Worlds()[0];
+//		facade.addBulletToWorld(world, bullet);
+//		assertEquals(world,facade.getBulletWorld(bullet));
+//		facade.evolve(world, 1,null);
+//		assertEquals(-10000,facade.getBulletVelocity(bullet)[0],EPSILON);
+//		assertEquals(0,facade.getBulletVelocity(bullet)[1],EPSILON);
+//		assertEquals(21000,facade.getBulletPosition(bullet)[0],20);
+//		assertEquals(10000,facade.getBulletPosition(bullet)[1],EPSILON);
+//		
+//	}
+//	//--> bullet to boundary (3 bounces so terminated) <--//
+//		@Test
+//		public final void TestEvolve6() throws ModelException{
+//			Bullet bullet = create_bullets()[8];
+//			World world = create_Worlds()[0];
+//			facade.addBulletToWorld(world, bullet);
+//			assertEquals(world,facade.getBulletWorld(bullet));
+//			facade.evolve(world, 6,null);
+//			assertEquals(10000,facade.getBulletVelocity(bullet)[0],EPSILON);
+//			facade.evolve(world,1,null);
+//			assert(facade.isTerminatedBullet(bullet));
+//			
+//		}
+//	//--> bullet to boundary( diagonal path) <--//
+//		@Test
+//		public final void TestEvolve7() throws ModelException{
+//			Bullet bullet = create_bullets()[7];
+//			World world = create_Worlds()[0];
+//			facade.addBulletToWorld(world, bullet);
+//			facade.evolve(world, 8, null);
+//			assertEquals(-4999,facade.getBulletVelocity(bullet)[0],EPSILON);
+//			assertEquals(-3000,facade.getBulletVelocity(bullet)[1],EPSILON);
+//			facade.evolve(world, 5, null);
+//			assert (facade.isTerminatedBullet(bullet));
+//			
+//		}
+	//--> bullet to bullet <--//
+		@Test
+		public final void TestEvolve8() throws ModelException{
+			Bullet bullet1 = create_bullets()[8];
+			Bullet bullet2 = create_bullets()[10];
+			World world = create_Worlds()[0];
+			facade.addBulletToWorld(world, bullet1);
+			facade.addBulletToWorld(world, bullet2);
+			facade.evolve(world, 4, null);
+			assert(facade.isTerminatedBullet(bullet1));
+			assert(facade.isTerminatedBullet(bullet2));
+			
+		}
 	
 }

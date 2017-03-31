@@ -369,7 +369,7 @@ public abstract class Entity {
 		final double x_distance = Math.abs(first_posX-second_posX);
 		final double y_distance = Math.abs(first_posY-second_posY);
 		final double distance_centers = getEuclidianDistance(x_distance, y_distance);
-		final double distance = distance_centers - OMEGA*(this.getEntityRadius() + otherEntity.getEntityRadius());
+		final double distance = distance_centers - OMEGA *(this.getEntityRadius() + otherEntity.getEntityRadius());
 		return distance;
 	}
 	

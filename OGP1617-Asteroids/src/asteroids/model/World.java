@@ -180,7 +180,7 @@ public class World {
 		
 					
 			
-				 
+			if (!this.getWorldEntities().isEmpty())	{
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
 			double CollisionPositionX = getPositionNextCollision()[0];
@@ -197,7 +197,6 @@ public class World {
 					// Method 'move' will check if the given entity 'entity' is one of the entities who will collide, these entities
 					//  are: 'entity_1' and 'entity_2' (entity_2 can be null when the entity collides with the world)
 					((Entity)entity).move(TimeToCollision,collision_entity_1,collision_entity_2);
-					
 					// Update the Map 'entity_positions' for each entity with its new position
 					entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 				}
@@ -242,7 +241,7 @@ public class World {
 					((Entity)entity).move(dt);
 				}
 			}
-		
+			}
 	}
 	
 	
@@ -286,6 +285,7 @@ public class World {
 			return new_array;
 		}
 	}
+		
 	
 	
 	public void ShipsCollide(Entity entity1, Entity entity2){
@@ -353,8 +353,8 @@ public class World {
 	
 	
 	public boolean collideHorizontalBoundary(Entity entity, double[] array){
-		return(array[1]==0 || 
-				array[1]== entity.getEntityWorld().getWorldHeight()); 	
+		return(array[1]<(1-OMEGA)*entity.getEntityRadius() || 
+				array[1]> OMEGA*entity.getEntityWorld().getWorldHeight()); 	
 	}
 	 
 	 
