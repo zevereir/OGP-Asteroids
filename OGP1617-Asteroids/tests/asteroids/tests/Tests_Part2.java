@@ -6,7 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -39,7 +41,7 @@ public class Tests_Part2 {
 	/// CREATE SHIP ///
 
 	public Ship[] create_ships() throws ModelException {
-		Ship ship1 = facade.createShip(10000, 10000, 0, 0, 10, 0,5E16);
+		Ship ship1 = facade.createShip(10000.0, 10000.0, 0, 0, 10, 0,5E16);
 		Ship ship2 = facade.createShip(10000, 10100, 0, -10, 10, 3 * Math.PI / 2,5E16);
 		Ship ship3 = facade.createShip(10100, 10000, -10, 0, 10, Math.PI,0);
 		Ship ship4 = facade.createShip(10000, 9900, 0, 10, 10, Math.PI / 2,0);
@@ -48,7 +50,7 @@ public class Tests_Part2 {
 		Ship ship7 = facade.createShip(10000, 10000, SPEED_OF_LIGHT, SPEED_OF_LIGHT, 100, Math.PI / 4,0);
 		Ship ship8 = facade.createShip(10001,10001,0,0,100,0,0);
 		Ship ship9 = facade.createShip(0,0,0,0,10,0,0);
-		Ship ship10 = facade.createShip(29000,10000,200,0,200,0,0);
+		Ship ship10 = facade.createShip(29000.0,10000.0,200,0,200,0,0);
 		Ship ship11 = facade.createShip(10000,29000,0,200,200,0,0);
 		Ship ship12 = facade.createShip(10000,10000,1000,1500,1000,0,0);
 		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10,ship11,ship12};
@@ -510,6 +512,18 @@ public class Tests_Part2 {
 		assert(facade.isTerminatedShip(ship));
 		assertEquals(0,facade.getEntities(world).size(),EPSILON);
 	}
+	///TEST SET///
+	@Test
+	public final void TestSetEnazu()throws ModelException{
+		 final Map<String,Double> test_map = new HashMap<String,Double>();
+		 String new_array = ""+5+","+6+"";
+		 String next_array = ""+5+","+6+"";
+		 test_map.put(new_array, 9.0);
+		 assert(test_map.containsKey(next_array));
+
+		
+	}
+	
 	///GET_ENTITY_AT///
 		@Test
 		public final void TestGetEntityAt() throws ModelException{
@@ -518,13 +532,14 @@ public class Tests_Part2 {
 			Bullet bullet = create_bullets()[8];
 			facade.addBulletToWorld(world, bullet);
 			facade.addShipToWorld(world, ship);
-			System.out.print(facade.getEntities(world));
-			assertEquals(ship,facade.getEntityAt(world, 10000, 10000));
-			assertEquals(ship,facade.getEntityAt(world, 10000, 10000));
+			assertEquals(ship,facade.getEntityAt(world, 10000.0, 10000.0));
+			assertEquals(bullet,facade.getEntityAt(world, 29000.0, 10000.0));
 			assertEquals(null,facade.getEntityAt(world, 5000, 5000));
 			facade.evolve(world, 4,null);
 			assertEquals(null,facade.getEntityAt(world, 10000, 10000));
 			
 		}
+		
+		
 
 }
