@@ -39,8 +39,8 @@ public class Tests_Part2 {
 	/// CREATE SHIP ///
 
 	public Ship[] create_ships() throws ModelException {
-		Ship ship1 = facade.createShip(10000, 10000, 0, 0, 10, 0,0);
-		Ship ship2 = facade.createShip(10000, 10100, 0, -10, 10, 3 * Math.PI / 2,0);
+		Ship ship1 = facade.createShip(10000, 10000, 0, 0, 10, 0,5E16);
+		Ship ship2 = facade.createShip(10000, 10100, 0, -10, 10, 3 * Math.PI / 2,5E16);
 		Ship ship3 = facade.createShip(10100, 10000, -10, 0, 10, Math.PI,0);
 		Ship ship4 = facade.createShip(10000, 9900, 0, 10, 10, Math.PI / 2,0);
 		Ship ship5 = facade.createShip(9900, 10000, 10, 0, 10, 0,0);
@@ -48,7 +48,8 @@ public class Tests_Part2 {
 		Ship ship7 = facade.createShip(10000, 10000, SPEED_OF_LIGHT, SPEED_OF_LIGHT, 100, Math.PI / 4,0);
 		Ship ship8 = facade.createShip(10001,10001,0,0,100,0,0);
 		Ship ship9 = facade.createShip(0,0,0,0,10,0,0);
-		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9};
+		Ship ship10 = facade.createShip(29000,10000,200,0,200,0,0);
+		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10};
 
 		return Total;
 	}
@@ -105,6 +106,7 @@ public class Tests_Part2 {
 	@Test
 	public void testShipGetters() throws ModelException {
 		Ship ship1 = create_ships()[0];
+		Ship ship2 = create_ships()[1];
 		Ship ship7 = create_ships()[6];
 		Ship ship9 = create_ships()[8];
 		World world = create_Worlds()[0];
@@ -140,7 +142,8 @@ public class Tests_Part2 {
 		assertEquals(0, facade.getShipOrientation(ship1), EPSILON);
 		
 		// MASS
-		assertFalse(0 == facade.getShipMass(ship1) );
+		assertEquals(5E16,facade.getShipMass(ship1),EPSILON );
+		assertEquals(5E16,facade.getShipMass(ship2),EPSILON );
 	}
 	
 	
@@ -374,10 +377,40 @@ public class Tests_Part2 {
 		facade.getCollisionPosition(ship1,ship1);
 	}
 
-	
-	
+
 	///EVOLVE///
-	//-----> moeten we nu doen <-----//
+	@Test
+	public final void TestEvolve1() throws ModelException{
+		Ship ship1 = create_ships()[0];
+		Ship ship2 = create_ships()[1];
+		Ship ship6 = create_ships()[5];
+		World world = create_Worlds()[0];
+		facade.addShipToWorld(world, ship1);
+		facade.addShipToWorld(world, ship2);
+		facade.addShipToWorld(world, ship6);
+		
+		facade.evolve(world, 11,null);
+		assertEquals(10,facade.getShipVelocity(ship6)[0],EPSILON);
+		assertEquals(1110,facade.getShipPosition(ship6)[0],EPSILON);
+	}
+	@Test
+	public final void TestEvolve2() throws ModelException{
+		Ship ship10 = create_ships()[9];	
+		World world = create_Worlds()[0];
+		facade.addShipToWorld(world, ship10);
+		assertEquals(world, facade.getShipWorld(ship10));
+		assertEquals(200,facade.getShipVelocity(ship10)[0],EPSILON);
+		assertEquals(4.0,facade.getTimeNextCollision(world),EPSILON);
+		assertEquals(30000,facade.getPositionNextCollision(world)[0],EPSILON);
+		assertEquals(10000,facade.getPositionNextCollision(world)[1],EPSILON);
+		facade.evolve(world, 6,null);
+		assertEquals(-200,facade.getShipVelocity(ship10)[0],EPSILON);	
+	}
+	
+
+	
+
+
 	
 	
 	

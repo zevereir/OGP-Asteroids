@@ -39,6 +39,7 @@ public abstract class Entity {
 	
 
 	public final static double OMEGA = 0.99;
+	public final static double OMIKRON = 1.01;
 	
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
@@ -104,15 +105,14 @@ public abstract class Entity {
 	public static boolean entityFitsInWorld(Entity entity, World world){
 		
 		double radius = entity.getEntityRadius();
-		System.out.println("Radius: "+radius);
-		double upper_bound = OMEGA*(world.getWorldHeight()-radius);
-		double right_bound = OMEGA*(world.getWorldWidth()-radius);
+		
+		double upper_bound = OMIKRON*(world.getWorldHeight()-radius);
+		double right_bound = OMIKRON*(world.getWorldWidth()-radius);
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
-		System.out.println("Check pos x: "+x+" and check pos y: "+y);
+		
 		
 		if ((0 > x-radius)|| (0 > y-radius) || (upper_bound < x) || (right_bound < y)){	
-			System.out.println("Not");
 			return false;
 		}
 		for (Object otherEntity: world.getWorldEntities()){
@@ -176,8 +176,9 @@ public abstract class Entity {
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double x, double y) {
-		System.out.println("x: "+x+" and y: "+y);
+
 		if (!isValidEntityPosition(x, y)){
+			
 			throw new IllegalArgumentException();}		
 		
 		this.position.setX(x);
@@ -186,12 +187,11 @@ public abstract class Entity {
 	
 	public boolean isValidEntityPosition(double x, double y){
 		if ((Double.isNaN(x)) || (Double.isNaN(y))){
+			
 			return false;}
 		
 		if ((this.getEntityWorld() != null)) {
-			System.out.println("Width" + this.getEntityWorld().getWorldHeight());
-			System.out.println("Height: "+this.getEntityWorld().getWorldWidth());
-			
+		
 			return entityFitsInWorld(this,this.getEntityWorld());
 		}
 		
@@ -280,30 +280,7 @@ public abstract class Entity {
 	}
 	
 	///MOVE///
-	public void move(double dt,Entity entity1, Entity entity2){
-		if (dt < 0) {
-			throw new IllegalArgumentException();
-		}
-			
-		
-		double vel_x = this.getEntityVelocityX();
-		double vel_y = this.getEntityVelocityY();
-
-
-		final double delta_x = vel_x * dt;
-		final double delta_y = vel_y * dt;
-		if (this == entity1){
-			System.out.println("set pos entity1");
-			this.setPositionWhenColliding(delta_x, delta_y);
-		} else if (this == entity2) {
-			System.out.println("set pos entity2");
-			this.setPositionWhenColliding(delta_x, delta_y);
-		} else {
-			System.out.println("set pos else");
-			this.setEntityPosition(this.getEntityPositionX() + delta_x, this.getEntityPositionY() + delta_y);
-			System.out.println("huh?");
-		}
-	}
+	public abstract void move(double dt,Entity entity1, Entity entity2);
 	
 	// Move all the entities over dt-time, neglecting the fact that the entities can collide with each other or the boundary
 	public void move(double dt) {
@@ -525,9 +502,9 @@ public abstract class Entity {
 		double radius_1 = this.getEntityRadius();
 
 		double time_till_overlapping = this.getTimeToCollision(otherEntity);
-
-		if (this.overlap(otherEntity))
-			throw new IllegalArgumentException();
+		
+		if (this.overlap(otherEntity)){
+			throw new IllegalArgumentException();}
 
 		else if (time_till_overlapping == Double.POSITIVE_INFINITY)
 			return null;
@@ -537,20 +514,23 @@ public abstract class Entity {
 			double pos_collide1Y = position_1Y + velocity_1Y * time_till_overlapping;
 			double pos_collide2X = position_2X + velocity_2X * time_till_overlapping;
 			double pos_collide2Y =position_2Y + velocity_2Y * time_till_overlapping;
-
 			double delta_x = (pos_collide2X - pos_collide1X);
 			double delta_y = (pos_collide2Y - pos_collide1Y);
+			
 			double omega;
 
 			if (delta_x > 0) {
 				omega = Math.atan(delta_y / delta_x);
+			}else if(delta_x == 0 && delta_y>0){
+				omega = Math.PI/2;
+			}else if(delta_x == 0 && delta_y<0){
+				omega = 3*Math.PI/2;
 			} else {
 				omega = Math.atan(delta_y / delta_x) + Math.PI;
 			}
 
 			double[] position_collide = { pos_collide1X + radius_1 * Math.cos(omega),
 					pos_collide1Y + radius_1 * Math.sin(omega) };
-
 			return position_collide;
 		}
 
@@ -631,9 +611,9 @@ public abstract class Entity {
 			new_y = positionY+time*velocityY;
 			
 		
-			if (Math.abs(width - new_x-radius) ==0)
+			if (Math.abs(new_x+radius) ==width)
 				new_x += radius;
-			else if ((Math.abs(width - new_x+radius) == width))
+			else if ((Math.abs(new_x-radius) ==0))
 				new_x -= radius;
 			else if ((Math.abs(height - new_y-radius)==0))
 				new_y += radius;

@@ -227,6 +227,42 @@ public class Ship extends Entity {
 			this.mass = minimumShipMass();	
 	}
 	
+	///MOVE///
+	public void move(double dt,Entity entity1, Entity entity2){
+		if (dt < 0) {
+			throw new IllegalArgumentException();
+			
+		}
+			
+		
+		double vel_x = this.getEntityVelocityX();
+		double vel_y = this.getEntityVelocityY();
+		
+
+		final double new_x =this.getEntityPositionX()+ vel_x * dt;
+		final double new_y =this.getEntityPositionY()+ vel_y * dt;
+		
+		
+		if (this.isThrusterActive()) {
+			
+				final double acceleration = this.getShipAcceleration();
+				final double orientation = this.getEntityOrientation();
+				double velocity_x = vel_x+ acceleration*Math.cos(orientation)*dt;
+				double velocity_y = vel_y+acceleration*Math.sin(orientation)*dt;
+				this.setEntityVelocity(velocity_x, velocity_y);
+			}
+		
+		if (this == entity1){
+			
+			this.setPositionWhenColliding(new_x, new_y);
+		} else if (this == entity2) {
+			
+			this.setPositionWhenColliding(new_x, new_y);
+		} else {
+			
+			this.setEntityPosition(new_x, new_y);			
+		}
+	}
 	///CHECKERS///
 	
 	public boolean isValidShipPosition(double x, double y){

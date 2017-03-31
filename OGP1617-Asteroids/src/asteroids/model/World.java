@@ -176,26 +176,16 @@ public class World {
 	
 	
 	// dt = evolving time (a predetermined value)
-		public void evolve(double dt, CollisionListener collisionListener, boolean WithThruster) {
-			System.out.println("Delta T= "+dt);
-			// Accelerate if thruster is on, this will have an influence on the getTimeNextCollision() method
-			if (WithThruster){
-				for (Ship ship: getWorldShips()){
-					if (ship.isThrusterActive()) {
-						final double acceleration = ship.getShipAcceleration();
-						final double orientation = ship.getEntityOrientation();
-						double vel_x = ship.getEntityVelocityX()+ acceleration*Math.cos(orientation)*dt;
-						double vel_y = ship.getEntityVelocityY()+acceleration*Math.sin(orientation)*dt;
-						ship.setEntityVelocity(vel_x, vel_y);
-					}
-				}
-			}
-				
+		public void evolve(double dt, CollisionListener collisionListener) {
+		
+					
+			
+				 
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
-			System.out.println("Time till next collision= "+TimeToCollision);
 			double CollisionPositionX = getPositionNextCollision()[0];
 			double CollisionPositionY = getPositionNextCollision()[1];
+			double[] CollisionArray = {CollisionPositionX,CollisionPositionY};
 			
 			// TimeToCollision is smaller than the evolve-time
 			if (TimeToCollision < dt) {
@@ -212,19 +202,25 @@ public class World {
 					entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
 				}
 				
+			
 				// Check and execute the type of collision
 				if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 					if (collisionListener !=null)
 						collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
-					ShipsCollide(collision_entity_1, collision_entity_2); }
+					ShipsCollide(collision_entity_1, collision_entity_2); 
+					
+					collision_entity_1.move((1-OMEGA)*TimeToCollision);
+					collision_entity_2.move((1-OMEGA)*TimeToCollision);}
 				else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
 					if (collisionListener !=null)
 						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
-					ShipAndWorldCollide(collision_entity_1);}
+					ShipAndWorldCollide(collision_entity_1,CollisionArray);
+					collision_entity_1.move((1-OMEGA)*TimeToCollision);}
 				else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null){
 					if (collisionListener !=null)
 						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
-					BulletAndWorldCollide(collision_entity_1); }
+					BulletAndWorldCollide(collision_entity_1,CollisionArray);
+					collision_entity_1.move((1-OMEGA)*TimeToCollision);}
 				else{
 					if (collisionListener !=null)
 						collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
@@ -235,18 +231,19 @@ public class World {
 					
 				// Invoke the method evolve in a recursive way, make sure that the thrusters will be turned off, otherwise the velocity
 				//  will keep incrementing
-				evolve(newTime, collisionListener, false);
-			} 
+				evolve(newTime, collisionListener);}
+				
+				 
 			
 			// TimeToCollision is bigger than the evolve-time, which means no collision will take place when we evolve over the dt-time
 			else {
 				for (Object entity: getWorldEntities())	{
-					System.out.println("For-loop");
+					
 					((Entity)entity).move(dt);
 				}
-					
 			}
-		}
+		
+	}
 	
 	
 	public double getTimeNextCollision() {
@@ -254,7 +251,7 @@ public class World {
 		
 		for (Object entity_1: getWorldEntities()){
 			double dt = ((Entity)entity_1).getTimeCollisionBoundary();
-			System.out.println("TimeCollisionBoundary: "+ dt);
+			
 			if (dt < min_time){
 				min_time = dt;
 				collision_entity_1 = ((Entity)entity_1);
@@ -281,6 +278,7 @@ public class World {
 		}
 		else if (collision_entity_1 != null && collision_entity_2 == null){
 			return collision_entity_1.getPositionCollisionBoundary();
+			
 		}
 		else {
 			double infinity = Double.POSITIVE_INFINITY;
@@ -316,9 +314,9 @@ public class World {
 	}	
 		
 	
-	public void ShipAndWorldCollide(Entity entity) {
+	public void ShipAndWorldCollide(Entity entity,double[] array) {
 		double[] Velocity = ((Ship)entity).getEntityVelocity();
-		if (collideHorizontalBoundary(entity))
+		if (collideHorizontalBoundary(entity,array))
 			((Ship)entity).setEntityVelocity(Velocity[0], -Velocity[1]);
 		else
 			((Ship)entity).setEntityVelocity(-Velocity[0], Velocity[1]);
@@ -339,14 +337,14 @@ public class World {
 	}
 			
 	
-	public void BulletAndWorldCollide(Entity entity) {
+	public void BulletAndWorldCollide(Entity entity,double[] array) {
 		int counter = ((Bullet)entity).getAmountOfBounces();
 		if (counter >= 2)
 			entity.Terminate();
 		else {
 			((Bullet)entity).setAmountOfBounces(counter + 1);
 			double[] Velocity = ((Bullet)entity).getEntityVelocity();
-			if (collideHorizontalBoundary(entity))
+			if (collideHorizontalBoundary(entity,array))
 				((Bullet)entity).setEntityVelocity(Velocity[0], -Velocity[1]);
 			else
 				((Bullet)entity).setEntityVelocity(-Velocity[0], Velocity[1]);
@@ -354,9 +352,9 @@ public class World {
 	}
 	
 	
-	public boolean collideHorizontalBoundary(Entity entity){
-		return(entity.getPositionCollisionBoundary()[1]==0 || 
-				entity.getPositionCollisionBoundary()[1]== entity.getEntityWorld().getWorldHeight()); 	
+	public boolean collideHorizontalBoundary(Entity entity, double[] array){
+		return(array[1]==0 || 
+				array[1]== entity.getEntityWorld().getWorldHeight()); 	
 	}
 	 
 	 

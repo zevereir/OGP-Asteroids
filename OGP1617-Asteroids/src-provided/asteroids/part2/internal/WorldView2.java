@@ -81,7 +81,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		} catch (ModelException e) {
 			handleError(e);
 		}
-		Image image = ResourceUtils.loadImage("asteroids/resources/sphere.png").getScaledInstance(size, size,
+		Image image = ResourceUtils.loadImage("asteroids/resources/deathstar.png").getScaledInstance(size, size,
 				Image.SCALE_DEFAULT);
 		return new ShipVisualization<>(Color.GREEN, enemy, image);
 	}
@@ -97,7 +97,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		} catch (ModelException e) {
 			handleError(e);
 		}
-		Image image = ResourceUtils.loadImage("asteroids/resources/sphere.png").getScaledInstance(size, size,
+		Image image = ResourceUtils.loadImage("asteroids/resources/deathstar.png").getScaledInstance(size, size,
 				Image.SCALE_DEFAULT);
 		assert image != null : "No player image!";
 		return new CompositeVisualization<>(player, //
