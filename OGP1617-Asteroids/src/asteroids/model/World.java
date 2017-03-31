@@ -209,18 +209,29 @@ public class World {
 						collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
 					ShipsCollide(collision_entity_1, collision_entity_2); 
 					
+					entity_positions.remove(collision_entity_1.getEntityPosition());
+					entity_positions.remove(collision_entity_2.getEntityPosition());
 					collision_entity_1.move((1-OMEGA)*TimeToCollision);
-					collision_entity_2.move((1-OMEGA)*TimeToCollision);}
+					collision_entity_2.move((1-OMEGA)*TimeToCollision);
+					entity_positions.put(collision_entity_1.getEntityPosition(),collision_entity_1);
+					entity_positions.put(collision_entity_2.getEntityPosition(),collision_entity_2);}
 				else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
 					if (collisionListener !=null)
 						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
 					ShipAndWorldCollide(collision_entity_1,CollisionArray);
-					collision_entity_1.move((1-OMEGA)*TimeToCollision);}
+					entity_positions.remove(collision_entity_1.getEntityPosition());
+					collision_entity_1.move((1-OMEGA)*TimeToCollision);
+					entity_positions.put(collision_entity_1.getEntityPosition(),collision_entity_1);}
 				else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null){
 					if (collisionListener !=null)
 						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
 					BulletAndWorldCollide(collision_entity_1,CollisionArray);
-					collision_entity_1.move((1-OMEGA)*TimeToCollision);}
+					if (!collision_entity_1.isEntityTerminated()){
+					entity_positions.remove(collision_entity_1.getEntityPosition());
+					collision_entity_1.move((1-OMEGA)*TimeToCollision);
+					entity_positions.put(collision_entity_1.getEntityPosition(),collision_entity_1);
+					}
+				}
 				else{
 					if (collisionListener !=null)
 						collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
@@ -324,12 +335,11 @@ public class World {
 	}
 	
 	public void BulletAndEntityCollide(Entity entity1, Entity entity2){
-		if (entity1 instanceof Bullet && entity2 instanceof Bullet){
-			entity1.Terminate();
-			entity2.Terminate();
-		} else if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2) ){
+		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2) ){
+			((Bullet)entity1).setPositionWhenColliding(((Ship)entity2).getEntityPositionX(), ((Ship)entity2).getEntityPositionY());
 			((Ship)entity2).addOneBulletToShip((Bullet)entity1);
 		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1) ){
+			((Bullet)entity2).setPositionWhenColliding(((Ship)entity1).getEntityPositionX(), ((Ship)entity1).getEntityPositionY());
 			((Ship)entity1).addOneBulletToShip((Bullet)entity2);
 		} else {
 			entity1.Terminate();
