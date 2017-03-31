@@ -14,11 +14,11 @@ public class Bullet extends Entity {
 			,double mass,double maxVelocity,double density) {
 		
 		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
-		}
+	}
 	
 	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius){
 		this(x,y,xVelocity,yVelocity,radius,Entity.getDefaultOrientation(),getDefaultBulletMass(),
-				Entity.getDefaultMaxVelocity(),Entity.getDefaultBulletDensity());
+				Entity.getDefaultMaxVelocity(),getDefaultBulletDensity());
 	}
 	
 	public Bullet(){
@@ -28,28 +28,28 @@ public class Bullet extends Entity {
 	
 	///DEFAULTS///
 	public static double getDefaultRadius(){
-		return 2;
+		return 1;
 	}
 	
 	public static double getDefaultBulletMass(){
-		return 4/3*Math.PI*Math.pow(getDefaultRadius(),3)*getDefaultBulletDensity();
+		return (4.0/3.0) * Math.PI * Math.pow(getDefaultRadius(),3) * getDefaultBulletDensity();
 	}
 	
 	private final static double LOWER_BULLET_RADIUS = 1;
 	
-	public double getDefaultDensity(){ 
+	static double getDefaultBulletDensity(){ 
 		return 7.8E12;
 	}
 	
 	public double bulletMass() {
-		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3)*this.getEntityDensity();		
+		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3) * this.getEntityDensity();		
 	}
 	
 	///GETTERS///
-	
 	public int getAmountOfBounces(){
 		return this.amountOfBounces;
 	}
+	
 	public Ship getBulletShip(){
 		return this.ship;
 	}
@@ -61,33 +61,30 @@ public class Bullet extends Entity {
 	
 	public double getEntityMass() {
 		return this.mass;	
-}
+	}
 	
 	///CHECKERS///
-	
 	//---> GOED NAKIJKEN <----//
 	public boolean canHaveAsShip(Ship ship){
 		return (ship.canHaveAsBullet(this));
 	}
 	
+	// --> Lower_... zal altijd groter zijn dan 0
+	//  --> R(bullet) < R(ship) ?
 	public boolean isValidRadius(double radius) {
-		if ((radius < 0) || (radius < LOWER_BULLET_RADIUS) )
+		if (radius < LOWER_BULLET_RADIUS)
 			return false;
-		else
-			return true;		
+		
+		return true;		
 	}
 	
+	// The mass density rho of each bullet is the same, namely 7.8·1012kg/km^3.
 	public boolean isValidDensity(double density) {
-		if (( density < getDefaultBulletDensity())||(density < 0) )
-			return false;
-		else		
-		return true;
+		return (density == getDefaultBulletDensity());
 	}
 	
 	public boolean isValidMass(double mass) {
-		if ((mass == Double.NaN) || (mass != bulletMass()))
-			return false;		
-		return true;
+		return ((mass != Double.NaN) && (mass == bulletMass()));
 	}
 	
 	///SETTERS///
@@ -108,36 +105,31 @@ public class Bullet extends Entity {
 		
 	}
 	
+	// Mass of bullet will always be calculated with the same formula, found in the method bulletMass()
 	public void setEntityMass(double mass) {
 		if (isValidMass(mass))
 			this.mass = mass;
 		else
-				this.mass = bulletMass();
-		
+			this.mass = bulletMass();	
 	}
+	
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
 		if (dt < 0) {
 			throw new IllegalArgumentException();
 		}
-			
 		
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
 
-
 		final double new_x =this.getEntityPositionX()+ vel_x * dt;
 		final double new_y =this.getEntityPositionY()+ vel_y * dt;
 		if (this == entity1){
-		
 			this.setPositionWhenColliding(new_x, new_y);
-		} else if (this == entity2) {
-	
+		} else if (this == entity2) {	
 			this.setPositionWhenColliding(new_x, new_y);
 		} else {
-			
 			this.setEntityPosition(new_x, new_y);
-			
 		}
 	}
 	
@@ -147,7 +139,7 @@ public class Bullet extends Entity {
 	private BulletState state = BulletState.NOTLOADED;
 
 	private static enum BulletState {
-		LOADED,NOTLOADED;	
+		LOADED, NOTLOADED;	
 	}
 
 	public BulletState getBulletLoadedState(){
@@ -189,13 +181,10 @@ public class Bullet extends Entity {
 		}
 	
 
-	
-	
-
 	///CONNECTIONS WITH OTHER CLASSES///
-	private  Ship ship = null;
-	
+	private  Ship ship = null;	
 	private  Ship source_ship = null;
+	
 	
 	/// COUNTER ///
 	private int amountOfBounces = 0;

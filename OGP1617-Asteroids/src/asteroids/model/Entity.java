@@ -49,11 +49,6 @@ public abstract class Entity {
 		return 1.42E12;
 	}
 	
-	public static double getDefaultBulletDensity(){
-		return 7.8E12;
-	}
-	
-	
 	@Immutable
 	public static double[] getDefaultPosition() {
 		double[] array = { 0, 0 };
