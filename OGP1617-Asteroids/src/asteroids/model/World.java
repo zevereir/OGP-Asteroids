@@ -75,7 +75,8 @@ public class World {
 
 	
 	public Object getEntityAt(double x, double y){
-		double[] search_position = {x,y};		
+		double[] search_position = {x,y};
+		System.out.println(entity_positions.keySet());
 		if (entity_positions.containsKey(search_position))
 				return entity_positions.get(search_position);
 		else
@@ -179,7 +180,7 @@ public class World {
 		public void evolve(double dt, CollisionListener collisionListener) {
 		
 					
-			
+			//This function does nothing if there are no entities
 			if (!this.getWorldEntities().isEmpty())	{
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
