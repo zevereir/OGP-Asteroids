@@ -75,10 +75,10 @@ public class World {
 
 	
 	public Object getEntityAt(double x, double y){
-		double[] search_position = {x,y};
-		System.out.println(entity_positions.keySet());
-		if (entity_positions.containsKey(search_position))
-				return entity_positions.get(search_position);
+		String search_position = ""+x+","+y+"";
+		
+		if (entity_positions.containsKey(search_position)){
+				return entity_positions.get(search_position);}
 		else
 			return null;
 	}
@@ -112,7 +112,7 @@ public class World {
 	
 	///CONNECTIONS WITH OTHER CLASSES///
 	private final Map<Integer,Ship> ships = new HashMap<Integer,Ship>();
-	private final Map<double[],Entity> entity_positions = new HashMap<double[],Entity>();
+	private final Map<String,Entity> entity_positions = new HashMap<String,Entity>();
 	private final Map<Integer,Bullet> bullets = new HashMap<Integer,Bullet>();
 	private Entity collision_entity_1 = null;
 	private Entity collision_entity_2 = null;
@@ -127,7 +127,7 @@ public class World {
 		 	} else {
 				bullets.put(((Bullet)entity).hashCode(),(Bullet)entity);
 			}
-			entity_positions.put(entity.getEntityPosition(),entity);
+			entity_positions.put(arrayToString(entity.getEntityPosition()),entity);
 		} else{
 			throw new IllegalArgumentException() ;
 		}
@@ -140,7 +140,7 @@ public class World {
 		else if (entity instanceof Bullet){
 			this.bullets.remove(((Bullet)entity).hashCode());		
 		}
-		entity_positions.remove(entity.getEntityPosition());
+		entity_positions.remove(arrayToString(entity.getEntityPosition()));
 		entity.setEntityFree();
 	}
 	///HAS///
@@ -199,7 +199,7 @@ public class World {
 					//  are: 'entity_1' and 'entity_2' (entity_2 can be null when the entity collides with the world)
 					((Entity)entity).move(TimeToCollision,collision_entity_1,collision_entity_2);
 					// Update the Map 'entity_positions' for each entity with its new position
-					entity_positions.put(((Entity)entity).getEntityPosition(), (Entity)entity);
+					entity_positions.put(arrayToString(((Entity)entity).getEntityPosition()), (Entity)entity);
 				}
 				
 			
@@ -209,27 +209,27 @@ public class World {
 						collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
 					ShipsCollide(collision_entity_1, collision_entity_2); 
 					
-					entity_positions.remove(collision_entity_1.getEntityPosition());
-					entity_positions.remove(collision_entity_2.getEntityPosition());
+					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
+					entity_positions.remove(arrayToString(collision_entity_2.getEntityPosition()));
 					collision_entity_1.move((1-OMEGA)*TimeToCollision);
 					collision_entity_2.move((1-OMEGA)*TimeToCollision);
-					entity_positions.put(collision_entity_1.getEntityPosition(),collision_entity_1);
-					entity_positions.put(collision_entity_2.getEntityPosition(),collision_entity_2);}
+					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
+					entity_positions.put(arrayToString(collision_entity_2.getEntityPosition()),collision_entity_2);}
 				else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
 					if (collisionListener !=null)
 						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
 					ShipAndWorldCollide(collision_entity_1,CollisionArray);
-					entity_positions.remove(collision_entity_1.getEntityPosition());
+					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 					collision_entity_1.move((1-OMEGA)*TimeToCollision);
-					entity_positions.put(collision_entity_1.getEntityPosition(),collision_entity_1);}
+					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);}
 				else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null){
 					if (collisionListener !=null)
 						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
 					BulletAndWorldCollide(collision_entity_1,CollisionArray);
 					if (!collision_entity_1.isEntityTerminated()){
-					entity_positions.remove(collision_entity_1.getEntityPosition());
+					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 					collision_entity_1.move((1-OMEGA)*TimeToCollision);
-					entity_positions.put(collision_entity_1.getEntityPosition(),collision_entity_1);
+					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
 					}
 				}
 				else{
@@ -405,6 +405,11 @@ public class World {
 			throw new IllegalStateException();
 		else
 			this.state = state;
+	}
+	
+	///HELP FUNCTIONS///
+	public String arrayToString(double[] array){
+		return ""+array[0]+","+array[1]+"";
 	}
 }
 		
