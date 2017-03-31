@@ -1,5 +1,5 @@
 package asteroids.model;
-import be.kuleuven.cs.som.annotate.*;
+//import be.kuleuven.cs.som.annotate.*;
 
 /**
  * a class that describes a bullet that flies away in the blue blue sky.
@@ -35,7 +35,7 @@ public class Bullet extends Entity {
 		return (4.0/3.0) * Math.PI * Math.pow(getDefaultRadius(),3) * getDefaultBulletDensity();
 	}
 	
-	private final static double LOWER_BULLET_RADIUS = 1;
+	private final static double LOWER_BULLET_RADIUS = 3;
 	
 	static double getDefaultBulletDensity(){ 
 		return 7.8E12;
@@ -69,13 +69,8 @@ public class Bullet extends Entity {
 		return (ship.canHaveAsBullet(this));
 	}
 	
-	// --> Lower_... zal altijd groter zijn dan 0
-	//  --> R(bullet) < R(ship) ?
 	public boolean isValidRadius(double radius) {
-		if (radius < LOWER_BULLET_RADIUS)
-			return false;
-		
-		return true;		
+		return (radius > LOWER_BULLET_RADIUS);
 	}
 	
 	// The mass density rho of each bullet is the same, namely 7.8·1012kg/km^3.

@@ -45,10 +45,6 @@ public abstract class Entity {
 		return SPEED_OF_LIGHT;
 	}
 	
-	public static double getDefaultShipDensity(){
-		return 1.42E12;
-	}
-	
 	@Immutable
 	public static double[] getDefaultPosition() {
 		double[] array = { 0, 0 };
@@ -98,11 +94,10 @@ public abstract class Entity {
 	}
 
 	public static boolean entityFitsInWorld(Entity entity, World world){
-		
 		double radius = entity.getEntityRadius();
 		
-		double upper_bound = OMIKRON*(world.getWorldHeight()-radius);
-		double right_bound = OMIKRON*(world.getWorldWidth()-radius);
+		double upper_bound = (world.getWorldHeight() - OMEGA*radius);
+		double right_bound = (world.getWorldWidth() - OMEGA*radius);
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
 		

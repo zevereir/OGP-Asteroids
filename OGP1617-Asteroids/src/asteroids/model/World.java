@@ -75,10 +75,10 @@ public class World {
 
 	
 	public Object getEntityAt(double x, double y){
-		double[] search_position = {x,y};
+		double[] search_position = {x, y};
 		System.out.println(entity_positions.keySet());
 		if (entity_positions.containsKey(search_position))
-				return entity_positions.get(search_position);
+			return entity_positions.get(search_position);
 		else
 			return null;
 	}
