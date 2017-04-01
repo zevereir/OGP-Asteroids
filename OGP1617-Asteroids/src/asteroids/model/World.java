@@ -232,7 +232,7 @@ public class World {
 					BulletAndWorldCollide(collision_entity_1,CollisionArray);
 					if (!collision_entity_1.isEntityTerminated()){
 					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-					collision_entity_1.move((1-OMEGA)*TimeToCollision);
+					collision_entity_1.move((1-OMEGA)*(1-OMEGA)*TimeToCollision);
 					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
 					}
 				}

@@ -261,21 +261,21 @@ public class Tests_Part2 {
 		facade.loadBulletsOnShip(ship7,bulletsInSet());
 		assertEquals(9,facade.getNbBulletsOnShip(ship7));
 	}
-//	
-//	@Test 
-//	public void firingBullet() throws ModelException{
-//		World world = create_Worlds()[0];
-//		Ship ship1 = create_ships()[0];
-//		Ship ship2 = create_ships()[1];
-//		facade.addShipToWorld(world, ship2);
-//		facade.addShipToWorld(world, ship1);
-//		Bullet bullet12 = create_bullets()[11];
-//		facade.loadBulletOnShip(ship2, bullet12);
-//		ship2.fireBullet();
-//		facade.evolve(world, 2, null);
-//		assert(facade.isTerminatedShip(ship1));
-//		assert(facade.isTerminatedBullet(bullet12));	
-//	}
+	
+	@Test 
+	public void firingBullet() throws ModelException{
+		World world = create_Worlds()[0];
+		Ship ship1 = create_ships()[0];
+		Ship ship2 = create_ships()[1];
+		facade.addShipToWorld(world, ship2);
+		facade.addShipToWorld(world, ship1);
+		Bullet bullet12 = create_bullets()[11];
+		facade.loadBulletOnShip(ship2, bullet12);
+		ship2.fireBullet();
+		facade.evolve(world, 2, null);
+		assert(facade.isTerminatedShip(ship1));
+		assert(facade.isTerminatedBullet(bullet12));	
+	}
 	
 	///GETTIMENEXTCOLLISION ON SHIP1///
 		@Test
@@ -286,6 +286,7 @@ public class Tests_Part2 {
 			double time = facade.getTimeNextCollision(world);
 			assertEquals(Double.POSITIVE_INFINITY,time,EPSILON);
 		}
+		
 	@Test 
 	public void firingBulletIntoWall() throws ModelException{
 		World world = create_Worlds()[0];
@@ -295,14 +296,11 @@ public class Tests_Part2 {
 		facade.loadBulletOnShip(ship1, bullet2);
 		facade.fireBullet(ship1);
 		assertEquals(ship1,facade.getBulletSource(bullet2));
-	
 		facade.evolve(world, 4, null);
 		assertEquals(0,facade.getNbBulletsOnShip(ship1),EPSILON);
 		facade.evolve(world, 96, null);
 		assertEquals(-250,facade.getBulletVelocity(bullet2)[0],EPSILON);
 		facade.evolve(world, 70, null);
-		
-		
 		assertFalse(facade.isTerminatedShip(ship1));
 		assertFalse(facade.isTerminatedBullet(bullet2));
 		assertEquals(1,facade.getNbBulletsOnShip(ship1),EPSILON);
@@ -561,6 +559,7 @@ public class Tests_Part2 {
 		assert(facade.isTerminatedShip(ship));
 		assertEquals(0,facade.getEntities(world).size(),EPSILON);
 	}
+	
 	///TEST SET///
 	@Test
 	public final void TestSetEnazu()throws ModelException{
@@ -569,7 +568,6 @@ public class Tests_Part2 {
 		String next_array = ""+5+","+6+"";
 		test_map.put(new_array, 9.0);
 		assert(test_map.containsKey(next_array));
-
 
 	}
 
@@ -586,9 +584,6 @@ public class Tests_Part2 {
 		assertEquals(null,facade.getEntityAt(world, 5000, 5000));
 		facade.evolve(world, 4,null);
 		assertEquals(null,facade.getEntityAt(world, 10000, 10000));
-
 	}
-
-
 
 }
