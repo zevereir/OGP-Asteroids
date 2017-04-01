@@ -196,9 +196,18 @@ public class World {
 			//  'evolve()' is recursive.
 			for (Object entity_1: getWorldEntities()){
 				for (Object entity_2: getWorldEntities()){
-					if ( ((Entity)entity_1).overlap((Entity)entity_2) && !((Entity)entity_1).equals(((Entity)entity_2)) ) {
-						((Entity)entity_1).Terminate();
-						((Entity)entity_2).Terminate();
+					if ( ((Entity)entity_1).overlap((Entity)entity_2) && !((Entity)entity_1).equals(((Entity)entity_2))) {
+						
+						if (entity_1 instanceof Ship && entity_2 instanceof Bullet && ((Bullet)entity_2).getBulletSource() == ((Ship)entity_1))
+							((Entity)entity_2).Terminate();
+						
+						else if (entity_2 instanceof Ship && entity_1 instanceof Bullet && ((Bullet)entity_1).getBulletSource() == ((Ship)entity_2))
+							((Entity)entity_1).Terminate();
+						
+						else {
+							((Entity)entity_1).Terminate();
+							((Entity)entity_2).Terminate();
+						}
 					}
 				}
 			}
@@ -349,7 +358,6 @@ public class World {
 		
 		// No collision will take place
 		else {
-			// Return null ?
 			double infinity = Double.POSITIVE_INFINITY;
 			double[] new_array = {infinity,infinity};
 			return new_array;

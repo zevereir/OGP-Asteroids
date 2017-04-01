@@ -383,6 +383,7 @@ public class Ship extends Entity {
 			double radiusBullet = bullet.getEntityRadius();
 			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1.5); 
 			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1.5);
+			
 			bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
 			World world = this.getEntityWorld();
 			bullet.setEntityOrientation(orientation);
@@ -394,6 +395,7 @@ public class Ship extends Entity {
 				if (!bullet.entityInBoundaries(world)){
 					bullet.Terminate();
 				}
+				
 				else{
 					Entity otherEntity = bullet.entityOverlappingInWorld(world); 
 					bullet.Terminate();

@@ -525,9 +525,6 @@ public class Tests_Part2 {
 		facade.evolve(world, 1,null);
 		assertEquals(-10000,facade.getBulletVelocity(bullet)[0],EPSILON);
 		assertEquals(0,facade.getBulletVelocity(bullet)[1],EPSILON);
-		// Hoe kwam ge aan deze positie?
-		// Ik heb GAMMA*timeToCollision veranderd in GAMMA*defaultEvolvingTime met GAMMA=0.01
-		//--> 20984.03 wordt nu 20894.0
 		assertEquals(21000,facade.getBulletPosition(bullet)[0],120);
 		assertEquals(10000,facade.getBulletPosition(bullet)[1],EPSILON);
 
