@@ -199,10 +199,10 @@ public class World {
 					if ( ((Entity)entity_1).overlap((Entity)entity_2) && !((Entity)entity_1).equals(((Entity)entity_2))) {
 						
 						if (entity_1 instanceof Ship && entity_2 instanceof Bullet && ((Bullet)entity_2).getBulletSource() == ((Ship)entity_1))
-							((Entity)entity_2).Terminate();
+							((Ship)entity_1).addOneBulletToShip(((Bullet)entity_2));
 						
 						else if (entity_2 instanceof Ship && entity_1 instanceof Bullet && ((Bullet)entity_1).getBulletSource() == ((Ship)entity_2))
-							((Entity)entity_1).Terminate();
+							((Ship)entity_2).addOneBulletToShip(((Bullet)entity_1));
 						
 						else {
 							((Entity)entity_1).Terminate();
