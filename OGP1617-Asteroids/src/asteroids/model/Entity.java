@@ -359,7 +359,7 @@ public abstract class Entity {
 		final double distance_centers = getEuclidianDistance(delta_x, delta_y);
 		final double distance = distance_centers - OMEGA * total_radius;
 		
-		return BETA*distance;
+		return distance;
 	}
 	
 	
