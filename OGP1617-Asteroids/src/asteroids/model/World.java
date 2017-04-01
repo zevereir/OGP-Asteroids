@@ -179,17 +179,17 @@ public class World {
 	// dt = evolving time (a predetermined value)
 		public void evolve(double dt, CollisionListener collisionListener) {
 		
-			System.out.println("DT="+ dt);		
+				
 			//This function does nothing if there are no entities
 			if (!this.getWorldEntities().isEmpty() || dt==0)	{
-				System.out.println("tester");
+				
 			// Determine time till the first collision
 				
 			double TimeToCollision = getTimeNextCollision();
-			System.out.println("TTC="+ TimeToCollision);
+			
 			double CollisionPositionX = getPositionNextCollision()[0];
 			double CollisionPositionY = getPositionNextCollision()[1];
-			System.out.println("POSITION =["+ CollisionPositionX+","+CollisionPositionY+"]");
+			
 			double[] CollisionArray = {CollisionPositionX,CollisionPositionY};
 			
 			// TimeToCollision is smaller than the evolve-time
@@ -281,7 +281,7 @@ public class World {
 				collision_entity_2 = null;
 				}
 			for (Object entity_2: getWorldEntities()){
-				System.out.print(getWorldEntities().size());
+				
 				if (entity_2.hashCode() > entity_1.hashCode()){
 					double delta_t = ((Entity)entity_1).getTimeToCollision((Entity)entity_2);
 					if (delta_t < min_time){

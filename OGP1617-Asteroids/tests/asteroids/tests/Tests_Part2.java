@@ -301,7 +301,7 @@ public class Tests_Part2 {
 		facade.evolve(world, 96, null);
 		assertEquals(-250,facade.getBulletVelocity(bullet2)[0],EPSILON);
 		facade.evolve(world, 70, null);
-		System.out.println(facade.getBulletPosition(bullet2)[0]);
+		
 		
 		assertFalse(facade.isTerminatedShip(ship1));
 		assertFalse(facade.isTerminatedBullet(bullet2));
