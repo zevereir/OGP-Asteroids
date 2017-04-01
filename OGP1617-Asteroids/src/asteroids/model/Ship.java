@@ -261,7 +261,7 @@ public class Ship extends Entity {
 	///CHECKERS///
 	public boolean isValidShipPosition(double x, double y){
 		if ((this.getEntityWorld() != null))
-			return entityFitsInWorld(this, this.getEntityWorld());
+			return entityFitsInWorld(this.getEntityWorld());
 		
 		return true;
 	}
@@ -375,25 +375,31 @@ public class Ship extends Entity {
 			Bullet bullet = entry.getValue();
 
 			this.removeBulletFromShip(bullet);
-			
 
 			double positionShipX = this.getEntityPositionX();
 			double positionShipY = this.getEntityPositionY();
 			double orientation = this.getEntityOrientation();
 			double radiusShip = this.getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
-			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1); 
-			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1);
-			
-			try {
-				bullet.setEntityPosition(positionBulletX, positionBulletY);
-			} catch (IllegalArgumentException illegalArgumentException) {
-				bullet.Terminate();
-			}
-			
+			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1.5); 
+			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1.5);
+			bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
+			World world = this.getEntityWorld();
 			bullet.setEntityOrientation(orientation);
 			bullet.setEntityVelocity(initialFiringVelocity*Math.cos(orientation), initialFiringVelocity*Math.sin(orientation));
-			this.getEntityWorld().addEntityToWorld(bullet);	
+			
+			try {
+				world.addEntityToWorld(bullet);	
+			} catch (IllegalArgumentException illegalArgumentException) {
+				if (!bullet.entityInBoundaries(world)){
+					bullet.Terminate();
+				}
+				else{
+					Entity otherEntity = bullet.entityOverlappingInWorld(world); 
+					bullet.Terminate();
+					otherEntity.Terminate();
+				}
+			}
 		}
 	}
 		 

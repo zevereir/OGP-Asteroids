@@ -41,7 +41,7 @@ public class Tests_Part2 {
 	/// CREATE SHIP ///
 
 	public Ship[] create_ships() throws ModelException {
-		Ship ship1 = facade.createShip(10000.0, 10000.0, 0, 0, 10, 0,5E16);
+		Ship ship1 = facade.createShip(10000, 10000, 0, 0, 10, 0,5E16);
 		Ship ship2 = facade.createShip(10000, 10100, 0, -10, 10, 3 * Math.PI / 2,5E16);
 		Ship ship3 = facade.createShip(10100, 10000, -10, 0, 10, Math.PI,0);
 		Ship ship4 = facade.createShip(10000, 9900, 0, 10, 10, Math.PI / 2,0);
@@ -53,7 +53,8 @@ public class Tests_Part2 {
 		Ship ship10 = facade.createShip(29000.0,10000.0,200,0,200,0,0);
 		Ship ship11 = facade.createShip(10000,29000,0,200,200,0,0);
 		Ship ship12 = facade.createShip(10000,10000,1000,1500,1000,0,0);
-		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10,ship11,ship12};
+		Ship ship13 = facade.createShip(10000,12050,0,0,1000,3*Math.PI/2,0);
+		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10,ship11,ship12,ship13};
 
 		return Total;
 	}
@@ -165,15 +166,20 @@ public class Tests_Part2 {
 		Bullet bullet10 = facade.createBullet(10000, 10000, 10, 10, 3);
 		Bullet bullet11 = facade.createBullet(29500, 10000, 0, 0, 3);
 		Bullet bullet12 = facade.createBullet(10001, 10100, 0, 0, 3);
+		Bullet bullet13 = facade.createBullet(10000, 12050, 0, 0, 80);
+
 		
-		Bullet[] Total ={bullet1, bullet2,bullet3,bullet4,bullet5,bullet6,bullet7,bullet8,bullet9,bullet10,bullet11,bullet12};
+		Bullet[] Total ={bullet1, bullet2,bullet3,bullet4,bullet5,bullet6,bullet7,bullet8,bullet9,bullet10,bullet11,bullet12,bullet13};
 		return Total;
 	}
 	public Set<Bullet> bulletsInSet() throws ModelException{
 		Set<Bullet> bulletset = new HashSet<Bullet>();
-		for (Bullet bullet: create_bullets())
-			if (!(facade.getBulletPosition(bullet)[0] != 10000))
-			bulletset.add(bullet);
+		bulletset.add(create_bullets()[0]);
+		bulletset.add(create_bullets()[1]);
+		bulletset.add(create_bullets()[2]);
+		bulletset.add(create_bullets()[3]);
+		bulletset.add(create_bullets()[4]);
+		
 		return bulletset;
 	}
 
@@ -259,7 +265,7 @@ public class Tests_Part2 {
 		Ship ship7 = create_ships()[6];
 		facade.addShipToWorld(world1, ship7);
 		facade.loadBulletsOnShip(ship7,bulletsInSet());
-		assertEquals(9,facade.getNbBulletsOnShip(ship7));
+		assertEquals(5,facade.getNbBulletsOnShip(ship7));
 	}
 	
 	@Test 
@@ -305,6 +311,23 @@ public class Tests_Part2 {
 		assertFalse(facade.isTerminatedBullet(bullet2));
 		assertEquals(1,facade.getNbBulletsOnShip(ship1),EPSILON);
 		
+	}
+	//---> firing a bullet that overlaps with something <---//
+	@Test
+	public void fireOverlappingBullet() throws ModelException{
+		World world = create_Worlds()[0];
+		Ship ship1 = create_ships()[11];
+		Ship ship2 = create_ships()[12];
+		Bullet bullet = create_bullets()[12];
+		facade.addShipToWorld(world, ship2);
+		facade.addShipToWorld(world, ship1);
+		facade.loadBulletOnShip(ship2, bullet);
+		assertEquals(1,facade.getNbBulletsOnShip(ship2),EPSILON);
+		assert(facade.getBulletShip(bullet)== ship2);
+		facade.fireBullet(ship2);
+		assert(facade.isTerminatedShip(ship1));
+		assertFalse(facade.isTerminatedShip(ship2));
+		assert(facade.isTerminatedBullet(bullet));
 	}
 	
 	
@@ -443,7 +466,7 @@ public class Tests_Part2 {
 		facade.addShipToWorld(world, ship1);
 		facade.addShipToWorld(world, ship2);
 		facade.addShipToWorld(world, ship6);
-
+		assertEquals(3,facade.getEntities(world).size());
 		facade.evolve(world, 11,null);
 		assertEquals(10,facade.getShipVelocity(ship6)[0],EPSILON);
 		assertEquals(1110,facade.getShipPosition(ship6)[0],EPSILON);
@@ -559,7 +582,7 @@ public class Tests_Part2 {
 		assert(facade.isTerminatedShip(ship));
 		assertEquals(0,facade.getEntities(world).size(),EPSILON);
 	}
-	
+
 	///TEST SET///
 	@Test
 	public final void TestSetEnazu()throws ModelException{

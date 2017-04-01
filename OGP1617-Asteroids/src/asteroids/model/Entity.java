@@ -92,28 +92,34 @@ public abstract class Entity {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 
-	public static boolean entityFitsInWorld(Entity entity, World world){
-		double radius = entity.getEntityRadius();
-		double upper_bound = (world.getWorldHeight() - OMEGA*radius);
-		double lower_bound = OMEGA*radius;
-		double right_bound = (world.getWorldWidth() - OMEGA*radius);
-		double left_boud = OMEGA*radius;
-		double positionX = entity.getEntityPositionX();
-		double positionY = entity.getEntityPositionY();		
-		
-		// Check if the entity fits into the boundaries of the world.
-		if ((positionX < left_boud) || (right_bound < positionX) || (positionY < lower_bound) || (upper_bound < positionY)){	
+	public boolean entityFitsInWorld(World world){
+		if (!this.entityInBoundaries(world) || this.entityOverlappingInWorld(world)!=null)
 			return false;
-		}
-		
-		// Check if the entity is not overlapping with another entity.
-		for (Object otherEntity: world.getWorldEntities()){
-			if ( entity.overlap((Entity)otherEntity) && !entity.equals(otherEntity) )
-				return false;
-		}
 		return true;
 	}
 	
+	public boolean entityInBoundaries( World world){
+		double radius = this.getEntityRadius();
+		double upper_bound = (world.getWorldHeight() - OMEGA*radius);
+		double lower_bound = OMEGA*radius;
+		double right_bound = (world.getWorldWidth() - OMEGA*radius);
+		double left_bound = OMEGA*radius;
+		double positionX = this.getEntityPositionX();
+		double positionY = this.getEntityPositionY();		
+		
+		// Check if the entity fits into the boundaries of the world.
+		return ((positionX > left_bound) && (right_bound > positionX) && (positionY > lower_bound) && (upper_bound > positionY));	
+			
+	}
+	public Entity entityOverlappingInWorld(World world){
+		// Check if the entity is not overlapping with another entity.
+		for (Object otherEntity: world.getWorldEntities()){
+			if ( this.overlap((Entity)otherEntity) && !this.equals(otherEntity) )
+				return (Entity)otherEntity;
+		}
+		return null;
+		
+	}
 
 	/// GETTERS ///
 	public double[] getEntityPosition(){
@@ -177,7 +183,7 @@ public abstract class Entity {
 			return false;
 		
 		if ((this.getEntityWorld() != null)) 
-			return entityFitsInWorld(this, this.getEntityWorld());
+			return this.entityFitsInWorld(this.getEntityWorld());
 		
 		return true;
 	}
@@ -353,7 +359,7 @@ public abstract class Entity {
 		final double distance_centers = getEuclidianDistance(delta_x, delta_y);
 		final double distance = distance_centers - OMEGA * total_radius;
 		
-		return distance;
+		return BETA*distance;
 	}
 	
 	
@@ -413,7 +419,7 @@ public abstract class Entity {
 		double position_2Y = otherEntity.getEntityPositionY();
 		double radius_1 = this.getEntityRadius();
 		double radius_2 = otherEntity.getEntityRadius();
-		double total_radius = (radius_1 + radius_2);
+		double total_radius = BETA*(radius_1 + radius_2);
 
 		double delta_rX = position_2X - position_1X;
 		double delta_rY = position_2Y - position_1Y;
@@ -424,8 +430,10 @@ public abstract class Entity {
 		double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
 
-		if (this.overlap(otherEntity))
-			throw new IllegalArgumentException();
+		if (this.overlap(otherEntity)){
+			System.out.println("-------> there are ships overlapping<-----, Entity= "+this+otherEntity+ "Position = "
+		+otherEntity.getEntityPositionX()+","+otherEntity.getEntityPositionY());
+			throw new IllegalArgumentException();}
 			
 		else if (delta_v_r > 0)
 			return Double.POSITIVE_INFINITY;
@@ -487,8 +495,10 @@ public abstract class Entity {
 
 		double time_till_overlapping = this.getTimeToCollision(otherEntity);
 		
-		if (this.overlap(otherEntity))
+		if (this.overlap(otherEntity)){
+			System.out.print("-------> there are ships overlapping<-----");
 			throw new IllegalArgumentException();
+		}
 
 		else if (time_till_overlapping == Double.POSITIVE_INFINITY)
 			return null;

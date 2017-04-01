@@ -72,7 +72,6 @@ public class World {
 		return result;
 	}
 	
-
 	
 	public Object getEntityAt(double x, double y){
 		String search_position = ""+x+","+y+"";
@@ -161,12 +160,11 @@ public class World {
 		if (entity.getEntityWorld()!=null)
 			return false;
 		if (entity instanceof Ship){
-			if (!Entity.entityFitsInWorld(entity,this))
+			if (!entity.entityFitsInWorld(this))
 				return false;}
 		if (entity instanceof Bullet){
-			if(((Bullet)entity).getBulletSource() == null){
-				if (!Entity.entityFitsInWorld(entity,this))
-					return false;}
+			if(((Bullet)entity).getBulletShip() != null || !entity.entityFitsInWorld(this) ){
+					return false;}		
 			}
 		if (entity.isEntityTerminated())
 			return false;
@@ -186,14 +184,16 @@ public class World {
 			// Determine time till the first collision
 				
 			double TimeToCollision = getTimeNextCollision();
-			
+		
 			double CollisionPositionX = getPositionNextCollision()[0];
 			double CollisionPositionY = getPositionNextCollision()[1];
 			
 			double[] CollisionArray = {CollisionPositionX,CollisionPositionY};
 			
+			
 			// TimeToCollision is smaller than the evolve-time
 			if (TimeToCollision < dt) {
+				
 				// Update the positions of the entities, along with the 'entity_positions'-Map
 				// Clear the out-dated Map 'entity_positions'
 				entity_positions.clear();
@@ -206,17 +206,18 @@ public class World {
 					entity_positions.put(arrayToString(((Entity)entity).getEntityPosition()), (Entity)entity);
 				}
 				
-			
+				
 				// Check and execute the type of collision
 				if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 					if (collisionListener !=null)
 						collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
 					ShipsCollide(collision_entity_1, collision_entity_2); 
-					
+				
 					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 					entity_positions.remove(arrayToString(collision_entity_2.getEntityPosition()));
 					collision_entity_1.move((1-OMEGA)*TimeToCollision);
 					collision_entity_2.move((1-OMEGA)*TimeToCollision);
+					
 					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
 					entity_positions.put(arrayToString(collision_entity_2.getEntityPosition()),collision_entity_2);}
 				else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
@@ -232,7 +233,7 @@ public class World {
 					BulletAndWorldCollide(collision_entity_1,CollisionArray);
 					if (!collision_entity_1.isEntityTerminated()){
 					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-					collision_entity_1.move((1-OMEGA)*(1-OMEGA)*TimeToCollision);
+					collision_entity_1.move((1-OMEGA)*TimeToCollision);
 					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
 					}
 				}
@@ -253,12 +254,14 @@ public class World {
 			
 			// TimeToCollision is bigger than the evolve-time, which means no collision will take place when we evolve over the dt-time
 			else {
+				
 				for (Object entity: getWorldEntities())	{
 					
 					((Entity)entity).move(dt);
 				}
+			
 			}
-			}
+		}
 	}
 	
 	
