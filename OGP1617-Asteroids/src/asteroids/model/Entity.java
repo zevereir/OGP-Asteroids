@@ -104,6 +104,7 @@ public abstract class Entity {
 		double lower_bound = OMEGA*radius;
 		double right_bound = (world.getWorldWidth() - OMEGA*radius);
 		double left_bound = OMEGA*radius;
+		
 		double positionX = this.getEntityPositionX();
 		double positionY = this.getEntityPositionY();		
 		
@@ -431,9 +432,11 @@ public abstract class Entity {
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
 
 		if (this.overlap(otherEntity)){
-			System.out.println("-------> there are ships overlapping<-----, Entity= "+this+otherEntity+ "Position = "
-		+otherEntity.getEntityPositionX()+","+otherEntity.getEntityPositionY());
-			throw new IllegalArgumentException();}
+			System.out.println("There are entities overlapping!");
+			System.out.println("Position = "+otherEntity.getEntityPositionX()+", "+otherEntity.getEntityPositionY());
+			System.out.println("Center world: "+this.getEntityWorld().getWorldWidth()/2+", "+this.getEntityWorld().getWorldHeight()/2);
+			throw new IllegalArgumentException();
+		}
 			
 		else if (delta_v_r > 0)
 			return Double.POSITIVE_INFINITY;
@@ -613,6 +616,7 @@ public abstract class Entity {
 				System.out.println("Fault at model.Entity method: getPositionCollisionBoundary!");
 				System.out.println("Should have bounced with a boundary!");
 				System.out.println("new_x: "+new_x+", new_y: "+new_y+", the radius: "+radius);
+				System.out.println("width: "+width+", height: "+height+", the radius: "+radius);
 				return null;
 			}
 		}
