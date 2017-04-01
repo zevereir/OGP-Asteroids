@@ -140,7 +140,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	public static double getDefaultRadius() {
-		return 1;
+		return 10.1;
 	}
 
 
@@ -334,7 +334,6 @@ public class Ship extends Entity {
 	 */
 	public void turn(double angle) {
 		assert isValidOrientation(this.getEntityOrientation() + angle);
-		assert this instanceof Ship;
 		this.setEntityOrientation(this.getEntityOrientation() + angle);
 	}
 
@@ -380,7 +379,7 @@ public class Ship extends Entity {
 			throw new IllegalArgumentException();}
 		else{
 			this.bullets.remove(bullet.hashCode());
-			bullet.setBulletNotLoaded();	
+			bullet.setBulletNotLoaded(this);	
 		}
 	}
 
@@ -389,9 +388,9 @@ public class Ship extends Entity {
 			
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
-			
-			bullet.setBulletSourceShip(this);
+
 			this.removeBulletFromShip(bullet);
+			
 			
 			double[] positionShip = this.getEntityPosition();
 			double orientation = this.getEntityOrientation();

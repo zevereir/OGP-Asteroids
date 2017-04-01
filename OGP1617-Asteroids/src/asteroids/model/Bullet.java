@@ -28,7 +28,7 @@ public class Bullet extends Entity {
 	
 	///DEFAULTS///
 	public static double getDefaultRadius(){
-		return 1;
+		return 2;
 	}
 	
 	public static double getDefaultBulletMass(){
@@ -72,10 +72,9 @@ public class Bullet extends Entity {
 	// --> Lower_... zal altijd groter zijn dan 0
 	//  --> R(bullet) < R(ship) ?
 	public boolean isValidRadius(double radius) {
-		if (radius < LOWER_BULLET_RADIUS)
-			return false;
+		return (radius > LOWER_BULLET_RADIUS);
+			
 		
-		return true;		
 	}
 	
 	// The mass density rho of each bullet is the same, namely 7.8·1012kg/km^3.
@@ -163,13 +162,16 @@ public class Bullet extends Entity {
 	public void setBulletLoaded(Ship ship) {
 		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
 		this.setBulletLoadedState(BulletState.LOADED);
+		this.setEntityFree();
 		this.setBulletShip(ship);
+		this.setBulletSourceShip(null);
 	}
 
-	public void setBulletNotLoaded() {
+	public void setBulletNotLoaded(Ship ship) {
 		assert (!this.isEntityTerminated());
 		this.setBulletLoadedState(BulletState.NOTLOADED);
 		this.setBulletShip(null);
+		this.setBulletSourceShip(ship);
 	}
 	
 	public void Terminate() {

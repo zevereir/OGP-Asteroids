@@ -39,7 +39,7 @@ public abstract class Entity {
 	
 
 	public final static double OMEGA = 0.99;
-	public final static double OMIKRON = 1.01;
+	
 	
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
@@ -101,8 +101,8 @@ public abstract class Entity {
 		
 		double radius = entity.getEntityRadius();
 		
-		double upper_bound = OMIKRON*(world.getWorldHeight()-radius);
-		double right_bound = OMIKRON*(world.getWorldWidth()-radius);
+		double upper_bound = (world.getWorldHeight()-OMEGA*radius);
+		double right_bound = (world.getWorldWidth()-OMEGA*radius);
 		double x = entity.getEntityPositionX();
 		double y = entity.getEntityPositionY();		
 		

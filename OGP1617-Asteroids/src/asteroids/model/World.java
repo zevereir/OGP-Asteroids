@@ -179,13 +179,17 @@ public class World {
 	// dt = evolving time (a predetermined value)
 		public void evolve(double dt, CollisionListener collisionListener) {
 		
-					
+			System.out.println("DT="+ dt);		
 			//This function does nothing if there are no entities
-			if (!this.getWorldEntities().isEmpty())	{
+			if (!this.getWorldEntities().isEmpty() || dt==0)	{
+				System.out.println("tester");
 			// Determine time till the first collision
+				
 			double TimeToCollision = getTimeNextCollision();
+			System.out.println("TTC="+ TimeToCollision);
 			double CollisionPositionX = getPositionNextCollision()[0];
 			double CollisionPositionY = getPositionNextCollision()[1];
+			System.out.println("POSITION =["+ CollisionPositionX+","+CollisionPositionY+"]");
 			double[] CollisionArray = {CollisionPositionX,CollisionPositionY};
 			
 			// TimeToCollision is smaller than the evolve-time
@@ -233,6 +237,8 @@ public class World {
 					}
 				}
 				else{
+					
+
 					if (collisionListener !=null)
 						collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
 					BulletAndEntityCollide(collision_entity_1, collision_entity_2);
@@ -242,6 +248,8 @@ public class World {
 					
 				// Invoke the method evolve in a recursive way, make sure that the thrusters will be turned off, otherwise the velocity
 				//  will keep incrementing
+				
+				
 				evolve(newTime, collisionListener);}
 				
 				 
@@ -258,9 +266,13 @@ public class World {
 	
 	
 	public double getTimeNextCollision() {
+		
 		double min_time = Double.POSITIVE_INFINITY;
+		collision_entity_1 = null;
+		collision_entity_2 = null;
 		
 		for (Object entity_1: getWorldEntities()){
+			
 			double dt = ((Entity)entity_1).getTimeCollisionBoundary();
 			
 			if (dt < min_time){
@@ -269,6 +281,7 @@ public class World {
 				collision_entity_2 = null;
 				}
 			for (Object entity_2: getWorldEntities()){
+				System.out.print(getWorldEntities().size());
 				if (entity_2.hashCode() > entity_1.hashCode()){
 					double delta_t = ((Entity)entity_1).getTimeToCollision((Entity)entity_2);
 					if (delta_t < min_time){
@@ -279,7 +292,9 @@ public class World {
 				}			
 			}	
 		}
+		
 		return min_time;
+		
 	}
 		
 	
@@ -335,11 +350,15 @@ public class World {
 	}
 	
 	public void BulletAndEntityCollide(Entity entity1, Entity entity2){
-		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet)entity1).getBulletShip() == ((Ship)entity2) ){
+	
+		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet)entity1).getBulletSource() == ((Ship)entity2) ){
 			((Bullet)entity1).setPositionWhenColliding(((Ship)entity2).getEntityPositionX(), ((Ship)entity2).getEntityPositionY());
+			this.removeEntityFromWorld(entity1);
 			((Ship)entity2).addOneBulletToShip((Bullet)entity1);
-		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet)entity2).getBulletShip() == ((Ship)entity1) ){
+			
+		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet)entity2).getBulletSource() == ((Ship)entity1) ){
 			((Bullet)entity2).setPositionWhenColliding(((Ship)entity1).getEntityPositionX(), ((Ship)entity1).getEntityPositionY());
+			this.removeEntityFromWorld(entity2);
 			((Ship)entity1).addOneBulletToShip((Bullet)entity2);
 		} else {
 			entity1.Terminate();
