@@ -237,11 +237,8 @@ public class World {
 					}
 				}
 				else{
-					
-
-					if (collisionListener !=null)
-						collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
-					BulletAndEntityCollide(collision_entity_1, collision_entity_2);
+					double[] position = {CollisionPositionX, CollisionPositionY};
+					BulletAndEntityCollide(collision_entity_1, collision_entity_2, collisionListener, position);
 				}
 				
 				double newTime = dt - TimeToCollision;
@@ -349,7 +346,7 @@ public class World {
 			((Ship)entity).setEntityVelocity(-Velocity[0], Velocity[1]);
 	}
 	
-	public void BulletAndEntityCollide(Entity entity1, Entity entity2){
+	public void BulletAndEntityCollide(Entity entity1, Entity entity2, CollisionListener collisionListener, double[] position){
 	
 		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet)entity1).getBulletSource() == ((Ship)entity2) ){
 			((Bullet)entity1).setPositionWhenColliding(((Ship)entity2).getEntityPositionX(), ((Ship)entity2).getEntityPositionY());
@@ -361,6 +358,11 @@ public class World {
 			this.removeEntityFromWorld(entity2);
 			((Ship)entity1).addOneBulletToShip((Bullet)entity2);
 		} else {
+			double CollisionPositionX = position[0];
+			double CollisionPositionY = position[1];
+			if (collisionListener !=null)
+			collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
+			
 			entity1.Terminate();
 			entity2.Terminate();
 		}

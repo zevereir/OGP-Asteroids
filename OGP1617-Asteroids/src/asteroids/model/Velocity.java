@@ -4,31 +4,31 @@ import be.kuleuven.cs.som.annotate.Value;
 
 @Value
 public class Velocity {
-	public Velocity(double xVel, double yVel){
-		setXVel(xVel);
-		setYVel(yVel);
+	public Velocity(double xVelocity, double yVelocity){
+		setVelocityX(xVelocity);
+		setVelocityY(yVelocity);
 	}
 	public Velocity(){
 		this(0,0);
 	}
 
-	private double xVel;
-	private double yVel;
+	private double xVelocity;
+	private double yVelocity;
 	
-	public double getXVel() {
-		return xVel;
+	public double getVelocityX() {
+		return xVelocity;
 	}
-	public void setXVel(double x) {
-		xVel = x;
+	public void setVelocityX(double newVelocityX) {
+		xVelocity = newVelocityX;
 	}
-	public double getYVel() {
-		return yVel;
+	public double getVelocityY() {
+		return yVelocity;
 	}
-	public void setYVel(double y) {
-		yVel = y;
+	public void setVelocityY(double newVelocityY) {
+		yVelocity = newVelocityY;
 	}
 	public double[] getVelocityArray(){
-		double[] result = {xVel,yVel};
+		double[] result = {xVelocity, yVelocity};
 		return result;
 	}
 

@@ -6,32 +6,32 @@ import be.kuleuven.cs.som.annotate.Value;
 public class Position {
 
 	public Position(double x,double y){
-		this.setX(x);
-		this.setY(y);
+		this.setPositionX(x);
+		this.setPositionY(y);
 	}
 	
 	public Position(){
 		this(0,0);		
 	}
 	
-	private double X;
-	private double Y;
+	private double positionX;
+	private double positionY;
 	
-	public double getX() {
-		return X;
+	public double getPositionX() {
+		return positionX;
 	}
-	public void setX(double x) {
-		X = x;
+	public void setPositionX(double newPositionX) {
+		positionX = newPositionX;
 	}
-	public double getY() {
-		return Y;
+	public double getPositionY() {
+		return positionY;
 	}
-	public void setY(double y) {
-		Y = y;
+	public void setPositionY(double newPositionY) {
+		positionY = newPositionY;
 	}
 	
 	public double[] getPositionArray(){
-		double[] result = {X,Y};
+		double[] result = {positionX, positionY};
 		return result;
 	}
 	
