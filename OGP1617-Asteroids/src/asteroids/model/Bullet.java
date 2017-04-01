@@ -1,5 +1,5 @@
 package asteroids.model;
-//import be.kuleuven.cs.som.annotate.*;
+import be.kuleuven.cs.som.annotate.*;
 
 /**
  * a class that describes a bullet that flies away in the blue blue sky.
@@ -69,7 +69,9 @@ public class Bullet extends Entity {
 		return (ship.canHaveAsBullet(this));
 	}
 	
-	public boolean isValidRadius(double radius) {
+	// --> Lower_... zal altijd groter zijn dan 0
+	//  --> R(bullet) < R(ship) ?
+	public boolean isValidRadius(double radius) {		
 		return (radius >= LOWER_BULLET_RADIUS);
 	}
 	
@@ -158,13 +160,16 @@ public class Bullet extends Entity {
 	public void setBulletLoaded(Ship ship) {
 		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
 		this.setBulletLoadedState(BulletState.LOADED);
+		this.setEntityFree();
 		this.setBulletShip(ship);
+		this.setBulletSourceShip(null);
 	}
 
-	public void setBulletNotLoaded() {
+	public void setBulletNotLoaded(Ship ship) {
 		assert (!this.isEntityTerminated());
 		this.setBulletLoadedState(BulletState.NOTLOADED);
 		this.setBulletShip(null);
+		this.setBulletSourceShip(ship);
 	}
 	
 	public void Terminate() {

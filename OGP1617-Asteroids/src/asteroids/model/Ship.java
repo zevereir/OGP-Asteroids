@@ -311,9 +311,9 @@ public class Ship extends Entity {
 	 * Update the direction of the ship by adding an angle in radians to its
 	 * current direction. The angle may be negative.
 	 * 
-	 * @param 	angle
-	 *       	The given angle which will determine the difference in
-	 *          orientation.
+	 * @param angle
+	 *            The given angle which will determine the difference in
+	 *            orientation.
 	 * 
 	 * @pre The new orientation will be between 0 and 2*PI,0 included
 	 *      |isVallidRadian(this.getShipOrientation() + angle)
@@ -364,17 +364,18 @@ public class Ship extends Entity {
 			throw new IllegalArgumentException();
 		else{
 			this.bullets.remove(bullet.hashCode());
-			bullet.setBulletNotLoaded();	
+			bullet.setBulletNotLoaded(this);	
 		}
 	}
 
 	public void fireBullet(){
 		if (! bullets.isEmpty()) {
+			
 			Map.Entry<Integer,Bullet> entry=bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
-			
-			bullet.setBulletSourceShip(this);
+
 			this.removeBulletFromShip(bullet);
+			
 
 			double positionShipX = this.getEntityPositionX();
 			double positionShipY = this.getEntityPositionY();

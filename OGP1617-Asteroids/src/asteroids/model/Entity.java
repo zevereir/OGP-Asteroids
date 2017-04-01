@@ -38,7 +38,11 @@ public abstract class Entity {
 	private final static double SPEED_OF_LIGHT = 300000;
 
 	public final static double OMEGA = 0.99;
+<<<<<<< HEAD
 	public final static double BETA = 1.01;
+=======
+	
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 	
 	public static double getDefaultMaxVelocity(){
 		return SPEED_OF_LIGHT;
@@ -94,12 +98,20 @@ public abstract class Entity {
 
 	public static boolean entityFitsInWorld(Entity entity, World world){
 		double radius = entity.getEntityRadius();
+<<<<<<< HEAD
 		double upper_bound = (world.getWorldHeight() - OMEGA*radius);
 		double lower_bound = OMEGA*radius;
 		double right_bound = (world.getWorldWidth() - OMEGA*radius);
 		double left_boud = OMEGA*radius;
 		double positionX = entity.getEntityPositionX();
 		double positionY = entity.getEntityPositionY();		
+=======
+		
+		double upper_bound = (world.getWorldHeight()-OMEGA*radius);
+		double right_bound = (world.getWorldWidth()-OMEGA*radius);
+		double x = entity.getEntityPositionX();
+		double y = entity.getEntityPositionY();		
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 		
 		// Check if the entity fits into the boundaries of the world.
 		if ((positionX < left_boud) || (right_bound < positionX) || (positionY < lower_bound) || (upper_bound < positionY)){	
