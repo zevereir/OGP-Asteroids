@@ -112,16 +112,39 @@ public abstract class Entity {
 		return ((positionX > left_bound) && (right_bound > positionX) && (positionY > lower_bound) && (upper_bound > positionY));	
 			
 	}
+	
 	public Entity entityOverlappingInWorld(World world){
 		// Check if the entity is not overlapping with another entity.
 		for (Object otherEntity: world.getWorldEntities()){
 			if ( this.overlap((Entity)otherEntity) && !this.equals(otherEntity) )
 				return (Entity)otherEntity;
 		}
-		return null;
-		
+		return null;	
+	}
+	
+	// Check if an entity in the world overlaps a given position
+	// --> Not used anymore!
+	public boolean entityOnGivenPosition(double[] position) {
+		double positionX = position[0];
+		double positionY = position[1];
+		boolean Boolean = false;
+
+		for (Object entity: this.getEntityWorld().getWorldEntities()){
+			double positionEntityX = ((Entity)entity).getEntityPositionX();
+			double positionEntityY = ((Entity)entity).getEntityPositionY();
+			double radiusEntity = ((Entity)entity).getEntityRadius();
+
+			double delta_x = positionEntityX - positionX;
+			double delta_y = positionEntityY - positionY;
+
+			if (getEuclidianDistance(delta_x, delta_y) <= radiusEntity)
+				Boolean = true;
+		}
+		System.out.println(Boolean);
+		return Boolean;
 	}
 
+	
 	/// GETTERS ///
 	public double[] getEntityPosition(){
 		return this.position.getPositionArray();
@@ -169,6 +192,7 @@ public abstract class Entity {
 		return this.world;
 	}
 	
+	
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double positionX, double positionY) {
@@ -184,9 +208,11 @@ public abstract class Entity {
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
 			return false;
 		
-		if ((this.getEntityWorld() != null)) 
+		if ((this.getEntityWorld() != null)) { 
+			System.out.println("FAAAAAAAAAAAAACK");
+			System.out.println(this.entityFitsInWorld(this.getEntityWorld()));
 			return this.entityFitsInWorld(this.getEntityWorld());
-		
+		}
 		return true;
 	}
 	
@@ -359,6 +385,7 @@ public abstract class Entity {
 		final double first_radius = this.getEntityRadius();
 		final double second_radius = otherEntity.getEntityRadius();
 		final double total_radius = first_radius + second_radius;
+		
 		final double delta_x = Math.abs(first_posX - second_posX);
 		final double delta_y = Math.abs(first_posY - second_posY);
 		final double distance_centers = getEuclidianDistance(delta_x, delta_y);
@@ -378,12 +405,9 @@ public abstract class Entity {
 	 *         |result = (this.getDistanceBetween(otherShip) < 0)
 	 */
 	public boolean overlap(Entity otherEntity) {
-		if (this.equals(otherEntity))
-			return true;
-
 		double distance = this.getDistanceBetween(otherEntity);
 		
-		return (distance < 0);
+		return (distance <= 0);
 	}
 	
 	/**

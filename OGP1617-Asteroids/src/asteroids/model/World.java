@@ -161,30 +161,31 @@ public class World {
 	
 	///CHECKERS///
 	public boolean canHaveAsEntity(Entity entity){
+		// The entity already belongs to this world.
 		if (this.hasAsEntity(entity))
-			// The entity already belongs to this world.
 			return false;
 		
+		// The entity already belongs to a different world.
 		if (entity.getEntityWorld() != null)
-			// The entity already belongs to a different world.
 			return false;
-		
+
+		// The entity does not fit in this world
 		if (entity instanceof Ship)
 			if (!entity.entityFitsInWorld(this))
 				return false;
-		
+
+		// If the bullet belongs to/is in a ship (so the bullet is not in the world), or the bullet's new position is not
+		//  within the boundaries of the given position, false will be returned.
 		if (entity instanceof Bullet)
 			if(((Bullet)entity).getBulletShip() != null || !entity.entityFitsInWorld(this) )
-				// If the bullet belongs to/is in a ship (so the bullet is not in the world), or the bullet's new position is not
-				//  within the boundaries of the given position, false will be returned.
 				return false;
-		
+
+		// An entity who is in the terminated state, cannot be in a world.
 		if (entity.isEntityTerminated())
-			// An entity who is in the terminated state, cannot be in a world.
 			return false;
-		
+
+		// A terminated world cannot have any entities.
 		if (this.isWorldTerminated())
-			// A terminated world cannot have any entities.
 			return false;
 		
 		return true;			

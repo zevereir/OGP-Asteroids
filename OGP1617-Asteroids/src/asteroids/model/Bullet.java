@@ -121,14 +121,19 @@ public class Bullet extends Entity {
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
 
-		final double new_x =this.getEntityPositionX()+ vel_x * dt;
-		final double new_y =this.getEntityPositionY()+ vel_y * dt;
+		final double positionX = this.getEntityPositionX()+ vel_x * dt;
+		final double positionY = this.getEntityPositionY()+ vel_y * dt;
+		
+		System.out.println("Bullet --> move");
+		System.out.println("positions: ("+positionX+", "+positionY+")");
+		
 		if (this == entity1){
-			this.setPositionWhenColliding(new_x, new_y);
+			this.setPositionWhenColliding(positionX, positionY);
 		} else if (this == entity2) {	
-			this.setPositionWhenColliding(new_x, new_y);
+			this.setPositionWhenColliding(positionX, positionY);
 		} else {
-			this.setEntityPosition(new_x, new_y);
+			System.out.println("Fault in here!");
+			this.setEntityPosition(positionX, positionY);
 		}
 	}
 	
