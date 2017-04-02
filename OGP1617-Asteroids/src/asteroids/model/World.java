@@ -129,8 +129,10 @@ public class World {
 				bullets.put(((Bullet)entity).hashCode(),(Bullet)entity);
 			entity_positions.put(arrayToString(entity.getEntityPosition()),entity);
 		} 
-		else
+		else{
+			System.out.println("ADD_ENTITY_WORLD_ERROR");
 			throw new IllegalArgumentException() ;
+		}
 	}
 	
 	
@@ -189,7 +191,7 @@ public class World {
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
 		// A world cannot evolve if there are no entities or the evolving time equals zero (which means after evolving, the same
 		//  situation will be achieved).
-		if (!this.getWorldEntities().isEmpty() || defaultEvolvingTime==0)	{
+		if (!this.getWorldEntities().isEmpty() || defaultEvolvingTime<=0)	{
 			
 			// Check if overlapping, because if two entities are already overlapping, it will be impossible to evolve, because the
 			//  TimeToCollision (see further) will always be zero. This would resolve into an infinity loop because the method
@@ -492,8 +494,9 @@ public class World {
 	}
 
 	public void setWorldState(State state) {
-		if (state == null)
-			throw new IllegalStateException();
+		if (state == null){
+			System.out.println("SET_WORLD_STATE_ERROR");
+			throw new IllegalStateException(); }
 		else
 			this.state = state;
 	}

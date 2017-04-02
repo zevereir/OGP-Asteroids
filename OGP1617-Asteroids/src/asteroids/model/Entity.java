@@ -172,8 +172,9 @@ public abstract class Entity {
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double positionX, double positionY) {
-		if (!isValidEntityPosition(positionX, positionY))
-			throw new IllegalArgumentException();
+		if (!isValidEntityPosition(positionX, positionY)){
+			System.out.println("SET_ENTITY_POSITION_ERROR");
+			throw new IllegalArgumentException();}
 		
 		this.position.setPositionX(positionX);
 		this.position.setPositionY(positionY);
@@ -222,7 +223,8 @@ public abstract class Entity {
 		if (isValidRadius(radius))
 			this.radius = radius;
 		else
-			throw new IllegalArgumentException();
+		{System.out.println("SET_ENTITY_RADIUS_ERROR");
+			throw new IllegalArgumentException();}
 	}
 	
 	public abstract boolean isValidRadius(double radius);	
@@ -305,8 +307,10 @@ public abstract class Entity {
 	}
 	
 	public void setEntityState(State state) {
-		if (state == null)
-			throw new IllegalArgumentException();
+		if (state == null){
+			
+		System.out.println("SET_ENTITY_STATE_ERROR");
+			throw new IllegalArgumentException();}
 		else
 			this.state = state;
 	}
@@ -407,8 +411,10 @@ public abstract class Entity {
 	 */
 	public double getTimeToCollision(Entity otherEntity) {
 		if ( (!this.isEntityInWorld() && this.hasEntityProperState() ) || 
-				( !otherEntity.isEntityInWorld() && otherEntity.hasEntityProperState() ) )
-			throw new IllegalArgumentException();				
+				( !otherEntity.isEntityInWorld() && otherEntity.hasEntityProperState() ) ){
+			
+		System.out.println("ENTITY_NOT_PROPER_STATE_EXCEPTION");
+			throw new IllegalArgumentException();				}
 		
 		double velocity_1X = this.getEntityVelocityX();
 		double velocity_1Y = this.getEntityVelocityY();
@@ -498,12 +504,8 @@ public abstract class Entity {
 
 		double time_till_overlapping = this.getTimeToCollision(otherEntity);
 		
-		if (this.overlap(otherEntity)){
-			System.out.print("-------> there are ships overlapping<-----");
-			throw new IllegalArgumentException();
-		}
 
-		else if (time_till_overlapping == Double.POSITIVE_INFINITY)
+		if (time_till_overlapping == Double.POSITIVE_INFINITY)
 			return null;
 
 		else {

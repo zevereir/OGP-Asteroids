@@ -112,6 +112,7 @@ public class Bullet extends Entity {
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
 		if (dt < 0) {
+			System.out.println("MOVE_DT_LOWER_ZERO_ERROR");
 			throw new IllegalArgumentException();
 		}
 		
@@ -150,8 +151,9 @@ public class Bullet extends Entity {
 	}
 
 	public void setBulletLoadedState(BulletState state) {
-		if (state == null)
-			throw new IllegalStateException();
+		if (state == null){
+			System.out.println("BULLET_LOADED_STATE_ERROR");
+			throw new IllegalStateException();}
 		else
 			this.state = state;
 	}

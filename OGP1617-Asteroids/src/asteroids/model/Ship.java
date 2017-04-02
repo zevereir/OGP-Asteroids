@@ -231,8 +231,9 @@ public class Ship extends Entity {
 	
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
-		if (dt < 0) 
-			throw new IllegalArgumentException();				
+		if (dt < 0) {
+			System.out.println("MOVE-NEGATIVE DT");
+			throw new IllegalArgumentException();	}			
 		
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
@@ -268,13 +269,15 @@ public class Ship extends Entity {
 	
 	public boolean canHaveAsBullet(Bullet bullet){
 		if (this.hasAsBullet(bullet))
-			 return false;
-		
-		if (bullet.getBulletShip() != null) 
 			return false;
 		
-		if (!this.bulletFullyInShip(bullet))
+		if (bullet.getBulletShip() != null)
+		
 			return false;
+		
+		if (!this.bulletFullyInShip(bullet)){
+			System.out.println("bulletfullyinship");
+			return false;}
 		
 		if (bullet.isEntityTerminated())
 			return false;
@@ -291,6 +294,7 @@ public class Ship extends Entity {
 		double bullet_radius = bullet.getEntityRadius();
 		double ship_radius = this.getEntityRadius();
 		double distance_between = getEuclidianDistance(delta_x, delta_y);
+		System.out.println(ship_radius-(distance_between + bullet_radius) );
 		return ((distance_between + bullet_radius) < ship_radius);	
 	}
 	
@@ -348,8 +352,9 @@ public class Ship extends Entity {
 			this.bullets.put(bullet.hashCode(), bullet);
 			bullet.setBulletLoaded(this);
 			bullet.setEntityOrientation(this.getEntityOrientation());
-		} else
-			throw new IllegalArgumentException();
+		} else{
+			System.out.println("ADD_ONE_BULLET_ERROR");
+			throw new IllegalArgumentException();}
 	}
 
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets){
@@ -360,8 +365,9 @@ public class Ship extends Entity {
 	
 	///REMOVERS///
 	public void removeBulletFromShip(Bullet bullet) {
-		if (!this.hasAsBullet(bullet))
-			throw new IllegalArgumentException();
+		if (!this.hasAsBullet(bullet)){
+			System.out.println("REMOVE_BULLET_EXCEPTION");
+			throw new IllegalArgumentException();}
 		else{
 			this.bullets.remove(bullet.hashCode());
 			bullet.setBulletNotLoaded(this);	
@@ -381,8 +387,8 @@ public class Ship extends Entity {
 			double orientation = this.getEntityOrientation();
 			double radiusShip = this.getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
-			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1.5); 
-			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1.5);
+			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 3); 
+			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 3);
 			
 			bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
 			World world = this.getEntityWorld();
@@ -392,6 +398,7 @@ public class Ship extends Entity {
 			try {
 				world.addEntityToWorld(bullet);	
 			} catch (IllegalArgumentException illegalArgumentException) {
+				System.out.println("CATCHED_THE EXCEPTION");
 				if (!bullet.entityInBoundaries(world)){
 					bullet.Terminate();
 				}
