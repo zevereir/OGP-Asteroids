@@ -112,10 +112,12 @@ public class Bullet extends Entity {
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
 		if (dt < 0) {
-			System.out.println("MOVE_DT_LOWER_ZERO_ERROR");
+			System.out.println("Error in model.bullet at move(dt, entity1, entity2), dt < 0");
 			throw new IllegalArgumentException();
 		}
 		
+		((World)this.getEntityWorld()).testOverlapping();
+
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
 
@@ -132,7 +134,6 @@ public class Bullet extends Entity {
 	
 	
 	///TERMINATION AND STATES///
-	
 	private BulletState state = BulletState.NOTLOADED;
 
 	private static enum BulletState {
@@ -152,7 +153,7 @@ public class Bullet extends Entity {
 
 	public void setBulletLoadedState(BulletState state) {
 		if (state == null){
-			System.out.println("BULLET_LOADED_STATE_ERROR");
+			System.out.println("Error in model.bullet at setBulletLoadedState, state == null");
 			throw new IllegalStateException();}
 		else
 			this.state = state;

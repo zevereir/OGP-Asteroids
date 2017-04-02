@@ -232,8 +232,11 @@ public class Ship extends Entity {
 	///MOVE///
 	public void move(double dt,Entity entity1, Entity entity2){
 		if (dt < 0) {
-			System.out.println("MOVE-NEGATIVE DT");
-			throw new IllegalArgumentException();	}			
+			System.out.println("Error in model.ship at move(dt, entity1, entity2), dt < 0");
+			throw new IllegalArgumentException();	
+		}		
+
+		((World)this.getEntityWorld()).testOverlapping();
 		
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
@@ -258,7 +261,6 @@ public class Ship extends Entity {
 		}
 	}
 	
-	
 	///CHECKERS///
 	public boolean isValidShipPosition(double x, double y){
 		if ((this.getEntityWorld() != null))
@@ -276,8 +278,9 @@ public class Ship extends Entity {
 			return false;
 		
 		if (!this.bulletFullyInShip(bullet)){
-			System.out.println("bulletfullyinship");
-			return false;}
+			System.out.println("Error in Model.ship at canHaveAsBullet(bullet), bullet does not lay fully in the ship");
+			return false;
+		}
 		
 		if (bullet.isEntityTerminated())
 			return false;
@@ -294,7 +297,6 @@ public class Ship extends Entity {
 		double bullet_radius = bullet.getEntityRadius();
 		double ship_radius = this.getEntityRadius();
 		double distance_between = getEuclidianDistance(delta_x, delta_y);
-		System.out.println(ship_radius-(distance_between + bullet_radius) );
 		return ((distance_between + bullet_radius) < ship_radius);	
 	}
 	
@@ -353,7 +355,7 @@ public class Ship extends Entity {
 			bullet.setBulletLoaded(this);
 			bullet.setEntityOrientation(this.getEntityOrientation());
 		} else{
-			System.out.println("ADD_ONE_BULLET_ERROR");
+			System.out.println("Error in model.ship at addOneBulletToShip(bullet), ship cannot have given entity as bullet (not its own bullet)");
 			throw new IllegalArgumentException();}
 	}
 
@@ -366,7 +368,7 @@ public class Ship extends Entity {
 	///REMOVERS///
 	public void removeBulletFromShip(Bullet bullet) {
 		if (!this.hasAsBullet(bullet)){
-			System.out.println("REMOVE_BULLET_EXCEPTION");
+			System.out.println("Error in model.ship at removeBulletFromShip(bullet), ship does not have given bullet as bullet");
 			throw new IllegalArgumentException();}
 		else{
 			this.bullets.remove(bullet.hashCode());
@@ -398,7 +400,7 @@ public class Ship extends Entity {
 			try {
 				world.addEntityToWorld(bullet);	
 			} catch (IllegalArgumentException illegalArgumentException) {
-				System.out.println("CATCHED_THE EXCEPTION");
+				System.out.println("Error in model.ship at fireBullet(), entity (bullet) cannot be added to a given world");
 				if (!bullet.entityInBoundaries(world)){
 					bullet.Terminate();
 				}

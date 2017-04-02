@@ -35,7 +35,9 @@ public class World {
 	private final static double  UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 	private final static double  UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
 	private final static double GAMMA = 0.01;
-	
+	private final static double OMEGA = 0.99;
+	private final static double BETA = 1.01;
+		
 	
 	///GETTERS///
 	public Set<Ship> getWorldShips(){
@@ -130,7 +132,7 @@ public class World {
 			entity_positions.put(arrayToString(entity.getEntityPosition()),entity);
 		} 
 		else{
-			System.out.println("ADD_ENTITY_WORLD_ERROR");
+			System.out.println("Error in model.world at addEntityToWorld(entity), entity cannot be added to the world");
 			throw new IllegalArgumentException() ;
 		}
 	}
@@ -196,23 +198,7 @@ public class World {
 			// Check if overlapping, because if two entities are already overlapping, it will be impossible to evolve, because the
 			//  TimeToCollision (see further) will always be zero. This would resolve into an infinity loop because the method
 			//  'evolve()' is recursive.
-			for (Object entity_1: getWorldEntities()){
-				for (Object entity_2: getWorldEntities()){
-					if ( ((Entity)entity_1).overlap((Entity)entity_2) && !((Entity)entity_1).equals(((Entity)entity_2))) {
-						
-						if (entity_1 instanceof Ship && entity_2 instanceof Bullet && ((Bullet)entity_2).getBulletSource() == ((Ship)entity_1))
-							((Ship)entity_1).addOneBulletToShip(((Bullet)entity_2));
-						
-						else if (entity_2 instanceof Ship && entity_1 instanceof Bullet && ((Bullet)entity_1).getBulletSource() == ((Ship)entity_2))
-							((Ship)entity_2).addOneBulletToShip(((Bullet)entity_1));
-						
-						else {
-							((Entity)entity_1).Terminate();
-							((Entity)entity_2).Terminate();
-						}
-					}
-				}
-			}
+			testOverlapping();
 					
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
@@ -240,65 +226,7 @@ public class World {
 					entity_positions.put(arrayToString(((Entity)entity).getEntityPosition()), (Entity)entity);
 				}
 				
-				// Check and execute the type of collision.
-				// --> Collision between two ships:
-				if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
-					if (collisionListener != null)
-						collisionListener.objectCollision(collision_entity_1, collision_entity_2,CollisionPositionX,CollisionPositionY);
-					
-					// Let the collision happen.
-					ShipsCollide(collision_entity_1, collision_entity_2); 
-
-					// Update the map 'enity_positions'.
-					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-					entity_positions.remove(arrayToString(collision_entity_2.getEntityPosition()));
-					// Let the ships who will collide evolve a little more after the collision. Otherwise, the two ships would keep touching
-					//  which would invoke the same collision again the next time 'evolve()' will be invoked.
-					collision_entity_1.move(GAMMA*defaultEvolvingTime);
-					collision_entity_2.move(GAMMA*defaultEvolvingTime);
-					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
-					entity_positions.put(arrayToString(collision_entity_2.getEntityPosition()),collision_entity_2);
-				}
-				
-				// --> Collision between a ship and the boundary of the world:
-				else if (collision_entity_1 instanceof Ship && collision_entity_2 == null){
-					if (collisionListener !=null)
-						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
-					
-					// Let the collision happen.
-					ShipAndWorldCollide(collision_entity_1,CollisionArray);
-
-					// Update the map 'enity_positions'.
-					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-					// Let the ship who will collide evolve a little more after the collision. Otherwise, the ship would keep touching
-					//  the boundary, which would invoke the same collision again the next time 'evolve()' will be invoked.
-					collision_entity_1.move(GAMMA*defaultEvolvingTime);
-					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
-				}
-				
-				// --> Collision between a bullet and the boundary of the world:
-				else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null){
-					if (collisionListener !=null)
-						collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
-					
-					// Let the collision happen.
-					BulletAndWorldCollide(collision_entity_1,CollisionArray);
-
-					if (!collision_entity_1.isEntityTerminated()){
-						// Update the map 'enity_positions'.
-						entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-						// Let the bullet who will collide evolve a little more after the collision. Otherwise, the bullet would keep touching
-						//  the boundary, which would invoke the same collision again the next time 'evolve()' will be invoked.
-						collision_entity_1.move(GAMMA*defaultEvolvingTime);
-						entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
-					}
-				}
-				
-				// --> Collision between a ship and a bullet:
-				else{
-					double[] position = {CollisionPositionX, CollisionPositionY};
-					BulletAndEntityCollide(collision_entity_1, collision_entity_2, collisionListener, position);
-				}
+				letCollisionsHappen(collision_entity_1, collision_entity_2, CollisionArray, defaultEvolvingTime, collisionListener);
 
 				double remainingTime = defaultEvolvingTime - TimeToCollision;
 
@@ -313,6 +241,193 @@ public class World {
 					((Entity)entity).move(defaultEvolvingTime);
 			}
 		}
+	}
+	
+	public void letCollisionsHappen(Entity entity1, Entity entity2, double[] collisionArray, double evolvingTime, CollisionListener collisionListener) {
+		
+		double CollisionPositionX = collisionArray[0];
+		double CollisionPositionY = collisionArray[1];
+		
+		// Check and execute the type of collision.
+		// --> Collision between two ships:
+		if (entity1 instanceof Ship && entity2 instanceof Ship){
+			if (collisionListener != null)
+				collisionListener.objectCollision(entity1, entity2,CollisionPositionX,CollisionPositionY);
+			
+			// Let the collision happen.
+			ShipsCollide(entity1, entity2); 
+
+			// Update the map 'enity_positions'.
+			entity_positions.remove(arrayToString(entity1.getEntityPosition()));
+			entity_positions.remove(arrayToString(entity2.getEntityPosition()));
+			// Let the ships who will collide evolve a little more after the collision. Otherwise, the two ships would keep touching
+			//  which would invoke the same collision again the next time 'evolve()' will be invoked.
+			entity1.move(GAMMA*evolvingTime);
+			entity2.move(GAMMA*evolvingTime);
+			entity_positions.put(arrayToString(entity1.getEntityPosition()),entity1);
+			entity_positions.put(arrayToString(entity2.getEntityPosition()),entity2);
+		}
+		
+		// --> Collision between a ship and the boundary of the world:
+		else if (entity1 instanceof Ship && entity2 == null){
+			if (collisionListener !=null)
+				collisionListener.boundaryCollision(entity1, CollisionPositionX, CollisionPositionY);
+			
+			// Let the collision happen.
+			ShipAndWorldCollide(entity1,collisionArray);
+
+			// Update the map 'enity_positions'.
+			entity_positions.remove(arrayToString(entity1.getEntityPosition()));
+			// Let the ship who will collide evolve a little more after the collision. Otherwise, the ship would keep touching
+			//  the boundary, which would invoke the same collision again the next time 'evolve()' will be invoked.
+			entity1.move(GAMMA*evolvingTime);
+			entity_positions.put(arrayToString(entity1.getEntityPosition()),entity1);
+		}
+		
+		// --> Collision between a bullet and the boundary of the world:
+		else if (entity1 instanceof Bullet && entity2 == null){
+			if (collisionListener !=null)
+				collisionListener.boundaryCollision(entity1, CollisionPositionX, CollisionPositionY);
+			
+			// Let the collision happen.
+			BulletAndWorldCollide(entity1,collisionArray);
+
+			if (!entity1.isEntityTerminated()){
+				// Update the map 'enity_positions'.
+				entity_positions.remove(arrayToString(entity1.getEntityPosition()));
+				// Let the bullet who will collide evolve a little more after the collision. Otherwise, the bullet would keep touching
+				//  the boundary, which would invoke the same collision again the next time 'evolve()' will be invoked.
+				entity1.move(GAMMA*evolvingTime);
+				entity_positions.put(arrayToString(entity1.getEntityPosition()), entity1);
+			}
+		}
+		
+		// --> Collision between a ship and a bullet:
+		else{
+			double[] position = {CollisionPositionX, CollisionPositionY};
+			BulletAndEntityCollide(entity1, entity2, collisionListener, position);
+		}
+	}
+	
+	public void testOverlapping() {
+		for (Object entity1: getWorldEntities()){
+
+			double position1X = ((Entity)entity1).getEntityPositionX();
+			double position1Y = ((Entity)entity1).getEntityPositionY();
+			double radius1 = ((Entity)entity1).getEntityRadius();
+			
+			// --> Collision between a ship (entity1) and the boundary of the world
+			if (entity1 instanceof Ship){
+				// Right boundary
+				if (position1X > width-(OMEGA*radius1))
+					position1X = (width-radius1);
+				// Left boundary
+				else if (position1X < OMEGA*radius1)
+					position1X = radius1;
+				// Upper boundary
+				else if (position1Y > height-(OMEGA*radius1))
+					position1Y = (height-radius1);
+				// Lower boundary
+				else if (position1Y < OMEGA*radius1)
+					position1Y = radius1;
+			}
+			
+			// --> Collision between a bullet (entity1) and the boundary of the world:
+			// Remark: The counter of the bullet does not have to be incremented, because this collision will not count as a collision,
+			//  Since the velocity of the bullet doesn't change, the bullet will be bouncing against the boundary the next time evolve
+			//  will be invoked.
+			if (entity1 instanceof Bullet) {
+				if (!((Entity)entity1).isEntityTerminated()) {
+					// Right boundary
+					if (position1X > width-(OMEGA*radius1))
+						position1X = (width-radius1);
+					// Left boundary
+					else if (position1X < OMEGA*radius1)
+						position1X = radius1;
+					// Upper boundary
+					else if (position1Y > height-(OMEGA*radius1))
+						position1Y = (height-radius1);
+					// Lower boundary
+					else if (position1Y < OMEGA*radius1)
+						position1Y = radius1;
+				}
+			}
+			
+			// Check if two entities are overlapping each other, and if this is the case: resolve.
+			for (Object entity2: getWorldEntities()){
+				// Change the position or state of the entities who are overlapping;
+				if ( ((Entity)entity1).overlap((Entity)entity2) && !((Entity)entity1).equals(((Entity)entity2))) {
+					
+					double position2X = ((Entity)entity2).getEntityPositionX();
+					double position2Y = ((Entity)entity2).getEntityPositionY();
+					double radius2 = ((Entity)entity2).getEntityRadius();
+					double totalRadius = radius1+radius2;
+					
+					// --> Collision between two ships:
+					if (entity1 instanceof Ship && entity2 instanceof Ship){
+						double splitPointX = (position1X*radius1 + position2X*radius2)/totalRadius;
+						double splitPointY = (position1Y*radius1 + position2Y*radius2)/totalRadius;
+						
+						// Calculate new positions for the centers of the two ships.
+						double distanceSplitAndCenter1X = position1X - splitPointX;
+						double distanceSplitAndCenter1Y = position1Y - splitPointY;
+						double distanceSplitAndCenter2X = position2X - splitPointX;
+						double distanceSplitAndCenter2Y = position2Y - splitPointY;
+						
+						double distanceSplitAndCenter1 = getEuclidianDistance(distanceSplitAndCenter1X, distanceSplitAndCenter1Y);
+						double distanceSplitAndCenter2 = getEuclidianDistance(distanceSplitAndCenter2X, distanceSplitAndCenter2Y);
+
+						double Scale1 = BETA*(radius1/distanceSplitAndCenter1);
+						double Scale2 = BETA*(radius2/distanceSplitAndCenter2);
+						
+						// Set the new positions
+						position1X = splitPointX + (Scale1*distanceSplitAndCenter1X);
+						position1Y = splitPointY + (Scale1*distanceSplitAndCenter1Y);
+						((Entity)entity1).setEntityPosition(position1X, position1Y);
+						position2X = splitPointX + (Scale2*distanceSplitAndCenter2X);
+						position2Y = splitPointY + (Scale2*distanceSplitAndCenter2Y);
+						((Entity)entity2).setEntityPosition(position2X, position2Y);
+						
+						// Update the positions of the two ships in the Map 'entity_positions'
+						entity_positions.remove(arrayToString(((Entity)entity1).getEntityPosition()));
+						entity_positions.remove(arrayToString(((Entity)entity2).getEntityPosition()));
+						entity_positions.put(arrayToString(((Entity)entity1).getEntityPosition()),((Entity)entity1));
+						entity_positions.put(arrayToString(((Entity)entity2).getEntityPosition()),((Entity)entity2));
+					}
+					
+					// --> Collision between a bullet and a ship
+					else if (entity1 instanceof Bullet && entity2 instanceof Bullet){
+						((Entity)entity1).Terminate();
+						((Entity)entity2).Terminate();
+					} else if (entity1 instanceof Ship && entity2 instanceof Bullet) {
+						if (((Bullet)entity2).getBulletSource() == ((Ship)entity1) )
+							((Ship)entity1).addOneBulletToShip(((Bullet)entity2));
+						else {
+							((Entity)entity1).Terminate();
+							((Entity)entity2).Terminate();
+						}
+					} else if (entity2 instanceof Ship && entity1 instanceof Bullet) {
+						if (((Bullet)entity1).getBulletSource() == ((Ship)entity2) )
+							((Ship)entity2).addOneBulletToShip(((Bullet)entity1));
+						else {
+							((Entity)entity1).Terminate();
+							((Entity)entity2).Terminate();
+						}
+					}
+				}
+			}
+			// Changing the positions of all the entities, because they were overlapping, can end up in new collisions!
+			// Since it is recursive, it will only end when there are no collisions anymore.
+			// In case of an infinity-loop, this would probably be the problem....
+			for (Object entity2: getWorldEntities()){
+				if ( ((Entity)entity1).overlap((Entity)entity2) && !((Entity)entity1).equals(((Entity)entity2)))
+					testOverlapping();					
+			}
+		}
+	}
+
+	public static double getEuclidianDistance(double a, double b) {
+		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 	
 	public double getTimeNextCollision() {	
@@ -495,7 +610,7 @@ public class World {
 
 	public void setWorldState(State state) {
 		if (state == null){
-			System.out.println("SET_WORLD_STATE_ERROR");
+			System.out.println("Error in model.world at setWorldState(state), state == null");
 			throw new IllegalStateException(); }
 		else
 			this.state = state;
