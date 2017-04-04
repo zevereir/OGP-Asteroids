@@ -93,8 +93,9 @@ public abstract class Entity {
 	}
 
 	public boolean entityFitsInWorld(World world){
-		if (!this.entityInBoundaries(world) || this.entityOverlappingInWorld(world)!=null)
-			return false;
+		if (!this.entityInBoundaries(world) || this.entityOverlappingInWorld(world)!=null){
+			System.out.println("entityFitsINWorld");
+			return false;}
 		return true;
 	}
 	
@@ -172,7 +173,7 @@ public abstract class Entity {
 	/// SETTERS ///
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double positionX, double positionY) {
-		if (!isValidEntityPosition(positionX, positionY)){
+		if (!isValidPosition(positionX, positionY)){
 			System.out.println("SET_ENTITY_POSITION_ERROR");
 			throw new IllegalArgumentException();}
 		
@@ -180,7 +181,7 @@ public abstract class Entity {
 		this.position.setPositionY(positionY);
 	}
 	
-	public boolean isValidEntityPosition(double positionX, double positionY){
+	public boolean isValidPosition(double positionX, double positionY){
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
 			return false;
 		
@@ -191,7 +192,7 @@ public abstract class Entity {
 	}
 	
 	public void setEntityVelocity(double xVelocity, double yVelocity){
-		if (!isValidEntityVelocity(xVelocity, yVelocity)){
+		if (!isValidVelocity(xVelocity, yVelocity)){
 			if (Double.isNaN(xVelocity))
 				xVelocity = 0;
 			if (Double.isNaN(yVelocity))
@@ -209,7 +210,7 @@ public abstract class Entity {
 		this.velocity.setVelocityY(yVelocity);
 	}
 	
-	public boolean isValidEntityVelocity(double xVelocity, double yVelocity) {
+	public boolean isValidVelocity(double xVelocity, double yVelocity) {
 		if ((Double.isNaN(xVelocity)) || (Double.isNaN(yVelocity)))
 			return false;
 		
@@ -269,15 +270,8 @@ public abstract class Entity {
 		this.world = world;
 	}
 	
-	
 	///MOVE///
-	public abstract void move(double dt,Entity entity1, Entity entity2);
-	
-	// Move all the entities over dt-time, neglecting the fact that the entities can collide with each other or the boundary
-	public void move(double dt) {
-		move(dt, null, null);
-	}
-	
+	public abstract void move(double dt);
 	
 	///TERMINATION AND STATES///
 	public abstract void Terminate(); 
@@ -426,7 +420,7 @@ public abstract class Entity {
 		double position_2Y = otherEntity.getEntityPositionY();
 		double radius_1 = this.getEntityRadius();
 		double radius_2 = otherEntity.getEntityRadius();
-		double total_radius = BETA*(radius_1 + radius_2);
+		double total_radius = (radius_1 + radius_2);
 
 		double delta_rX = position_2X - position_1X;
 		double delta_rY = position_2Y - position_1Y;

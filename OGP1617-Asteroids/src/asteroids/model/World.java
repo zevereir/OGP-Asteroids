@@ -192,27 +192,6 @@ public class World {
 		// A world cannot evolve if there are no entities or the evolving time equals zero (which means after evolving, the same
 		//  situation will be achieved).
 		if (!this.getWorldEntities().isEmpty() || defaultEvolvingTime<=0)	{
-			
-			// Check if overlapping, because if two entities are already overlapping, it will be impossible to evolve, because the
-			//  TimeToCollision (see further) will always be zero. This would resolve into an infinity loop because the method
-			//  'evolve()' is recursive.
-			for (Object entity_1: getWorldEntities()){
-				for (Object entity_2: getWorldEntities()){
-					if ( ((Entity)entity_1).overlap((Entity)entity_2) && !((Entity)entity_1).equals(((Entity)entity_2))) {
-						
-						if (entity_1 instanceof Ship && entity_2 instanceof Bullet && ((Bullet)entity_2).getBulletSource() == ((Ship)entity_1))
-							((Ship)entity_1).addOneBulletToShip(((Bullet)entity_2));
-						
-						else if (entity_2 instanceof Ship && entity_1 instanceof Bullet && ((Bullet)entity_1).getBulletSource() == ((Ship)entity_2))
-							((Ship)entity_2).addOneBulletToShip(((Bullet)entity_1));
-						
-						else {
-							((Entity)entity_1).Terminate();
-							((Entity)entity_2).Terminate();
-						}
-					}
-				}
-			}
 					
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
@@ -234,7 +213,7 @@ public class World {
 					// Move the entity over the predetermined time 'TimeToCollision'
 					// Method 'move' will check if the given entity 'entity' is one of the entities who will collide, these entities
 					//  are: 'entity_1' and 'entity_2' (entity_2 can be null when an entity collides with the world).
-					((Entity)entity).move(TimeToCollision,collision_entity_1,collision_entity_2);
+					((Entity)entity).move(TimeToCollision);
 					
 					// Update the Map 'entity_positions' for each entity with its new position.
 					entity_positions.put(arrayToString(((Entity)entity).getEntityPosition()), (Entity)entity);
@@ -425,15 +404,21 @@ public class World {
 		// These cases are: Or a bullet who will collide with a ship which is not the ship who fired the bullet, or two bullets who will
 		//  collide with each other.
 		else {
-			double CollisionPositionX = position[0];
-			double CollisionPositionY = position[1];
 			
-			if (collisionListener !=null)
-				collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);
+			
+			if (collisionListener !=null){
+				double CollisionPositionX = position[0];
+				double CollisionPositionY = position[1];
+			
+				collisionListener.objectCollision(collision_entity_1,collision_entity_2,CollisionPositionX, CollisionPositionY);}
 			
 			entity1.Terminate();
 			entity2.Terminate();
 		}
+	}
+	public void BulletAndEntityCollide(Entity entity1, Entity entity2){
+		BulletAndEntityCollide(entity1, entity2,null,null);
+		
 	}
 	
 	public void BulletAndWorldCollide(Entity entity,double[] array) {
