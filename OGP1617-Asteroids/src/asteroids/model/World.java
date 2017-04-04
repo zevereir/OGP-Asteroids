@@ -191,7 +191,7 @@ public class World {
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
 		// A world cannot evolve if there are no entities or the evolving time equals zero (which means after evolving, the same
 		//  situation will be achieved).
-		if (!this.getWorldEntities().isEmpty() || defaultEvolvingTime<=0)	{
+		if (!this.getWorldEntities().isEmpty() )	{
 					
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
