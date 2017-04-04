@@ -115,8 +115,6 @@ public class Bullet extends Entity {
 			System.out.println("Error in model.bullet at move(dt, entity1, entity2), dt < 0");
 			throw new IllegalArgumentException();
 		}
-		
-		((World)this.getEntityWorld()).testOverlapping();
 
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
@@ -124,15 +122,11 @@ public class Bullet extends Entity {
 		final double positionX = this.getEntityPositionX()+ vel_x * dt;
 		final double positionY = this.getEntityPositionY()+ vel_y * dt;
 		
-		System.out.println("Bullet --> move");
-		System.out.println("positions: ("+positionX+", "+positionY+")");
-		
 		if (this == entity1){
 			this.setPositionWhenColliding(positionX, positionY);
 		} else if (this == entity2) {	
 			this.setPositionWhenColliding(positionX, positionY);
 		} else {
-			System.out.println("Fault in here!");
 			this.setEntityPosition(positionX, positionY);
 		}
 	}

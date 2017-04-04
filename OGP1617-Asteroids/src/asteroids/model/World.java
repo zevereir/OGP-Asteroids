@@ -199,7 +199,7 @@ public class World {
 			// Check if overlapping, because if two entities are already overlapping, it will be impossible to evolve, because the
 			//  TimeToCollision (see further) will always be zero. This would resolve into an infinity loop because the method
 			//  'evolve()' is recursive.
-			testOverlapping();
+			//testOverlapping();
 					
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
@@ -310,123 +310,6 @@ public class World {
 		}
 	}
 	
-	public void testOverlapping() {
-		for (Object entity1: getWorldEntities()){
-
-			double position1X = ((Entity)entity1).getEntityPositionX();
-			double position1Y = ((Entity)entity1).getEntityPositionY();
-			double radius1 = ((Entity)entity1).getEntityRadius();
-			
-			// --> Collision between a ship (entity1) and the boundary of the world
-			if (entity1 instanceof Ship){
-				// Right boundary
-				if (position1X > width-(OMEGA*radius1))
-					position1X = (width-radius1);
-				// Left boundary
-				else if (position1X < OMEGA*radius1)
-					position1X = radius1;
-				// Upper boundary
-				else if (position1Y > height-(OMEGA*radius1))
-					position1Y = (height-radius1);
-				// Lower boundary
-				else if (position1Y < OMEGA*radius1)
-					position1Y = radius1;
-			}
-			
-			// --> Collision between a bullet (entity1) and the boundary of the world:
-			// Remark: The counter of the bullet does not have to be incremented, because this collision will not count as a collision,
-			//  Since the velocity of the bullet doesn't change, the bullet will be bouncing against the boundary the next time evolve
-			//  will be invoked.
-			if (entity1 instanceof Bullet) {
-				if (!((Entity)entity1).isEntityTerminated()) {
-					// Right boundary
-					if (position1X > width-(OMEGA*radius1))
-						position1X = (width-radius1);
-					// Left boundary
-					else if (position1X < OMEGA*radius1)
-						position1X = radius1;
-					// Upper boundary
-					else if (position1Y > height-(OMEGA*radius1))
-						position1Y = (height-radius1);
-					// Lower boundary
-					else if (position1Y < OMEGA*radius1)
-						position1Y = radius1;
-				}
-			}
-			
-			// Check if two entities are overlapping each other, and if this is the case: resolve.
-			for (Object entity2: getWorldEntities()){
-				// Change the position or state of the entities who are overlapping;
-				if ( ((Entity)entity1).overlap((Entity)entity2) && !((Entity)entity1).equals(((Entity)entity2))) {
-					
-					double position2X = ((Entity)entity2).getEntityPositionX();
-					double position2Y = ((Entity)entity2).getEntityPositionY();
-					double radius2 = ((Entity)entity2).getEntityRadius();
-					double totalRadius = radius1+radius2;
-					
-					// --> Collision between two ships:
-					if (entity1 instanceof Ship && entity2 instanceof Ship){
-						double splitPointX = (position1X*radius1 + position2X*radius2)/totalRadius;
-						double splitPointY = (position1Y*radius1 + position2Y*radius2)/totalRadius;
-						
-						// Calculate new positions for the centers of the two ships.
-						double distanceSplitAndCenter1X = position1X - splitPointX;
-						double distanceSplitAndCenter1Y = position1Y - splitPointY;
-						double distanceSplitAndCenter2X = position2X - splitPointX;
-						double distanceSplitAndCenter2Y = position2Y - splitPointY;
-						
-						double distanceSplitAndCenter1 = getEuclidianDistance(distanceSplitAndCenter1X, distanceSplitAndCenter1Y);
-						double distanceSplitAndCenter2 = getEuclidianDistance(distanceSplitAndCenter2X, distanceSplitAndCenter2Y);
-
-						double Scale1 = BETA*(radius1/distanceSplitAndCenter1);
-						double Scale2 = BETA*(radius2/distanceSplitAndCenter2);
-						
-						// Set the new positions
-						position1X = splitPointX + (Scale1*distanceSplitAndCenter1X);
-						position1Y = splitPointY + (Scale1*distanceSplitAndCenter1Y);
-						((Entity)entity1).setEntityPosition(position1X, position1Y);
-						position2X = splitPointX + (Scale2*distanceSplitAndCenter2X);
-						position2Y = splitPointY + (Scale2*distanceSplitAndCenter2Y);
-						((Entity)entity2).setEntityPosition(position2X, position2Y);
-						
-						// Update the positions of the two ships in the Map 'entity_positions'
-						entity_positions.remove(arrayToString(((Entity)entity1).getEntityPosition()));
-						entity_positions.remove(arrayToString(((Entity)entity2).getEntityPosition()));
-						entity_positions.put(arrayToString(((Entity)entity1).getEntityPosition()),((Entity)entity1));
-						entity_positions.put(arrayToString(((Entity)entity2).getEntityPosition()),((Entity)entity2));
-					}
-					
-					// --> Collision between a bullet and a ship
-					else if (entity1 instanceof Bullet && entity2 instanceof Bullet){
-						((Entity)entity1).Terminate();
-						((Entity)entity2).Terminate();
-					} else if (entity1 instanceof Ship && entity2 instanceof Bullet) {
-						if (((Bullet)entity2).getBulletSource() == ((Ship)entity1) )
-							((Ship)entity1).addOneBulletToShip(((Bullet)entity2));
-						else {
-							((Entity)entity1).Terminate();
-							((Entity)entity2).Terminate();
-						}
-					} else if (entity2 instanceof Ship && entity1 instanceof Bullet) {
-						if (((Bullet)entity1).getBulletSource() == ((Ship)entity2) )
-							((Ship)entity2).addOneBulletToShip(((Bullet)entity1));
-						else {
-							((Entity)entity1).Terminate();
-							((Entity)entity2).Terminate();
-						}
-					}
-				}
-			}
-			// Changing the positions of all the entities, because they were overlapping, can end up in new collisions!
-			// Since it is recursive, it will only end when there are no collisions anymore.
-			// In case of an infinity-loop, this would probably be the problem....
-			for (Object entity2: getWorldEntities()){
-				if ( ((Entity)entity1).overlap((Entity)entity2) && !((Entity)entity1).equals(((Entity)entity2)))
-					testOverlapping();					
-			}
-		}
-	}
-
 	public static double getEuclidianDistance(double a, double b) {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}

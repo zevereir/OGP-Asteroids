@@ -235,8 +235,6 @@ public class Ship extends Entity {
 			System.out.println("Error in model.ship at move(dt, entity1, entity2), dt < 0");
 			throw new IllegalArgumentException();	
 		}		
-
-		((World)this.getEntityWorld()).testOverlapping();
 		
 		double vel_x = this.getEntityVelocityX();
 		double vel_y = this.getEntityVelocityY();
@@ -389,31 +387,100 @@ public class Ship extends Entity {
 			double orientation = this.getEntityOrientation();
 			double radiusShip = this.getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
-			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 3); 
-			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 3);
-			
-			bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
-			World world = this.getEntityWorld();
-			bullet.setEntityOrientation(orientation);
-			bullet.setEntityVelocity(initialFiringVelocity*Math.cos(orientation), initialFiringVelocity*Math.sin(orientation));
-			
-			try {
-				world.addEntityToWorld(bullet);	
-			} catch (IllegalArgumentException illegalArgumentException) {
-				System.out.println("Error in model.ship at fireBullet(), entity (bullet) cannot be added to a given world");
-				if (!bullet.entityInBoundaries(world)){
-					bullet.Terminate();
-				}
+			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1); 
+			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1);
+
+			// Check if the bullet is in a valid position to fire it.
+			if (possibleToFire(bullet, positionBulletX, positionBulletY, radiusBullet)) {
+				bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
+				World world = this.getEntityWorld();
+				bullet.setEntityOrientation(orientation);
+				bullet.setEntityVelocity(initialFiringVelocity*Math.cos(orientation), initialFiringVelocity*Math.sin(orientation));
 				
-				else{
-					Entity otherEntity = bullet.entityOverlappingInWorld(world); 
-					bullet.Terminate();
-					otherEntity.Terminate();
+				try {
+					world.addEntityToWorld(bullet);	
+				} catch (IllegalArgumentException illegalArgumentException) {
+					System.out.println("Error in model.ship at fireBullet(), entity (bullet) cannot be added to a given world");
+					if (!bullet.entityInBoundaries(world)){
+						bullet.Terminate();
+					}
+					
+					else{
+						Entity otherEntity = bullet.entityOverlappingInWorld(world); 
+						bullet.Terminate();
+						otherEntity.Terminate();
+					}
 				}
-			}
+			}			
 		}
 	}
 		 
+	public boolean possibleToFire(Bullet bullet, double posBulletX, double posBulletY, double radiusBullet) {
+		boolean Boolean = true;
+	
+		System.out.println(bullet);
+		
+		// Check if the new-created bullet is in the world
+		if (!bullet.entityInBoundaries(bullet.getEntityWorld())) {
+			Boolean = false;
+		}
+		
+		if (Boolean == true) {
+			for (Object entity1: this.getEntityWorld().getWorldEntities()) {
+	
+				double entity1PosX = ((Entity)entity1).getEntityPositionX();
+				double entity1PosY = ((Entity)entity1).getEntityPositionY();
+				double entity1Radius = ((Entity)entity1).getEntityRadius();
+				
+				double delta_x = (posBulletX - entity1PosX);
+				double delta_y = (posBulletY - entity1PosY);
+				double totalRadius = (entity1Radius + radiusBullet);
+				
+				// Two entities are overlapping when the distance between the centers is bigger than the sum of the radii of the two.
+				if (getEuclidianDistance(delta_x, delta_y) <= totalRadius) {
+					Boolean = false;
+					
+					// If entity1 is a bullet:
+					if (entity1 instanceof Bullet) {
+						// If the bullet overlaps with a bullet from its parent-ship, the newest bullet will not be fired.
+						if (bullet.getBulletShip().equals(((Bullet)entity1).getBulletShip())){
+							bullet.getBulletShip().addOneBulletToShip(bullet);
+						}
+					
+						// If the bullet overlaps with a bullet which does not belong to its parent-ship, the two will be terminated.
+						else {
+							bullet.Terminate();
+							((Bullet)entity1).Terminate();
+						}
+					}
+					
+					// If entity1 is a ship:
+					else if (entity1 instanceof Ship) {
+						// If the bullet overlaps with its parent-ship, the bullet will be reloaded.
+						if (bullet.getBulletShip().equals(entity1)) {
+							bullet.getBulletShip().addOneBulletToShip(bullet);
+						}
+						
+						// If the bullet overlaps with a different ship, the two will be terminated.
+						else {
+							bullet.Terminate();
+							((Ship)entity1).Terminate();
+						}
+					}
+					
+					// This is normally not possible..
+					else {
+						System.out.println("Error at model.ship in possibleToFire, entity is nor a ship, nor a bullet");
+						System.out.println("IMPOSSIBLE");
+					}
+				}
+			}
+		}
+		
+		System.out.println(Boolean);
+		return Boolean;
+	}
+	
 	
 	///TERMINATE///
 	public void Terminate() {

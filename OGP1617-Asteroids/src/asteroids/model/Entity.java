@@ -99,6 +99,7 @@ public abstract class Entity {
 	}
 	
 	public boolean entityInBoundaries( World world){
+		System.out.println(this);
 		double radius = this.getEntityRadius();
 		double upper_bound = (world.getWorldHeight() - OMEGA*radius);
 		double lower_bound = OMEGA*radius;
@@ -209,7 +210,7 @@ public abstract class Entity {
 			return false;
 		
 		if ((this.getEntityWorld() != null)) { 
-			System.out.println("FAAAAAAAAAAAAACK");
+			System.out.println("Model.entity in setEntityPosition, entityfitsInWorld-error (assigns wrong if false below)");
 			System.out.println(this.entityFitsInWorld(this.getEntityWorld()));
 			return this.entityFitsInWorld(this.getEntityWorld());
 		}
