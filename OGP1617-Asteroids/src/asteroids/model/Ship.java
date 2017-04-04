@@ -418,8 +418,6 @@ public class Ship extends Entity {
 	 * 			|@see implementation
 	 */
 	public boolean canHaveAsBullet(Bullet bullet){
-		if (this.hasAsBullet(bullet))
-			return false;
 		
 		if (bullet.getBulletShip() != null)
 		

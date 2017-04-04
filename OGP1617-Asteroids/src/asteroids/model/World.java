@@ -420,10 +420,7 @@ public class World {
 		BulletAndEntityCollide(entity1, entity2,null,null);
 		
 	}
-	public void BulletAndEntityCollide(Entity entity1, Entity entity2){
-		BulletAndEntityCollide(entity1, entity2,null,null);
-		
-	}
+	
 	
 	public void BulletAndWorldCollide(Entity entity,double[] array) {
 		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
