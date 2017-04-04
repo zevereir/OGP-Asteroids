@@ -198,7 +198,7 @@ public class Bullet extends Entity {
 			this.mass = getBulletMassFormula();	
 	}
 	
-	///MOVE///
+	///MOVE/// 
 	public void move(double dt){
 		if (dt < 0) {
 			System.out.println("Model.bullet, move: dt is negative");
