@@ -130,7 +130,7 @@ public class World {
 			entity_positions.put(arrayToString(entity.getEntityPosition()),entity);
 		} 
 		else{
-			System.out.println("ADD_ENTITY_WORLD_ERROR");
+			System.out.println("Model.world, addEntityToWorld: can have entity as argument");
 			throw new IllegalArgumentException() ;
 		}
 	}
@@ -480,7 +480,7 @@ public class World {
 
 	public void setWorldState(State state) {
 		if (state == null){
-			System.out.println("SET_WORLD_STATE_ERROR");
+			System.out.println("Model.world, setWorldState: state == null");
 			throw new IllegalStateException(); }
 		else
 			this.state = state;
