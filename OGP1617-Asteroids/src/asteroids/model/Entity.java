@@ -408,17 +408,18 @@ public abstract class Entity {
 		if ( (!this.isEntityInWorld() && this.hasEntityProperState() ) || 
 				( !otherEntity.isEntityInWorld() && otherEntity.hasEntityProperState() ) ){
 			
-		System.out.println("Model.entity, getTimeToCollision: One of the entities does not lie in the world, or doesn't have a proper state");
-			throw new IllegalArgumentException();				}
-		
-		double velocity_1X = this.getEntityVelocityX();
-		double velocity_1Y = this.getEntityVelocityY();
-		double velocity_2X = otherEntity.getEntityVelocityX();
-		double velocity_2Y = otherEntity.getEntityVelocityY();
+			System.out.println("Model.entity, getTimeToCollision: One of the entities does not lie in the world, or doesn't have a proper state");
+			throw new IllegalArgumentException();				
+		}
+
 		double position_1X = this.getEntityPositionX();
 		double position_1Y = this.getEntityPositionY();
 		double position_2X = otherEntity.getEntityPositionX();
 		double position_2Y = otherEntity.getEntityPositionY();
+		double velocity_1X = this.getEntityVelocityX();
+		double velocity_1Y = this.getEntityVelocityY();
+		double velocity_2X = otherEntity.getEntityVelocityX();
+		double velocity_2Y = otherEntity.getEntityVelocityY();
 		double radius_1 = this.getEntityRadius();
 		double radius_2 = otherEntity.getEntityRadius();
 		double total_radius = (radius_1 + radius_2);
@@ -431,7 +432,7 @@ public abstract class Entity {
 		double delta_v_v = Math.pow(delta_vX, 2) + Math.pow(delta_vY, 2);
 		double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
-
+		
 		if (this.overlap(otherEntity)){
 			System.out.println("Model.entity, getTimeToCollision: There are entities overlapping");
 			System.out.println("Position = "+otherEntity.getEntityPositionX()+", "+otherEntity.getEntityPositionY());
@@ -439,13 +440,13 @@ public abstract class Entity {
 			throw new IllegalArgumentException();
 		}
 			
-		else if (delta_v_r > 0)
+		else if (delta_v_r >= 0)
 			return Double.POSITIVE_INFINITY;
 
 		else if (d <= 0)
 			return Double.POSITIVE_INFINITY;
 		else
-			return -(delta_v_r + Math.sqrt(d)) / delta_v_v;
+			return Math.abs((delta_v_r + Math.sqrt(d)) / delta_v_v);
 	}
 
 	/**

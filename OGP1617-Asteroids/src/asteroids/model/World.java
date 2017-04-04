@@ -191,7 +191,7 @@ public class World {
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
 		// A world cannot evolve if there are no entities or the evolving time equals zero (which means after evolving, the same
 		//  situation will be achieved).
-		if (!this.getWorldEntities().isEmpty() || defaultEvolvingTime<=0)	{
+		if (!this.getWorldEntities().isEmpty())	{
 					
 			// Determine time till the first collision
 			double TimeToCollision = getTimeNextCollision();
@@ -219,7 +219,8 @@ public class World {
 					entity_positions.put(arrayToString(((Entity)entity).getEntityPosition()), (Entity)entity);
 				}
 				
-				// Check and execute the type of collision.
+				/// Check and execute the type of collision. ///
+				
 				// --> Collision between two ships:
 				if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship){
 					if (collisionListener != null)
@@ -251,7 +252,6 @@ public class World {
 					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 					// Let the ship who will collide evolve a little more after the collision. Otherwise, the ship would keep touching
 					//  the boundary, which would invoke the same collision again the next time 'evolve()' will be invoked.
-					collision_entity_1.move(GAMMA*defaultEvolvingTime);
 					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
 				}
 				
@@ -281,8 +281,10 @@ public class World {
 
 				double remainingTime = defaultEvolvingTime - TimeToCollision;
 
-				// Invoke the method 'evolve()' in a recursive way to see if there would be other collisions in the remaining time.
-				evolve(remainingTime, collisionListener);
+				if (remainingTime >= 0) {
+					// Invoke the method 'evolve()' in a recursive way to see if there would be other collisions in the remaining time.
+					evolve(remainingTime, collisionListener);
+				}
 			}
 
 			// TimeToCollision is bigger than the defaultEvolvingTime, which means no collision will take place when we evolve over 
@@ -302,7 +304,6 @@ public class World {
 		for (Object entity_1: getWorldEntities()){
 			
 			double timeTillCollision = ((Entity)entity_1).getTimeCollisionBoundary();
-	
 			// Collision of the entity with the boundaries of the world.
 			if (timeTillCollision < minimumCollisionTime){
 				minimumCollisionTime = timeTillCollision;
@@ -314,7 +315,6 @@ public class World {
 			for (Object entity_2: getWorldEntities()){
 				if (entity_2.hashCode() > entity_1.hashCode()){
 					double delta_t = ((Entity)entity_1).getTimeToCollision((Entity)entity_2);
-					
 					if (delta_t < minimumCollisionTime){
 						minimumCollisionTime = delta_t;
 						collision_entity_1 = ((Entity)entity_1);
@@ -323,6 +323,9 @@ public class World {
 				}			
 			}	
 		}
+		if (minimumCollisionTime < 0)
+			System.out.println("FAAAAAAAAAAAAAAAAAAAAAAAAACKKK");
+		
 		return minimumCollisionTime;	
 	}
 		
