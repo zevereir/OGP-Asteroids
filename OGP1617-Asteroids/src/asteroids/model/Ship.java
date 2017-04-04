@@ -418,9 +418,11 @@ public class Ship extends Entity {
 	 * 			|@see implementation
 	 */
 	public boolean canHaveAsBullet(Bullet bullet){
-		
+		if (this.hasAsBullet(bullet)) {
+			System.out.println("already has the bullet");
+			return false;
+		}
 		if (bullet.getBulletShip() != null)
-		
 			return false;
 		
 		if (!this.bulletFullyInShip(bullet)){
@@ -586,7 +588,8 @@ public class Ship extends Entity {
 	public void removeBulletFromShip(Bullet bullet) {
 		if (!this.hasAsBullet(bullet)){
 			System.out.println("Model.ship, removeBulletFromShip: the given ship does not have the given bullet");
-			throw new IllegalArgumentException();}
+			throw new IllegalArgumentException();
+		}
 		else{
 			this.bullets.remove(bullet.hashCode());
 			bullet.setBulletNotLoaded(this);	
@@ -609,8 +612,8 @@ public class Ship extends Entity {
 			double orientation = this.getEntityOrientation();
 			double radiusShip = this.getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
-			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 3); 
-			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 3);
+			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1); 
+			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1);
 			
 			bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
 			World world = this.getEntityWorld();
@@ -618,12 +621,9 @@ public class Ship extends Entity {
 			bullet.setEntityVelocity(getInitialFiringVelocity()*Math.cos(orientation), getInitialFiringVelocity()*Math.sin(orientation));
 			if(possibleToFire(bullet, this, world, positionBulletX, positionBulletY, radiusBullet)){
 				world.addEntityToWorld(bullet);	
-					}
-				}
 			}
-			
-		
-	
+		}
+	}
 
 	public boolean possibleToFire(Bullet bullet, Ship ship, World world, double posBulletX, double posBulletY, double radiusBullet) {
 		boolean Boolean = true;
@@ -638,15 +638,13 @@ public class Ship extends Entity {
 		if (Boolean == true) {
 
 			for (Object entity1: world.getWorldEntities()) {
-
-
 				// Two entities are overlapping when the distance between the centers is bigger than the sum of the radii of the two.
-				if (bullet.overlap((Entity)entity1) && Boolean == true) {
-					
+				if (bullet.overlap((Entity)entity1)) {
 					Boolean = false;
 
 					// If entity1 is a bullet:
 					if (entity1 instanceof Bullet) {
+						System.out.println("entity is Bullet");
 						// If the bullet overlaps with a bullet from its parent-ship, the newest bullet will not be fired.
 						if (ship.equals(((Bullet)entity1).getBulletSource())){
 							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
@@ -663,6 +661,7 @@ public class Ship extends Entity {
 
 					// If entity1 is a ship:
 					else if (entity1 instanceof Ship) {
+						System.out.println("entity is Ship");
 						// If the bullet overlaps with its parent-ship, the bullet will be reloaded.
 						if (ship.equals(entity1)) {
 							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());		
