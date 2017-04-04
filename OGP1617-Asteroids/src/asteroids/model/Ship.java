@@ -372,7 +372,7 @@ public class Ship extends Entity {
 	 */
 	public void move(double dt){
 		if (dt < 0) {
-			System.out.println("MOVE-NEGATIVE DT");
+			System.out.println("Model.ship, move: dt is negative");
 			throw new IllegalArgumentException();	}			
 		
 		double vel_x = this.getEntityVelocityX();
@@ -424,7 +424,7 @@ public class Ship extends Entity {
 			return false;
 		
 		if (!this.bulletFullyInShip(bullet)){
-			System.out.println("bulletfullyinship");
+			System.out.println("Model.ship, canHaveAsBullet: Bullet does not lie fully in the ship");
 			return false;}
 		
 		if (bullet.isEntityTerminated())
@@ -449,7 +449,6 @@ public class Ship extends Entity {
 		double bullet_radius = bullet.getEntityRadius();
 		double ship_radius = this.getEntityRadius();
 		double distance_between = getEuclidianDistance(delta_x, delta_y);
-		System.out.println(ship_radius-(distance_between + bullet_radius) );
 		return ((distance_between + bullet_radius) < ship_radius);	
 	}
 	
@@ -555,7 +554,7 @@ public class Ship extends Entity {
 			bullet.setBulletLoaded(this);
 			bullet.setEntityOrientation(this.getEntityOrientation());
 		} else{
-			System.out.println("ADD_ONE_BULLET_ERROR");
+			System.out.println("Model.ship, addOneBulletToShip: the ship can not add the given bullet");
 			throw new IllegalArgumentException();}
 	}
 
@@ -586,7 +585,7 @@ public class Ship extends Entity {
 	 */
 	public void removeBulletFromShip(Bullet bullet) {
 		if (!this.hasAsBullet(bullet)){
-			System.out.println("REMOVE_BULLET_EXCEPTION");
+			System.out.println("Model.ship, removeBulletFromShip: the given ship does not have the given bullet");
 			throw new IllegalArgumentException();}
 		else{
 			this.bullets.remove(bullet.hashCode());
@@ -648,7 +647,6 @@ public class Ship extends Entity {
 					// If entity1 is a bullet:
 					if (entity1 instanceof Bullet) {
 						// If the bullet overlaps with a bullet from its parent-ship, the newest bullet will not be fired.
-						System.out.println("eigen schip: "+ship+" ander schip: "+((Bullet)entity1).getBulletSource());
 						if (ship.equals(((Bullet)entity1).getBulletSource())){
 							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
 							ship.addOneBulletToShip(bullet);
@@ -656,7 +654,6 @@ public class Ship extends Entity {
 
 						// If the bullet overlaps with a bullet which does not belong to its parent-ship, the two will be terminated.
 						else {
-							System.out.println("Terminate TWO");
 							bullet.Terminate();
 							((Bullet)entity1).Terminate();
 						}
@@ -685,8 +682,6 @@ public class Ship extends Entity {
 				}
 			}
 		}
-
-		System.out.println(Boolean);
 		return Boolean;
 	}
 	///TERMINATE///

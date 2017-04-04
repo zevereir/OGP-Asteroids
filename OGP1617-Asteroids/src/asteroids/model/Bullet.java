@@ -201,7 +201,7 @@ public class Bullet extends Entity {
 	///MOVE///
 	public void move(double dt){
 		if (dt < 0) {
-			System.out.println("MOVE_DT_LOWER_ZERO_ERROR");
+			System.out.println("Model.bullet, move: dt is negative");
 			throw new IllegalArgumentException();
 		}
 		
@@ -237,7 +237,7 @@ public class Bullet extends Entity {
 
 	public void setBulletLoadedState(BulletState state) {
 		if (state == null){
-			System.out.println("BULLET_LOADED_STATE_ERROR");
+			System.out.println("Model.bullet, setBulletLoadedState: state == null");
 			throw new IllegalStateException();}
 		else
 			this.state = state;
