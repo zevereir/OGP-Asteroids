@@ -252,6 +252,7 @@ public class World {
 					entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 					// Let the ship who will collide evolve a little more after the collision. Otherwise, the ship would keep touching
 					//  the boundary, which would invoke the same collision again the next time 'evolve()' will be invoked.
+					collision_entity_1.move(GAMMA*defaultEvolvingTime);
 					entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()),collision_entity_1);
 				}
 				
