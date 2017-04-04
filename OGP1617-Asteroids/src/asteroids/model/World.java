@@ -15,7 +15,7 @@ import asteroids.part2.CollisionListener;
  * 			|getWorldwidth >0
  * 
  * 
- * @version 28th of march
+ * @version 4th of April - 01u25
  * @authors Sieben Bocklandt and Ruben Broekx
 
  */

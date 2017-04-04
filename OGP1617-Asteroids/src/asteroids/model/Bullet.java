@@ -9,7 +9,7 @@ import jdk.internal.dynalink.linker.LinkerServices.Implementation;
  * velocity are the last properties.
  * 
 
- * @version 28th of march
+ * @version 4th of April - 01u25
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Bullet extends Entity {

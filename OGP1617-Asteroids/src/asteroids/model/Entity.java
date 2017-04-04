@@ -17,7 +17,7 @@ import be.kuleuven.cs.som.annotate.*;
  * 			|isValidMass(this.getEntityMass)
  * @invar The density is a valid density.
  * 			|isValidDensity(this.getEntityDensity)
- * @version 28th of march
+ * @version 4th of April - 01u25
  * @authors Sieben Bocklandt and Ruben Broekx
 
  */
