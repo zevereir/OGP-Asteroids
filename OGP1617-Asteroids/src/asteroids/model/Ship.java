@@ -372,7 +372,6 @@ public class Ship extends Entity {
 	 */
 	public void move(double dt){
 		if (dt < 0) {
-			System.out.println("Model.ship, move: dt is negative");
 			throw new IllegalArgumentException();	}			
 		
 		double vel_x = this.getEntityVelocityX();
@@ -419,14 +418,13 @@ public class Ship extends Entity {
 	 */
 	public boolean canHaveAsBullet(Bullet bullet){
 		if (this.hasAsBullet(bullet)) {
-			System.out.println("already has the bullet");
+		
 			return false;
 		}
 		if (bullet.getBulletShip() != null)
 			return false;
 		
 		if (!this.bulletFullyInShip(bullet)){
-			System.out.println("Model.ship, canHaveAsBullet: Bullet does not lie fully in the ship");
 			return false;}
 		
 		if (bullet.isEntityTerminated())
@@ -556,7 +554,6 @@ public class Ship extends Entity {
 			bullet.setBulletLoaded(this);
 			bullet.setEntityOrientation(this.getEntityOrientation());
 		} else{
-			System.out.println("Model.ship, addOneBulletToShip: the ship can not add the given bullet");
 			throw new IllegalArgumentException();}
 	}
 
@@ -587,7 +584,6 @@ public class Ship extends Entity {
 	 */
 	public void removeBulletFromShip(Bullet bullet) {
 		if (!this.hasAsBullet(bullet)){
-			System.out.println("Model.ship, removeBulletFromShip: the given ship does not have the given bullet");
 			throw new IllegalArgumentException();
 		}
 		else{
@@ -644,7 +640,6 @@ public class Ship extends Entity {
 
 					// If entity1 is a bullet:
 					if (entity1 instanceof Bullet) {
-						System.out.println("entity is Bullet");
 						// If the bullet overlaps with a bullet from its parent-ship, the newest bullet will not be fired.
 						if (ship.equals(((Bullet)entity1).getBulletSource())){
 							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
@@ -660,7 +655,6 @@ public class Ship extends Entity {
 
 					// If entity1 is a ship:
 					else if (entity1 instanceof Ship) {
-						System.out.println("entity is Ship");
 						// If the bullet overlaps with its parent-ship, the bullet will be reloaded.
 						if (ship.equals(entity1)) {
 							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
@@ -675,10 +669,7 @@ public class Ship extends Entity {
 					}
 
 					// This is normally not possible..
-					else {
-						System.out.println("Error at model.ship in possibleToFire, entity is nor a ship, nor a bullet");
-						System.out.println("IMPOSSIBLE");
-					}
+	
 				}
 			}
 		}

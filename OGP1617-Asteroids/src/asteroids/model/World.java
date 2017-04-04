@@ -130,7 +130,6 @@ public class World {
 			entity_positions.put(arrayToString(entity.getEntityPosition()),entity);
 		} 
 		else{
-			System.out.println("Model.world, addEntityToWorld: can have entity as argument");
 			throw new IllegalArgumentException() ;
 		}
 	}
@@ -320,13 +319,10 @@ public class World {
 						minimumCollisionTime = delta_t;
 						collision_entity_1 = ((Entity)entity_1);
 						collision_entity_2 = ((Entity)entity_2);
-					}
-				}			
-			}	
-		}
-		if (minimumCollisionTime < 0)
-			System.out.println("FAAAAAAAAAAAAAAAAAAAAAAAAACKKK");
-		
+						}
+					}			
+				}	
+			}		
 		return minimumCollisionTime;	
 	}
 		
@@ -485,7 +481,6 @@ public class World {
 
 	public void setWorldState(State state) {
 		if (state == null){
-			System.out.println("Model.world, setWorldState: state == null");
 			throw new IllegalStateException(); }
 		else
 			this.state = state;

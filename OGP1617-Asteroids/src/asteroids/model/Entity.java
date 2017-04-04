@@ -94,7 +94,6 @@ public abstract class Entity {
 
 	public boolean entityFitsInWorld(World world){
 		if (!this.entityInBoundaries(world) || this.entityOverlappingInWorld(world)!=null){
-			System.out.println("Model.entity, entityFitsInWorld: entity does not fit in the world, or is overlapping with other entity");
 			return false;
 		}
 		return true;
@@ -175,7 +174,6 @@ public abstract class Entity {
 	// --> BEKIJKEN <-- // 
 	public void setEntityPosition(double positionX, double positionY) {
 		if (!isValidPosition(positionX, positionY)){
-			System.out.println("Model.entity, setEntityPosition: given position is not a valid position");
 			throw new IllegalArgumentException();}
 		
 		this.position.setPositionX(positionX);
@@ -225,7 +223,6 @@ public abstract class Entity {
 		if (isValidRadius(radius))
 			this.radius = radius;
 		else{
-			System.out.println("Model.entity, setEntityRadius: given radius is not a valid radius");
 			throw new IllegalArgumentException();
 		}
 	}
@@ -304,7 +301,6 @@ public abstract class Entity {
 	
 	public void setEntityState(State state) {
 		if (state == null){
-			System.out.println("Model.entity, setEntityState: state == null");
 			throw new IllegalArgumentException();}
 		else
 			this.state = state;
@@ -408,7 +404,6 @@ public abstract class Entity {
 		if ( (!this.isEntityInWorld() && this.hasEntityProperState() ) || 
 				( !otherEntity.isEntityInWorld() && otherEntity.hasEntityProperState() ) ){
 			
-			System.out.println("Model.entity, getTimeToCollision: One of the entities does not lie in the world, or doesn't have a proper state");
 			throw new IllegalArgumentException();				
 		}
 
@@ -434,9 +429,6 @@ public abstract class Entity {
 		double d = Math.pow(delta_v_r, 2) - delta_v_v * (delta_r_r - Math.pow(total_radius, 2));
 		
 		if (this.overlap(otherEntity)){
-			System.out.println("Model.entity, getTimeToCollision: There are entities overlapping");
-			System.out.println("Position = "+otherEntity.getEntityPositionX()+", "+otherEntity.getEntityPositionY());
-			System.out.println("Center world: "+this.getEntityWorld().getWorldWidth()/2+", "+this.getEntityWorld().getWorldHeight()/2);
 			throw new IllegalArgumentException();
 		} 
 			
@@ -611,10 +603,6 @@ public abstract class Entity {
 				new_y -= radius;
 			// If none of the above statements were correct, there was a fault!
 			else {
-				System.out.println("model.Entity, getPositionCollisionBoundary: 'Impossible' else-statement is invoked!");
-				System.out.println("Should have bounced with a boundary!");
-				System.out.println("new_x: "+new_x+", new_y: "+new_y+", the radius: "+radius);
-				System.out.println("width: "+width+", height: "+height+", the radius: "+radius);
 				return null;
 			}
 		}
