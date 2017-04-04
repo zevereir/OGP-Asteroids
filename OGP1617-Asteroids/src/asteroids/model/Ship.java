@@ -68,42 +68,20 @@ public class Ship extends Entity {
 	 *            when it's not.
 	 * @param thrusterforce
 	 *            The force in newton the thruster of a ship can deliver.
-	 *            
-	 * @post The position of the ship is equal to the given x and y. They will
-	 *       be used as an array {x,y}. 
-	 *       |new.getEntityPosition == {x,y}
-	 *
-	 * @post The total velocity of the ship is lower than it's maximum velocity.
-	 *       If the velocity exceeds this limit, xVelocity and yVelocity will be
-	 *       set on the projection of the maximum velocity on the x- and y-axis.
-	 *       |if (Math.sqrt(Math.pow(xVelocity, 2) + Math.pow(yVelocity, 2))< this.getEntityMaxVelocity) 
-	 *       | new.getEntityVelocity = {xVelocity, yVelocity}
-	 *       |else 
-	 *       | new.getEntityVelocity = {Math.cos(orientation)*getEntityMaxVelocity, 
-	 *       | Math.sin(orientation)*getEntityMaxVelocity}
-	 * @post The orientation of the ship is equal to the given orientation.
-	 *       |new.getEntityOrientation() == orientation
-	 * @post The maximum velocity will be equal to the speed of light, unless
-	 *       the given maxVelocity is a positive number and less than the speed
-	 *       of light. Then the maximum velocity will be equal to this
-	 *       maxVelocity. 
-	 *       |if ((maxVelocity < SPEED_OF_LIGHT) && (maxVelocity>0)) 
-	 *       | new.getShipMaxVelocity == maxVelocity 
-	 *       |else 
-	 *       |new.getShipMaxVelocity == SPEED_OF_LIGHT
-	 *@post  The density of the ship will be equal to the given density.
-	 *		 |new.getEntityDensity() == density
-	 *@post  The thrusterActivity of the ship will be equal to the givn thrusteractivity.
-	 *		 |new.isThrusterActive == thrusterActivity
-	 *@post  The thrusterforce of the ship will be equal to the given thrusterforce.
-	 *		 |new.getShipThrusterForce()
+	 * @effect	This ship will be initialized as a new entity with a given position (x,y), velocity (xVelocity,yVelocity),
+	 *			radius,density, mass and maximum velocity.
+	 *			|super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density)	 	
+	 * @effect	The thrusteractivity will be set on the given boolean value
+	 * 			|setThrusterActive(thrusterActivity)
+	 *	@effect The thrusterforce of the ship will be set to the given thrusterforce.
+	 *		 	|setShipThrusterForce(thrusterForce)
 	 *		
-	 * @throws IllegalArgumentException
-	 *       If the given radius is lower than the lower radius. 
-	 *       |(radius < LOWER_RADIUS)
-	 * @throws IllegalArgumentException
-	 *       If x or y is not a number. 
-	 *       |(!isValidArray(x,y))
+	 * @throws 	IllegalArgumentException
+	 *       	If the given radius is lower than the lower radius. 
+	 *       	|(radius < LOWER_RADIUS)
+	 * @throws 	IllegalArgumentException
+	 *       	If x or y is not a number. 
+	 *       	|(!isValidArray(x,y))
 	 */
 	//ALL VALUES//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass, 
@@ -120,7 +98,7 @@ public class Ship extends Entity {
 	 * 
 	 * @effect The ship is initialized with the given values and the default
 	 *         maximum total velocity,density,thrusteractivity and thrusterforce. 
-	 *         |@see implementation
+	 *         @see implementation
 	 */
 	//NORMAL CONSTRUCTOR//
 	public Ship(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,double mass)
@@ -133,7 +111,7 @@ public class Ship extends Entity {
 	 * Initializes a new ship with it's default values.
 	 * 
 	 * @effect The ship is initialized with the default values.
-	 *         |@see implementation
+	 *         @see implementation
 	 */
 	//ALL DEFAULT//
 	public Ship() {
@@ -163,7 +141,7 @@ public class Ship extends Entity {
 	 * Return the default mass of a ship.
 	 * 
 	 * @return The default mass.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	@Immutable
 	public static double getDefaultMass() {
@@ -243,7 +221,7 @@ public class Ship extends Entity {
 	/**
 	 * Return the total weight of the bullets loaded on the ship. This is the sum of the weights of all the bullets.
 	 * @return the total weight.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public double getTotalBulletsWeight(){
 		double weight = 0;
@@ -255,7 +233,7 @@ public class Ship extends Entity {
 	/**
 	 * Return a set containing all the bullets that are loaded on the ship.
 	 * @return the set of bullets
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public Set<Bullet> getShipBullets(){
 		Set<Bullet> result = new HashSet<Bullet>();
@@ -266,7 +244,7 @@ public class Ship extends Entity {
 	/**
 	 * Return the total number of bullets loaded on the ship.
 	 * @return the total number of bullets.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public int getNbBulletsOnShip(){
 		return this.getShipBullets().size();
@@ -274,7 +252,7 @@ public class Ship extends Entity {
 	/**
 	 * Return the total mass of the ship. This is the sum of the mass of the ship and the total weight of its bullets.
 	 * @return the total weight.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	@Basic
 	public double getEntityMass() {
@@ -303,7 +281,7 @@ public class Ship extends Entity {
 	 * 			|If (thrusterForce > 0)
 	 * 			|new.getShipThrusterForce == thrusterActivity.
 	 * @post If the given force is negative, the thrusterforce of the ship will be equal to the default value.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public void setShipThrusterForce(double thrusterForce){
 		if (thrusterForce < 0)
@@ -317,7 +295,7 @@ public class Ship extends Entity {
 	 * @param density
 	 * 			The new density.
 	 * @post If the given density is valid, the ships density will be equal to it, else it will be set on the default value.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public void setEntityDensity(double density){
 		if (isValidDensity(density))
@@ -332,7 +310,7 @@ public class Ship extends Entity {
 	 * @param mass
 	 * 			The new mass.
 	 * @post If the given mass is valid, the ships mass will be equal to it, else it will be set on the minimum value.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public void setEntityMass(double mass) {
 		if (isValidMass(mass))
@@ -344,7 +322,7 @@ public class Ship extends Entity {
 	/** 
 	 * Return the minimum mass a ship can have.
 	 * @return The minimum mass
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public double getMinimumShipMass(){
 		return (4.0/3.0) * Math.PI * Math.pow(this.getEntityRadius(),3) * this.getEntityDensity();
@@ -355,16 +333,11 @@ public class Ship extends Entity {
 	 * Let a ship move for a given time.
 	 * @param dt
 	 * 			The time for which the ship has to move.
-	 * @param entity1
-	 * 			An entity that is colliding.
-	 * @param entity2
-	 * 			A second entity that is colliding.
-	 * 
+	
 	 * @post If the ships thruster is active, its acceleration will be used to recalculate the velocity.
-	 * 			|@see Implementation
-	 * @post After dt seconds, the ship's position will be set on dt times its velocity. If the ship is entity1 or entity2,
-	 * 		 the new position will not be checked for collisions.
-	 * 			|@see Implementation
+	 * 			@see Implementation
+	 * @post After dt seconds, the ships position will be set on dt times its velocity. 
+	 * 			@see Implementation
 	 * 
 	 * @throws IllegalArgumentException
 	 * 			If the given time is negative.
@@ -400,7 +373,7 @@ public class Ship extends Entity {
 	 * @param y
 	 * 			The y-value of the position
 	 * @return False if the ship has a world and the position isn't in this world, else the result is true.
-	 * 			|@see Implementation
+	 * 			@see Implementation
 	 */
 	public boolean isValidShipPosition(double x, double y){
 		if ((this.getEntityWorld() != null))
@@ -414,7 +387,7 @@ public class Ship extends Entity {
 	 * @param bullet
 	 * 			The bullet that has to be checked.
 	 * @return False if the bullet is already in the ship, has another ship, doens't lie fully in the ship, is terminated or if the ship is terminated.
-	 * 			|@see implementation
+	 * 			@see implementation
 	 */
 	public boolean canHaveAsBullet(Bullet bullet){
 		if (this.hasAsBullet(bullet)) {
@@ -441,7 +414,7 @@ public class Ship extends Entity {
 	 * @param bullet
 	 * 			The bullet that has to be checked.
 	 * @return False if the sum of cartesian distance between the centers and the radius of the bullet is greater than the radius of the ship. 
-	 * 			|@see Implementation
+	 * 			@see Implementation
 	 */
 	public boolean bulletFullyInShip(Bullet bullet){
 		double delta_x = Math.abs(bullet.getEntityPositionX() - this.getEntityPositionX());
@@ -457,7 +430,7 @@ public class Ship extends Entity {
 	 * @param radius
 	 * 			The radius that has to be checked.
 	 * @return true if the radius is greater than the default lower ship radius.
-	 * 			|@see Implementation
+	 * 			@see Implementation
 	 */
 	public boolean isValidRadius(double radius) {
 		return (radius >= LOWER_SHIP_RADIUS);
@@ -468,7 +441,7 @@ public class Ship extends Entity {
 	 * @param density
 	 * 			The density that has to be checked.
 	 * @return True if the density is greater than the default density.
-	 * 			|@see Implementation
+	 * 			@see Implementation
 	 */
 	public boolean isValidDensity(double density) {
 		return (density >= getDefaultShipDensity());
@@ -479,7 +452,7 @@ public class Ship extends Entity {
 	 * @param mass
 	 * 			The mass that has to be checked.
 	 * @return True if the mass is greater than the minimum mass and the mass is a number.
-	 * 			|@see Implementation
+	 * 			@see Implementation
 	 */
 	public boolean isValidMass(double mass) {
 		return ( (mass != Double.NaN) && (mass >= getMinimumShipMass()) );
@@ -530,7 +503,7 @@ public class Ship extends Entity {
 	 * @param bullet
 	 * 			the bullet that has to be checked.
 	 * @return False if the bullet is already on the ship.
-	 * 			|@see Implementation
+	 * 			@see Implementation
 	 */
 	public boolean hasAsBullet(Bullet bullet){
 		return this.bullets.containsKey(bullet.hashCode());
@@ -562,7 +535,7 @@ public class Ship extends Entity {
 	 * @param bullets
 	 *			The bullets that have to be loaded.
 	 *@effect The bullets will be added one at a time.
-	 *			|@see Implementation 
+	 *			@see Implementation 
 	 *
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets){
@@ -593,7 +566,21 @@ public class Ship extends Entity {
 	}
 
 	/**
-	 * DOCUMENTATION HAS TO BE WRITTEN WHEN TO FUNCCTION IS CORRECT
+	 *Fires a random bullet.
+	 *@post the ship doenst have the random bullet anymore.
+	 *		|new.hasAsBullet(bullet) == false
+	 *@post the bullets position will be equal to the position of the ship, mapped by the orientation with the sum of the radius and 1.
+	 *		@see implementation
+	 *@effect the bullet is removed from the ship
+	 *		|removeBulletFromShip
+	 *@effect the orientation of the bullet will be set to the orientation of the ship.
+	 *		@see implementation
+	 *@effect the velocity of the bullet will be set to the mapping of the initial firing velocity.
+	 *		@see implementation
+	 *@effect there will be checked if the bullet can be fired, the possible collisions will be resolved.
+	 *		|possibleToFire(bullet,this,world, positionBulletX, positionBulletY, radiusBullet)
+	 *
+	 *
 	 */
 	public void fireBullet(){
 		if (! bullets.isEmpty()) {
@@ -621,7 +608,36 @@ public class Ship extends Entity {
 			}
 		}
 	}
-
+	/**
+	 * Checks whether a bullet can be fired, the possible collisions will be resolved.
+	 * @param bullet
+	 * 			The bullet that will be checked.
+	 * @param ship
+	 * 			The ship that fires the bullet.
+	 * @param world
+	 * 			The world where the bullet is fired in.
+	 * @param posBulletX
+	 * 			The x-position of the bullet.
+	 * @param posBulletY
+	 * 			the y-position of the bullet.
+	 * @param radiusBullet
+	 * 			The radius of the bullet
+	 * @return false if the bullet connet be set in the given world.
+	 * 			@see implementation
+	 * @return false if the bullet overlaps with another etntity.
+	 * 			@see implementation
+	 * @effect the bullet will be terminated when it's not in the boundaries of the world.
+	 * 			@see implementation
+	 * @effect the bullet will be reloaded of it overlaps with a bullet with the same source_ship.
+	 * 			@see implementation
+	 * @effect the bullet will be terminated when it overlaps with a bullet that doesn't have the same source ship.
+	 * 			@see implementationµ
+	 * @effect The bullet will be reloaded if it overlaps with its source_ship.
+	 * 			@see implementation
+	 * @effect the bullet and the ship it is overlapping with are both terminated when the ship isn't the bullets source ship.
+	 * 			@see implementation
+	 * 
+	 */
 	public boolean possibleToFire(Bullet bullet, Ship ship, World world, double posBulletX, double posBulletY, double radiusBullet) {
 		boolean Boolean = true;
 
@@ -684,7 +700,7 @@ public class Ship extends Entity {
 	 * 		 @see implementation
 	 */
 	public void Terminate() {
-		if (this.isEntityFree()){
+		if (this.isEntityNoWorld()){
 			setEntityState(State.TERMINATED);
 		} else if (this.isEntityInWorld()){
 			this.getEntityWorld().removeEntityFromWorld(this);
