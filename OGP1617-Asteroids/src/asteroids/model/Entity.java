@@ -438,7 +438,7 @@ public abstract class Entity {
 			System.out.println("Position = "+otherEntity.getEntityPositionX()+", "+otherEntity.getEntityPositionY());
 			System.out.println("Center world: "+this.getEntityWorld().getWorldWidth()/2+", "+this.getEntityWorld().getWorldHeight()/2);
 			throw new IllegalArgumentException();
-		}
+		} 
 			
 		else if (delta_v_r >= 0)
 			return Double.POSITIVE_INFINITY;
@@ -627,5 +627,7 @@ public abstract class Entity {
 	private  World world = null;
 }
 	
+
+
 
 

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.Set; 
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -597,7 +597,7 @@ public class Ship extends Entity {
 	}
 
 	/**
-	 * DOCUMENTATION HAS TO BE WRITTEN WHEN TO FUNCTION IS CORRECT
+	 * DOCUMENTATION HAS TO BE WRITTEN WHEN TO FUNCCTION IS CORRECT
 	 */
 	public void fireBullet(){
 		if (! bullets.isEmpty()) {
@@ -619,6 +619,7 @@ public class Ship extends Entity {
 			World world = this.getEntityWorld();
 			bullet.setEntityOrientation(orientation);
 			bullet.setEntityVelocity(getInitialFiringVelocity()*Math.cos(orientation), getInitialFiringVelocity()*Math.sin(orientation));
+			
 			if(possibleToFire(bullet, this, world, positionBulletX, positionBulletY, radiusBullet)){
 				world.addEntityToWorld(bullet);	
 			}
@@ -636,10 +637,9 @@ public class Ship extends Entity {
 		}
 
 		if (Boolean == true) {
-
 			for (Object entity1: world.getWorldEntities()) {
 				// Two entities are overlapping when the distance between the centers is bigger than the sum of the radii of the two.
-				if (bullet.overlap((Entity)entity1)) {
+				if (bullet.overlap((Entity)entity1) && Boolean == true) {
 					Boolean = false;
 
 					// If entity1 is a bullet:
@@ -649,7 +649,6 @@ public class Ship extends Entity {
 						if (ship.equals(((Bullet)entity1).getBulletSource())){
 							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
 							ship.addOneBulletToShip(bullet);
-							
 						}
 
 						// If the bullet overlaps with a bullet which does not belong to its parent-ship, the two will be terminated.
@@ -664,7 +663,7 @@ public class Ship extends Entity {
 						System.out.println("entity is Ship");
 						// If the bullet overlaps with its parent-ship, the bullet will be reloaded.
 						if (ship.equals(entity1)) {
-							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());		
+							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
 							ship.addOneBulletToShip(bullet);
 						}
 
@@ -714,5 +713,7 @@ public class Ship extends Entity {
 	
 	
 }
+
+
 
 
