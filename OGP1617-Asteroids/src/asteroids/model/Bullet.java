@@ -107,7 +107,7 @@ public class Bullet extends Entity {
 	 * @return ...
 	 * 			|@see Implementation
 	 */
-	public double getBulletMass() {
+	public double getBulletMassFormula() {
 		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3) * this.getEntityDensity();		
 	}
 	
@@ -169,7 +169,7 @@ public class Bullet extends Entity {
 	}
 	
 	public boolean isValidMass(double mass) {
-		return ((mass != Double.NaN) && (mass == getBulletMass()));
+		return ((mass != Double.NaN) && (mass == getBulletMassFormula()));
 	}
 	
 	///SETTERS///
@@ -195,7 +195,7 @@ public class Bullet extends Entity {
 		if (isValidMass(mass))
 			this.mass = mass;
 		else
-			this.mass = getBulletMass();	
+			this.mass = getBulletMassFormula();	
 	}
 	
 	///MOVE///

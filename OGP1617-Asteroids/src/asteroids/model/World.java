@@ -424,6 +424,7 @@ public class World {
 		
 	}
 	
+	
 	public void BulletAndWorldCollide(Entity entity,double[] array) {
 		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
 		int counter = ((Bullet)entity).getAmountOfBounces();
