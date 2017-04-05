@@ -15,14 +15,13 @@ import asteroids.util.ModelException;
 /**
  * A class that can be used to connect the IFacade class with the class Ship.
  * 
- * @version 28th of march
+ * @version 5th of april
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Facade implements asteroids.part2.facade.IFacade  {
 		
+	/// SHIP ///
 	
-	
-	///SHIP///
 	/**
 	 * Returns a Ship with default values.
 	 * 
@@ -49,7 +48,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		try {
 			Ship ship = new Ship();
 			return ship;
-		} catch (IllegalArgumentException illegalArgumentException ) {
+		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are no valid default arguments #1");
 		}
 	}
@@ -61,8 +60,8 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 		  | result = Ship(x, y, xVelocity, yVelocity, radius, orientation)
 	 */
 	@Override
-	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double orientation, double mass)
-			throws ModelException{
+	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double orientation,
+			double mass) throws ModelException {
 		try {
 			Ship ship = new Ship(x, y, xVelocity, yVelocity, radius, orientation, mass);
 			return ship;
@@ -112,7 +111,7 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #4");
 		}
 	}
-	
+
 	/**
 	 * Return the radius of the ship.
 	 * 
@@ -148,7 +147,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #6");
 		}
 	}
-	
 
 	/**
 	 * Update the direction of the ship by adding an angle in radians to its current direction.
@@ -157,14 +155,13 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	 * 		  | ship.turn(angle)
 	 */
 	@Override
-	public void turn(Ship ship,double angle) throws ModelException {
+	public void turn(Ship ship, double angle) throws ModelException {
 		try {
 			ship.turn(angle);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #7");
 		}
 	}
-	
 	
 	/**
 	 * Calculate the distance between two ships.
@@ -232,7 +229,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Terminate a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -246,7 +242,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if a given ship is terminated.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -260,7 +255,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Get the mass of a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -274,7 +268,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the world to which the ship belongs to.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -288,7 +281,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if the thruster of the ship is active.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -302,7 +294,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Turn the thruster of a given ship on if true, turn it off if false.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -316,7 +307,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return a given ship its acceleration.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -329,10 +319,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	}
 
 	
-	///BULLET///
+	/// BULLET ///
+	
 	/**
 	 * Create a bullet with given values.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -348,7 +338,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Terminate a given bullet.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -362,7 +351,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if a given bullet is terminated.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -376,7 +364,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the position of a given bullet.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -387,11 +374,9 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #22");
 		}
 	}
-	
 
 	/**
 	 * Return the velocity of a given bullet.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -402,11 +387,9 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #23");
 		}
 	}
-	
 
 	/**
 	 * Return the radius of a given bullet.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -417,11 +400,9 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #24");
 		}
 	}
-	
 
 	/**
 	 * Return the mass of a given bullet.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -432,11 +413,9 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #25");
 		}
 	}
-	
 
 	/**
 	 * Return the world to which the bullet belongs to.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -447,11 +426,9 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #26");
 		}
 	}
-	
 
 	/**
 	 * Return the ship to which the bullet belongs to when the bullet is in a ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -462,11 +439,9 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			throw new ModelException("this is not a valid argument #27");
 		}
 	}
-	
 
 	/**
 	 * Return the ship to which the bullet belongs to when the bullet is in the world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -479,10 +454,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	}
 	
 
-	///WORLD///
+	/// WORLD ///
+
 	/**
 	 * Create a rectangular world with a given width and a given height.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -497,7 +472,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Terminate a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -511,7 +485,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Check if a given world is terminated.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -521,12 +494,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #31");
 		}
-	}
-	
+	}	
 
 	/**
 	 * Get the size (width and height) of a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -536,12 +507,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #32");
 		}
-	}
-	
+	}	
 
 	/**
 	 * Return a set of all the ships in a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -551,12 +520,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #33");
 		}
-	}
-	
+	}	
 
 	/**
 	 * Return a set of all the bullets in a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -566,12 +533,10 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #34");
 		}
-	}
-	
+	}	
 
 	/**
 	 * Add a given ship to a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -585,13 +550,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Remove a given ship from a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public void removeShipFromWorld(World world, Ship ship) throws ModelException {
 		try {
-			 world.removeEntityFromWorld(ship);
+			world.removeEntityFromWorld(ship);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #35");
 		}
@@ -599,7 +563,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Add a given bullet to a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -613,27 +576,28 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Remove a given bullet from a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public void removeBulletFromWorld(World world, Bullet bullet) throws ModelException {
 		try {
-			 world.removeEntityFromWorld(bullet);
+			world.removeEntityFromWorld(bullet);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #37");
 		}
 	}
+
+	
 	///BULLETS AND SHIPS///
+	
 	/**
 	 * Return the set of bullets that belongs to a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public Set<? extends Bullet> getBulletsOnShip(Ship ship) throws ModelException {
 		try {
-			 return ship.getShipBullets();
+			return ship.getShipBullets();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #38");
 		}
@@ -642,13 +606,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the amount of bullets that are on a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public int getNbBulletsOnShip(Ship ship) throws ModelException {
 		try {
-			 return ship.getNbBulletsOnShip();
+			return ship.getNbBulletsOnShip();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #39");
 		}
@@ -656,7 +619,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Load a given bullet onto a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -670,7 +632,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Load a collection of bullets onto a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -679,12 +640,11 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			ship.addMultipleBulletsToShip(bullets);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #41");
-		}		
+		}
 	}
 
 	/**
 	 * Remove a given bullet from a given ship.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -698,7 +658,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Fire a bullet from the given ship, if possible.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -710,17 +669,18 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 		}
 	}
 
+	
 	///COLLISIONS///
+
 	/**
 	 * Return the time until a given entity will collide with the boundary of the world it's in.
 	 * 	Positive infinity will be returned if the collision won't take place.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public double getTimeCollisionBoundary(Object object) throws ModelException {
 		try {
-			return ((Entity)object).getTimeCollisionBoundary();
+			return ((Entity) object).getTimeCollisionBoundary();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #44");
 		}
@@ -729,13 +689,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the position where the entity would collide with the boundary of the world it's in.
 	 *  [infinity, infinity] would be returned if no collision takes place.
-	 *  
 	 * @see implementation
 	 */
 	@Override
 	public double[] getPositionCollisionBoundary(Object object) throws ModelException {
 		try {
-			return ((Entity)object).getPositionCollisionBoundary();
+			return ((Entity) object).getPositionCollisionBoundary();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #45");
 		}
@@ -744,13 +703,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the time until two given entities will collide with each other.
 	 * 	Positive infinity will be returned if the collision won't take place.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public double getTimeCollisionEntity(Object entity1, Object entity2) throws ModelException {
 		try {
-			return ((Entity)entity1).getTimeToCollision((Entity)entity2);
+			return ((Entity) entity1).getTimeToCollision((Entity) entity2);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #46");
 		}
@@ -759,13 +717,12 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the position where two given entities would collide.
 	 *  [infinity, infinity] would be returned if no collision takes place.
-	 *  
 	 * @see implementation
 	 */
 	@Override
 	public double[] getPositionCollisionEntity(Object entity1, Object entity2) throws ModelException {
 		try {
-			return ((Entity)entity1).getCollisionPosition(((Entity)entity2));
+			return ((Entity) entity1).getCollisionPosition(((Entity) entity2));
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #47");
 		}
@@ -774,7 +731,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the time till the first collision in a world will take place.
 	 *  Positive infinity would be returned if no collision takes place.
-	 *  
 	 * @see implementation
 	 */
 	@Override
@@ -789,7 +745,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 	/**
 	 * Return the position where the first collision in a world will take place.
 	 *  [infinity, infinity] would be returned if no collision takes place.
-	 *  
 	 * @see implementation
 	 */
 	@Override
@@ -798,20 +753,20 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 			return world.getPositionNextCollision();
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #49");
-		}	
 		}
+	}
 
 	
-	///EVOLVE AND ENTITIES///
+	/// EVOLVE AND ENTITIES ///
+	
 	/**
 	 * Evolve the world over dt time.
-	 * 
 	 * @see implementation
 	 */
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
 		try {
-			world.evolve(dt,collisionListener);
+			world.evolve(dt, collisionListener);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #50");
 		}
@@ -819,7 +774,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return the entity at a given position, if there is an entity at this given position.
-	 * 
 	 * @see implementation
 	 */
 	@Override
@@ -833,7 +787,6 @@ public class Facade implements asteroids.part2.facade.IFacade  {
 
 	/**
 	 * Return all the entities that are in a given world.
-	 * 
 	 * @see implementation
 	 */
 	@Override
