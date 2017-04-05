@@ -3,7 +3,8 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.Value;
 /**
  * A value class that describes velocity.
- * @version 4th of April - 01u25
+ * 
+ * @version 5th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  *
  */
