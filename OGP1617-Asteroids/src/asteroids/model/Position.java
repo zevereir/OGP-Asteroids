@@ -11,13 +11,14 @@ import be.kuleuven.cs.som.annotate.Value;
 public class Position {
 	
 	/**
-	 * Initializes a position
+	 * Initializes a position.
+	 * 
 	 * @param 	x
 	 * 			the x-component
 	 * @param 	y
 	 * 			the y-component
 	 * 
-	 * @effect 	the x and y compnonent will be set on the given values
+	 * @effect 	the x and y component will be set on the given values
 	 * 			@see implementation
 	 */
 	public Position(double x, double y) {
@@ -47,9 +48,10 @@ public class Position {
 	/// GETTERS ///
 	
 	/**
-	 * returns the position as an array
-	 * @return the array
-	 * 			|result == {positionx, positionY}
+	 * returns the position as an array.
+	 * 
+	 * @return 	the array
+	 * 		  | result == {positionX, positionY}
 	 */
 	public double[] getPositionArray() {
 		double[] result = { positionX, positionY };
@@ -57,7 +59,7 @@ public class Position {
 	}
 	
 	/**
-	 * Return the x-component of the position
+	 * Return the x-component of the position.
 	 * 
 	 * @return 	the x-component
 	 * 			@see Implementation
@@ -67,8 +69,9 @@ public class Position {
 	}
 	
 	/**
-	 * Return the y-component of the position
-	 * @return the y-component
+	 * Return the y-component of the position.
+	 * 
+	 * @return 	the y-component
 	 * 			@see Implementation
 	 */
 	public double getPositionY() {
@@ -79,22 +82,26 @@ public class Position {
 	/// SETTERS ///
 	
 	/**
-	 * Set the x-component of the position
-	 * @param newPositionX
+	 * Set the x-component of the position.
+	 * 
+	 * @param 	newPositionX
 	 * 			The new value
-	 * @post the new x-component will be equal to newPositionX 
-	 * 			|new.getPositionyX == newPositionX
+	 * 
+	 * @post 	the new x-component will be equal to newPositionX 
+	 * 		  | new.getPositionyX == newPositionX
 	 */
 	public void setPositionX(double newPositionX) {
 		positionX = newPositionX;
 	}
 	
 	/**
-	 * Set the y-component of the position
-	 * @param newPositionY
+	 * Set the y-component of the position.
+	 * 
+	 * @param 	newPositionY
 	 * 			The new value
-	 * @post the new y-component will be equal to newPositionY
-	 * 			|new.getPositionY == newPositionY
+	 * 
+	 * @post 	the new y-component will be equal to newPositionY
+	 * 		  | new.getPositionY == newPositionY
 	 */
 	public void setPositionY(double newPositionY) {
 		positionY = newPositionY;

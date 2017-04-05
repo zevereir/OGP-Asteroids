@@ -12,12 +12,14 @@ import be.kuleuven.cs.som.annotate.Value;
 public class Velocity {
 	
 	/**
-	 * Initializes a velocity
-	 * @param xVelocity
+	 * Initializes a velocity.
+	 * 
+	 * @param 	xVelocity
 	 * 			the x-component
-	 * @param yVelocity
+	 * @param 	yVelocity
 	 * 			the y-component
-	 * @effect the x and y compnonent will be set on the given values
+	 * 
+	 * @effect 	the x and y component will be set on the given values
 	 * 			@see implementation
 	 */
 	public Velocity(double xVelocity, double yVelocity) {
@@ -36,7 +38,8 @@ public class Velocity {
 	
 	/**
 	 * initializes a velocity with default values 0.
-	 * @effect uses the normal constructor
+	 * 
+	 * @effect 	uses the normal constructor
 	 * 			@see implementation
 	 */
 	public Velocity() {
@@ -47,9 +50,10 @@ public class Velocity {
 	/// GETTERS /// 
 
 	/**
-	 * returns the velocity as an array
-	 * @return the array
-	 * 			|result == {xVelocity, yVelocity}
+	 * returns the velocity as an array.
+	 * 
+	 * @return 	the array
+	 * 		  | result == {xVelocity, yVelocity}
 	 */
 	public double[] getVelocityArray() {
 		double[] result = { xVelocity, yVelocity };
@@ -57,8 +61,9 @@ public class Velocity {
 	}
 	
 	/**
-	 * Return the x-component of the velocity
-	 * @return the x-component
+	 * Return the x-component of the velocity.
+	 * 
+	 * @return 	the x-component
 	 * 			@see Implementation
 	 */
 	public double getVelocityX() {
@@ -66,8 +71,9 @@ public class Velocity {
 	}
 	
 	/**
-	 * Return the y-component of the velocity
-	 * @return the y-component
+	 * Return the y-component of the velocity.
+	 * 
+	 * @return 	the y-component
 	 * 			@see Implementation
 	 */
 	public double getVelocityY() {
@@ -78,22 +84,25 @@ public class Velocity {
 	/// SETTERS /// 
 	
 	/**
-	 * Set the x-component of the velocity
-	 * @param newVelocityX
+	 * Set the x-component of the velocity.
+	 * 
+	 * @param 	newVelocityX
 	 * 			The new value
-	 * @post the new x-component will be equal to newVelocityX 
-	 * 			|new.getVelocityX == newvelocityX
+	 * 
+	 * @post 	the new x-component will be equal to newVelocityX 
+	 * 		  | new.getVelocityX == newvelocityX
 	 */
 	public void setVelocityX(double newVelocityX) {
 		xVelocity = newVelocityX;
 	}
 	
 	/**
-	 * Set the y-component of the velocity
-	 * @param newVelocityY
+	 * Set the y-component of the velocity.
+	 * 
+	 * @param 	newVelocityY
 	 * 			The new value
-	 * @post the new y-component will be equal to newVelocityY
-	 * 			|new.getVelocityY == newVelocityY
+	 * @post 	the new y-component will be equal to newVelocityY
+	 * 		  | new.getVelocityY == newVelocityY
 	 */
 	public void setVelocityY(double newVelocityY) {
 		yVelocity = newVelocityY;
