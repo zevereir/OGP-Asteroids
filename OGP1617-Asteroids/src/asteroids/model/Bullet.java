@@ -22,7 +22,8 @@ package asteroids.model;
  */
 public class Bullet extends Entity {
 	
-	///CONSTRUCTOR///
+	/// CONSTRUCTOR ///
+	
 	/**
 	 * Initializes a new bullet with given parameters.
 	 * @param x
@@ -46,121 +47,142 @@ public class Bullet extends Entity {
 	 * @effect  A new entity will be made via the constructor of Entity.
 	 * 			|@see Implementation.
 	 */
-	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius,double orientation
-			,double mass,double maxVelocity,double density) {
-		
-		super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density);
+	public Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius, double orientation,
+			double mass, double maxVelocity, double density) {
+		super(positonX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
 	}
+
 	/**
 	 * Initializes a new bullet with a given position, velocity and radius, the rest will be default.
 	 * @effect A new bullet will be initialized with a default orientation, mass, density and maximum velocity.
 	 * 			|@see Implementation 
 	 */
-	public Bullet(double x, double y , double xVelocity, double yVelocity, double radius){
-		this(x,y,xVelocity,yVelocity,radius,Entity.getDefaultOrientation(),getDefaultBulletMass(),
-				Entity.getDefaultMaxVelocity(),getDefaultBulletDensity());
+	public Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius) {
+		this(positonX, positionY, velocityX, velocityY, radius, Entity.getDefaultOrientation(), getDefaultBulletMass(),
+				Entity.getDefaultMaxVelocity(), getDefaultBulletDensity());
 	}
+
 	/**
 	 * Initializes a bullet with all default properties.
 	 * @effect A new bullet with all default values.
 	 * 			|@see Implementation
 	 */
-	public Bullet(){
-		this(getDefaultPosition()[0],getDefaultPosition()[1],getDefaultVelocity()[0],getDefaultVelocity()[1],getDefaultRadius());
+	public Bullet() {
+		this(getDefaultPositionX(), getDefaultPositionY(), getDefaultVelocityX(), getDefaultVelocityY(),
+				getDefaultRadius());
 	}
-
 	
-	///DEFAULTS///
-	/**
-	 * Return the default radius for a bullet.
-	 * @return ...
-	 * 			|result == 1
-	 */
-	public static double getDefaultRadius(){
-		return 1;
-	}
-	/**
-	 * Return the default bullet mass.
-	 * @return ...
-	 * 			|@see Implementation
-	 */
-	public static double getDefaultBulletMass(){
-		return (4.0/3.0) * Math.PI * Math.pow(getDefaultRadius(),3) * getDefaultBulletDensity();
-	}
+	
+	/// CONSTANTS ///
 	
 	private final static double LOWER_BULLET_RADIUS = 1;
+
+	
+	/// COUNTERS ///
+	
+	private int amountOfBounces = 0;
+	
+	
+	/// DEFAULTS ///
 	
 	/** 
 	 * Return the default bullet density.
-	 * @return ...
-	 * 			|result == 7.8E12
+	 * @see implementation
 	 */
-	static double getDefaultBulletDensity(){ 
+	public static double getDefaultBulletDensity() {
 		return 7.8E12;
 	}
 	
-	
-	
-	///GETTERS///
 	/**
-	 * Return the mass of a bullet computed by the mass-formula.
-	 * @return ...
-	 * 			|@see Implementation
+	 * Return the default bullet mass.
+	 * @see Implementation
 	 */
-	public double getBulletMassFormula() {
-		return (4.0/3.0)*Math.PI * Math.pow(this.getEntityRadius(),3) * this.getEntityDensity();		
+	public static double getDefaultBulletMass() {
+		return (4.0 / 3.0) * Math.PI * Math.pow(getDefaultRadius(), 3) * getDefaultBulletDensity();
 	}
+
+	/**
+	 * Return the default radius for a bullet.
+	 * @see implementation
+	 */
+	public static double getDefaultRadius() {
+		return 1;
+	}
+		
+	
+	/// GETTERS ///
 	
 	/**
 	 * Return the amount of bounces the bullet already did.
-	 * @return ...
-	 * 			|@see Implementation
+	 * @see Implementation
 	 */
-	public int getAmountOfBounces(){
+	public int getAmountOfBounces() {
 		return this.amountOfBounces;
 	}
 	
 	/**
 	 * Return the ship where the bullet is loaded on.
-	 * @return ...
-	 * 			|@see Implementation
+	 * @see Implementation
 	 */
-	public Ship getBulletShip(){
+	public Ship getBulletShip() {
 		return this.ship;
 	}
+
 	/**
 	 * Return the source ship of the bullet.
-	 * @return ...
-	 * 			|@see Implementation
+	 * @see Implementation
 	 */
-	public Ship getBulletSource(){
+	public Ship getBulletSource() {
 		return this.source_ship;
-		
 	}
-	/** Return the mass of the bullet.
-	 * @return ...
-	 * 			|@see Implementation
+
+	/** 
+	 * Return the mass of the bullet.
+	 * @see Implementation
 	 */
 	public double getEntityMass() {
-		return this.mass;	
+		return this.mass;
 	}
 	
-	///CHECKERS///
+	
+	/// SETTERS ///
+	
+	public void setAmountOfBounces(int amount) {
+		this.amountOfBounces = amount;
+	} 
+	public void setBulletShip(Ship ship) {
+		this.ship = ship;
+	}
+
+	public void setBulletSourceShip(Ship ship) {
+		this.source_ship = ship;
+	}
+
+	public void setEntityDensity(double density) {
+		this.density = getDefaultBulletDensity();
+	}
+
+	// Mass of bullet will always be calculated with the same formula, found in
+	// the method bulletMass()
+	public void setEntityMass(double mass) {
+		if (isValidMass(mass))
+			this.mass = mass;
+		
+		else
+			this.mass = BulletMassFormula();
+	}
+	
+	
+	/// CHECKERS ///
+	
 	/**
 	 * Check if the bullet can be loaded on a given ship.
 	 * @param ship
 	 * 			The ship that has to be checked
-	 * @return ...
-	 * 			|@see Impl
+	 * @see Implementation
 	 */
-	public boolean canHaveAsShip(Ship ship){
+	public boolean canHaveAsShip(Ship ship) {
 		return (ship.canHaveAsBullet(this));
-	}
-	
-	// --> Lower_... zal altijd groter zijn dan 0
-	//  --> R(bullet) < R(ship) ?
-	public boolean isValidRadius(double radius) {		
-		return (radius >= LOWER_BULLET_RADIUS);
 	}
 	
 	// The mass density rho of each bullet is the same, namely 7.8·1012kg/km^3.
@@ -169,111 +191,104 @@ public class Bullet extends Entity {
 	}
 	
 	public boolean isValidMass(double mass) {
-		return ((mass != Double.NaN) && (mass == getBulletMassFormula()));
+		return ((mass != Double.NaN) && (mass == BulletMassFormula()));
 	}
-	
-	///SETTERS///
-	public void setBulletShip(Ship ship){
-		this.ship = ship;
-	}
-	
-	public void setBulletSourceShip(Ship ship){
-		this.source_ship = ship;
-	}
-	
-	public void setAmountOfBounces(int amount){
-		this.amountOfBounces = amount;
-	}
-	
-	public void setEntityDensity(double density){
-		this.density = getDefaultBulletDensity();
-		
-	}
-	
-	// Mass of bullet will always be calculated with the same formula, found in the method bulletMass()
-	public void setEntityMass(double mass) {
-		if (isValidMass(mass))
-			this.mass = mass;
-		else
-			this.mass = getBulletMassFormula();	
-	}
-	
-	///MOVE/// 
-	public void move(double dt){
-		if (dt < 0) {
-			System.out.println("Model.bullet, move: dt is negative");
-			throw new IllegalArgumentException();
-		}
-		
-		double vel_x = this.getEntityVelocityX();
-		double vel_y = this.getEntityVelocityY();
 
-		final double new_x =this.getEntityPositionX()+ vel_x * dt;
-		final double new_y =this.getEntityPositionY()+ vel_y * dt;
-		
-		this.setPositionWhenColliding(new_x, new_y);
-		
+	public boolean isValidRadius(double radius) {
+		return (radius >= LOWER_BULLET_RADIUS);
+	}
+
+	
+	/// HELP FUNCTIONS ///	
+	
+	/**
+	 * Return the mass of a bullet computed by the mass-formula.
+	 * @return ...
+	 * 			|@see Implementation
+	 */
+	public double BulletMassFormula() {
+		return (4.0 / 3.0) * Math.PI * Math.pow(this.getEntityRadius(), 3) * this.getEntityDensity();
 	}
 	
 	
-	///TERMINATION AND STATES///
+	/// MOVE ///
+	
+	public void move(double dt) {
+		if (dt < 0)
+			throw new IllegalArgumentException();
+		
+		double velocityX = this.getEntityVelocityX();
+		double velocityY = this.getEntityVelocityY();
+
+		final double collidingPositionX = this.getEntityPositionX() + velocityX * dt;
+		final double collidingPositionY = this.getEntityPositionY() + velocityY * dt;
+		
+		this.setPositionWhenColliding(collidingPositionX, collidingPositionY);
+	}
+
+	
+	/// TERMINATION AND STATES ///
 	
 	private BulletState state = BulletState.NOTLOADED;
 
 	private static enum BulletState {
-		LOADED, NOTLOADED;	
+		LOADED, NOTLOADED;
 	}
 
-	public BulletState getBulletLoadedState(){
+	public BulletState getBulletLoadedState() {
 		return this.state;
 	}
-	public boolean isBulletLoaded(){
+
+	public boolean hasBulletProperState() {
+		return (isBulletLoaded() ^ !isBulletLoaded());
+	}
+
+	public boolean isBulletLoaded() {
 		return (this.getBulletLoadedState() == BulletState.LOADED);
-	}
-
-	public boolean hasBulletProperState(){
-		return isBulletLoaded() ^(!isBulletLoaded());
-	}
-
-	public void setBulletLoadedState(BulletState state) {
-		if (state == null){
-			System.out.println("Model.bullet, setBulletLoadedState: state == null");
-			throw new IllegalStateException();}
-		else
-			this.state = state;
 	}
 
 	public void setBulletLoaded(Ship ship) {
 		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
+		
 		this.setBulletLoadedState(BulletState.LOADED);
 		this.setEntityFree();
 		this.setBulletShip(ship);
 		this.setBulletSourceShip(null);
 	}
 
+	public void setBulletLoadedState(BulletState state) {
+		if (state == null)
+			throw new IllegalStateException();
+		
+		else
+			this.state = state;
+	}
+
 	public void setBulletNotLoaded(Ship ship) {
 		assert (!this.isEntityTerminated());
+		
 		this.setBulletLoadedState(BulletState.NOTLOADED);
 		this.setBulletShip(null);
 		this.setBulletSourceShip(ship);
 	}
-	
+
 	public void Terminate() {
-		if (this.isEntityFree()){
-			setEntityState(State.TERMINATED);}
-		else if (this.isEntityInWorld()){
+		if (this.isEntityFree())
+			setEntityState(State.TERMINATED);
+		
+		else if (this.isEntityInWorld()) {
 			this.getEntityWorld().removeEntityFromWorld(this);
-			setEntityState(State.TERMINATED);}
+			setEntityState(State.TERMINATED);
 		}
+	}
 	
 
-	///CONNECTIONS WITH OTHER CLASSES///
-	private  Ship ship = null;	
-	private  Ship source_ship = null;
+	/// CONNECTIONS WITH OTHER CLASSES ///
 	
+	private Ship ship = null;
+	private Ship source_ship = null;
 	
-	/// COUNTER ///
-	private int amountOfBounces = 0;
+
 }
 
 
