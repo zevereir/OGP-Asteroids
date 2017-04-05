@@ -3,44 +3,81 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.Value;
 /**
  * A value class that describes position.
- * @version 4th of April - 01u25
+ * 
+ * @version th of April
  * @authors Sieben Bocklandt and Ruben Broekx
- *
  */
 @Value
 public class Position {
+	
 	/**
 	 * Initializes a position
-	 * @param x
+	 * @param 	x
 	 * 			the x-component
-	 * @param y
+	 * @param 	y
 	 * 			the y-component
-	 * @effect the x and y compnonent will be set on the given values
+	 * 
+	 * @effect 	the x and y compnonent will be set on the given values
 	 * 			@see implementation
 	 */
-	public Position(double x,double y){
+	public Position(double x, double y) {
 		this.setPositionX(x);
 		this.setPositionY(y);
 	}
-	/**
-	 * initializes a position with default values 0.
-	 * @effect uses the normal constructor
-	 * 			@see implementation
-	 */
-	public Position(){
-		this(0,0);		
-	}
+	
+	/// BASIC PROPERTIES ///
 	
 	private double positionX;
 	private double positionY;
+	
+	
+	/// DEFAULTS ///
+	
+	/**
+	 * initializes a position with default values 0.
+	 * 
+	 * @effect 	uses the normal constructor
+	 * 			@see implementation
+	 */
+	public Position() {
+		this(0, 0);
+	}
+	
+	
+	/// GETTERS ///
+	
+	/**
+	 * returns the position as an array
+	 * @return the array
+	 * 			|result == {positionx, positionY}
+	 */
+	public double[] getPositionArray() {
+		double[] result = { positionX, positionY };
+		return result;
+	}
+	
 	/**
 	 * Return the x-component of the position
-	 * @return the x-component
+	 * 
+	 * @return 	the x-component
 	 * 			@see Implementation
 	 */
 	public double getPositionX() {
 		return positionX;
 	}
+	
+	/**
+	 * Return the y-component of the position
+	 * @return the y-component
+	 * 			@see Implementation
+	 */
+	public double getPositionY() {
+		return positionY;
+	}
+	
+	
+	/// SETTERS ///
+	
 	/**
 	 * Set the x-component of the position
 	 * @param newPositionX
@@ -51,14 +88,7 @@ public class Position {
 	public void setPositionX(double newPositionX) {
 		positionX = newPositionX;
 	}
-	/**
-	 * Return the y-component of the position
-	 * @return the y-component
-	 * 			@see Implementation
-	 */
-	public double getPositionY() {
-		return positionY;
-	}
+	
 	/**
 	 * Set the y-component of the position
 	 * @param newPositionY
@@ -69,16 +99,5 @@ public class Position {
 	public void setPositionY(double newPositionY) {
 		positionY = newPositionY;
 	}
-	/**
-	 * returns the position as an array
-	 * @return the array
-	 * 			|result == {positionx, positionY}
-	 */
-	public double[] getPositionArray(){
-		double[] result = {positionX, positionY};
-		return result;
-	}
-	
-	
 	
 }

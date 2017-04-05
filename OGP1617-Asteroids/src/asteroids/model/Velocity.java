@@ -9,6 +9,7 @@ import be.kuleuven.cs.som.annotate.Value;
  */
 @Value
 public class Velocity {
+	
 	/**
 	 * Initializes a velocity
 	 * @param xVelocity
@@ -18,21 +19,41 @@ public class Velocity {
 	 * @effect the x and y compnonent will be set on the given values
 	 * 			@see implementation
 	 */
-	public Velocity(double xVelocity, double yVelocity){
+	public Velocity(double xVelocity, double yVelocity) {
 		setVelocityX(xVelocity);
 		setVelocityY(yVelocity);
 	}
+	
+	
+	/// BASIC PROPERTIES ///
+	
+	private double xVelocity;
+	private double yVelocity;
+	
+	
+	/// DEFAULTS ///
+	
 	/**
 	 * initializes a velocity with default values 0.
 	 * @effect uses the normal constructor
 	 * 			@see implementation
 	 */
-	public Velocity(){
-		this(0,0);
+	public Velocity() {
+		this(0, 0);
 	}
+	
+	
+	/// GETTERS /// 
 
-	private double xVelocity;
-	private double yVelocity;
+	/**
+	 * returns the velocity as an array
+	 * @return the array
+	 * 			|result == {xVelocity, yVelocity}
+	 */
+	public double[] getVelocityArray() {
+		double[] result = { xVelocity, yVelocity };
+		return result;
+	}
 	
 	/**
 	 * Return the x-component of the velocity
@@ -42,6 +63,19 @@ public class Velocity {
 	public double getVelocityX() {
 		return xVelocity;
 	}
+	
+	/**
+	 * Return the y-component of the velocity
+	 * @return the y-component
+	 * 			@see Implementation
+	 */
+	public double getVelocityY() {
+		return yVelocity;
+	}
+	
+	
+	/// SETTERS /// 
+	
 	/**
 	 * Set the x-component of the velocity
 	 * @param newVelocityX
@@ -52,14 +86,7 @@ public class Velocity {
 	public void setVelocityX(double newVelocityX) {
 		xVelocity = newVelocityX;
 	}
-	/**
-	 * Return the y-component of the velocity
-	 * @return the y-component
-	 * 			@see Implementation
-	 */
-	public double getVelocityY() {
-		return yVelocity;
-	}
+	
 	/**
 	 * Set the y-component of the velocity
 	 * @param newVelocityY
@@ -69,15 +96,6 @@ public class Velocity {
 	 */
 	public void setVelocityY(double newVelocityY) {
 		yVelocity = newVelocityY;
-	}
-	/**
-	 * returns the velocity as an array
-	 * @return the array
-	 * 			|result == {xVelocity, yVelocity}
-	 */
-	public double[] getVelocityArray(){
-		double[] result = {xVelocity, yVelocity};
-		return result;
 	}
 
 }
