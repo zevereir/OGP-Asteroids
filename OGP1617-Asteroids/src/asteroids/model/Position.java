@@ -13,17 +13,17 @@ public class Position {
 	/**
 	 * Initializes a position.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 * 			The x-component.
-	 * @param 	y
+	 * @param 	positionY
 	 * 			The y-component.
 	 * 
 	 * @effect 	The x and y component will be set on the given values.
 	 * 			@see implementation
 	 */
-	public Position(double x, double y) {
-		this.setPositionX(x);
-		this.setPositionY(y);
+	public Position(double positionX, double positionY) {
+		this.setPositionX(positionX);
+		this.setPositionY(positionY);
 	}
 	
 	/// BASIC PROPERTIES ///

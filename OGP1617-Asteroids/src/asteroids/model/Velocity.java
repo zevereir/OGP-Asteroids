@@ -14,24 +14,24 @@ public class Velocity {
 	/**
 	 * Initializes a velocity.
 	 * 
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 * 			The x-component.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 * 			The y-component.
 	 * 
 	 * @effect 	The x and y component will be set on the given values.
 	 * 			@see implementation
 	 */
-	public Velocity(double xVelocity, double yVelocity) {
-		setVelocityX(xVelocity);
-		setVelocityY(yVelocity);
+	public Velocity(double velocityX, double velocityY) {
+		setVelocityX(velocityX);
+		setVelocityY(velocityY);
 	}
 	
 	
 	/// BASIC PROPERTIES ///
 	
-	private double xVelocity;
-	private double yVelocity;
+	private double velocityX;
+	private double velocityY;
 	
 	
 	/// DEFAULTS ///
@@ -53,10 +53,10 @@ public class Velocity {
 	 * Returns the velocity as an array.
 	 * 
 	 * @return 	The array.
-	 * 		  | result == {xVelocity, yVelocity}
+	 * 		  | result == {velocityX, velocityY}
 	 */
 	public double[] getVelocityArray() {
-		double[] result = { xVelocity, yVelocity };
+		double[] result = { velocityX, velocityY };
 		return result;
 	}
 	
@@ -67,7 +67,7 @@ public class Velocity {
 	 * 			@see implementation
 	 */
 	public double getVelocityX() {
-		return xVelocity;
+		return velocityX;
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class Velocity {
 	 * 			@see implementation
 	 */
 	public double getVelocityY() {
-		return yVelocity;
+		return velocityY;
 	}
 	
 	
@@ -93,7 +93,7 @@ public class Velocity {
 	 * 		  | new.getVelocityX == newvelocityX
 	 */
 	public void setVelocityX(double newVelocityX) {
-		xVelocity = newVelocityX;
+		velocityX = newVelocityX;
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class Velocity {
 	 * 		  | new.getVelocityY == newVelocityY
 	 */
 	public void setVelocityY(double newVelocityY) {
-		yVelocity = newVelocityY;
+		velocityY = newVelocityY;
 	}
 
 }
