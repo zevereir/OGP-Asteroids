@@ -4,7 +4,7 @@ import be.kuleuven.cs.som.annotate.Value;
 /**
  * A value class that describes position.
  * 
- * @version th of April
+ * @version 7th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 @Value
@@ -14,11 +14,11 @@ public class Position {
 	 * Initializes a position.
 	 * 
 	 * @param 	x
-	 * 			the x-component
+	 * 			The x-component.
 	 * @param 	y
-	 * 			the y-component
+	 * 			The y-component.
 	 * 
-	 * @effect 	the x and y component will be set on the given values
+	 * @effect 	The x and y component will be set on the given values.
 	 * 			@see implementation
 	 */
 	public Position(double x, double y) {
@@ -35,9 +35,9 @@ public class Position {
 	/// DEFAULTS ///
 	
 	/**
-	 * initializes a position with default values 0.
+	 * Initializes a position with default values 0.
 	 * 
-	 * @effect 	uses the normal constructor
+	 * @effect 	Uses the normal constructor.
 	 * 			@see implementation
 	 */
 	public Position() {
@@ -48,9 +48,9 @@ public class Position {
 	/// GETTERS ///
 	
 	/**
-	 * returns the position as an array.
+	 * Returns the position as an array.
 	 * 
-	 * @return 	the array
+	 * @return 	The array.
 	 * 		  | result == {positionX, positionY}
 	 */
 	public double[] getPositionArray() {
@@ -61,8 +61,8 @@ public class Position {
 	/**
 	 * Return the x-component of the position.
 	 * 
-	 * @return 	the x-component
-	 * 			@see Implementation
+	 * @return 	The x-component.
+	 * 			@see implementation
 	 */
 	public double getPositionX() {
 		return positionX;
@@ -71,8 +71,8 @@ public class Position {
 	/**
 	 * Return the y-component of the position.
 	 * 
-	 * @return 	the y-component
-	 * 			@see Implementation
+	 * @return 	The y-component.
+	 * 			@see implementation
 	 */
 	public double getPositionY() {
 		return positionY;
@@ -85,9 +85,9 @@ public class Position {
 	 * Set the x-component of the position.
 	 * 
 	 * @param 	newPositionX
-	 * 			The new value
+	 * 			The new value.
 	 * 
-	 * @post 	the new x-component will be equal to newPositionX 
+	 * @post 	The new x-component will be equal to newPositionX.
 	 * 		  | new.getPositionyX == newPositionX
 	 */
 	public void setPositionX(double newPositionX) {
@@ -98,9 +98,9 @@ public class Position {
 	 * Set the y-component of the position.
 	 * 
 	 * @param 	newPositionY
-	 * 			The new value
+	 * 			The new value.
 	 * 
-	 * @post 	the new y-component will be equal to newPositionY
+	 * @post 	The new y-component will be equal to newPositionY.
 	 * 		  | new.getPositionY == newPositionY
 	 */
 	public void setPositionY(double newPositionY) {
