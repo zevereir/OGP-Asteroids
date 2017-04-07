@@ -2,12 +2,11 @@ package asteroids.model;
 
 /**
  * A class that describes bullets and their properties. A bullet has a position and
- * a velocity, both are described in a cartesian xy-field. It also has an
- * orientation and a radius which defines its circular shape. The mass, density and maximum total
- * velocity are the last properties.
+ * a velocity, both are described in a Cartesian x-y-field. A bullet also has an
+ * orientation and a radius which defines its circular shape. 
+ * The mass, density and maximum total velocity are the last properties.
  * 
-
- * @version 5th of April
+ * @version 7th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Bullet extends Entity {
@@ -17,13 +16,13 @@ public class Bullet extends Entity {
 	/**
 	 * Initializes a new bullet with given parameters.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 * 			The x-value of the position in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 * 			The y-value of the position in kilometers.
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 * 			The x-value of the velocity in kilometers per second.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 * 			The y-value of the velocity in kilometers per second.
 	 * @param 	radius
 	 * 			The radius in kilometers.
@@ -36,8 +35,8 @@ public class Bullet extends Entity {
 	 * @param 	density
 	 * 			The density in kilograms per km^3.
 	 * 
-	 * @effect  A new entity will be made via the constructor of Entity
-	 * 		  	@see Implementation.
+	 * @effect  A new entity will be made via the constructor of Entity.
+	 * 		  	@see implementation
 	 */
 	public Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius, double orientation,
 			double mass, double maxVelocity, double density) {
@@ -47,8 +46,19 @@ public class Bullet extends Entity {
 	/**
 	 * Initializes a new bullet with a given position, velocity and radius, the rest will be default.
 	 * 
-	 * @effect 	A new bullet will be initialized with a default orientation, mass, density and maximum velocity
-	 * 		  	@see Implementation 
+	 * @param 	positionX
+	 * 			The x-value of the position in kilometers.
+	 * @param 	positionY
+	 * 			The y-value of the position in kilometers.
+	 * @param 	velocityX
+	 * 			The x-value of the velocity in kilometers per second.
+	 * @param 	velocityY
+	 * 			The y-value of the velocity in kilometers per second.
+	 * @param 	radius
+	 * 			The radius in kilometers.
+	 * 
+	 * @effect 	A new bullet will be initialized with a default orientation, mass, density and maximum velocity.
+	 * 		  	@see implementation 
 	 */
 	public Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius) {
 		this(positonX, positionY, velocityX, velocityY, radius, Entity.getDefaultOrientation(), getDefaultBulletMass(),
@@ -59,7 +69,7 @@ public class Bullet extends Entity {
 	 * Initializes a bullet with all default properties.
 	 * 
 	 * @effect 	A new bullet with all default values
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public Bullet() {
 		this(getDefaultPositionX(), getDefaultPositionY(), getDefaultVelocityX(), getDefaultVelocityY(),
@@ -82,7 +92,7 @@ public class Bullet extends Entity {
 	/** 
 	 * Return the default bullet density.
 	 * 
-	 * @return 	the default density for a bullet, which is equal to 7.8E12
+	 * @return 	The default density for a bullet, which is equal to 7.8E12.
 	 * 		  | result == 7.8E12
 	 */
 	public static double getDefaultBulletDensity() {
@@ -92,8 +102,8 @@ public class Bullet extends Entity {
 	/**
 	 * Return the default bullet mass.
 	 * 
-	 * @return 	the default mass 
-	 * 			@see Implementation
+	 * @return 	The default mass.
+	 * 			@see implementation
 	 */
 	public static double getDefaultBulletMass() {
 		return (4.0 / 3.0) * Math.PI * Math.pow(getDefaultRadius(), 3) * getDefaultBulletDensity();
@@ -102,7 +112,7 @@ public class Bullet extends Entity {
 	/**
 	 * Return the default radius for a bullet.
 	 * 
-	 * @return 	the default radius which is equal to 1
+	 * @return 	The default radius which is equal to 1.
 	 * 		  | result == 1
 	 */
 	public static double getDefaultRadius() {
@@ -113,10 +123,10 @@ public class Bullet extends Entity {
 	/// GETTERS ///
 	
 	/**
-	 * Return the amount of bounces the bullet already had.
+	 * Return the amount of bounces the bullet already underwent.
 	 * 
-	 * @return 	the amount of bounces
-	 * 			@see Implementation
+	 * @return 	The amount of bounces.
+	 * 			@see implementation
 	 */
 	public int getAmountOfBounces() {
 		return this.amountOfBounces;
@@ -125,8 +135,8 @@ public class Bullet extends Entity {
 	/**
 	 * Return the ship where the bullet is loaded on.
 	 * 
-	 * @return 	the bullets ship
-	 * 			@see Implementation
+	 * @return 	The bullets ship.
+	 * 			@see implementation
 	 */
 	public Ship getBulletShip() {
 		return this.ship;
@@ -135,8 +145,8 @@ public class Bullet extends Entity {
 	/**
 	 * Return the source ship of the bullet.
 	 * 
-	 * @return 	the bullets source
-	 * 			@see Implementation
+	 * @return 	The bullets source.
+	 * 			@see implementation
 	 */
 	public Ship getBulletSource() {
 		return this.source_ship;
@@ -144,8 +154,8 @@ public class Bullet extends Entity {
 
 	/** Return the mass of the bullet.
 	 * 
-	 * @return 	the bullets mass
-	 * 			@see Implementation
+	 * @return 	The bullets mass.
+	 * 			@see implementation
 	 */
 	public double getEntityMass() {
 		return this.mass;
@@ -155,12 +165,12 @@ public class Bullet extends Entity {
 	/// SETTERS ///
 	
 	/**
-	 * Set the amount of bounces the bullet already did to a given amount.
+	 * Set the amount of bounces the bullet already underwent to a given amount.
 	 * 
 	 * @param 	amount
 	 * 			The new amount of bounces.
 	 * 
-	 * @post 	the new amount of bounces will be equal to the given amount
+	 * @post 	The new amount of bounces will be equal to the given amount.
 	 * 		  | new.getAmountOfBounces() == amount		
 	 */
 	public void setAmountOfBounces(int amount) {
@@ -168,12 +178,12 @@ public class Bullet extends Entity {
 	} 
 	
 	/**
-	 * Set the bullet to a ship, this means that this bullet is now associated with this ship.
+	 * Associate the bullet with a given ship.
 	 * 
 	 * @param 	ship
 	 * 			The ship that will be associated with the bullet.
 	 * 
-	 * @post 	the bullets ship will be equal to the given ship
+	 * @post 	The bullets ship will be equal to the given ship.
 	 * 		  | new.getBulletShip() == ship
 	 */
 	public void setBulletShip(Ship ship) {
@@ -181,12 +191,12 @@ public class Bullet extends Entity {
 	}
 
 	/**
-	 * Set the bullets source to a ship.
+	 * Set a given ship as the source of the bullet.
 	 * 
 	 * @param 	ship
-	 * 			The ship that's the bullets source
+	 * 			The ship that's the bullets source.
 	 * 
-	 * @post 	the new bullet source will be equal to the given ship
+	 * @post 	The new bullet source will be equal to the given ship.
 	 * 		  | new.getBulletSource() == ship
 	 */
 	public void setBulletSourceShip(Ship ship) {
@@ -199,7 +209,7 @@ public class Bullet extends Entity {
 	 * @param 	density
 	 * 			The bullets new density.
 	 * 
-	 * @post 	the new density will be equal to the given density
+	 * @post 	The new density will be equal to the given density.
 	 * 		  | new.getEntityDensity == density 
 	 */
 	public void setEntityDensity(double density) {
@@ -212,8 +222,8 @@ public class Bullet extends Entity {
 	 * @param 	mass
 	 * 			The new mass of the bullet.
 	 * 
-	 * @post 	the new mass will be equal to the given mass, if the mass isn't valid, the default mass will be used
-	 * 			@see Implementation
+	 * @post 	The new mass will be equal to the given mass, if the mass isn't valid, the default mass will be used.
+	 * 			@see implementation
 	 */
 	public void setEntityMass(double mass) {
 		if (isValidMass(mass))
@@ -232,8 +242,8 @@ public class Bullet extends Entity {
 	 * @param 	ship
 	 * 			The ship that has to be checked.
 	 * 
-	 * @return 	the boolean that checks if the ship can have the bullet
-	 * 			@see Implementation
+	 * @return 	The boolean that checks if the ship can have the bullet.
+	 * 			@see implementation
 	 */
 	public boolean canHaveAsShip(Ship ship) {
 		return (ship.canHaveAsBullet(this));
@@ -243,10 +253,10 @@ public class Bullet extends Entity {
 	 * Checks if a density is valid for this bullet.
 	 * 
 	 * @param 	density
-	 * 			the density that has to be checked.
+	 * 			The density that has to be checked.
 	 * 
-	 * @return 	the boolean that checks the density
-	 * 			@see Implementation
+	 * @return 	The boolean that checks the density.
+	 * 			@see implementation
 	 */
 	public boolean isValidDensity(double density) {
 		return (density == getDefaultBulletDensity());
@@ -258,8 +268,8 @@ public class Bullet extends Entity {
 	 * @param 	mass
 	 * 			The mass that has to be checked.
 	 * 
-	 * @return 	the boolean that checks the mass
-	 * 			@see Implementation
+	 * @return 	The boolean that checks the mass.
+	 * 			@see implementation
 	 */
 	public boolean isValidMass(double mass) {
 		return ((mass != Double.NaN) && (mass == BulletMassFormula()));
@@ -269,10 +279,10 @@ public class Bullet extends Entity {
 	 * Checks if a radius is valid for this bullet.
 	 * 
 	 * @param 	radius
-	 * 			The radius that has to be checked
+	 * 			The radius that has to be checked.
 	 * 
-	 * @return 	the boolean that checks the radius
-	 * 			@see Implementation
+	 * @return 	The boolean that checks the radius.
+	 * 			@see implementation
 	 */
 	public boolean isValidRadius(double radius) {
 		return (radius >= LOWER_BULLET_RADIUS);
@@ -284,8 +294,8 @@ public class Bullet extends Entity {
 	/**
 	 * Return the mass of a bullet computed by the mass-formula.
 	 * 
-	 * @return 	The mass of a bullet computed by the bullet mass formula
-	 * 			@see Implementation
+	 * @return 	The mass of a bullet computed by the bullet mass formula.
+	 * 			@see implementation
 	 */
 	public double BulletMassFormula() {
 		return (4.0 / 3.0) * Math.PI * Math.pow(this.getEntityRadius(), 3) * this.getEntityDensity();
@@ -295,29 +305,29 @@ public class Bullet extends Entity {
 	/// MOVE ///
 	
 	/**
-	 * Move the bullet for dt time.
+	 * Move the bullet for the given time moveTime.
 	 * 
-	 * @param 	dt
+	 * @param 	moveTime
 	 * 			The time the bullet has to move.
 	 * 
-	 * @post 	After dt seconds, the bullets position will be set on dt times its velocity
-	 * 			@see Implementation
+	 * @post 	After moveTime, the bullets position will be set on moveTime times its velocity.
+	 * 			@see implementation
 	 * 
-	 * @throws 	IllegalArgumentException
+	 * @throws 	IllegalArgumentException()
 	 * 			If the given time is negative.
-	 * 		  | dt < 0
+	 * 		  | moveTime < 0
 	 */
-	public void move(double dt) {
-		if (dt < 0)
+	public void move(double moveTime) {
+		if (moveTime < 0)
 			throw new IllegalArgumentException();
 		
 		double velocityX = this.getEntityVelocityX();
 		double velocityY = this.getEntityVelocityY();
 
-		final double collidingPositionX = this.getEntityPositionX() + velocityX * dt;
-		final double collidingPositionY = this.getEntityPositionY() + velocityY * dt;
+		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
+		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
 		
-		this.setPositionWhenColliding(collidingPositionX, collidingPositionY);
+		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
 
 	
@@ -330,10 +340,11 @@ public class Bullet extends Entity {
 	}
 
 	/**
-	 * Returns the current loaded state of the bullet. This state can be loaded (=on a ship) or not loaded.
+	 * Returns the current loaded state of the bullet. This state can be loaded, this is when it is on a ship,
+	 * or not loaded, when the bullet is not in its parent-ship.
 	 * 
-	 * @return 	the loaded state of the bullet
-	 * 			@see Implementation
+	 * @return 	The loaded state of the bullet.
+	 * 			@see implementation
 	 */
 	public BulletState getBulletLoadedState() {
 		return this.state;
@@ -342,8 +353,8 @@ public class Bullet extends Entity {
 	/**
 	 * Checks whether a bullet has a proper loaded state.
 	 * 
-	 * @return 	the boolean that checks if the bullet has a proper state
-	 * 			@see Implementation
+	 * @return 	The boolean that checks if the bullet has a proper state.
+	 * 			@see implementation
 	 */
 	public boolean hasBulletProperState() {
 		return (isBulletLoaded() ^ !isBulletLoaded());
@@ -352,8 +363,8 @@ public class Bullet extends Entity {
 	/**
 	 * Checks whether a bullet is loaded on a ship or not.
 	 * 
-	 * @return 	the boolean that checks if the loaded state is loaded
-	 * 			@see Implementation
+	 * @return 	The boolean that checks if the loaded state is loaded.
+	 * 			@see implementation
 	 */
 	public boolean isBulletLoaded() {
 		return (this.getBulletLoadedState() == BulletState.LOADED);
@@ -365,13 +376,12 @@ public class Bullet extends Entity {
 	 * @param 	ship
 	 * 			The ship the bullet will be loaded on.
 	 * 
-	 * @pre 	The ship and the bullet are both not terminated
-	 * 			@see Implementation
+	 * @pre 	The ship and the bullet are both not terminated.
+	 * 			@see implementation
 	 * 
-	 * @effect 	the bullets loaded state will be set on loaded, its normal state on NoWorld. 
+	 * @effect 	The bullets loaded state will be set on loaded, its normal state on NO_WORLD. 
 	 * 			The ship will be set on ship and the source on null.
-	 * 			@see Implementation
-	 * 
+	 * 			@see implementation
 	 */
 	public void setBulletLoaded(Ship ship) {
 		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
@@ -388,12 +398,12 @@ public class Bullet extends Entity {
 	 * @param 	state
 	 * 			The new loaded state of the bullet.
 	 * 
-	 * @post  	the new bullet loaded state will be equal to the given state
-	 * 			|new.getBulletLoadedState() == state
+	 * @post  	The new bullet loaded state will be equal to the given state.
+	 * 		  | new.getBulletLoadedState() == state
 	 * 
 	 * @throws 	IllegalStateException
 	 * 			when the given state is null.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public void setBulletLoadedState(BulletState state) {
 		if (state == null)
@@ -409,11 +419,11 @@ public class Bullet extends Entity {
 	 * @param 	ship
 	 * 			The ship the bullet came from.
 	 * 
-	 * @pre 	The bullet is not terminated
-	 * 			@see Implementation
+	 * @pre 	The bullet is not terminated.
+	 * 			@see implementation
 	 * 
-	 * @effect	the bullets loaded state will be set on notloaded, the source ship on ship and the bullets ship on null
-	 * 			@see Implementation
+	 * @effect	The bullets loaded state will be set on not loaded, the source ship on ship and the bullets ship on null.
+	 * 			@see implementation
 	 */
 	public void setBulletNotLoaded(Ship ship) {
 		assert (!this.isEntityTerminated());
@@ -426,8 +436,8 @@ public class Bullet extends Entity {
 	/**
 	 * Terminate the bullet.
 	 * 
-	 * @effect 	The bullets state will be set on terminated
-	 * 			@see Implementation
+	 * @effect 	The bullets state will be set on terminated.
+	 * 			@see implementation
 	 */
 	public void Terminate() {
 		if (this.isEntityFree())
