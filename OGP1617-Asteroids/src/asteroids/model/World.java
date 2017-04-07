@@ -71,7 +71,7 @@ public class World {
 	 * @param 	y
 	 * 			The y-value of the position.
 	 * @return 	The entity that has the given position as position, otherwise null is returned.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public Object getEntityAt(double x, double y) {
 		String searchPosition = (x + "," + y);
@@ -267,7 +267,7 @@ public class World {
 	 * @param 	height
 	 * 			The new height.
 	 * @effect 	The width and height will be set on the new values.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public void setWorldSize(double width, double height) {
 		setWorldWidth(width);
@@ -353,7 +353,7 @@ public class World {
 	 * 			The entity that has to be checked.
 	 * 
 	 * @return 	The boolean that checks if the world has the entity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 * 			
 	 */
 	public boolean hasAsEntity(Entity entity) {

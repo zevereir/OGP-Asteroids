@@ -32,9 +32,9 @@ public abstract class Entity {
 	 * 			The x-value of the entity's position.
 	 * @param 	positionY
 	 * 			The y-value of the entity's position.
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 * 			The x-value of the entity's velocity.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 * 			The y-value of the entity's velocity.
 	 * @param 	radius
 	 * 			The radius of the entity.
@@ -48,7 +48,7 @@ public abstract class Entity {
 	 * 			The density of the entity.
 	 * 
 	 * @effect 	The properties will be set on their given values.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 * 			
 	 ***/
 	protected Entity(double positionX, double positionY, double velocityX, double velocityY, double radius,
@@ -87,7 +87,7 @@ public abstract class Entity {
 	 * Returns the default maximum total velocity.
 	 * 
 	 * @return 	The default maximum velocity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public static double getDefaultMaxVelocity() {
 		return SPEED_OF_LIGHT;
@@ -108,7 +108,7 @@ public abstract class Entity {
 	 * Return the default x-position.
 	 * 
 	 * @return 	The default x-position.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	@Immutable
 	public static double getDefaultPositionX() {
@@ -119,7 +119,7 @@ public abstract class Entity {
 	 * Return the default y-position.
 	 * 
 	 * @return 	The default y-position.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	@Immutable
 	public static double getDefaultPositionY() {
@@ -130,7 +130,7 @@ public abstract class Entity {
 	 * Return the default x-velocity.
 	 * 
 	 * @return 	The default x-velocity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	@Immutable
 	public static double getDefaultVelocityX() {
@@ -141,7 +141,7 @@ public abstract class Entity {
 	 * Return the default y-velocity.
 	 * 
 	 * @return 	The default y-velocity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	@Immutable
 	public static double getDefaultVelocityY() {
@@ -264,7 +264,7 @@ public abstract class Entity {
 	 * Returns the entity's density.
 	 * 
 	 * @return 	The density.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double getEntityDensity() {
 		return this.density;
@@ -274,7 +274,7 @@ public abstract class Entity {
 	 * Returns the entity's mass.
 	 * 
 	 * @return 	The mass.
-	 * 			@see Implementation in the abstract methods
+	 * 			@see implementation in the abstract methods
 	 */
 	public abstract double getEntityMass();
 
@@ -282,7 +282,7 @@ public abstract class Entity {
 	 * returns the entity's maximum total velocity.
 	 * 
 	 * @return 	The maximum velocity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double getEntityMaxVelocity() {
 		return this.max_velocity;
@@ -292,7 +292,7 @@ public abstract class Entity {
 	 * Returns the entity's orientation.
 	 * 
 	 * @return 	The orientation.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double getEntityOrientation() {
 		return this.orientation;
@@ -302,7 +302,7 @@ public abstract class Entity {
 	 * Returns the entity's position.
 	 * 
 	 * @return 	The position of the entity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double[] getEntityPosition() {
 		return this.position.getPositionArray();
@@ -312,7 +312,7 @@ public abstract class Entity {
 	 * Returns the entity's x-position value.
 	 * 
 	 * @return 	The x-position of the position.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double getEntityPositionX() {
 		return this.position.getPositionX();
@@ -322,7 +322,7 @@ public abstract class Entity {
 	 * Returns the entity's y-position value.
 	 * 
 	 * @return 	The y-position of the position.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double getEntityPositionY() {
 		return this.position.getPositionY();
@@ -332,7 +332,7 @@ public abstract class Entity {
 	 * Returns the entity's radius.
 	 * 
 	 * @return 	The radius.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double getEntityRadius() {
 		return this.radius;
@@ -342,7 +342,7 @@ public abstract class Entity {
 	 * Returns the entity's velocity.
 	 * 
 	 * @return 	The velocity of the entity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public double[] getEntityVelocity() {
 		return this.velocity.getVelocityArray();
@@ -372,7 +372,7 @@ public abstract class Entity {
 	 * returns the world where the entity's in.
 	 * 
 	 * @return 	The world.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public World getEntityWorld() {
 		return this.world;
@@ -381,14 +381,14 @@ public abstract class Entity {
 	/**
 	 * Returns the total velocity using the Euclidian formula.
 	 * 
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 *          The x-coordinate of the velocity.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 *          The y-coordinate of the velocity.
 	 * 
 	 * @return The Euclidian distance: the square root of the sum of a
 	 *         squared and b squared. 
-	 *         @see Implementation
+	 *         @see implementation
 	 */
 	public static double getEuclidianDistance(double a, double b) {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
@@ -603,7 +603,7 @@ public abstract class Entity {
 	 * 			The new density.
 	 * 
 	 * @post 	The new density will be equal to the given density.
-	 * 			@see Implementation in the abstract methods
+	 * 			@see implementation in the abstract methods
 	 */
 	public abstract void setEntityDensity(double density);
 
@@ -647,7 +647,7 @@ public abstract class Entity {
 	 * 			The new mass.
 	 * 
 	 * @post 	The new mass will be equal to the given mass.
-	 * 			@see Implementation in the abstract methods
+	 * 			@see implementation in the abstract methods
 	 */
 	public abstract void setEntityMass(double mass);
 
@@ -658,7 +658,7 @@ public abstract class Entity {
 	 * 			The new maximum velocity.
 	 * @post 	The maximum velocity will be equal to the given velocity, when it's not valid, 
 	 * 			it will be set o the speed of the light.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public void setEntityMaxVelocity(double newMaxVelocity) {
 		if ((0 < newMaxVelocity) && (newMaxVelocity < SPEED_OF_LIGHT))
@@ -675,7 +675,7 @@ public abstract class Entity {
 	 *          The new orientation in radians.
 	 * 
 	 * @pre 	The given orientation is a valid orientation for the entity. 
-	 * 			@see Implementation
+	 * 			@see implementation
 	 * 
 	 * @post 	The new orientation will be equal to the given orientation.
 	 *        | new.getEntityOrientation() == orientation
@@ -700,7 +700,7 @@ public abstract class Entity {
 	 * 
 	 * @throws 	IllegalArgumentException
 	 * 			if the position is not valid.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public void setEntityPosition(double positionX, double positionY) {
 		if (!isValidPosition(positionX, positionY))
@@ -721,7 +721,7 @@ public abstract class Entity {
 	 * 
 	 * @throws 	illegalArgumentException
 	 * 			if the radius is not valid.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public void setEntityRadius(double radius) {
 		if (isValidRadius(radius))
@@ -755,40 +755,40 @@ public abstract class Entity {
 	/**
 	 * Set the velocity of the entity on the given velocity.
 	 * 
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 * 			The new x-value of the velocity.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 * 			the new y-value of the velocity.
 	 * 
 	 * @post 	The new velocity will be equal to the given velocity
-	 * 		  | new.getEntityVelocityX() == xVelocity
-	 * 		  | new.getEntityVelocityY() == yVelocity
+	 * 		  | new.getEntityVelocityX() == velocityX
+	 * 		  | new.getEntityVelocityY() == velocityY
 	 * 
 	 * @post 	If one or both of the given parameters is not a number, the respective parameter is set on 0.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 * @post 	If the total velocity is greater than the maximum total velocity. The maximum velocity will
 	 * 			be mapped with the orientation.
-	 * 			@see Implementation.
+	 * 			@see implementation.
 	 */
-	public void setEntityVelocity(double xVelocity, double yVelocity) {
-		if (!isValidVelocity(xVelocity, yVelocity)) {
-			if (Double.isNaN(xVelocity))
-				xVelocity = 0;
+	public void setEntityVelocity(double velocityX, double velocityY) {
+		if (!isValidVelocity(velocityX, velocityY)) {
+			if (Double.isNaN(velocityX))
+				velocityX = 0;
 
-			if (Double.isNaN(yVelocity))
-				yVelocity = 0;
+			if (Double.isNaN(velocityY))
+				velocityY = 0;
 
 			// Scale the velocity if it exceeds the limit.
-			if (getEuclidianDistance(xVelocity, yVelocity) > this.getEntityMaxVelocity()) {
+			if (getEuclidianDistance(velocityX, velocityY) > this.getEntityMaxVelocity()) {
 				double orientation = this.getEntityOrientation();
 
-				xVelocity = Math.cos(orientation) * this.getEntityMaxVelocity();
-				yVelocity = Math.sin(orientation) * this.getEntityMaxVelocity();
+				velocityX = Math.cos(orientation) * this.getEntityMaxVelocity();
+				velocityY = Math.sin(orientation) * this.getEntityMaxVelocity();
 			}
 		}
 
-		this.velocity.setVelocityX(xVelocity);
-		this.velocity.setVelocityY(yVelocity);
+		this.velocity.setVelocityX(velocityX);
+		this.velocity.setVelocityY(velocityY);
 	}
 
 	/**
@@ -826,7 +826,7 @@ public abstract class Entity {
 	/**
 	 * Checks if an entity as a proper state.
 	 * 
-	 * @return 	The boolean that checks whether the entity's state is InWorld, NoWorld or Terminated.
+	 * @return 	The boolean that checks whether the entity's state is IN_WORLD, NO_WORLD or Terminated.
 	 * 			@see implementation
 	 */
 	public boolean hasEntityProperState() {
@@ -834,9 +834,9 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Checks if an entity has the NoWorld state.
+	 * Checks if an entity has the NO_WORLD state.
 	 * 
-	 * @return 	The boolean that checks if the entity has the NoWorld state.
+	 * @return 	The boolean that checks if the entity has the NO_WORLD state.
 	 * 			@see implementation
 	 */
 	public boolean isEntityFree() {
@@ -844,9 +844,9 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Checks if an entity has the InWorld state.
+	 * Checks if an entity has the IN_WORLD state.
 	 * 
-	 * @return 	The boolean that checks if the entity has the InWorld state.
+	 * @return 	The boolean that checks if the entity has the IN_WORLD state.
 	 * 			@see implementation
 	 */
 	public boolean isEntityInWorld() {
@@ -870,7 +870,7 @@ public abstract class Entity {
 	 * 			The density that has to be checked.
 	 * 
 	 * @return 	The boolean that checks whether the given density is valid or not.
-	 * 			@see Implementation in the abstract methods
+	 * 			@see implementation in the abstract methods
 	 */
 	public abstract boolean isValidDensity(double density);
 
@@ -881,7 +881,7 @@ public abstract class Entity {
 	 * 			The mass that has to be checked.
 	 * 
 	 * @return 	The boolean that checks of the mass is valid.
-	 * 			@see Implementation in the abstract methods
+	 * 			@see implementation in the abstract methods
 	 */
 	public abstract boolean isValidMass(double mass);
 
@@ -892,7 +892,7 @@ public abstract class Entity {
 	 * 			The orientation that has to be checked.
 	 * 
 	 * @return	the boolean that checks if an orientation is valid.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public boolean isValidOrientation(double orientation) {
 		return ((0 <= orientation) && (orientation < 2 * Math.PI));
@@ -926,27 +926,27 @@ public abstract class Entity {
 	 * 			The radius that has to be checked.
 	 * 
 	 * @return 	The boolean that checks if the radius is valid.
-	 * 			@see Implementation in the abstract methods
+	 * 			@see implementation in the abstract methods
 	 */
 	public abstract boolean isValidRadius(double radius);
 
 	/**
 	 * Checks if a velocity is valid.
 	 * 
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 * 			The x-value of the velocity that has to be checked.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 * 			The y-value of the velocity that has to be checked.
 	 * 
 	 * @return 	False if one of the two values is not a number or if the Euclidean distance 
 	 * 			of the two values is greater than the maximum velocity.
 	 * 			@see implementation
 	 */
-	public boolean isValidVelocity(double xVelocity, double yVelocity) {
-		if ((Double.isNaN(xVelocity)) || (Double.isNaN(yVelocity)))
+	public boolean isValidVelocity(double velocityX, double velocityY) {
+		if ((Double.isNaN(velocityX)) || (Double.isNaN(velocityY)))
 			return false;
 
-		if (getEuclidianDistance(xVelocity, yVelocity) > this.getEntityMaxVelocity())
+		if (getEuclidianDistance(velocityX, velocityY) > this.getEntityMaxVelocity())
 			return false;
 
 		return true;
@@ -962,7 +962,7 @@ public abstract class Entity {
 	 * 			The world where the entity will be checked in.
 	 * 
 	 * @return 	The boolean that checks if the entity can be in the world.
-	 * 			@see Implementation			
+	 * 			@see implementation			
 	 */
 	public boolean entityFitsInWorld(World world) {
 		if (!this.entityLiesInBoundaries(world) || this.entityOverlappingInWorld(world) != null)
@@ -977,7 +977,7 @@ public abstract class Entity {
 	 * @param world
 	 * 			The world where the entity will be checked in.
 	 * @return the boolean that checks if a ship lies in the boundaries of the world
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public boolean entityLiesInBoundaries(World world) {
 		double radius = this.getEntityRadius();
@@ -1001,7 +1001,7 @@ public abstract class Entity {
 	 * 			The world where the entity will be checked in.
 	 * 
 	 * @return 	The boolean that checks if the entity is overlapping with something in the world.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public Entity entityOverlappingInWorld(World world) {
 		// Check if the entity is not overlapping with another entity.

@@ -45,9 +45,9 @@ public class Ship extends Entity {
 	 *          The horizontal position of the ship in kilometers.
 	 * @param 	y
 	 *          The vertical position of the ship in kilometers.
-	 * @param 	xVelocity
+	 * @param 	velocityX
 	 *          The horizontal starting velocity of the ship in kilometers per second.
-	 * @param 	yVelocity
+	 * @param 	velocityY
 	 *          The vertical starting velocity of the ship in kilometers per second.
 	 * @param 	radius
 	 *          The radius that defines the circular shape of the ship in kilometers.
@@ -65,9 +65,9 @@ public class Ship extends Entity {
 	 * @param 	thrusterforce
 	 *          The force [Newton] is the force the thruster of a ship can and shall deliver.
 	 *          
-	 * @effect	This ship will be initialized as a new entity with a given position (x,y), velocity (xVelocity,yVelocity),
+	 * @effect	This ship will be initialized as a new entity with a given position (x,y), velocity (velocityX,velocityY),
 	 *			radius,density, mass and maximum velocity
-	 *		  | super(x,y,xVelocity,yVelocity,radius,orientation,mass,maxVelocity,density)	 	
+	 *		  | super(x,y,velocityX,velocityY,radius,orientation,mass,maxVelocity,density)	 	
 	 * @effect	The thruster-activity will be set on the given boolean value
 	 * 		  | setThrusterActive(thrusterActivity)
 	 *	@effect The thruster-force of the ship will be set to the given thruster-force
@@ -377,7 +377,7 @@ public class Ship extends Entity {
 	 *          
 	 * @return 	False if the sum of Cartesian distance between the centers and
 	 *         	the radius of the bullet is greater than the radius of the ship
-	 *         	@see Implementation
+	 *         	@see implementation
 	 */
 	public boolean bulletFullyInShip(Bullet bullet) {
 		double delta_x = Math.abs(bullet.getEntityPositionX() - this.getEntityPositionX());
@@ -425,7 +425,7 @@ public class Ship extends Entity {
 	 *          The bullet that has to be checked.
 	 *          
 	 * @return 	False if the bullet is already on the ship 
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public boolean hasAsBullet(Bullet bullet) {
 		return this.bullets.containsKey(bullet.hashCode());
@@ -438,7 +438,7 @@ public class Ship extends Entity {
 	 *          The density that has to be checked.
 	 *          
 	 * @return 	True if the density is greater than the default density
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public boolean isValidDensity(double density) {
 		return (density >= getDefaultShipDensity());
@@ -451,7 +451,7 @@ public class Ship extends Entity {
 	 *          The mass that has to be checked.
 	 *          
 	 * @return 	True if the mass is greater than the minimum mass and the mass is a number
-	 * 			@see Implementation
+	 * 			@see implementation
 	 */
 	public boolean isValidMass(double mass) {
 		return ((mass != Double.NaN) && (mass >= getMinimumShipMass()));
@@ -464,7 +464,7 @@ public class Ship extends Entity {
 	 *          The radius that has to be checked.
 	 *          
 	 * @return 	True if the radius is greater than the default lower ship radius
-	 *          @see Implementation
+	 *          @see implementation
 	 */
 	public boolean isValidRadius(double radius) {
 		return (radius >= LOWER_SHIP_RADIUS);
@@ -480,7 +480,7 @@ public class Ship extends Entity {
 	 *          
 	 * @return 	False if the ship has a world and the position isn't in this
 	 *         	world, else the result is true
-	 *          @see Implementation
+	 *          @see implementation
 	 */
 	public boolean isValidShipPosition(double x, double y) {
 		if ((this.getEntityWorld() != null))
@@ -522,7 +522,7 @@ public class Ship extends Entity {
 	 *          The bullets that have to be loaded.
 	 *          
 	 * @effect 	The bullets will be added one at a time
-	 * 			@see Implementation
+	 * 			@see implementation
 	 *
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
@@ -566,9 +566,9 @@ public class Ship extends Entity {
 	 * 			The time for which the ship has to move.
 	
 	 * @post 	If the ships thruster is active, its acceleration will be used to recalculate the velocity.
-	 * 			@see Implementation
+	 * 			@see implementation
 	 * @post 	After dt seconds, the ships position will be set on dt times its velocity. 
-	 * 			@see Implementation
+	 * 			@see implementation
 	 * 
 	 * @throws 	IllegalArgumentException
 	 * 			If the given time is negative.
@@ -594,7 +594,7 @@ public class Ship extends Entity {
 			this.setEntityVelocity(newVelocityX, newVelocityY);
 		}
 		
-		this.setPositionWhenColliding(collidingPositionX, collidingPositionY);
+		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
 
 	
@@ -657,7 +657,7 @@ public class Ship extends Entity {
 			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1);
 			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1);
 
-			bullet.setPositionWhenColliding(positionBulletX, positionBulletY);
+			bullet.setPositionWithoutChecking(positionBulletX, positionBulletY);
 			bullet.setEntityOrientation(orientation);
 			bullet.setEntityVelocity(getInitialFiringVelocity() * Math.cos(orientation),
 					getInitialFiringVelocity() * Math.sin(orientation));
@@ -707,7 +707,7 @@ public class Ship extends Entity {
 
 		// Check if the new-created bullet is in the world
 
-		if (!bullet.entityLaysInBoundaries(world)) {
+		if (!bullet.entityLiesInBoundaries(world)) {
 			bullet.Terminate();
 			Boolean = false;
 		}
@@ -724,7 +724,7 @@ public class Ship extends Entity {
 						// If the bullet overlaps with a bullet from its
 						// parent-ship, the newest bullet will not be fired.
 						if (ship.equals(((Bullet) entityInWorld).getBulletSource())) {
-							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
+							bullet.setPositionWithoutChecking(ship.getEntityPositionX(), ship.getEntityPositionY());
 							ship.addOneBulletToShip(bullet);
 						}
 
@@ -742,7 +742,7 @@ public class Ship extends Entity {
 						// If the bullet overlaps with its parent-ship, the
 						// bullet will be reloaded.
 						if (ship.equals(entityInWorld)) {
-							bullet.setPositionWhenColliding(ship.getEntityPositionX(), ship.getEntityPositionY());
+							bullet.setPositionWithoutChecking(ship.getEntityPositionX(), ship.getEntityPositionY());
 							ship.addOneBulletToShip(bullet);
 						}
 
