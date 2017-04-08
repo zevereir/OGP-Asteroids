@@ -6,6 +6,19 @@ package asteroids.model;
  * orientation and a radius which defines its circular shape. 
  * The mass, density and maximum total velocity are the last properties.
  * 
+ * @invar 	The position is a valid position.
+ * 		  | isValidPosition(this.getEntityPositionX,this.getEntityPositionY)
+ * @invar 	The velocity is a valid velocity.
+ * 		  | isValidVelocity(this.getEntityVelocityX,this.getEntityVelocityY)
+ * @invar 	The orientation is a valid orientation.
+ * 		  | isValidOrientation(this.getEntityOrientation)
+ * @invar 	The radius is a valid radius.
+ * 		  | isValidRadius(this.getEntityRadius)
+ * @invar 	The mass is a valid mass.
+ * 		  | isValidMass(this.getEntityMass)
+ * @invar 	The density is a valid density.
+ * 		  | isValidDensity(this.getEntityDensity)
+ * 
  * @version 7th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  */
@@ -135,7 +148,7 @@ public class Bullet extends Entity {
 	/**
 	 * Return the ship where the bullet is loaded on.
 	 * 
-	 * @return 	The bullets ship.
+	 * @return 	The bullet's ship.
 	 * 			@see implementation
 	 */
 	public Ship getBulletShip() {
@@ -145,7 +158,7 @@ public class Bullet extends Entity {
 	/**
 	 * Return the source ship of the bullet.
 	 * 
-	 * @return 	The bullets source.
+	 * @return 	The bullet's source.
 	 * 			@see implementation
 	 */
 	public Ship getBulletSource() {
@@ -154,7 +167,7 @@ public class Bullet extends Entity {
 
 	/** Return the mass of the bullet.
 	 * 
-	 * @return 	The bullets mass.
+	 * @return 	The bullet's mass.
 	 * 			@see implementation
 	 */
 	public double getEntityMass() {
@@ -183,7 +196,7 @@ public class Bullet extends Entity {
 	 * @param 	ship
 	 * 			The ship that will be associated with the bullet.
 	 * 
-	 * @post 	The bullets ship will be equal to the given ship.
+	 * @post 	The bullet's ship will be equal to the given ship.
 	 * 		  | new.getBulletShip() == ship
 	 */
 	public void setBulletShip(Ship ship) {
@@ -194,7 +207,7 @@ public class Bullet extends Entity {
 	 * Set a given ship as the source of the bullet.
 	 * 
 	 * @param 	ship
-	 * 			The ship that's the bullets source.
+	 * 			The ship that's the bullet's source.
 	 * 
 	 * @post 	The new bullet source will be equal to the given ship.
 	 * 		  | new.getBulletSource() == ship
@@ -204,10 +217,10 @@ public class Bullet extends Entity {
 	}
 
 	/**
-	 * Set the bullets density to a given density.
+	 * Set the bullet's density to a given density.
 	 * 
 	 * @param 	density
-	 * 			The bullets new density.
+	 * 			The bullet's new density.
 	 * 
 	 * @post 	The new density will be equal to the given density.
 	 * 		  | new.getEntityDensity == density 
@@ -310,10 +323,10 @@ public class Bullet extends Entity {
 	 * @param 	moveTime
 	 * 			The time the bullet has to move.
 	 * 
-	 * @post 	After moveTime, the bullets position will be set on moveTime times its velocity.
+	 * @post 	After moveTime, the bullet's position will be set on moveTime times its velocity.
 	 * 			@see implementation
 	 * 
-	 * @throws 	IllegalArgumentException()
+	 * @throws 	IllegalArgumentException
 	 * 			If the given time is negative.
 	 * 		  | moveTime < 0
 	 */
@@ -379,7 +392,7 @@ public class Bullet extends Entity {
 	 * @pre 	The ship and the bullet are both not terminated.
 	 * 			@see implementation
 	 * 
-	 * @effect 	The bullets loaded state will be set on loaded, its normal state on NO_WORLD. 
+	 * @effect 	The bullet's loaded state will be set on loaded, its normal state on NO_WORLD. 
 	 * 			The ship will be set on ship and the source on null.
 	 * 			@see implementation
 	 */
@@ -393,7 +406,7 @@ public class Bullet extends Entity {
 	}
 
 	/**
-	 * Set a bullets state to a given loaded state.
+	 * Set a bullet's state to a given loaded state.
 	 * 
 	 * @param 	state
 	 * 			The new loaded state of the bullet.
@@ -422,7 +435,7 @@ public class Bullet extends Entity {
 	 * @pre 	The bullet is not terminated.
 	 * 			@see implementation
 	 * 
-	 * @effect	The bullets loaded state will be set on not loaded, the source ship on ship and the bullets ship on null.
+	 * @effect	The bullet's loaded state will be set to not loaded, the source ship to ship and the bullet's ship to null.
 	 * 			@see implementation
 	 */
 	public void setBulletNotLoaded(Ship ship) {
@@ -436,7 +449,7 @@ public class Bullet extends Entity {
 	/**
 	 * Terminate the bullet.
 	 * 
-	 * @effect 	The bullets state will be set on terminated.
+	 * @effect 	The bullet's state will be set on terminated.
 	 * 			@see implementation
 	 */
 	public void Terminate() {
