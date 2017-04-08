@@ -19,7 +19,7 @@ package asteroids.model;
  * @invar 	The density is a valid density.
  * 		  | isValidDensity(this.getEntityDensity)
  * 
- * @version 7th of April
+ * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Bullet extends Entity {

@@ -19,7 +19,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar 	The density is a valid density.
  * 		  | isValidDensity(this.getEntityDensity)
  * 
- * @version 7th of April
+ * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
 
  */
@@ -28,6 +28,8 @@ public abstract class Entity {
 	/// CONSTRUCTOR /// 
 	
 	/**
+	 * Initialize an entity; bullet or ship, with the given parameters. 
+	 * 
 	 * @param 	positionX
 	 * 			The x-value of the entity's position.
 	 * @param 	positionY
@@ -84,7 +86,7 @@ public abstract class Entity {
 	/// DEFAULTS ///
 
 	/**
-	 * Returns the default maximum total velocity.
+	 * Returns the default maximum velocity.
 	 * 
 	 * @return 	The default maximum velocity.
 	 * 			@see implementation
@@ -96,7 +98,7 @@ public abstract class Entity {
 	/**
 	 * Return the default orientation.
 	 * 
-	 * @return 	The default orientation
+	 * @return 	The default orientation.
 	 * 			@see implementation
 	 */
 	@Immutable
@@ -158,23 +160,18 @@ public abstract class Entity {
 	 * @param  	otherEntity
 	 *         	The other entity.
 	 *            
-	 * @return 	Null if the time until the collision is positive infinity. Otherwise,
-	 * 			the position of collision is calculated by moving the ships at
-	 *         	their respective velocities for the time until collision. Delta x
-	 *         	is the difference of the x-coordinates of the two ships when they
-	 *         	are on their collision positions. Delta y is the difference of
-	 *         	the y-coordinates on the same moment. 
-	 *         	Omega, the angle between the vertical delta y and the connection
-	 *         	between the two centers is used to project the distance between 
-	 *         	the collision point and the center on the x- and y-axis. 
-	 *         	This distance is the radius of the ship where the method is invoked on.
-	 *         	The sum of these projections with their respective positions (x and y of the
-	 *         	array) is the collision position.
+	 * @return 	Null if the time until the collision is positive infinity.
+	 * 			@see implementation
+	 * @return	The position of collision, which  is calculated by moving the ships
+	 *         	at their respective velocities for the time until collision. 
+	 *         	delta_x is the difference of the x-coordinates of the two ships when they
+	 *         	are on their collision positions. delta_y is the difference of the
+	 *         	y-coordinates at the same moment. 
+	 *         	omega is the angle between the delta_y (vertical) and the connection
+	 *         	between the two centers.
+	 *			The actual position_colliside will be calculated using omega, the radius and the center
+	 *			of the entity the method is invoked on (this) at the moment it will collide.
 	 *        	@see implementation
-	 * 
-	 * @throws 	ModelException
-	 *         	If the two entities are overlapping.
-	 *        | (this.overlap(otherEntity))
 	 */
 	public double[] getCollisionPosition(Entity entity) {
 		double position1X = this.getEntityPositionX();
@@ -227,17 +224,16 @@ public abstract class Entity {
 	/**
 	 * Calculate the distance between two entities.
 	 * 
-	 * @param  otherEntity
-	 *         The other entity.
+	 * @param	otherEntity
+	 *			The other entity.
 	 *            
-	 * @return If this (the entity the method is invoked on) and otherEntity are the
-	 *         same entity, the distance between is 0. 
-	 *         @see implementation
-	 *         
-	 * @return The distance between the two entities if they're not the same. This
-	 *         is calculated by subtracting the sum of the radius' of the entities
-	 *         from the distance between the centers. 
-	 *         @see implementation
+	 * @return	If this (the entity the method is invoked on) and otherEntity are the
+	 *			same entity, the distance between equals zero. 
+	 *			@see implementation
+	 * @return	The distance between the two entities if they're not the same. This
+	 *			is calculated by subtracting the sum of the radii of the entities
+	 *			from the distance between the centers. 
+	 *			@see implementation
 	 */
 	public double getDistanceBetween(Entity entity) {
 		if (this.equals(entity))
@@ -279,7 +275,7 @@ public abstract class Entity {
 	public abstract double getEntityMass();
 
 	/**
-	 * returns the entity's maximum total velocity.
+	 * Returns the entity's maximum total velocity.
 	 * 
 	 * @return 	The maximum velocity.
 	 * 			@see implementation
@@ -379,16 +375,15 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Returns the total velocity using the Euclidian formula.
+	 * Returns the hypotenuse of the triangle.
 	 * 
-	 * @param 	velocityX
-	 *          The x-coordinate of the velocity.
-	 * @param 	velocityY
-	 *          The y-coordinate of the velocity.
+	 * @param 	a
+	 *          The horizontal/vertical side of the triangle.
+	 * @param 	b
+	 *          The vertical/horizontal side of the triangle.
 	 * 
-	 * @return The Euclidian distance: the square root of the sum of a
-	 *         squared and b squared. 
-	 *         @see implementation
+	 * @return	The Euclidian distance: the square root of the sum of a squared and b squared. 
+	 *			@see implementation
 	 */
 	public static double getEuclidianDistance(double a, double b) {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
@@ -397,13 +392,21 @@ public abstract class Entity {
 	/**
 	 * Returns the position where the entity will collide with the boundary.
 	 * 
-	 * @return 	If we move the entity for gettimeCollisionBoundary() seconds, the position we 
-	 * 			return will be the position its on after this move added or detracted with the radius.
+	 * @return	Null if the time till collision equals POSITIVE_INFINITY.
+	 * 			@see implementation
+	 * @return	The collision position of the given entity when it's colliding with a boundary of the world.
+	 * 			This would be after the given entity moved over a time-laps of getTimeCollisionBoundary().
 	 *		  | move(getTimeCollisionBoundary)
 	 * 		  | result[0] == (getEntityPosition + radius) || 
-	 * 		  |	result[1] == (getEntityPosition + radius) || 
-	 * 		  |	result[0] == (getEntityPosition - radius) || 
-	 * 		  |	result[1] == (getEntityPosition - radius)  
+	 * 		  |	  result[1] == (getEntityPosition + radius) || 
+	 * 		  |	  result[0] == (getEntityPosition - radius) || 
+	 * 		  |	  result[1] == (getEntityPosition - radius)  
+	 * 
+	 * @throws	IllegalAccesError
+	 * 			It should be impossible, once in the else-statement, to not-touch with one of the
+	 * 			boundaries of the world. Even though this is the case, the IlligalAccesError will
+	 * 			be thrown.
+	 * 			@see implementation
 	 */
 
 	public double[] getPositionCollisionBoundary() {
@@ -458,7 +461,7 @@ public abstract class Entity {
 	/**
 	 * returns the state the entity is in.
 	 * 
-	 * @return 	The state
+	 * @return 	The state.
 	 * 			@see implementation
 	 */
 	public State getState() {
@@ -468,13 +471,14 @@ public abstract class Entity {
 	/**
 	 * get the minimum time until the entity collides with a boundary.
 	 * 
-	 * @return 	Positive infinity if the entity has no world and a proper state. Otherwise, if the we move the entity it
-	 * 			will collide at a certain moment with one of the boundaries, the position of collision will then be returned
-	 * 		  | this.move(result)
-	 * 		  | (this.getEntityPositionX - radius) == 0 || 
-	 * 		  |		(this.getEntityPositionX() + this.getEntityradius == this.getEntityWorld.getWorldWidth()) ||
-	 * 		  | 	(this.getEntityPositionY - radius == 0) || 	
-	 * 		  |		(this.getEntityPositionY() + this.getEntityradius == this.getEntityWorld.getWorldHeight())
+	 * @note	The code will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
+	 * @return 	Positive infinity if the entity has no world or a proper state. 
+	 * 			@see implementation
+	 * @return 	The time till collision with one of the boundaries of the world.
+	 * 			If the entity has no velocity, the entity will not collide with a boundary. In this case 
+	 * 			POSITIVE_INFINITY will be returned.
+	 *			@see implementation
 	 */
 	public double getTimeCollisionBoundary() {
 		if (!this.isEntityInWorld() && this.hasEntityProperState())
@@ -502,7 +506,7 @@ public abstract class Entity {
 			double timeCollisionUp = Double.POSITIVE_INFINITY;
 			double timeCollisionDown = Double.POSITIVE_INFINITY;
 
-			// Calculate the time, if so, till the collision will happen with each boundary
+			// Calculate the time, if so, till the collision will happen with each boundary.
 			if (velocityX > 0)
 				timeCollisionRight = Math.abs(distanceTillRightBoundary / velocityX);
 			
@@ -515,39 +519,38 @@ public abstract class Entity {
 			if (velocityY < 0)
 				timeCollisionDown = Math.abs(distanceTillLowerBoundary / velocityY);
 
-			// Check the time until the entity will collide with the first boundary
+			// Check the time until the entity will collide with the first boundary.
 			if (Math.min(timeCollisionLeft, timeCollisionRight) < Math.min(timeCollisionUp, timeCollisionDown))
 				return Math.min(timeCollisionLeft, timeCollisionRight);
 			
 			else if (Math.min(timeCollisionLeft, timeCollisionRight) > Math.min(timeCollisionUp, timeCollisionDown))
 				return Math.min(timeCollisionUp, timeCollisionDown);
 			
+			// If the entity it's velocity equals zero, it will never collide with a boundary.
 			else
 				return Double.POSITIVE_INFINITY;
 		}
 	}
 
 	/**
-	 * Calculate the number of seconds until, if ever, the first collision
-	 * between two entities will take place.
+	 * Calculate the time until, if ever, the first collision between two entities will take place.
 	 * 
-	 * @param  otherEntity
-	 *         The other entity.
+	 * @param	otherEntity
+	 *			The other entity.
 	 * 
-	 * @post   The amount of seconds until the collision will take place is
-	 *         calculated. This means that if the two entities travel this amount of
-	 *         seconds at their respective velocity, the distance between them
-	 *         will be 0 (they collide). 
-	 *       | this.move(getTimeToCollision(Entity otherEntity)) 
-	 *       | otherEntity.move(getTimeToCollision(Entity otherEntity))
-	 *       | this.getDistanceBetween(otherEntity) == 0
+	 * @post	The amount of seconds until the collision will take place is calculated. 
+	 * 			This means that if the two entities travel this amount of time at their
+	 * 			respective velocity, the distance between them will equal 0 (they collide). 
+	 *		  | this.move(getTimeToCollision(Entity otherEntity)) 
+	 *		  | otherEntity.move(getTimeToCollision(Entity otherEntity))
+	 *		  | this.getDistanceBetween(otherEntity) == 0
 	 * 
-	 * @return If the collision won't take place, Double.POSITIVE_INFINITY will
-	 *         be returned. If the collision happens, the time until it happens is returned.
+	 * @return	If the collision won't take place, Double.POSITIVE_INFINITY will be
+	 *			returned. If the collision happens, the time until it happens is returned.
 	 *         
-	 * @throws ModelException
-	 *         If the two entities overlap.
-	 *       | (this.overlap(otherEntity))
+	 * @throws	IllegalArgumentException
+	 *			If the two entities overlap.
+	 *		  | (this.overlap(otherEntity))
 	 */
 	public double getTimeToCollision(Entity entity) {
 		if ((!this.isEntityInWorld() && this.hasEntityProperState())
@@ -656,8 +659,9 @@ public abstract class Entity {
 	 * 
 	 * @param 	newMaxVelocity
 	 * 			The new maximum velocity.
+	 * 
 	 * @post 	The maximum velocity will be equal to the given velocity, when it's not valid, 
-	 * 			it will be set o the speed of the light.
+	 * 			it will be set to the speed of the light.
 	 * 			@see implementation
 	 */
 	public void setEntityMaxVelocity(double newMaxVelocity) {
@@ -687,7 +691,7 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Set the position of an entity when it's not colliding.
+	 * Set the position of an entity.
 	 * 
 	 * @param 	positionX
 	 * 			The new x-position.
@@ -717,9 +721,9 @@ public abstract class Entity {
 	 * 			The new radius.
 	 * 
 	 * @post	The new radius will be equal to the given radius.
-	 * 		  | new.getEntityRadius() == radius.
+	 * 		  | new.getEntityRadius() == radius
 	 * 
-	 * @throws 	illegalArgumentException
+	 * @throws 	IllegalArgumentException
 	 * 			if the radius is not valid.
 	 * 			@see implementation
 	 */
@@ -745,10 +749,10 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	public void setEntityState(State state) {
-		if (state == null) {
-			System.out.println("Model.entity, setEntityState: state == null");
+		if (state == null)
 			throw new IllegalArgumentException();
-		} else
+		
+		else
 			this.state = state;
 	}
 
@@ -763,8 +767,7 @@ public abstract class Entity {
 	 * @post 	The new velocity will be equal to the given velocity
 	 * 		  | new.getEntityVelocityX() == velocityX
 	 * 		  | new.getEntityVelocityY() == velocityY
-	 * 
-	 * @post 	If one or both of the given parameters is not a number, the respective parameter is set on 0.
+	 * @post 	If one or both of the given parameters is not a number, the respective parameter is set to zero.
 	 * 			@see implementation
 	 * @post 	If the total velocity is greater than the maximum total velocity. The maximum velocity will
 	 * 			be mapped with the orientation.
@@ -798,7 +801,7 @@ public abstract class Entity {
 	 * 			The new world.
 	 * 
 	 * @post 	The new world will be equal to the given world.
-	 * 		  | new.getEntityWorld()==world
+	 * 		  | new.getEntityWorld() == world
 	 */
 	public void setEntityWorld(World world) {
 		this.world = world;
@@ -938,8 +941,8 @@ public abstract class Entity {
 	 * @param 	velocityY
 	 * 			The y-value of the velocity that has to be checked.
 	 * 
-	 * @return 	False if one of the two values is not a number or if the Euclidean distance 
-	 * 			of the two values is greater than the maximum velocity.
+	 * @return 	False if one of the two values is not a number or if the total velocity
+	 * 			(calculated with the formula of the Euclidian distance) exceeds the maximum velocity.
 	 * 			@see implementation
 	 */
 	public boolean isValidVelocity(double velocityX, double velocityY) {
@@ -961,7 +964,7 @@ public abstract class Entity {
 	 * @param 	world
 	 * 			The world where the entity will be checked in.
 	 * 
-	 * @return 	The boolean that checks if the entity can be in the world.
+	 * @return 	A boolean that checks if the entity can be in the world.
 	 * 			@see implementation			
 	 */
 	public boolean entityFitsInWorld(World world) {
@@ -974,9 +977,10 @@ public abstract class Entity {
 	/**
 	 * Checks whether an entity lies in the boundaries of the world.
 	 * 
-	 * @param world
+	 * @param 	world
 	 * 			The world where the entity will be checked in.
-	 * @return the boolean that checks if a ship lies in the boundaries of the world
+	 * 
+	 * @return 	The boolean that checks if a ship lies in the boundaries of the world.
 	 * 			@see implementation
 	 */
 	public boolean entityLiesInBoundaries(World world) {
@@ -1017,15 +1021,15 @@ public abstract class Entity {
 	/// MOVE ///
 	
 	/**
-	 * Moves the entity dt seconds.
+	 * Moves the entity over the given time "moveTime".
 	 * 
-	 * @param 	dt
-	 * 			The time the entity has to move 
+	 * @param 	moveTime
+	 * 			The time the entity has to move.
 	 * 
 	 * @effect 	The entity will be moved.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract void move(double dt);
+	public abstract void move(double moveTime);
 
 	
 	/// TERMINATION AND STATES ///
@@ -1050,11 +1054,11 @@ public abstract class Entity {
 	/**
 	 * Returns a boolean saying if the two entities are overlapping.
 	 *
-	 * @param  otherEntity
-	 *         The other entity.
+	 * @param	otherEntity
+	 * 			The other entity.
 	 * 
-	 * @return Return True if the distance between the two entities is negative.
-	 *       | result == (this.getDistanceBetween(otherEntity) < 0)
+	 * @return	True if the distance between the two entities is negative.
+	 *		  | result == (this.getDistanceBetween(otherEntity) < 0)
 	 */
 	public boolean overlap(Entity entity) {
 		if (this.equals(entity))

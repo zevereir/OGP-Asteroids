@@ -27,7 +27,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar 	The density is a valid density.
  * 		  | isValidDensity(this.getEntityDensity)
  * 
- * @version 5th of April
+ * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Ship extends Entity {
