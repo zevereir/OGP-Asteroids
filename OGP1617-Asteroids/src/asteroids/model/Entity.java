@@ -1,4 +1,3 @@
-
 package asteroids.model;
 
 
@@ -399,9 +398,9 @@ public abstract class Entity {
 	 * 			This would be after the given entity moved over a time-laps of getTimeCollisionBoundary().
 	 *		  | move(getTimeCollisionBoundary)
 	 * 		  | result[0] == (getEntityPosition + radius) || 
-	 * 		  |	  result[1] == (getEntityPosition + radius) || 
-	 * 		  |	  result[0] == (getEntityPosition - radius) || 
-	 * 		  |	  result[1] == (getEntityPosition - radius)  
+	 * 		  |		result[1] == (getEntityPosition + radius) || 
+	 * 		  |		result[0] == (getEntityPosition - radius) || 
+	 * 		  |		result[1] == (getEntityPosition - radius)  
 	 * 
 	 * @throws	IllegalAccesError
 	 * 			It should be impossible, once in the else-statement, to not-touch with one of the
@@ -916,7 +915,7 @@ public abstract class Entity {
 	public boolean isValidPosition(double positionX, double positionY) {
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
 			return false;
-
+		
 		if ((this.getEntityWorld() != null))
 			return this.entityFitsInWorld(this.getEntityWorld());
 

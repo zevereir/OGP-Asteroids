@@ -1,4 +1,3 @@
-
 package asteroids.facade;
 
 import java.util.Collection;

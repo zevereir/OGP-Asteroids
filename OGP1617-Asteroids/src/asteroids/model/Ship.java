@@ -1,4 +1,3 @@
-
 package asteroids.model;
 
 import java.util.Collection;
@@ -474,24 +473,6 @@ public class Ship extends Entity {
 		return (radius >= LOWER_SHIP_RADIUS);
 	}
 	
-	/**
-	 * Checks if a position is valid.
-	 * 
-	 * @param 	x
-	 *          The x-value of the position.
-	 * @param 	y
-	 *          The y-value of the position.
-	 *          
-	 * @return 	False if the ship has a world and the position isn't in this
-	 *         	world, else the result is true
-	 *          @see implementation
-	 */
-	public boolean isValidShipPosition(double positionX, double positionY) {
-		if ((this.getEntityWorld() != null))
-			return entityFitsInWorld(this.getEntityWorld());
-
-		return true;
-	}
 	
 	
 	/// ADDERS///
