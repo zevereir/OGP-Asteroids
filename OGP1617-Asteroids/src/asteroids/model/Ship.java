@@ -675,7 +675,7 @@ public class Ship extends Entity {
 	 * Checks whether a bullet can be fired. If, when the bullet will be fired, there would be any collision, then 
 	 * this collisions will be resolved.
 	 * 
-	 * @note	The code will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @param 	bullet
 	 * 			The bullet that will be checked.

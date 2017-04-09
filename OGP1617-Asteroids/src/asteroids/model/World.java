@@ -9,13 +9,13 @@ import asteroids.part2.CollisionListener;
 /**
  * A class that describes worlds. A world has a height and a width and can contain bullets and ships.
  * 
- * @invar 	The worlds height will be a positive number.
+ * @invar 	The world's height will be a positive number.
  * 		  | getWorldHeight > 0
- * @invar 	The worlds width will be a positive number.
+ * @invar 	The world's width will be a positive number.
  * 		  | getWorldwidth > 0
  * 
  * 
- * @version 7th of April
+ * @version 9th of April
  * @authors Sieben Bocklandt and Ruben Broekx
 
  */
@@ -40,7 +40,7 @@ public class World {
 	}
 
 	/**
-	 * initializes a world with default values.
+	 * Initializes a world with the default size.
 	 * 
 	 * @effect 	A new world with the maximum size is made.
 	 * 			@see implementation
@@ -55,7 +55,9 @@ public class World {
 	private double width;
 	private double height;
 
+	
 	/// CONSTANTS ///
+	
 	private final static double UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 	private final static double UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
 	private final static double GAMMA = 0.01;
@@ -66,18 +68,22 @@ public class World {
 	/**
 	 * Return the entity positioned at the given position.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 * 			The x-value of the position.
-	 * @param 	y
+	 * @param 	positionY
 	 * 			The y-value of the position.
-	 * @return 	The entity that has the given position as position, otherwise null is returned.
+	 * 
+	 * @return 	Null if there is no entity at the given position.
+	 * 			@see implementation
+	 * @return 	The entity that is at the given position, if there is an entity at this position.
 	 * 			@see implementation
 	 */
-	public Object getEntityAt(double x, double y) {
-		String searchPosition = (x + "," + y);
+	public Object getEntityAt(double positionX, double positionY) {
+		String searchPosition = (positionX + "," + positionY);
 
 		if (entity_positions.containsKey(searchPosition))
 			return entity_positions.get(searchPosition);
+		
 		else
 			return null;
 	}
@@ -85,9 +91,16 @@ public class World {
 	/**
 	 * Return the position where the next collision will take place.
 	 * 
-	 * @return 	The position, this is the collision position if both collision_entity_1 and collision_entity_2 are not null.
-	 * 			The position is the positionCollisionBoundary when only collision_entity_2 is null. When there are no collision, so 
-	 * 			both collision_entity_1 and collision_entity_2 are null, an infinity arry is returned
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
+	 * @return 	The position of collision between two entities, this is the position if both collision_entity_1 and 
+	 * 			collision_entity_2 are not null.
+	 * 			@see implementation
+	 * @return	The position of collision between an entity and a boundary of the world, this is the position 
+	 * 			when collision_entity_1 is not null, but collision_entity_2 is. 
+	 * 			@see implementation
+	 * @return 	An array of two with both values set to POSITIVE_INFINITY, this is when there are no collisions, so 
+	 * 			both collision_entity_1 and collision_entity_2 are null.
 	 * 			@see implementation
 	 */
 	public double[] getPositionNextCollision() {
@@ -120,10 +133,14 @@ public class World {
 	/**
 	 * Return the time until the next collision.
 	 * 
-	 * @return 	The minimum of all the collisions to the boundaries and all the collisions that can happen in a world.
-	 * 			@see implementation
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @effect 	If there is a collision, collision_entity_1 (and collision_entity_2 if it's a collision between two entities) 
-	 * 			will be set on the entities that collide.
+	 * 			will be set on the entities that collide. collision_entity_2 will be null if the first collision that happens,
+	 * 			is a collision with the world.
+	 * 			@see implementation
+	 * 
+	 * @return 	The time till the first collision in a world will happen.
 	 * 			@see implementation
 	 */
 	public double getTimeNextCollision() {
@@ -134,6 +151,7 @@ public class World {
 
 		for (Object entity_1 : getWorldEntities()) {
 			double timeTillCollision = ((Entity) entity_1).getTimeCollisionBoundary();
+			
 			// Collision of the entity with the boundaries of the world.
 			if (timeTillCollision < minimumCollisionTime) {
 				minimumCollisionTime = timeTillCollision;
@@ -159,7 +177,7 @@ public class World {
 	/**
 	 * Return the bullets that are in the world.
 	 * 
-	 * @return 	The set of bullets.
+	 * @return 	The set of bullets in the world.
 	 * 			@see implementation
 	 */
 	public Set<Bullet> getWorldBullets() {
@@ -173,7 +191,7 @@ public class World {
 	/**
 	 * Return the set of all the entities in the world.
 	 * 
-	 * @return 	This set of entities.
+	 * @return 	The set of entities in the world.
 	 * 			@see implementation
 	 */
 	public Set<? extends Object> getWorldEntities() {
@@ -188,7 +206,7 @@ public class World {
 	/**
 	 * Return the height of the world.
 	 * 
-	 * @return 	The height.
+	 * @return 	The height of the world.
 	 * 			@see implementation
 	 */
 	public double getWorldHeight() {
@@ -198,7 +216,7 @@ public class World {
 	/**
 	 * Return the ships that are in the world.
 	 * 
-	 * @return 	The set of ships.
+	 * @return 	The set of ships in the world.
 	 * 			@see implementation
 	 */
 	public Set<Ship> getWorldShips() {
@@ -212,7 +230,7 @@ public class World {
 	/**
 	 * Return the size of the world.
 	 * 
-	 * @return 	The size as an array.
+	 * @return 	The size of the world, expressed as an array.
 	 * 			@see implementation
 	 */
 	public double[] getWorldSize() {
@@ -226,7 +244,7 @@ public class World {
 	/**
 	 * Return the width of the world.
 	 * 
-	 * @return 	The width.
+	 * @return 	The width of the world.
 	 * 			@see implementation
 	 */
 	public double getWorldWidth() {
@@ -237,16 +255,17 @@ public class World {
 	/// SETTERS ///
 
 	/**
-	 * Set the worlds height.
+	 * Set the world's height.
 	 * 
 	 * @param 	height
 	 * 			The new height.
 	 * 
-	 * @post 	If the given height is negative, the new height is the absolute value.
+	 * @post 	If the given height is negative, the new height is the absolute value of the given height.
 	 * 		  | new.getWorldHeight() == Math.abs(height)
-	 * @post 	If the given height is too big, it will be set on the upper bound.
-	 * 		  | new.getWorldheight() == UPPER_WORLD_BOUND_HEIGHT
-	 * @post 	Else the height will be set on the given value.
+	 * @post 	If the given height is too big, the height of the world will be set to the upper bound.
+	 * 		  | new.getWorldHeight() == UPPER_WORLD_BOUND_HEIGHT
+	 * @post 	In all the other cases the given height will be a valid height and will be set as the 
+	 * 			new height of the world.
 	 * 		  | new.getWorldHeight() == height
 	 */
 	public void setWorldHeight(double height) {
@@ -260,12 +279,13 @@ public class World {
 	}
 
 	/** 
-	 * Set the worlds size.
+	 * Set the world's size.
 	 * 
 	 * @param 	width
 	 * 			The new width.
 	 * @param 	height
 	 * 			The new height.
+	 * 
 	 * @effect 	The width and height will be set on the new values.
 	 * 			@see implementation
 	 */
@@ -275,16 +295,17 @@ public class World {
 	}
 
 	/**
-	 * Set the worlds width.
+	 * Set the world's width.
 	 * 
 	 * @param 	width
 	 * 			The new width.
 	 * 
-	 * @post 	If the given width is negative, the new width is the absolute value.
+	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
 	 * 		  | new.getWorldWidth() == Math.abs(width)
-	 * @post 	If the given width is too big, it will be set on the upper bound.
+	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
 	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
-	 * @post 	Else the width will be set on the given value.
+	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
+	 * 			new width of the world.
 	 * 		  | new.getWorldWidth() == width
 	 */
 	public void setWorldWidth(double width) {
@@ -303,58 +324,60 @@ public class World {
 	/**
 	 * Checks if the world can have this entity.
 	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @param 	entity
 	 * 			The entity that has to be checked.
 	 * 
+	 * @return 	False if the world already has this entity.
+	 * 			@see implementation
 	 * @return 	False if the entity already has a world.
-	 * 		  | result == (entity.getEntityWorld() == null)
-	 * @return 	False if the entity is a ship and it doesn't fit in the world.
-	 * 		  | result== (entity instanceof Ship && entity.entityFitsInWorld(this))
+	 * 			@see implementation
+	 * @return 	False if the entity is a ship and it does not fit in the world.
+	 *			@see implementation
 	 * @return 	False if the entity is a bullet and it doesn't fit in the world or it's loaded on a ship.
-	 * 		  | result== (entity instanceof Bullet && ((Bullet)entity).getBulletShip() == null && entity.entityFitsInWorld(this) )
+	 *			@see implementation
 	 * @return 	False if the entity or the world is terminated.
-	 * 		  | result == (!entity.isEntityterminated() && !this.isWorldTerminated())
+	 *			@see implementation
 	 */
 	public boolean canHaveAsEntity(Entity entity) {
+		// The entity already belongs to this world.
 		if (this.hasAsEntity(entity))
-			// The entity already belongs to this world.
 			return false;
 
+		// The entity already belongs to a different world.
 		if (entity.getEntityWorld() != null)
-			// The entity already belongs to a different world.
 			return false;
 
+		// The entity is a ship and does not fit in the world.
 		if (entity instanceof Ship)
 			if (!entity.entityFitsInWorld(this))
 				return false;
 
+		// If the bullet belongs to a ship (which means the bullet is in a ship, and not in the world) or
+		// the bullet's new position is not within the boundaries of the world, false will be returned.
 		if (entity instanceof Bullet && (((Bullet) entity).getBulletShip() != null || !entity.entityFitsInWorld(this)))
-			// If the bullet belongs to/is in a ship (so the bullet is not
-			// in the world), or the bullet's new position is not
-			// within the boundaries of the given position, false will be
-			// returned.
 			return false;
 
+		// An entity who is in the terminated state, cannot be in a world.
 		if (entity.isEntityTerminated())
-			// An entity who is in the terminated state, cannot be in a world.
 			return false;
 
+		// A terminated world cannot have any entities.
 		if (this.isWorldTerminated())
-			// A terminated world cannot have any entities.
 			return false;
 
 		return true;
 	}
 
 	/**
-	 * Checks whether the world has this entity or not.
+	 * Checks whether an given entity lies in the world.
 	 * 
 	 * @param 	entity
 	 * 			The entity that has to be checked.
 	 * 
 	 * @return 	The boolean that checks if the world has the entity.
 	 * 			@see implementation
-	 * 			
 	 */
 	public boolean hasAsEntity(Entity entity) {
 		if (entity instanceof Ship)
@@ -387,6 +410,14 @@ public class World {
 
 	/// HELP FUNCTIONS ///
 	
+	/**
+	 * This method is used to create the keys in the map "entity_positions".
+	 * 
+	 * @param	array
+	 * 			An array, which will always represent a position in this class.
+	 * 			
+	 * @return	A position in form of a string.
+	 */
 	public String arrayToString(double[] array) {
 		return (array[0] + "," + array[1]);
 	}
@@ -400,7 +431,7 @@ public class World {
 	 * @param 	entity
 	 * 			The entity that has to be added to the world.
 	 * 
-	 * @effect 	The entity's world will be set on this.
+	 * @effect 	The entity's world will be set on "this", which represents this world.
 	 * 		  | entity.setEntityInWorld(this)
 	 * @effect 	If the entity is a bullet, the bullet will be added to the bullets of the world.
 	 * 			@see implementation
@@ -411,7 +442,7 @@ public class World {
 	 * 
 	 * @throws 	IllegalArgumentException
 	 * 			If the world cannot have this entity.
-	 * 			|(!canHaveAsEntity(entity))
+	 * 		  | (!canHaveAsEntity(entity))
 	 *
 	 */
 	public void addEntityToWorld(Entity entity) {
@@ -430,6 +461,7 @@ public class World {
 			throw new IllegalArgumentException();
 	}
 
+	
 	/// REMOVERS ///
 	
 	/**
@@ -460,72 +492,69 @@ public class World {
 	/// EVOLVE ///
 	
 	/**
-	 * Evolve the world by a given time, resolving collisions that will happen.
+	 * Evolve the world by the given time "defaultEvolvingTime" and resolve collisions that will happen.
+	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @param 	defaultEvolvingTime
 	 * 			The time the world has to evolve.
 	 * @param 	collisionListener
 	 * 			An object of the class CollisionListener that is used to draw explosions.
 	 * 
-	 * @effect 	The entities in the world that not collide, move dt.
-	 * 		  | entity.move(defaultCollisionTime)
+	 * @effect 	If there will be a collision before defaultEvolvingTime is reached, then all the entities move timeToCollision.
+	 * 		  | entity.move(timeToCollision) 
+	 * @effect	If no collisions will happen before defaultEvolvingTime is reached, the entities will move over 
+	 * 			defaultCollisionTime. No collisions will be resolved in this case.
+	 * 		  | entity.move(defaultEvolvingTime)
 	 * @effect 	The entities in the world that collide with each other will collide and the collision will be resolved.
 	 * 			@see implementation
-	 * 
 	 */
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
-		// A world cannot evolve if there are no entities or the evolving time
-		// equals zero (which means after evolving, the same
-		// situation will be achieved).
+		// A world cannot evolve if there are no entities or the evolving time equals zero 
+		// (which would mean that after evolving, the same situation will be achieved).
 		if (!this.getWorldEntities().isEmpty()) {
 
-			// Determine time till the first collision
-			double TimeToCollision = getTimeNextCollision();
+			// Determine time till the first collision.
+			double timeToCollision = getTimeNextCollision();
 
-			double CollisionPositionX = getPositionNextCollision()[0];
-			double CollisionPositionY = getPositionNextCollision()[1];
+			double collisionPositionX = getPositionNextCollision()[0];
+			double collisionPositionY = getPositionNextCollision()[1];
 
-			double[] collisionArray = { CollisionPositionX, CollisionPositionY };
+			double[] collisionArray = { collisionPositionX, collisionPositionY };
 
-			// TimeToCollision is smaller than the defaultEvolvingTime which
-			// means there will be a collision before
-			// the defaultEvolvingTime is over.
-			if (TimeToCollision <= defaultEvolvingTime) {
+			// timeToCollision is smaller than the defaultEvolvingTime which means there will be a 
+			// collision before the defaultEvolvingTime is over.
+			if (timeToCollision <= defaultEvolvingTime) {
 
 				// Clear the out-dated Map 'entity_positions'.
 				entity_positions.clear();
 
-				// Update the positions of the entities, along with the
-				// 'entity_positions'-Map.
+				// Update the positions of the entities, along with the 'entity_positions'-Map.
 				for (Object entity : getWorldEntities()) {
-					// Move the entity over the predetermined time
-					// 'TimeToCollision'
-					// Method 'move' will check if the given entity 'entity' is
-					// one of the entities who will collide, these entities
-					// are: 'entity_1' and 'entity_2' (entity_2 can be null when
-					// an entity collides with the world).
-					((Entity) entity).move(TimeToCollision);
+					// Move the entity over the predetermined time 'timeToCollision'
+					// The method 'move' will check if the given entity 'entity' is one of the 
+					// entities who will collide, these entities are: 'entity_1' and 'entity_2' 
+					// (entity_2 can be null when an entity, entity_1, collides with the world).
+					((Entity) entity).move(timeToCollision);
 
-					// Update the Map 'entity_positions' for each entity with
-					// its new position.
+					// Update the Map 'entity_positions' for each entity with its new position.
 					entity_positions.put(arrayToString(((Entity) entity).getEntityPosition()), (Entity) entity);
 				}
 
-				/// Check and execute the type of collision. ///
+				// Check and execute the type of collision.
 				letCollisionHappen(collisionArray, defaultEvolvingTime, collisionListener);				
 				
-				double remainingTime = defaultEvolvingTime - TimeToCollision;
+				double remainingTime = defaultEvolvingTime - timeToCollision;
 
 				if (remainingTime >= 0) {
-					// Invoke the method 'evolve()' in a recursive way to see if
-					// there would be other collisions in the remaining time.
+					// Invoke the method 'evolve()' in a recursive way to see if there would be other 
+					// collisions in the remaining time.
 					evolve(remainingTime, collisionListener);
 				}
 			}
 
-			// TimeToCollision is bigger than the defaultEvolvingTime, which
-			// means no collision will take place when we evolve over
-			// the defaultEvolvingTime. We can safely evolve the whole world
+			// timeToCollision is bigger strict than the defaultEvolvingTime, which means no collision will 
+			// take place when we evolve over the defaultEvolvingTime. We can safely evolve the whole world
 			// (with all its entities) over defaultEvolvingTime.
 			else {
 				for (Object entity : getWorldEntities())
@@ -540,18 +569,21 @@ public class World {
 	/**
 	 * Let a bullet and an entity collide.
 	 * 
-	 * @param 	entity1
-	 * 			The bullet or the entity.
-	 * @param 	entity2
-	 * 			The bullet or the entity.
-	 * @param 	collisionListener
-	 * 			The object of the class CollisionListene used to draw explosions.
-	 * @param 	collisionArray
-	 * 			the collision position.
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
-	 * @effect 	If the entity is the source if the bullet, the bullet is reloaded on the ship and removed from the world.
+	 * @param 	entity1
+	 * 			The bullet or the entity that will collide.
+	 * @param 	entity2
+	 * 			The entity if entity1 is a bullet, or the bullet otherwise, that will collide.
+	 * @param 	collisionListener
+	 * 			The object of the class CollisionListener used to draw explosions.
+	 * @param 	collisionArray
+	 * 			The collision position.
+	 * 
+	 * @effect 	If the entity is the source of the bullet, the bullet will be reloaded onto the ship and removed from the world.
 	 * 			@see implementation
-	 * @effect 	If the entity is not the source_ship, they both will be terminated and collisionListener is invoked.
+	 * @effect 	If the entity is not the source_ship, both the bullet and the entity will be terminated and collisionListener 
+	 * 			will be invoked.
 	 * 			@see implementation
 	 */
 	public void BulletAndEntityCollide(Entity entity1, Entity entity2, CollisionListener collisionListener, double[] collisionArray) {
@@ -560,86 +592,82 @@ public class World {
 		double position2X = ((Entity)entity2).getEntityPositionX();
 		double position2Y = ((Entity)entity2).getEntityPositionY();
 		
-		// If a bullet collides with the ship who fired this bullet, the bullet
-		// will be reloaded onto the ship.
+		// If a bullet collides with the ship who fired this bullet, the bullet will be reloaded onto the ship.
 		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet) entity1).getBulletSource() == ((Ship) entity2)) {
 			((Bullet) entity1).setPositionWithoutChecking(position2X, position2Y);
 			this.removeEntityFromWorld(entity1);
 			((Ship) entity2).addOneBulletToShip((Bullet) entity1);
-		} 
-		else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet) entity2).getBulletSource() == ((Ship) entity1)) {
+		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet) entity2).getBulletSource() == ((Ship) entity1)) {
 			((Bullet) entity2).setPositionWithoutChecking(position1X, position1Y);
 			this.removeEntityFromWorld(entity2);
 			((Ship) entity1).addOneBulletToShip((Bullet) entity2);
 		}
 
-		// In all the other cases both entities will terminate each other.
-		// These cases are: Or a bullet who will collide with a ship which is
-		// not the ship who fired the bullet, or two bullets who will
-		// collide with each other.
+		// In all the other cases both entities will terminate each other. These cases are: Or a bullet who will collide
+		// with a ship which is not the ship who fired the bullet, or two bullets who will collide with each other.
 		else {
 			if (collisionListener != null) {
-				double CollisionPositionX = collisionArray[0];
-				double CollisionPositionY = collisionArray[1];
+				double collisionPositionX = collisionArray[0];
+				double collisionPositionY = collisionArray[1];
 
-				collisionListener.objectCollision(collision_entity_1, collision_entity_2, CollisionPositionX, CollisionPositionY);
+				collisionListener.objectCollision(collision_entity_1, collision_entity_2, collisionPositionX, collisionPositionY);
 			}
 			entity1.Terminate();
 			entity2.Terminate();
 		}
 	}
 
-	public void BulletAndEntityCollide(Entity entity1, Entity entity2) {
-		BulletAndEntityCollide(entity1, entity2, null, null);
-	}
-
 	/**
-	 * Let a world and a bullet collide.
+	 * Let a bullet collide with the boundaries of the world.
+	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @param 	bullet
-	 * 			The bullet.
+	 * 			The bullet that will collide with the boundary.
 	 * @param 	collisionArray
 	 * 			The collision position.
 	 * 
 	 * @effect 	If the bullet has bounced more than two times, it will be terminated.
 	 * 			@see implementation
-	 * @effect 	The bullets bounces will be incremented by 1, if the boundary was horizontal, the y-velocity 
-	 * 			changed sign. If the boundary was vertical, the x-velocity changed.
+	 * @effect 	The bullet's amount of bounces will be incremented by 1. If the boundary was horizontal, 
+	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
 	 * 			@see implementation
 	 */
-	public void BulletAndWorldCollide(Entity entity, double[] collisionArray) {
-		// 'counter' will count how many times the bullet has bounced off the
-		// boundaries of the world.
-		int counter = ((Bullet) entity).getAmountOfBounces();
+	public void BulletAndWorldCollide(Bullet bullet, double[] collisionArray) {
+		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
+		int counter = bullet.getAmountOfBounces();
 
 		// When the counter reaches 3, the bullet will be terminated.
 		if (counter >= 2)
-			entity.Terminate();
+			bullet.Terminate();
 
-		// If 'counter' is (strict) less than 3: Let the bullet bounce against the
-		// boundary.
+		// If 'counter' is (strict) less than 3, the bullet will bounce against the boundary.
 		else {
-			((Bullet) entity).setAmountOfBounces(counter + 1);
+			bullet.setAmountOfBounces(counter + 1);
 			
-			double VelocityX = ((Bullet) entity).getEntityVelocityX();
-			double VelocityY = ((Bullet) entity).getEntityVelocityY();
+			double VelocityX = bullet.getEntityVelocityX();
+			double VelocityY = bullet.getEntityVelocityY();
 
-			if (collideHorizontalBoundary(entity, collisionArray))
-				((Bullet) entity).setEntityVelocity(VelocityX, -VelocityY);
+			// The bullet will collide with an horizontal boundary.
+			if (collideHorizontalBoundary(bullet, collisionArray))
+				bullet.setEntityVelocity(VelocityX, -VelocityY);
 
+			// The bullet will collide with an vertical boundary.
 			else
-				((Bullet) entity).setEntityVelocity(-VelocityX, VelocityY);
+				bullet.setEntityVelocity(-VelocityX, VelocityY);
 		}
 	}
 
 	/**
-	 * Checks if a collision with a boundary is with a horizontal or a vertical one.
+	 * Checks if a collision with a boundary is with a horizontal boundary.
 	 * 
 	 * @param 	entity
 	 * 			The entity that collides.
 	 * @param 	collisionArray
 	 * 			The collision position.
-	 * @return 	True if the collision position is +- the height or 0.
+	 * 
+	 * @return 	True if the collision position is approximately equal to 0 (the lower-boundary) or equal to the
+	 * 			height of the world (the upper-boundary).
 	 * 			@see implementation
 	 */
 	public boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
@@ -652,40 +680,41 @@ public class World {
 	/**
 	 * Execute certain algorithms based on the type of collision.
 	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @param 	collisionArray
-	 * 			The position of collision between or an entity and the world, or two entities.
+	 * 			The position of collision between an entity and the world, or two entities.
 	 * @param 	defaultEvolvingTime
-	 * 			The time the world has to evolve.
+	 * 			The amount of time the world has to evolve.
 	 * @param 	collisionListener
 	 * 			An object of the class CollisionListener that is used to draw explosions.
 	 * 
 	 * @effect 	Resolving the collision of the entities.
-	 * 			|@see implementation
-	 * 
+	 * 			@see implementation
 	 */
 	public void letCollisionHappen(double[] collisionArray, double defaultEvolvingTime, CollisionListener collisionListener) {
-		double CollisionPositionX = collisionArray[0];
-		double CollisionPositionY = collisionArray[1];
+		double collisionPositionX = collisionArray[0];
+		double collisionPositionY = collisionArray[1];
 		
 		// COLLISION BETWEEN TWO SHIPS:
 		if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship) {
 			if (collisionListener != null)
-				collisionListener.objectCollision(collision_entity_1, collision_entity_2, CollisionPositionX, CollisionPositionY);
+				collisionListener.objectCollision(collision_entity_1, collision_entity_2, collisionPositionX, collisionPositionY);
 
 			// Let the collision happen.
 			ShipsCollide(collision_entity_1, collision_entity_2);
 
-			// Update the map 'enity_positions'.
+			// Remove the out-dated positions of the entities out of the map entity_positions.
 			entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 			entity_positions.remove(arrayToString(collision_entity_2.getEntityPosition()));
 			
-			// Let the ships who will collide evolve a little more after
-			// the collision. Otherwise, the two ships would keep touching
-			// which would invoke the same collision again the next time
-			// 'evolve()' will be invoked.
+			// Let the ships who will collide evolve a little more after the collision. Otherwise, 
+			// the two ships would keep touching which would invoke the same collision again the next 
+			// time the method evolve() will be invoked.
 			collision_entity_1.move(GAMMA * defaultEvolvingTime);
 			collision_entity_2.move(GAMMA * defaultEvolvingTime);
 			
+			// Add the new position with the related entities to the map entity_positions.
 			entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
 			entity_positions.put(arrayToString(collision_entity_2.getEntityPosition()), collision_entity_2);
 		}
@@ -693,71 +722,77 @@ public class World {
 		// COLLISION BETWEEN A SHIP AND THE BOUNDARY OF THE WORLD:
 		else if (collision_entity_1 instanceof Ship && collision_entity_2 == null) {
 			if (collisionListener != null)
-				collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
+				collisionListener.boundaryCollision(collision_entity_1, collisionPositionX, collisionPositionY);
 
 			// Let the collision happen.
-			ShipAndWorldCollide(collision_entity_1, collisionArray);
+			ShipAndWorldCollide((Ship)collision_entity_1, collisionArray);
 
-			// Update the map 'enity_positions'.
+			// Remove the out-dated positions of the entities out of the map entity_positions.
 			entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 			
-			// Let the ship who will collide evolve a little more after
-			// the collision. Otherwise, the ship would keep touching
-			// the boundary, which would invoke the same collision again
-			// the next time 'evolve()' will be invoked.
+			// Let the ship who will collide evolve a little more after the collision. Otherwise, 
+			// the ship would keep touching with the boundary which would invoke the same collision 
+			// again the next time the method evolve() will be invoked.
 			collision_entity_1.move(GAMMA * defaultEvolvingTime);
 			
+			// Add the new position with the related entities to the map entity_positions.
 			entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
 		}
 
 		// COLLISION BETWEEN A BULLET AND THE BOUNDARY OF THE WORLD:
 		else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null) {
 			if (collisionListener != null)
-				collisionListener.boundaryCollision(collision_entity_1, CollisionPositionX, CollisionPositionY);
+				collisionListener.boundaryCollision(collision_entity_1, collisionPositionX, collisionPositionY);
 
 			// Let the collision happen.
-			BulletAndWorldCollide(collision_entity_1, collisionArray);
+			BulletAndWorldCollide((Bullet)collision_entity_1, collisionArray);
 
 			if (!collision_entity_1.isEntityTerminated()) {
-				// Update the map 'enity_positions'.
+
+				// Remove the out-dated positions of the entities out of the map entity_positions.
 				entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
 			
-				// Let the bullet who will collide evolve a little more
-				// after the collision. Otherwise, the bullet would keep
-				// touching
-				// the boundary, which would invoke the same collision
+				// Let the bullet who will collide evolve a little more after the collision. Otherwise, 
+				// the bullet would keep touching the boundary, which would invoke the same collision
 				// again the next time 'evolve()' will be invoked.
 				collision_entity_1.move(GAMMA * defaultEvolvingTime);
 				
+				// Add the new position with the related entities to the map entity_positions.
 				entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
 			}
 		}
 
-		// COLLISION BETWEEN A SHIP AND A BULLET:
-		else
+		// COLLISION BETWEEN A SHIP AND A BULLET OR BETWEEN TWO BULLETS:
+		else {
+			// In this case, at least one of the two entities will be removed from the world. In the case if one of the entities
+			// is a bullet which collides with its parent-ship, it will be reloaded back onto this ship. In all the other cases, 
+			// both entities will be terminated. This means it will not be necessary to evolve a little further to make sure the
+			// entities aren't colliding any more, because this will never be the case.
 			BulletAndEntityCollide(collision_entity_1, collision_entity_2, collisionListener, collisionArray);
+		}
 	}
 
 	/**
-	 * Let a world and a ship collide.
+	 * Let a ship collide with the boundaries of the world.
 	 * 
-	 * @param 	entity
+	 * @param 	ship
 	 * 			The ship that collides.
 	 * @param 	collisionArray
-	 * 			The CollisionPosition array
-	 * @effect if the bullet collides with a horizontal boundary, the y-component of the velocity will change sign. If the collision happens with a vertical 
-	 * 		   boundary, the x-component changes sign
+	 * 			The position where the collision will take place.
+	 * 
+	 * @effect	If the bullet collides with a horizontal boundary, the y-component of the velocity will change sign. 
+	 * 			If the collision happens with a vertical boundary, the x-component changes sign
 	 * 			@see implementation
 	 */
-	public void ShipAndWorldCollide(Entity entity, double[] collisionArray) {
-		double VelocityX = ((Ship) entity).getEntityVelocityX();
-		double VelocityY = ((Ship) entity).getEntityVelocityY();
+	public void ShipAndWorldCollide(Ship ship, double[] collisionArray) {
+		double VelocityX = ship.getEntityVelocityX();
+		double VelocityY = ship.getEntityVelocityY();
 
-		if (collideHorizontalBoundary(entity, collisionArray))
-			((Ship) entity).setEntityVelocity(VelocityX, -VelocityY);
+		if (collideHorizontalBoundary(ship, collisionArray))
+			ship.setEntityVelocity(VelocityX, -VelocityY);
 
 		else
-			((Ship) entity).setEntityVelocity(-VelocityX, VelocityY);
+			ship.setEntityVelocity(-VelocityX, VelocityY);
 	}
 
 	/**
@@ -768,7 +803,7 @@ public class World {
 	 * @param 	entity2
 	 * 			The second ship.
 	 * 
-	 * @effect 	The velocities will be changed (this will be calculated by the formula we use).	
+	 * @effect 	The velocities will be changed (this will be calculated by the provide formula).	
 	 * 			@see implementation
 	 */
 	public void ShipsCollide(Entity entity1, Entity entity2) {
@@ -814,7 +849,7 @@ public class World {
 	/**
 	 * Terminate this world.
 	 * 
-	 * @effect  The worlds state is set on Terminated and all its entities are set on NO_WORLD.
+	 * @effect  The world's state is set to Terminated and all the entities it contains are set to the state NO_WORLD.
 	 * 			@see implementation
 	 */
 	public void Terminate() {
@@ -842,17 +877,17 @@ public class World {
 	 * 			The new state.
 	 * 
 	 * @post 	The new state will be equal to the given state.
-	 * 			|new.getState() == state
+	 * 		  | new.getState() == state
 	 * 
 	 * @throws 	IllegalStateException()
 	 * 			if the given state is null.
-	 * 			|state == null
+	 * 		  | state == null
 	 */
 	public void setWorldState(State state) {
-		if (state == null) {
-			System.out.println("Model.world, setWorldState: state == null");
+		if (state == null)
 			throw new IllegalStateException();
-		} else
+		
+		else
 			this.state = state;
 	}
 	

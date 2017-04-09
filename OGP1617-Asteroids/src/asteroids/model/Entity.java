@@ -471,7 +471,7 @@ public abstract class Entity {
 	/**
 	 * get the minimum time until the entity collides with a boundary.
 	 * 
-	 * @note	The code will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @return 	Positive infinity if the entity has no world or a proper state. 
 	 * 			@see implementation
