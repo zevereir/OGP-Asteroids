@@ -905,30 +905,38 @@ public abstract class Entity {
 	/**
 	 * Checks whether a position is valid or not.
 	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @param 	positionX
 	 * 			The x-value of the position that has to be checked.
 	 * @param 	positionY
 	 * 			the y-value of the position that has to be checked.
 	 * 
-	 * @return 	A boolean (true or false) that checks whether the entity fits in its world.
+	 * @return 	A boolean that checks whether the entity fits in its world.
 	 * 			@see implementation
 	 */
 	public boolean isValidPosition(double positionX, double positionY) {
 		boolean Boolean = true;
 		
+		// Check if the given positions have a valid number.
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
 			Boolean = false;
+		
+		// Check if the entity with the new position would not overlap another entity, or the boundaries of the world.
+		// To check this, we have to set the new positions to the entity and check if the entity would be overlapping. 
+		// At the end of this statement, we have to make sure that position of the entity is back to it's old position, 
+		// because an isValid function shouldn't change the values of its properties.
+		if ((this.getEntityWorld() != null) && Boolean == true) {
+			double oldPositionX = this.getEntityPositionX();
+			double oldPositionY = this.getEntityPositionY();
+			
+			setPositionWithoutChecking(positionX, positionY);
 
-		double oldPositionX = this.getEntityPositionX();
-		double oldPositionY = this.getEntityPositionY();
-		
-		setPositionWithoutChecking(positionX, positionY);
-		
-		if ((this.getEntityWorld() != null))
 			Boolean = this.entityFitsInWorld(this.getEntityWorld());
 
-		setPositionWithoutChecking(oldPositionX, oldPositionY);
-		
+			setPositionWithoutChecking(oldPositionX, oldPositionY);
+		}
+
 		return Boolean;
 	}
 
