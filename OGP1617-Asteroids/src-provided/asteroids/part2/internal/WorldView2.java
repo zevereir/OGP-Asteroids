@@ -33,7 +33,7 @@ import asteroids.util.internal.ResourceUtils;
 @SuppressWarnings("serial")
 public class WorldView2<F extends IFacade> extends JPanel implements KeyListener, ActionListener, CollisionListener {
 
-	private static final int TIMER_DELAY = 1000 / 30;
+	private static final int TIMER_DELAY = 1000 / 40;
 
 	private AsteroidsFrame2<F> game;
 	private F facade;
