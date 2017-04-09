@@ -565,6 +565,9 @@ public class World {
 		
 	
 	/// COLLISION-FUNCTIONS ///
+	
+	private Entity collision_entity_1 = null;
+	private Entity collision_entity_2 = null;
 
 	/**
 	 * Let a bullet and an entity collide.
@@ -897,7 +900,5 @@ public class World {
 	private final Map<Integer, Ship> ships = new HashMap<Integer, Ship>();
 	private final Map<String, Entity> entity_positions = new HashMap<String, Entity>();
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
-	private Entity collision_entity_1 = null;
-	private Entity collision_entity_2 = null;
 
 }

@@ -392,6 +392,8 @@ public abstract class Entity {
 	/**
 	 * Returns the position where the entity will collide with the boundary.
 	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @return	Null if the time till collision equals POSITIVE_INFINITY.
 	 * 			@see implementation
 	 * @return	The collision position of the given entity when it's colliding with a boundary of the world.
@@ -408,7 +410,6 @@ public abstract class Entity {
 	 * 			be thrown.
 	 * 			@see implementation
 	 */
-
 	public double[] getPositionCollisionBoundary() {
 		double time = getTimeCollisionBoundary();
 		double collidingPositionX = 0;
@@ -913,13 +914,22 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	public boolean isValidPosition(double positionX, double positionY) {
+		boolean Boolean = true;
+		
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
-			return false;
+			Boolean = false;
 
+		double oldPositionX = this.getEntityPositionX();
+		double oldPositionY = this.getEntityPositionY();
+		
+		setPositionWithoutChecking(positionX, positionY);
+		
 		if ((this.getEntityWorld() != null))
-			return this.entityFitsInWorld(this.getEntityWorld());
+			Boolean = this.entityFitsInWorld(this.getEntityWorld());
 
-		return true;
+		setPositionWithoutChecking(oldPositionX, oldPositionY);
+		
+		return Boolean;
 	}
 
 	/**
