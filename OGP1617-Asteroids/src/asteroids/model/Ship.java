@@ -127,7 +127,9 @@ public class Ship extends Entity {
 
 	
 	/// CONSTANTS ///
-	
+	/**
+	 * The smallest radius a ship can have.
+	 */
 	private final static double LOWER_SHIP_RADIUS = 10;
 
 	
@@ -141,7 +143,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultMass() {
+	private static double getDefaultMass() {
 		return (4.0 / 3.0) * Math.PI * Math.pow(getDefaultRadius(), 3) * getDefaultShipDensity();
 	}
 	
@@ -152,7 +154,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultRadius() {
+	private static double getDefaultRadius() {
 		return 10;
 	}
 
@@ -162,7 +164,7 @@ public class Ship extends Entity {
 	 * @return 	The default density is equal to 1.42E12.
 	 * 			@see implementation
 	 */
-	public static double getDefaultShipDensity() {
+	private static double getDefaultShipDensity() {
 		return 1.42E12;
 	}
 
@@ -173,7 +175,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static boolean getDefaultThrusterActivity() {
+	private static boolean getDefaultThrusterActivity() {
 		return false;
 	}
 
@@ -184,7 +186,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultThrusterForce() {
+	private static double getDefaultThrusterForce() {
 		return 1.1E21;
 	}
 
@@ -221,7 +223,7 @@ public class Ship extends Entity {
 	 * @return 	The minimum mass which will be calculated with the radius and the density of the ship.
 	 * 		    @see implementation
 	 */
-	public double getMinimumShipMass() {
+	private double getMinimumShipMass() {
 		return (4.0 / 3.0) * Math.PI * Math.pow(this.getEntityRadius(), 3) * this.getEntityDensity();
 	}
 
@@ -277,7 +279,7 @@ public class Ship extends Entity {
 	 * @return 	The total weight.
 	 * 			@see implementation
 	 */
-	public double getTotalBulletsWeight() {
+	private double getTotalBulletsWeight() {
 		double weight = 0;
 
 		for (Bullet bullet : this.getShipBullets())
@@ -349,7 +351,7 @@ public class Ship extends Entity {
 	 * 			will be equal to the default value.
 	 *        	@see implementation
 	 */
-	public void setShipThrusterForce(double thrusterForce) {
+	private void setShipThrusterForce(double thrusterForce) {
 		if (thrusterForce < 0)
 			thrusterForce = getDefaultThrusterForce();
 
@@ -382,7 +384,7 @@ public class Ship extends Entity {
 	 * 			of the bullet is greater than the radius of the ship.
 	 *         	@see implementation
 	 */
-	public boolean bulletFullyInShip(Bullet bullet) {
+	private boolean bulletFullyInShip(Bullet bullet) {
 		double delta_x = Math.abs(bullet.getEntityPositionX() - this.getEntityPositionX());
 		double delta_y = Math.abs(bullet.getEntityPositionY() - this.getEntityPositionY());
 		double bullet_radius = bullet.getEntityRadius();
@@ -472,8 +474,7 @@ public class Ship extends Entity {
 	public boolean isValidRadius(double radius) {
 		return (radius >= LOWER_SHIP_RADIUS);
 	}
-	
-	
+
 	
 	/// ADDERS///
 
@@ -626,7 +627,7 @@ public class Ship extends Entity {
 	 *		  | possibleToFire(bullet,this,world, positionBulletX, positionBulletY, radiusBullet)
 	 */
 	public void fireBullet() {
-		if (!bullets.isEmpty()) {
+		if (!bullets.isEmpty() && this.isEntityInWorld()) {
 			
 			Map.Entry<Integer, Bullet> entry = bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
@@ -688,7 +689,7 @@ public class Ship extends Entity {
 	 * @effect 	If the bullet is overlapping a ship which is not its source ship, both will be terminated.
 	 * 			@see implementation
 	 */
-	public boolean possibleToFire(Bullet bullet, Ship ship, World world, double posBulletX, double posBulletY,
+	private boolean possibleToFire(Bullet bullet, Ship ship, World world, double posBulletX, double posBulletY,
 			double radiusBullet) {
 		boolean Boolean = true;
 

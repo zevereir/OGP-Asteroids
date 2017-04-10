@@ -91,12 +91,17 @@ public class Bullet extends Entity {
 	
 	
 	/// CONSTANTS ///
-	
+	/**
+	 * The smallest radius a bullet can have.
+	 */
 	private final static double LOWER_BULLET_RADIUS = 1;
 
 	
 	/// COUNTERS ///
-	
+	/**
+	 * An integer that counts the amount of bounces on boundaries the bullet already did.
+	 * When initiated, the bullet hasn't bounced, so the integer is zero.
+	 */
 	private int amountOfBounces = 0;
 	
 	
@@ -345,9 +350,17 @@ public class Bullet extends Entity {
 
 	
 	/// TERMINATION AND STATES ///
-	
+	/**
+	 * The state of the bullet is initiated as NOTLOADED.
+	 */
 	private BulletState state = BulletState.NOTLOADED;
 
+	/***
+	 * The states a bullet can be in. 
+	 * LOADED: the bullet is loaded on a ship.
+	 * NOTLOADED: the bullet is not loaded on a ship.
+	 * These states are called loaded states, cause they're a different sort of states than the normal states(in_WORLD,NO_WORLD and TERMINTED). 
+	 */
 	private static enum BulletState {
 		LOADED, NOTLOADED;
 	}
@@ -464,8 +477,14 @@ public class Bullet extends Entity {
 	
 
 	/// CONNECTIONS WITH OTHER CLASSES ///
-	
+	/**
+	 * The ship the bullet is loaded on. When the bullet is initiated, it's not loaded on a ship so ship is null.
+	 */
 	private Ship ship = null;
+	
+	/**
+	 * The ship the bullet is fired from. When the bullet is initiated, it's not fired so the source is null.
+	 */
 	private Ship source_ship = null;
 	
 

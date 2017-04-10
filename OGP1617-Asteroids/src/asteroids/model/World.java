@@ -57,9 +57,19 @@ public class World {
 
 	
 	/// CONSTANTS ///
-	
+	/**
+	 * The maximum width a world can have.
+	 */
 	private final static double UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
+	
+	/**
+	 * The maximum height a world can have.
+	 */
 	private final static double UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
+	
+	/**
+	 * A constant used to perform little movements or to "correct" errors with double values.
+	 */
 	private final static double GAMMA = 0.01;
 
 	
@@ -253,6 +263,30 @@ public class World {
 
 	
 	/// SETTERS ///
+	
+	/**
+	 * Set the world's width.
+	 * 
+	 * @param 	width
+	 * 			The new width.
+	 * 
+	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
+	 * 		  | new.getWorldWidth() == Math.abs(width)
+	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
+	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
+	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
+	 * 			new width of the world.
+	 * 		  | new.getWorldWidth() == width
+	 */
+	public void setWorldWidth(double width) {
+		if (width < 0)
+			width = Math.abs(width);
+
+		if (width > UPPER_WORLD_BOUND_WIDTH)
+			width = UPPER_WORLD_BOUND_WIDTH;
+
+		this.width = width;
+	}
 
 	/**
 	 * Set the world's height.
@@ -294,29 +328,6 @@ public class World {
 		setWorldHeight(height);
 	}
 
-	/**
-	 * Set the world's width.
-	 * 
-	 * @param 	width
-	 * 			The new width.
-	 * 
-	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
-	 * 		  | new.getWorldWidth() == Math.abs(width)
-	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
-	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
-	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
-	 * 			new width of the world.
-	 * 		  | new.getWorldWidth() == width
-	 */
-	public void setWorldWidth(double width) {
-		if (width < 0)
-			width = Math.abs(width);
-
-		if (width > UPPER_WORLD_BOUND_WIDTH)
-			width = UPPER_WORLD_BOUND_WIDTH;
-
-		this.width = width;
-	}
 
 	
 	/// CHECKERS ///
@@ -476,9 +487,16 @@ public class World {
 	 * 			@see implementation
 	 * @effect 	The entity will be set on state NO_WORLD.
 	 * 			@see implementation
+	 * @throws IllegalArgumentException
+	 * 			If the world doesn't have the entity.
+	 * 			@see implementation
 	 */
 	public void removeEntityFromWorld(Entity entity) {
-		if (entity instanceof Ship)
+		
+		if (!this.getWorldEntities().contains(entity))
+			throw new IllegalArgumentException();
+		
+		else if (entity instanceof Ship)
 			this.ships.remove(((Ship) entity).hashCode());
 
 		else if (entity instanceof Bullet)
@@ -495,19 +513,7 @@ public class World {
 	 * Evolve the world by the given time "defaultEvolvingTime" and resolve collisions that will happen.
 	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * 
-	 * @param 	defaultEvolvingTime
-	 * 			The time the world has to evolve.
-	 * @param 	collisionListener
-	 * 			An object of the class CollisionListener that is used to draw explosions.
-	 * 
-	 * @effect 	If there will be a collision before defaultEvolvingTime is reached, then all the entities move timeToCollision.
-	 * 		  | entity.move(timeToCollision) 
-	 * @effect	If no collisions will happen before defaultEvolvingTime is reached, the entities will move over 
-	 * 			defaultCollisionTime. No collisions will be resolved in this case.
-	 * 		  | entity.move(defaultEvolvingTime)
-	 * @effect 	The entities in the world that collide with each other will collide and the collision will be resolved.
-	 * 			@see implementation
+	 * @note	The method does not have a specification. See the assignment for more information.
 	 */
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
 		// A world cannot evolve if there are no entities or the evolving time equals zero 
@@ -551,6 +557,8 @@ public class World {
 					// collisions in the remaining time.
 					evolve(remainingTime, collisionListener);
 				}
+				else
+					throw new IllegalArgumentException();
 			}
 
 			// timeToCollision is bigger strict than the defaultEvolvingTime, which means no collision will 
@@ -565,6 +573,15 @@ public class World {
 		
 	
 	/// COLLISION-FUNCTIONS ///
+	/**
+	 * A variable that contains an entity when there's a collision in the future.
+	 */
+	private Entity collision_entity_1 = null;
+	
+	/**
+	 * A variable that contains an entity when there's a collision between two entity's in the future.
+	 */
+	private Entity collision_entity_2 = null;
 
 	/**
 	 * Let a bullet and an entity collide.
@@ -864,8 +881,16 @@ public class World {
 		}
 	}
 
+	/**
+	 * The state of the world is initiated as NOTTERMINATED.
+	 */
 	private State state = State.NOTTERMINATED;
 
+	/**
+	 * The two states of a world
+	 * NOTTERMINATED: the world is not terminated.
+	 * TERMINATED: the world doesn't exist anymore, so it's terminated.
+	 */
 	private static enum State {
 		NOTTERMINATED, TERMINATED;
 	}
@@ -893,12 +918,21 @@ public class World {
 	
 
 	/// RELATIONS WITH OTHER CLASSES///
-
+	/**
+	 * The map ships is a map with as key the hash-code representing the ship, and as value the ship itself. 
+	 * It contains all the ships that belong to the world.
+	 */
 	private final Map<Integer, Ship> ships = new HashMap<Integer, Ship>();
-	private final Map<String, Entity> entity_positions = new HashMap<String, Entity>();
+	
+	/**
+	 * The map bullets is a map with as key the hash-code representing the bullet, and as value the bullet itself.
+	 * It contains all the bullets that belong to the world.
+	 */
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
-	private Entity collision_entity_1 = null;
-	private Entity collision_entity_2 = null;
-
+	
+	/** 
+	 * The map entity_positions is a map with as key the string "x,y" representing the position of the entity and as value the entity itself.
+	 */
+	private final Map<String, Entity> entity_positions = new HashMap<String, Entity>();
 }
 

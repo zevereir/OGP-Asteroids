@@ -77,9 +77,19 @@ public abstract class Entity {
 
 	
 	/// CONSTANTS ///
-	
+	/**
+	 * The speed of the light which will act as a maximum total velocity when the entity doesn't have a specific one.
+	 */
 	private final static double SPEED_OF_LIGHT = 300000;
+	
+	/**
+	 * A constant that is used to "correct" errors with the double values.
+	 */
 	public final static double OMEGA = 0.99;
+	
+	/**
+	 * A constant that is used to "correct" errors with the double values.
+	 */
 	public final static double BETA = 1.01;
 
 	
@@ -392,6 +402,8 @@ public abstract class Entity {
 	/**
 	 * Returns the position where the entity will collide with the boundary.
 	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @return	Null if the time till collision equals POSITIVE_INFINITY.
 	 * 			@see implementation
 	 * @return	The collision position of the given entity when it's colliding with a boundary of the world.
@@ -408,7 +420,6 @@ public abstract class Entity {
 	 * 			be thrown.
 	 * 			@see implementation
 	 */
-
 	public double[] getPositionCollisionBoundary() {
 		double time = getTimeCollisionBoundary();
 		double collidingPositionX = 0;
@@ -913,13 +924,24 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	public boolean isValidPosition(double positionX, double positionY) {
+		boolean Boolean = true;
+		
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
-			return false;
+			
+			Boolean = false;
+
+		double oldPositionX = this.getEntityPositionX();
+		double oldPositionY = this.getEntityPositionY();
+		
+		setPositionWithoutChecking(positionX, positionY);
+
 		
 		if ((this.getEntityWorld() != null))
-			return this.entityFitsInWorld(this.getEntityWorld());
+			Boolean = this.entityFitsInWorld(this.getEntityWorld());
 
-		return true;
+		setPositionWithoutChecking(oldPositionX, oldPositionY);
+		
+		return Boolean;
 	}
 
 	/**
@@ -1042,8 +1064,17 @@ public abstract class Entity {
 	 */
 	public abstract void Terminate();
 
+	/**
+	 * The state of the entity is initiated as NO_WORLD.
+	 */
 	private State state = State.NO_WORLD;
 
+	/**
+	 * The three stated an entity can be in: 
+	 * 	NO_WORLD: the entity has no world.
+	 * IN_WORLD: the entity is in a world.
+	 * TERMINATED: the entity is terminated, so it doesn't exist anymore.
+	 */
 	protected static enum State {
 		NO_WORLD, IN_WORLD, TERMINATED;
 	}
@@ -1070,7 +1101,9 @@ public abstract class Entity {
 	}
 
 	/// RELATIONS WITH OTHER CLASSES ///
-	
+	/**
+	 * The world where the entity is placed in. When initiated, the entity has no world.
+	 */
 	private World world = null;
 }
 
