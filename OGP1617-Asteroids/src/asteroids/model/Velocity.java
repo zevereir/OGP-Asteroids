@@ -11,6 +11,7 @@ import be.kuleuven.cs.som.annotate.Value;
 @Value
 public class Velocity {
 	
+	/// CONSTRUCTOR///
 	/**
 	 * Initializes a velocity.
 	 * 
@@ -22,7 +23,7 @@ public class Velocity {
 	 * @effect 	The x and y component will be set on the given values.
 	 * 			@see implementation
 	 */
-	public Velocity(double velocityX, double velocityY) {
+	private Velocity(double velocityX, double velocityY) {
 		setVelocityX(velocityX);
 		setVelocityY(velocityY);
 	}
@@ -42,7 +43,7 @@ public class Velocity {
 	 * @effect 	Uses the normal constructor.
 	 * 			@see implementation
 	 */
-	public Velocity() {
+	protected Velocity() {
 		this(0, 0);
 	}
 	
@@ -55,7 +56,7 @@ public class Velocity {
 	 * @return 	The array.
 	 * 		  | result == {velocityX, velocityY}
 	 */
-	public double[] getVelocityArray() {
+	protected double[] getVelocityArray() {
 		double[] result = { velocityX, velocityY };
 		return result;
 	}
@@ -66,7 +67,7 @@ public class Velocity {
 	 * @return 	The x-component.
 	 * 			@see implementation
 	 */
-	public double getVelocityX() {
+	protected double getVelocityX() {
 		return velocityX;
 	}
 	
@@ -76,7 +77,7 @@ public class Velocity {
 	 * @return 	The y-component.
 	 * 			@see implementation
 	 */
-	public double getVelocityY() {
+	protected double getVelocityY() {
 		return velocityY;
 	}
 	
@@ -92,7 +93,7 @@ public class Velocity {
 	 * @post 	The new x-component will be equal to newVelocityX.
 	 * 		  | new.getVelocityX == newvelocityX
 	 */
-	public void setVelocityX(double newVelocityX) {
+	protected void setVelocityX(double newVelocityX) {
 		velocityX = newVelocityX;
 	}
 	
@@ -105,7 +106,7 @@ public class Velocity {
 	 * @post 	The new y-component will be equal to newVelocityY.
 	 * 		  | new.getVelocityY == newVelocityY
 	 */
-	public void setVelocityY(double newVelocityY) {
+	protected void setVelocityY(double newVelocityY) {
 		velocityY = newVelocityY;
 	}
 

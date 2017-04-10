@@ -21,7 +21,7 @@ public class Position {
 	 * @effect 	The x and y component will be set on the given values.
 	 * 			@see implementation
 	 */
-	public Position(double positionX, double positionY) {
+	private Position(double positionX, double positionY) {
 		this.setPositionX(positionX);
 		this.setPositionY(positionY);
 	}
@@ -40,7 +40,7 @@ public class Position {
 	 * @effect 	Uses the normal constructor.
 	 * 			@see implementation
 	 */
-	public Position() {
+	protected Position() {
 		this(0, 0);
 	}
 	
@@ -53,7 +53,7 @@ public class Position {
 	 * @return 	The array.
 	 * 		  | result == {positionX, positionY}
 	 */
-	public double[] getPositionArray() {
+	protected double[] getPositionArray() {
 		double[] result = { positionX, positionY };
 		return result;
 	}
@@ -64,7 +64,7 @@ public class Position {
 	 * @return 	The x-component.
 	 * 			@see implementation
 	 */
-	public double getPositionX() {
+	protected double getPositionX() {
 		return positionX;
 	}
 	
@@ -74,7 +74,7 @@ public class Position {
 	 * @return 	The y-component.
 	 * 			@see implementation
 	 */
-	public double getPositionY() {
+	protected double getPositionY() {
 		return positionY;
 	}
 	
@@ -90,7 +90,7 @@ public class Position {
 	 * @post 	The new x-component will be equal to newPositionX.
 	 * 		  | new.getPositionyX == newPositionX
 	 */
-	public void setPositionX(double newPositionX) {
+	protected void setPositionX(double newPositionX) {
 		positionX = newPositionX;
 	}
 	
@@ -103,7 +103,7 @@ public class Position {
 	 * @post 	The new y-component will be equal to newPositionY.
 	 * 		  | new.getPositionY == newPositionY
 	 */
-	public void setPositionY(double newPositionY) {
+	protected void setPositionY(double newPositionY) {
 		positionY = newPositionY;
 	}
 	

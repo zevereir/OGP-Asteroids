@@ -268,7 +268,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	@Basic
-	public double getShipTrusterForce() {
+	private double getShipTrusterForce() {
 		return this.thruster_force;
 	}
 
@@ -312,7 +312,7 @@ public class Ship extends Entity {
 	 * 			Otherwise will the density be set to the default value.
 	 *          @see implementation
 	 */
-	public void setEntityDensity(double density) {
+	protected void setEntityDensity(double density) {
 		if (isValidDensity(density))
 			this.density = density;
 
@@ -330,7 +330,7 @@ public class Ship extends Entity {
 	 *       	Otherwise will the mass be set to the minimum value. 
 	 *       	@see implementation
 	 */
-	public void setEntityMass(double mass) {
+	protected void setEntityMass(double mass) {
 		if (isValidMass(mass))
 			this.mass = mass;
 		
@@ -364,11 +364,14 @@ public class Ship extends Entity {
 	 * @param 	thrusterActivity
 	 *          The new thrusterActivity.
 	 *          
-	 * @post 	The thrusterActivity of the ship will be equal to the given boolean value.
+	 * @effect 	The thrusterActivity of the ship will be equal to the given boolean value.
 	 * 			@see implementation
 	 */
 	public void setThrusterActive(boolean thrusterActivity) {
-		this.thruster_activity = thrusterActivity;
+		if (thrusterActivity)
+			thrustOn();
+		else
+			thrustOff();
 	}
 
 	
@@ -404,7 +407,7 @@ public class Ship extends Entity {
 	 * 			not lie fully in the ship, the bullet is terminated, or if the ship itself is terminated. 
 	 *         	@see implementation
 	 */
-	public boolean canHaveAsBullet(Bullet bullet) {
+	protected boolean canHaveAsBullet(Bullet bullet) {
 		if (this.hasAsBullet(bullet))
 			return false;
 		
@@ -432,7 +435,7 @@ public class Ship extends Entity {
 	 * @return 	False if the bullet is already on the ship.
 	 * 			@see implementation
 	 */
-	public boolean hasAsBullet(Bullet bullet) {
+	protected boolean hasAsBullet(Bullet bullet) {
 		return this.bullets.containsKey(bullet.hashCode());
 	}
 
@@ -445,7 +448,7 @@ public class Ship extends Entity {
 	 * @return 	True if the density is greater than the default density.
 	 * 			@see implementation
 	 */
-	public boolean isValidDensity(double density) {
+	protected boolean isValidDensity(double density) {
 		return (density >= getDefaultShipDensity());
 	}
 
@@ -458,7 +461,7 @@ public class Ship extends Entity {
 	 * @return 	True if the mass is greater than the minimum mass and the mass is a number.
 	 * 			@see implementation
 	 */
-	public boolean isValidMass(double mass) {
+	protected boolean isValidMass(double mass) {
 		return ((mass != Double.NaN) && (mass >= getMinimumShipMass()));
 	}
 
@@ -471,7 +474,7 @@ public class Ship extends Entity {
 	 * @return 	True if the radius is greater than the default lower ship radius.
 	 *          @see implementation
 	 */
-	public boolean isValidRadius(double radius) {
+	protected boolean isValidRadius(double radius) {
 		return (radius >= LOWER_SHIP_RADIUS);
 	}
 
@@ -559,7 +562,7 @@ public class Ship extends Entity {
 	 * 			If the given time is negative.
 	 * 		  | moveTime < 0
 	 */
-	public void move(double moveTime) {
+	protected void move(double moveTime) {
 		if (moveTime < 0)
 			throw new IllegalArgumentException();
 
@@ -750,8 +753,8 @@ public class Ship extends Entity {
 	 * @post 	The ship's thruster is active.
 	 * 		  | new.isThrusterActive == True
 	 */
-	public void thrustOn() {
-		setThrusterActive(true);
+	private void thrustOn() {
+		this.thruster_activity= true;
 	}
 
 	/**
@@ -760,8 +763,8 @@ public class Ship extends Entity {
 	 * @post 	The ship's thruster is inactive.
 	 * 		  | new.isThrusterActive == False
 	 */
-	public void thrustOff() {
-		setThrusterActive(false);
+	private void thrustOff() {
+		this.thruster_activity = false;
 	}
 	
 

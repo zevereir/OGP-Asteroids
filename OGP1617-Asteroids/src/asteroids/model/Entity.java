@@ -85,12 +85,12 @@ public abstract class Entity {
 	/**
 	 * A constant that is used to "correct" errors with the double values.
 	 */
-	public final static double OMEGA = 0.99;
+	private final static double OMEGA = 0.99;
 	
 	/**
 	 * A constant that is used to "correct" errors with the double values.
 	 */
-	public final static double BETA = 1.01;
+	private final static double BETA = 1.01;
 
 	
 	/// DEFAULTS ///
@@ -101,7 +101,7 @@ public abstract class Entity {
 	 * @return 	The default maximum velocity.
 	 * 			@see implementation
 	 */
-	public static double getDefaultMaxVelocity() {
+	protected static double getDefaultMaxVelocity() {
 		return SPEED_OF_LIGHT;
 	}
 
@@ -112,7 +112,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultOrientation() {
+	protected static double getDefaultOrientation() {
 		return 0;
 	}
 
@@ -123,7 +123,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultPositionX() {
+	protected static double getDefaultPositionX() {
 		return 0;
 	}
 
@@ -134,7 +134,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultPositionY() {
+	protected static double getDefaultPositionY() {
 		return 0;
 	}
 
@@ -145,7 +145,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultVelocityX() {
+	protected static double getDefaultVelocityX() {
 		return 0;
 	}
 
@@ -156,7 +156,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	public static double getDefaultVelocityY() {
+	protected static double getDefaultVelocityY() {
 		return 0;
 	}
 
@@ -261,7 +261,7 @@ public abstract class Entity {
 		final double delta_x = Math.abs(position1X - position2X);
 		final double delta_y = Math.abs(position1Y - position2Y);
 		final double distance_centers = getEuclidianDistance(delta_x, delta_y);
-		final double distance = distance_centers - OMEGA * total_radius;
+		final double distance = distance_centers - total_radius;
 
 		return distance;
 	}
@@ -272,7 +272,7 @@ public abstract class Entity {
 	 * @return 	The density.
 	 * 			@see implementation
 	 */
-	public double getEntityDensity() {
+	protected double getEntityDensity() {
 		return this.density;
 	}
 
@@ -290,7 +290,7 @@ public abstract class Entity {
 	 * @return 	The maximum velocity.
 	 * 			@see implementation
 	 */
-	public double getEntityMaxVelocity() {
+	protected double getEntityMaxVelocity() {
 		return this.max_velocity;
 	}
 
@@ -320,7 +320,7 @@ public abstract class Entity {
 	 * @return 	The x-position of the position.
 	 * 			@see implementation
 	 */
-	public double getEntityPositionX() {
+	protected double getEntityPositionX() {
 		return this.position.getPositionX();
 	}
 
@@ -330,7 +330,7 @@ public abstract class Entity {
 	 * @return 	The y-position of the position.
 	 * 			@see implementation
 	 */
-	public double getEntityPositionY() {
+	protected double getEntityPositionY() {
 		return this.position.getPositionY();
 	}
 
@@ -360,7 +360,7 @@ public abstract class Entity {
 	 * @return 	The x-value of the velocity.
 	 * 			@see implementation
 	 */
-	public double getEntityVelocityX() {
+	protected double getEntityVelocityX() {
 		return this.velocity.getVelocityX();
 	}
 
@@ -370,7 +370,7 @@ public abstract class Entity {
 	 * @return the y-value of the velocity.
 	 * 			@see implementation
 	 */
-	public double getEntityVelocityY() {
+	protected double getEntityVelocityY() {
 		return this.velocity.getVelocityY();
 	}
 	
@@ -395,7 +395,7 @@ public abstract class Entity {
 	 * @return	The Euclidian distance: the square root of the sum of a squared and b squared. 
 	 *			@see implementation
 	 */
-	public static double getEuclidianDistance(double a, double b) {
+	protected static double getEuclidianDistance(double a, double b) {
 		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 	}
 
@@ -475,7 +475,7 @@ public abstract class Entity {
 	 * @return 	The state.
 	 * 			@see implementation
 	 */
-	public State getState() {
+	private State getState() {
 		return this.state;
 	}
 
@@ -619,7 +619,7 @@ public abstract class Entity {
 	 * @post 	The new density will be equal to the given density.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract void setEntityDensity(double density);
+	protected abstract void setEntityDensity(double density);
 
 	/**
 	 * set the entity's state to NO_WORLD.
@@ -630,7 +630,7 @@ public abstract class Entity {
 	 * @effect 	The entity's world will be set on null and the state to NO_WORLD.
 	 * 			@see implementation
 	 */
-	public void setEntityFree() {
+	protected void setEntityFree() {
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.NO_WORLD);
 		this.setEntityWorld(null);
@@ -648,7 +648,7 @@ public abstract class Entity {
 	 * @effect 	The state changes to IN_WORLD and its world will be set to the given world.
 	 * 			@see implementation
 	 */
-	public void setEntityInWorld(World world) {
+	protected void setEntityInWorld(World world) {
 		assert (!this.isEntityTerminated());
 		this.setEntityState(State.IN_WORLD);
 		this.setEntityWorld(world);
@@ -663,7 +663,7 @@ public abstract class Entity {
 	 * @post 	The new mass will be equal to the given mass.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract void setEntityMass(double mass);
+	protected abstract void setEntityMass(double mass);
 
 	/**
 	 * Set the maximum total velocity.
@@ -675,7 +675,7 @@ public abstract class Entity {
 	 * 			it will be set to the speed of the light.
 	 * 			@see implementation
 	 */
-	public void setEntityMaxVelocity(double newMaxVelocity) {
+	protected void setEntityMaxVelocity(double newMaxVelocity) {
 		if ((0 < newMaxVelocity) && (newMaxVelocity < SPEED_OF_LIGHT))
 			this.max_velocity = newMaxVelocity;
 
@@ -695,7 +695,7 @@ public abstract class Entity {
 	 * @post 	The new orientation will be equal to the given orientation.
 	 *        | new.getEntityOrientation() == orientation
 	 */
-	public void setEntityOrientation(double orientation) {
+	protected void setEntityOrientation(double orientation) {
 		assert isValidOrientation(orientation);
 
 		this.orientation = orientation;
@@ -717,7 +717,7 @@ public abstract class Entity {
 	 * 			if the position is not valid.
 	 * 			@see implementation
 	 */
-	public void setEntityPosition(double positionX, double positionY) {
+	protected void setEntityPosition(double positionX, double positionY) {
 		if (!isValidPosition(positionX, positionY))
 			throw new IllegalArgumentException();
 
@@ -738,7 +738,7 @@ public abstract class Entity {
 	 * 			if the radius is not valid.
 	 * 			@see implementation
 	 */
-	public void setEntityRadius(double radius) {
+	protected void setEntityRadius(double radius) {
 		if (isValidRadius(radius))
 			this.radius = radius;
 		
@@ -759,7 +759,7 @@ public abstract class Entity {
 	 * 			If the given state is null.
 	 * 			@see implementation
 	 */
-	public void setEntityState(State state) {
+	protected void setEntityState(State state) {
 		if (state == null)
 			throw new IllegalArgumentException();
 		
@@ -784,7 +784,7 @@ public abstract class Entity {
 	 * 			be mapped with the orientation.
 	 * 			@see implementation.
 	 */
-	public void setEntityVelocity(double velocityX, double velocityY) {
+	protected void setEntityVelocity(double velocityX, double velocityY) {
 		if (!isValidVelocity(velocityX, velocityY)) {
 			if (Double.isNaN(velocityX))
 				velocityX = 0;
@@ -814,7 +814,7 @@ public abstract class Entity {
 	 * @post 	The new world will be equal to the given world.
 	 * 		  | new.getEntityWorld() == world
 	 */
-	public void setEntityWorld(World world) {
+	protected void setEntityWorld(World world) {
 		this.world = world;
 	}
 
@@ -829,7 +829,7 @@ public abstract class Entity {
 	 * @post 	The new position will be equal to the given values.
 	 * 		  | new.getEntityPosition == {x, y}
 	 */
-	public void setPositionWithoutChecking(double positionX, double positionY) {
+	protected void setPositionWithoutChecking(double positionX, double positionY) {
 		this.position.setPositionX(positionX);
 		this.position.setPositionY(positionY);
 	}
@@ -843,7 +843,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks whether the entity's state is IN_WORLD, NO_WORLD or Terminated.
 	 * 			@see implementation
 	 */
-	public boolean hasEntityProperState() {
+	protected boolean hasEntityProperState() {
 		return (isEntityInWorld() ^ isEntityFree() ^ isEntityTerminated());
 	}
 
@@ -853,7 +853,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks if the entity has the NO_WORLD state.
 	 * 			@see implementation
 	 */
-	public boolean isEntityFree() {
+	protected boolean isEntityFree() {
 		return this.getState() == State.NO_WORLD;
 	}
 
@@ -863,7 +863,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks if the entity has the IN_WORLD state.
 	 * 			@see implementation
 	 */
-	public boolean isEntityInWorld() {
+	protected boolean isEntityInWorld() {
 		return (this.getState() == State.IN_WORLD);
 	}
 
@@ -886,7 +886,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks whether the given density is valid or not.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract boolean isValidDensity(double density);
+	protected abstract boolean isValidDensity(double density);
 
 	/**
 	 * Checks if a given mass is valid.
@@ -897,7 +897,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks of the mass is valid.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract boolean isValidMass(double mass);
+	protected abstract boolean isValidMass(double mass);
 
 	/**
 	 * Checks if a given orientation is valid.
@@ -908,7 +908,7 @@ public abstract class Entity {
 	 * @return	the boolean that checks if an orientation is valid.
 	 * 			@see implementation
 	 */
-	public boolean isValidOrientation(double orientation) {
+	protected boolean isValidOrientation(double orientation) {
 		return ((0 <= orientation) && (orientation < 2 * Math.PI));
 	}
 
@@ -923,7 +923,7 @@ public abstract class Entity {
 	 * @return 	A boolean (true or false) that checks whether the entity fits in its world.
 	 * 			@see implementation
 	 */
-	public boolean isValidPosition(double positionX, double positionY) {
+	private boolean isValidPosition(double positionX, double positionY) {
 		boolean Boolean = true;
 		
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
@@ -953,7 +953,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks if the radius is valid.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract boolean isValidRadius(double radius);
+	protected abstract boolean isValidRadius(double radius);
 
 	/**
 	 * Checks if a velocity is valid.
@@ -967,7 +967,7 @@ public abstract class Entity {
 	 * 			(calculated with the formula of the Euclidian distance) exceeds the maximum velocity.
 	 * 			@see implementation
 	 */
-	public boolean isValidVelocity(double velocityX, double velocityY) {
+	private boolean isValidVelocity(double velocityX, double velocityY) {
 		if ((Double.isNaN(velocityX)) || (Double.isNaN(velocityY)))
 			return false;
 
@@ -989,7 +989,7 @@ public abstract class Entity {
 	 * @return 	A boolean that checks if the entity can be in the world.
 	 * 			@see implementation			
 	 */
-	public boolean entityFitsInWorld(World world) {
+	protected boolean entityFitsInWorld(World world) {
 		if (!this.entityLiesInBoundaries(world) || this.entityOverlappingInWorld(world) != null)
 			return false;
 		
@@ -1005,7 +1005,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks if a ship lies in the boundaries of the world.
 	 * 			@see implementation
 	 */
-	public boolean entityLiesInBoundaries(World world) {
+	protected boolean entityLiesInBoundaries(World world) {
 		double radius = this.getEntityRadius();
 		double upper_bound = (world.getWorldHeight() - OMEGA * radius);
 		double lower_bound = OMEGA * radius;
@@ -1029,7 +1029,7 @@ public abstract class Entity {
 	 * @return 	The boolean that checks if the entity is overlapping with something in the world.
 	 * 			@see implementation
 	 */
-	public Entity entityOverlappingInWorld(World world) {
+	protected Entity entityOverlappingInWorld(World world) {
 		// Check if the entity is not overlapping with another entity.
 		for (Object entity : world.getWorldEntities())
 			if (this.overlap((Entity) entity) && !this.equals(entity))
@@ -1051,7 +1051,7 @@ public abstract class Entity {
 	 * @effect 	The entity will be moved.
 	 * 			@see implementation in the abstract methods
 	 */
-	public abstract void move(double moveTime);
+	protected abstract void move(double moveTime);
 
 	
 	/// TERMINATION AND STATES ///

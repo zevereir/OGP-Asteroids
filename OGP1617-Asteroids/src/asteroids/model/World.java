@@ -35,8 +35,7 @@ public class World {
 	 * 			@see implementation
 	 */
 	public World(double width, double height) {
-		setWorldWidth(width);
-		setWorldHeight(height);
+		setWorldSize(width,height);
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class World {
 	 * @return 	The state.
 	 * 			@see implementation
 	 */
-	public State getState() {
+	private State getState() {
 		return this.state;
 	}
 
@@ -197,6 +196,20 @@ public class World {
 
 		return result;
 	}
+	
+	/**
+	 * Return the ships that are in the world.
+	 * 
+	 * @return 	The set of ships in the world.
+	 * 			@see implementation
+	 */
+	public Set<Ship> getWorldShips() {
+		Set<Ship> result = new HashSet<Ship>();
+
+		result.addAll(this.ships.values());
+
+		return result;
+	}
 
 	/**
 	 * Return the set of all the entities in the world.
@@ -219,23 +232,20 @@ public class World {
 	 * @return 	The height of the world.
 	 * 			@see implementation
 	 */
-	public double getWorldHeight() {
+	protected double getWorldHeight() {
 		return this.getWorldSize()[1];
 	}
 
 	/**
-	 * Return the ships that are in the world.
+	 * Return the width of the world.
 	 * 
-	 * @return 	The set of ships in the world.
+	 * @return 	The width of the world.
 	 * 			@see implementation
 	 */
-	public Set<Ship> getWorldShips() {
-		Set<Ship> result = new HashSet<Ship>();
-
-		result.addAll(this.ships.values());
-
-		return result;
+	protected double getWorldWidth() {
+		return this.getWorldSize()[0];
 	}
+
 
 	/**
 	 * Return the size of the world.
@@ -249,16 +259,6 @@ public class World {
 		double[] size_array = { width, height };
 
 		return size_array;
-	}
-
-	/**
-	 * Return the width of the world.
-	 * 
-	 * @return 	The width of the world.
-	 * 			@see implementation
-	 */
-	public double getWorldWidth() {
-		return this.getWorldSize()[0];
 	}
 
 	
@@ -278,7 +278,7 @@ public class World {
 	 * 			new width of the world.
 	 * 		  | new.getWorldWidth() == width
 	 */
-	public void setWorldWidth(double width) {
+	private void setWorldWidth(double width) {
 		if (width < 0)
 			width = Math.abs(width);
 
@@ -302,7 +302,7 @@ public class World {
 	 * 			new height of the world.
 	 * 		  | new.getWorldHeight() == height
 	 */
-	public void setWorldHeight(double height) {
+	private void setWorldHeight(double height) {
 		if (height < 0)
 			height = Math.abs(height);
 
@@ -323,7 +323,7 @@ public class World {
 	 * @effect 	The width and height will be set on the new values.
 	 * 			@see implementation
 	 */
-	public void setWorldSize(double width, double height) {
+	private void setWorldSize(double width, double height) {
 		setWorldWidth(width);
 		setWorldHeight(height);
 	}
@@ -351,7 +351,7 @@ public class World {
 	 * @return 	False if the entity or the world is terminated.
 	 *			@see implementation
 	 */
-	public boolean canHaveAsEntity(Entity entity) {
+	protected boolean canHaveAsEntity(Entity entity) {
 		// The entity already belongs to this world.
 		if (this.hasAsEntity(entity))
 			return false;
@@ -390,7 +390,7 @@ public class World {
 	 * @return 	The boolean that checks if the world has the entity.
 	 * 			@see implementation
 	 */
-	public boolean hasAsEntity(Entity entity) {
+	protected boolean hasAsEntity(Entity entity) {
 		if (entity instanceof Ship)
 			return this.ships.containsValue(entity);
 
@@ -404,7 +404,7 @@ public class World {
 	 * @return 	The boolean that checks the proper state.
 	 * 			@see implementation
 	 */
-	public boolean hasWorldProperState() {
+	protected boolean hasWorldProperState() {
 		return (!isWorldTerminated()) ^ isWorldTerminated();
 	}
 
@@ -429,7 +429,7 @@ public class World {
 	 * 			
 	 * @return	A position in form of a string.
 	 */
-	public String arrayToString(double[] array) {
+	private String arrayToString(double[] array) {
 		return (array[0] + "," + array[1]);
 	}
 
@@ -603,7 +603,7 @@ public class World {
 	 * 			will be invoked.
 	 * 			@see implementation
 	 */
-	public void BulletAndEntityCollide(Entity entity1, Entity entity2, CollisionListener collisionListener, double[] collisionArray) {
+	private void BulletAndEntityCollide(Entity entity1, Entity entity2, CollisionListener collisionListener, double[] collisionArray) {
 		double position1X = ((Entity)entity1).getEntityPositionX();
 		double position1Y = ((Entity)entity1).getEntityPositionY();
 		double position2X = ((Entity)entity2).getEntityPositionX();
@@ -650,7 +650,7 @@ public class World {
 	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
 	 * 			@see implementation
 	 */
-	public void BulletAndWorldCollide(Bullet bullet, double[] collisionArray) {
+	private void BulletAndWorldCollide(Bullet bullet, double[] collisionArray) {
 		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
 		int counter = bullet.getAmountOfBounces();
 
@@ -687,11 +687,82 @@ public class World {
 	 * 			height of the world (the upper-boundary).
 	 * 			@see implementation
 	 */
-	public boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
+	private boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
 		boolean crossesLowerBoundary = (collisionArray[1] < GAMMA * entity.getEntityRadius());
 		boolean crossesUpperBoundary = (collisionArray[1] > (entity.getEntityWorld().getWorldHeight() - GAMMA * entity.getEntityRadius()));
 		
 		return (crossesLowerBoundary || crossesUpperBoundary);
+	}
+	
+	/**
+	 * Let a ship collide with the boundaries of the world.
+	 * 
+	 * @param 	ship
+	 * 			The ship that collides.
+	 * @param 	collisionArray
+	 * 			The position where the collision will take place.
+	 * 
+	 * @effect	If the bullet collides with a horizontal boundary, the y-component of the velocity will change sign. 
+	 * 			If the collision happens with a vertical boundary, the x-component changes sign
+	 * 			@see implementation
+	 */
+	private void ShipAndWorldCollide(Ship ship, double[] collisionArray) {
+		double VelocityX = ship.getEntityVelocityX();
+		double VelocityY = ship.getEntityVelocityY();
+
+		if (collideHorizontalBoundary(ship, collisionArray))
+			ship.setEntityVelocity(VelocityX, -VelocityY);
+
+		else
+			ship.setEntityVelocity(-VelocityX, VelocityY);
+	}
+
+	/**
+	 * Let two ships collide with each other.
+	 * 
+	 * @param 	entity1
+	 * 			the first ship.
+	 * @param 	entity2
+	 * 			The second ship.
+	 * 
+	 * @effect 	The velocities will be changed (this will be calculated by the provide formula).	
+	 * 			@see implementation
+	 */
+	private void ShipsCollide(Entity entity1, Entity entity2) {
+		final double position_1X = entity1.getEntityPositionX();
+		final double position_1Y = entity1.getEntityPositionY();
+		final double position_2X = entity2.getEntityPositionX();
+		final double position_2Y = entity2.getEntityPositionY();
+		
+		final double velocity_1X = entity1.getEntityVelocityX();
+		final double velocity_1Y = entity1.getEntityVelocityY();
+		final double velocity_2X = entity2.getEntityVelocityX();
+		final double velocity_2Y = entity2.getEntityVelocityY();
+		
+		final double radius_1 = entity1.getEntityRadius();
+		final double radius_2 = entity2.getEntityRadius();
+		final double total_radius = (radius_1 + radius_2);
+		
+		final double mass_1 = entity1.getEntityMass();
+		final double mass_2 = entity2.getEntityMass();
+
+		final double delta_x = position_2X - position_1X;
+		final double delta_y = position_2Y - position_1Y;
+		
+		final double delta_rX = position_2X - position_1X;
+		final double delta_rY = position_2Y - position_1Y;
+		
+		final double delta_vX = velocity_2X - velocity_1X;
+		final double delta_vY = velocity_2Y - velocity_1Y;
+		
+		final double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
+
+		double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
+		double Jx = (BigJ * delta_x) / total_radius;
+		double Jy = (BigJ * delta_y) / total_radius;
+
+		entity1.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
+		entity2.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
 	}
 	
 	/**
@@ -709,7 +780,7 @@ public class World {
 	 * @effect 	Resolving the collision of the entities.
 	 * 			@see implementation
 	 */
-	public void letCollisionHappen(double[] collisionArray, double defaultEvolvingTime, CollisionListener collisionListener) {
+	private void letCollisionHappen(double[] collisionArray, double defaultEvolvingTime, CollisionListener collisionListener) {
 		double collisionPositionX = collisionArray[0];
 		double collisionPositionY = collisionArray[1];
 		
@@ -789,76 +860,7 @@ public class World {
 		}
 	}
 
-	/**
-	 * Let a ship collide with the boundaries of the world.
-	 * 
-	 * @param 	ship
-	 * 			The ship that collides.
-	 * @param 	collisionArray
-	 * 			The position where the collision will take place.
-	 * 
-	 * @effect	If the bullet collides with a horizontal boundary, the y-component of the velocity will change sign. 
-	 * 			If the collision happens with a vertical boundary, the x-component changes sign
-	 * 			@see implementation
-	 */
-	public void ShipAndWorldCollide(Ship ship, double[] collisionArray) {
-		double VelocityX = ship.getEntityVelocityX();
-		double VelocityY = ship.getEntityVelocityY();
-
-		if (collideHorizontalBoundary(ship, collisionArray))
-			ship.setEntityVelocity(VelocityX, -VelocityY);
-
-		else
-			ship.setEntityVelocity(-VelocityX, VelocityY);
-	}
-
-	/**
-	 * Let two ships collide with each other.
-	 * 
-	 * @param 	entity1
-	 * 			the first ship.
-	 * @param 	entity2
-	 * 			The second ship.
-	 * 
-	 * @effect 	The velocities will be changed (this will be calculated by the provide formula).	
-	 * 			@see implementation
-	 */
-	public void ShipsCollide(Entity entity1, Entity entity2) {
-		final double position_1X = entity1.getEntityPositionX();
-		final double position_1Y = entity1.getEntityPositionY();
-		final double position_2X = entity2.getEntityPositionX();
-		final double position_2Y = entity2.getEntityPositionY();
-		
-		final double velocity_1X = entity1.getEntityVelocityX();
-		final double velocity_1Y = entity1.getEntityVelocityY();
-		final double velocity_2X = entity2.getEntityVelocityX();
-		final double velocity_2Y = entity2.getEntityVelocityY();
-		
-		final double radius_1 = entity1.getEntityRadius();
-		final double radius_2 = entity2.getEntityRadius();
-		final double total_radius = (radius_1 + radius_2);
-		
-		final double mass_1 = entity1.getEntityMass();
-		final double mass_2 = entity2.getEntityMass();
-
-		final double delta_x = position_2X - position_1X;
-		final double delta_y = position_2Y - position_1Y;
-		
-		final double delta_rX = position_2X - position_1X;
-		final double delta_rY = position_2Y - position_1Y;
-		
-		final double delta_vX = velocity_2X - velocity_1X;
-		final double delta_vY = velocity_2Y - velocity_1Y;
-		
-		final double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
-
-		double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
-		double Jx = (BigJ * delta_x) / total_radius;
-		double Jy = (BigJ * delta_y) / total_radius;
-
-		entity1.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
-		entity2.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
-	}
+	
 	
 	
 	/// TERMINATION AND STATES ///
@@ -908,7 +910,7 @@ public class World {
 	 * 			if the given state is null.
 	 * 		  | state == null
 	 */
-	public void setWorldState(State state) {
+	private void setWorldState(State state) {
 		if (state == null)
 			throw new IllegalStateException();
 		
