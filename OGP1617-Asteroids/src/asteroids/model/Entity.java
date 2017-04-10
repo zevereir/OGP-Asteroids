@@ -943,16 +943,6 @@ public abstract class Entity {
 			
 			setPositionWithoutChecking(positionX, positionY);
 
-<<<<<<< HEAD
-		double oldPositionX = this.getEntityPositionX();
-		double oldPositionY = this.getEntityPositionY();
-		
-		setPositionWithoutChecking(positionX, positionY);
-
-		
-		if ((this.getEntityWorld() != null))
-=======
->>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 			Boolean = this.entityFitsInWorld(this.getEntityWorld());
 
 			setPositionWithoutChecking(oldPositionX, oldPositionY);
