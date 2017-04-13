@@ -127,6 +127,7 @@ public class Ship extends Entity {
 
 	
 	/// CONSTANTS ///
+	
 	/**
 	 * The smallest radius a ship can have.
 	 */
@@ -375,7 +376,7 @@ public class Ship extends Entity {
 	}
 
 	
-	/// CHECKERS///
+	/// CHECKERS ///
 
 	/**
 	 * Checks if a bullet lies fully in the ship.
@@ -479,7 +480,7 @@ public class Ship extends Entity {
 	}
 
 	
-	/// ADDERS///
+	/// ADDERS ///
 
 	/**
 	 * Load one bullet on the ship.
@@ -519,7 +520,7 @@ public class Ship extends Entity {
 	}
 
 	
-	/// REMOVERS///
+	/// REMOVERS ///
 
 	/**
 	 * Remove a bullet from the ship.
@@ -545,7 +546,7 @@ public class Ship extends Entity {
 	}
 
 	
-	/// MOVE///
+	/// MOVE ///
 	
 	/**
 	 * Let a ship move for a given time "moveTime".
@@ -768,7 +769,7 @@ public class Ship extends Entity {
 	}
 	
 
-	/// TERMINATE ///
+	/// TERMINATION ///
 	
 	/**
 	 * Terminate the ship.
@@ -799,7 +800,5 @@ public class Ship extends Entity {
 	 * The map bullets is a map with as key the hash-code representing the bullet, and as value the bullet itself.
 	 */
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
-
-	
 }
 
