@@ -1,6 +1,7 @@
 package asteroids.model;
 
 import be.kuleuven.cs.som.annotate.Value;
+
 /**
  * A value class that describes position.
  * 
@@ -9,6 +10,8 @@ import be.kuleuven.cs.som.annotate.Value;
  */
 @Value
 public class Position {
+	
+	/// CONSTRUCTOR ///
 	
 	/**
 	 * Initializes a position.
@@ -25,6 +28,7 @@ public class Position {
 		this.setPositionX(positionX);
 		this.setPositionY(positionY);
 	}
+	
 	
 	/// BASIC PROPERTIES ///
 	
@@ -106,6 +110,5 @@ public class Position {
 	protected void setPositionY(double newPositionY) {
 		positionY = newPositionY;
 	}
-	
 }
 

@@ -1,6 +1,7 @@
 package asteroids.model;
 
 import be.kuleuven.cs.som.annotate.Value;
+
 /**
  * A value class that describes velocity.
  * 
@@ -11,7 +12,8 @@ import be.kuleuven.cs.som.annotate.Value;
 @Value
 public class Velocity {
 	
-	/// CONSTRUCTOR///
+	/// CONSTRUCTOR ///
+	
 	/**
 	 * Initializes a velocity.
 	 * 
@@ -109,6 +111,5 @@ public class Velocity {
 	protected void setVelocityY(double newVelocityY) {
 		velocityY = newVelocityY;
 	}
-
 }
 
