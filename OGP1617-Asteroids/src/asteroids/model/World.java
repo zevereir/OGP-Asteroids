@@ -56,6 +56,7 @@ public class World {
 
 	
 	/// CONSTANTS ///
+	
 	/**
 	 * The maximum width a world can have.
 	 */
@@ -67,7 +68,7 @@ public class World {
 	private final static double UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
 	
 	/**
-	 * A constant used to perform little movements or to "correct" errors with double values.
+	 * A constant that is used to "correct" the errors that occur when using double values.
 	 */
 	private final static double GAMMA = 0.01;
 
@@ -263,30 +264,6 @@ public class World {
 
 	
 	/// SETTERS ///
-	
-	/**
-	 * Set the world's width.
-	 * 
-	 * @param 	width
-	 * 			The new width.
-	 * 
-	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
-	 * 		  | new.getWorldWidth() == Math.abs(width)
-	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
-	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
-	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
-	 * 			new width of the world.
-	 * 		  | new.getWorldWidth() == width
-	 */
-	private void setWorldWidth(double width) {
-		if (width < 0)
-			width = Math.abs(width);
-
-		if (width > UPPER_WORLD_BOUND_WIDTH)
-			width = UPPER_WORLD_BOUND_WIDTH;
-
-		this.width = width;
-	}
 
 	/**
 	 * Set the world's height.
@@ -326,6 +303,51 @@ public class World {
 	private void setWorldSize(double width, double height) {
 		setWorldWidth(width);
 		setWorldHeight(height);
+	}
+
+	/**
+	 * Set the state of the world to a given state.
+	 * 
+	 * @param 	state
+	 * 			The new state.
+	 * 
+	 * @post 	The new state will be equal to the given state.
+	 * 		  | new.getState() == state
+	 * 
+	 * @throws 	IllegalStateException()
+	 * 			if the given state is null.
+	 * 		  | state == null
+	 */
+	private void setWorldState(State state) {
+		if (state == null)
+			throw new IllegalStateException();
+		
+		else
+			this.state = state;
+	}
+	
+	/**
+	 * Set the world's width.
+	 * 
+	 * @param 	width
+	 * 			The new width.
+	 * 
+	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
+	 * 		  | new.getWorldWidth() == Math.abs(width)
+	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
+	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
+	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
+	 * 			new width of the world.
+	 * 		  | new.getWorldWidth() == width
+	 */
+	private void setWorldWidth(double width) {
+		if (width < 0)
+			width = Math.abs(width);
+
+		if (width > UPPER_WORLD_BOUND_WIDTH)
+			width = UPPER_WORLD_BOUND_WIDTH;
+
+		this.width = width;
 	}
 
 
@@ -861,8 +883,6 @@ public class World {
 	}
 
 	
-	
-	
 	/// TERMINATION AND STATES ///
 	
 	/**
@@ -884,42 +904,22 @@ public class World {
 	}
 
 	/**
-	 * The state of the world is initiated as NOTTERMINATED.
+	 * The state of the world is initiated as NOT_TERMINATED.
 	 */
-	private State state = State.NOTTERMINATED;
+	private State state = State.NOT_TERMINATED;
 
 	/**
 	 * The two states of a world
-	 * NOTTERMINATED: the world is not terminated.
+	 * NOT_TERMINATED: the world is not terminated.
 	 * TERMINATED: the world doesn't exist anymore, so it's terminated.
 	 */
 	private static enum State {
-		NOTTERMINATED, TERMINATED;
-	}
-
-	/**
-	 * Set the state of the world to a given state.
-	 * 
-	 * @param 	state
-	 * 			The new state.
-	 * 
-	 * @post 	The new state will be equal to the given state.
-	 * 		  | new.getState() == state
-	 * 
-	 * @throws 	IllegalStateException()
-	 * 			if the given state is null.
-	 * 		  | state == null
-	 */
-	private void setWorldState(State state) {
-		if (state == null)
-			throw new IllegalStateException();
-		
-		else
-			this.state = state;
+		NOT_TERMINATED, TERMINATED;
 	}
 	
 
-	/// RELATIONS WITH OTHER CLASSES///
+	/// RELATIONS WITH OTHER CLASSES ///
+	
 	/**
 	 * The map ships is a map with as key the hash-code representing the ship, and as value the ship itself. 
 	 * It contains all the ships that belong to the world.
@@ -933,7 +933,8 @@ public class World {
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
 	
 	/** 
-	 * The map entity_positions is a map with as key the string "x,y" representing the position of the entity and as value the entity itself.
+	 * The map entity_positions is a map with as key the string "x,y" representing the position of the entity and as 
+	 * value the entity itself.
 	 */
 	private final Map<String, Entity> entity_positions = new HashMap<String, Entity>();
 }
