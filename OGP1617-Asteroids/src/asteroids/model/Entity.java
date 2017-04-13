@@ -77,18 +77,20 @@ public abstract class Entity {
 
 	
 	/// CONSTANTS ///
+	
 	/**
-	 * The speed of the light which will act as a maximum total velocity when the entity doesn't have a specific one.
+	 * The speed of the light which can and may never be exceeded. The speed of light will act as a maximum limit for the 
+	 * velocity when the entity is not limited by an upper bound in its total velocity.
 	 */
 	private final static double SPEED_OF_LIGHT = 300000;
 	
 	/**
-	 * A constant that is used to "correct" errors with the double values.
+	 * A constant that is used to "correct" the errors that occur when using double values.
 	 */
 	private final static double OMEGA = 0.99;
 	
 	/**
-	 * A constant that is used to "correct" errors with the double values.
+	 * A constant that is used to "correct" the errors that occur when using double values.
 	 */
 	private final static double BETA = 1.01;
 
@@ -947,7 +949,6 @@ public abstract class Entity {
 
 			setPositionWithoutChecking(oldPositionX, oldPositionY);
 		}
-
 		return Boolean;
 	}
 
@@ -1059,6 +1060,27 @@ public abstract class Entity {
 	 * 			@see implementation in the abstract methods
 	 */
 	protected abstract void move(double moveTime);
+	
+
+	/// OVERLAP ///
+
+	/**
+	 * Returns a boolean saying if the two entities are overlapping.
+	 *
+	 * @param	otherEntity
+	 * 			The other entity.
+	 * 
+	 * @return	True if the distance between the two entities is negative.
+	 *		  | result == (this.getDistanceBetween(otherEntity) < 0)
+	 */
+	public boolean overlap(Entity entity) {
+		if (this.equals(entity))
+			return true;
+
+		double distance = this.getDistanceBetween(entity);
+
+		return (distance < 0);
+	}
 
 	
 	/// TERMINATION AND STATES ///
@@ -1085,29 +1107,9 @@ public abstract class Entity {
 	protected static enum State {
 		NO_WORLD, IN_WORLD, TERMINATED;
 	}
-	
-
-	/// OVERLAP ///
-
-	/**
-	 * Returns a boolean saying if the two entities are overlapping.
-	 *
-	 * @param	otherEntity
-	 * 			The other entity.
-	 * 
-	 * @return	True if the distance between the two entities is negative.
-	 *		  | result == (this.getDistanceBetween(otherEntity) < 0)
-	 */
-	public boolean overlap(Entity entity) {
-		if (this.equals(entity))
-			return true;
-
-		double distance = this.getDistanceBetween(entity);
-
-		return (distance < 0);
-	}
 
 	/// RELATIONS WITH OTHER CLASSES ///
+	
 	/**
 	 * The world where the entity is placed in. When initiated, the entity has no world.
 	 */
