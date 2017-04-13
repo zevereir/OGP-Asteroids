@@ -91,6 +91,7 @@ public class Bullet extends Entity {
 	
 	
 	/// CONSTANTS ///
+	
 	/**
 	 * The smallest radius a bullet can have.
 	 */
@@ -98,9 +99,10 @@ public class Bullet extends Entity {
 
 	
 	/// COUNTERS ///
+	
 	/**
-	 * An integer that counts the amount of bounces on boundaries the bullet already did.
-	 * When initiated, the bullet hasn't bounced, so the integer is zero.
+	 * An integer that counts the amount of bounces with the boundaries the bullet already underwent.
+	 * When initiated, the bullet has not yet bounced, so the integer is zero.
 	 */
 	private int amountOfBounces = 0;
 	
@@ -131,7 +133,7 @@ public class Bullet extends Entity {
 	 * Return the default radius for a bullet.
 	 * 
 	 * @return 	The default radius which is equal to 1.
-	 * 		  | result == 1
+	 *			@see implementation
 	 */
 	private static double getDefaultRadius() {
 		return 1;
@@ -148,6 +150,17 @@ public class Bullet extends Entity {
 	 */
 	protected int getAmountOfBounces() {
 		return this.amountOfBounces;
+	}
+
+	/**
+	 * Returns the current loaded state of the bullet. This state can be loaded, this is when it is on a ship,
+	 * or not loaded, when the bullet is not in its parent-ship.
+	 * 
+	 * @return 	The loaded state of the bullet.
+	 * 			@see implementation
+	 */
+	private BulletState getBulletLoadedState() {
+		return this.state;
 	}
 	
 	/**
@@ -194,6 +207,69 @@ public class Bullet extends Entity {
 	protected void setAmountOfBounces(int amount) {
 		this.amountOfBounces = amount;
 	} 
+
+	/**
+	 * Set a bullet loaded.
+	 * 
+	 * @param 	ship
+	 * 			The ship the bullet will be loaded on.
+	 * 
+	 * @pre 	The ship and the bullet are both not terminated.
+	 * 			@see implementation
+	 * 
+	 * @effect 	The bullet's loaded state will be set on loaded, its normal state on NO_WORLD. 
+	 * 			The ship will be set on ship and the source on null.
+	 * 			@see implementation
+	 */
+	protected void setBulletLoaded(Ship ship) {
+		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
+		
+		this.setBulletLoadedState(BulletState.LOADED);
+		this.setEntityFree();
+		this.setBulletShip(ship);
+		this.setBulletSourceShip(null);
+	}
+
+	/**
+	 * Set a bullet's state to a given loaded state.
+	 * 
+	 * @param 	state
+	 * 			The new loaded state of the bullet.
+	 * 
+	 * @post  	The new bullet loaded state will be equal to the given state.
+	 * 		  | new.getBulletLoadedState() == state
+	 * 
+	 * @throws 	IllegalStateException
+	 * 			when the given state is null.
+	 * 			@see implementation
+	 */
+	protected void setBulletLoadedState(BulletState state) {
+		if (state == null)
+			throw new IllegalStateException();
+		
+		else
+			this.state = state;
+	}
+
+	/**
+	 * Set a bullet not loaded. 
+	 * 
+	 * @param 	ship
+	 * 			The ship the bullet came from.
+	 * 
+	 * @pre 	The bullet is not terminated.
+	 * 			@see implementation
+	 * 
+	 * @effect	The bullet's loaded state will be set to not loaded, the source ship to ship and the bullet's ship to null.
+	 * 			@see implementation
+	 */
+	protected void setBulletNotLoaded(Ship ship) {
+		assert (!this.isEntityTerminated());
+		
+		this.setBulletLoadedState(BulletState.NOT_LOADED);
+		this.setBulletShip(null);
+		this.setBulletSourceShip(ship);
+	}
 	
 	/**
 	 * Associate the bullet with a given ship.
@@ -265,6 +341,26 @@ public class Bullet extends Entity {
 	 */
 	protected boolean canHaveAsShip(Ship ship) {
 		return (ship.canHaveAsBullet(this));
+	}
+
+	/**
+	 * Checks whether a bullet has a proper loaded state.
+	 * 
+	 * @return 	The boolean that checks if the bullet has a proper state.
+	 * 			@see implementation
+	 */
+	protected boolean hasBulletProperState() {
+		return (isBulletLoaded() ^ !isBulletLoaded());
+	}
+
+	/**
+	 * Checks whether a bullet is loaded on a ship or not.
+	 * 
+	 * @return 	The boolean that checks if the loaded state is loaded.
+	 * 			@see implementation
+	 */
+	private boolean isBulletLoaded() {
+		return (this.getBulletLoadedState() == BulletState.LOADED);
 	}
 	
 	/**
@@ -350,113 +446,21 @@ public class Bullet extends Entity {
 
 	
 	/// TERMINATION AND STATES ///
+	
 	/**
-	 * The state of the bullet is initiated as NOTLOADED.
+	 * The state of the bullet is initiated as NOT_LOADED.
 	 */
-	private BulletState state = BulletState.NOTLOADED;
+	private BulletState state = BulletState.NOT_LOADED;
 
 	/***
 	 * The states a bullet can be in. 
 	 * LOADED: the bullet is loaded on a ship.
-	 * NOTLOADED: the bullet is not loaded on a ship.
-	 * These states are called loaded states, cause they're a different sort of states than the normal states(in_WORLD,NO_WORLD and TERMINTED). 
+	 * NOT_LOADED: the bullet is not loaded on a ship.
+	 * These states are called loaded states, cause they're a different sort of states than the normal states 
+	 * (IN_WORLD, NO_WORLD and TERMINTED). 
 	 */
 	private static enum BulletState {
-		LOADED, NOTLOADED;
-	}
-
-	/**
-	 * Returns the current loaded state of the bullet. This state can be loaded, this is when it is on a ship,
-	 * or not loaded, when the bullet is not in its parent-ship.
-	 * 
-	 * @return 	The loaded state of the bullet.
-	 * 			@see implementation
-	 */
-	private BulletState getBulletLoadedState() {
-		return this.state;
-	}
-
-	/**
-	 * Checks whether a bullet has a proper loaded state.
-	 * 
-	 * @return 	The boolean that checks if the bullet has a proper state.
-	 * 			@see implementation
-	 */
-	protected boolean hasBulletProperState() {
-		return (isBulletLoaded() ^ !isBulletLoaded());
-	}
-
-	/**
-	 * Checks whether a bullet is loaded on a ship or not.
-	 * 
-	 * @return 	The boolean that checks if the loaded state is loaded.
-	 * 			@see implementation
-	 */
-	private boolean isBulletLoaded() {
-		return (this.getBulletLoadedState() == BulletState.LOADED);
-	}
-
-	/**
-	 * Set a bullet loaded.
-	 * 
-	 * @param 	ship
-	 * 			The ship the bullet will be loaded on.
-	 * 
-	 * @pre 	The ship and the bullet are both not terminated.
-	 * 			@see implementation
-	 * 
-	 * @effect 	The bullet's loaded state will be set on loaded, its normal state on NO_WORLD. 
-	 * 			The ship will be set on ship and the source on null.
-	 * 			@see implementation
-	 */
-	protected void setBulletLoaded(Ship ship) {
-		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
-		
-		this.setBulletLoadedState(BulletState.LOADED);
-		this.setEntityFree();
-		this.setBulletShip(ship);
-		this.setBulletSourceShip(null);
-	}
-
-	/**
-	 * Set a bullet's state to a given loaded state.
-	 * 
-	 * @param 	state
-	 * 			The new loaded state of the bullet.
-	 * 
-	 * @post  	The new bullet loaded state will be equal to the given state.
-	 * 		  | new.getBulletLoadedState() == state
-	 * 
-	 * @throws 	IllegalStateException
-	 * 			when the given state is null.
-	 * 			@see implementation
-	 */
-	protected void setBulletLoadedState(BulletState state) {
-		if (state == null)
-			throw new IllegalStateException();
-		
-		else
-			this.state = state;
-	}
-
-	/**
-	 * Set a bullet not loaded. 
-	 * 
-	 * @param 	ship
-	 * 			The ship the bullet came from.
-	 * 
-	 * @pre 	The bullet is not terminated.
-	 * 			@see implementation
-	 * 
-	 * @effect	The bullet's loaded state will be set to not loaded, the source ship to ship and the bullet's ship to null.
-	 * 			@see implementation
-	 */
-	protected void setBulletNotLoaded(Ship ship) {
-		assert (!this.isEntityTerminated());
-		
-		this.setBulletLoadedState(BulletState.NOTLOADED);
-		this.setBulletShip(null);
-		this.setBulletSourceShip(ship);
+		LOADED, NOT_LOADED;
 	}
 
 	/**
@@ -477,8 +481,9 @@ public class Bullet extends Entity {
 	
 
 	/// CONNECTIONS WITH OTHER CLASSES ///
+	
 	/**
-	 * The ship the bullet is loaded on. When the bullet is initiated, it's not loaded on a ship so ship is null.
+	 * The ship the bullet is loaded on. When the bullet is initiated, it's not loaded on a ship so the ship is null.
 	 */
 	private Ship ship = null;
 	
@@ -486,8 +491,6 @@ public class Bullet extends Entity {
 	 * The ship the bullet is fired from. When the bullet is initiated, it's not fired so the source is null.
 	 */
 	private Ship source_ship = null;
-	
-
 }
 
 
