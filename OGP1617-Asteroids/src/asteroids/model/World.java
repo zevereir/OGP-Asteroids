@@ -211,6 +211,22 @@ public class World {
 
 		return result;
 	}
+	
+	public Set<Asteroid> getWorldAsteroids() {
+		Set<Asteroid> result = new HashSet<Asteroid>();
+
+		result.addAll(this.asteroids.values());
+
+		return result;
+	}
+	
+	public Set<Planetoid> getWorldPlanetoids() {
+		Set<Planetoid> result = new HashSet<Planetoid>();
+
+		result.addAll(this.planetoids.values());
+
+		return result;
+	}
 
 	/**
 	 * Return the set of all the entities in the world.
@@ -223,7 +239,8 @@ public class World {
 
 		result.addAll(this.getWorldBullets());
 		result.addAll(this.getWorldShips());
-
+		result.addAll(getWorldAsteroids());
+		result.addAll(getWorldPlanetoids());
 		return result;
 	}
 
@@ -485,8 +502,12 @@ public class World {
 			if (entity instanceof Ship)
 				ships.put(((Ship) entity).hashCode(), (Ship) entity);
 
-			else
+			else if (entity instanceof Bullet)
 				bullets.put(((Bullet) entity).hashCode(), (Bullet) entity);
+			else if (entity instanceof Asteroid)
+				asteroids.put(((Asteroid) entity).hashCode(), (Asteroid) entity);
+			else if (entity instanceof Planetoid)
+				planetoids.put(((Planetoid) entity).hashCode(), (Planetoid) entity);
 
 			entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
 		} 
@@ -523,6 +544,10 @@ public class World {
 
 		else if (entity instanceof Bullet)
 			this.bullets.remove(((Bullet) entity).hashCode());
+		else if (entity instanceof Asteroid)
+			this.asteroids.remove(((Asteroid) entity).hashCode());
+		else if (entity instanceof Planetoid)
+			this.planetoids.remove(((Planetoid) entity).hashCode());
 
 		entity_positions.remove(arrayToString(entity.getEntityPosition()));
 		entity.setEntityFree();
@@ -931,6 +956,10 @@ public class World {
 	 * It contains all the bullets that belong to the world.
 	 */
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
+	
+	private final Map<Integer, Asteroid> asteroids = new HashMap<Integer, Asteroid>();
+	
+	private final Map<Integer, Planetoid> planetoids = new HashMap<Integer, Planetoid>();
 	
 	/** 
 	 * The map entity_positions is a map with as key the string "x,y" representing the position of the entity and as 

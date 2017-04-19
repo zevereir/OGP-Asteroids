@@ -116,7 +116,7 @@ public class Ship extends Entity {
 	 */
 	public Ship() {
 		this(getDefaultPositionX(), getDefaultPositionY(), getDefaultVelocityX(), getDefaultVelocityY(),
-				getDefaultRadius(), Entity.getDefaultOrientation(), getDefaultMass());
+				getDefaultShipRadius(), getDefaultOrientation(), getDefaultMass());
 	}
 	
 	
@@ -145,7 +145,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	private static double getDefaultMass() {
-		return (4.0 / 3.0) * Math.PI * Math.pow(getDefaultRadius(), 3) * getDefaultShipDensity();
+		return MassFormula(getDefaultShipRadius(), getDefaultShipDensity());
 	}
 	
 	/**
@@ -155,7 +155,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	@Immutable
-	private static double getDefaultRadius() {
+	private static double getDefaultShipRadius() {
 		return 10;
 	}
 
@@ -188,7 +188,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	private static double getDefaultThrusterForce() {
-		return 1.1E21;
+		return 1.1E18;
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class Ship extends Entity {
 	 * 		    @see implementation
 	 */
 	private double getMinimumShipMass() {
-		return (4.0 / 3.0) * Math.PI * Math.pow(this.getEntityRadius(), 3) * this.getEntityDensity();
+		return MassFormula(getEntityRadius(), getEntityDensity());
 	}
 
 	/**

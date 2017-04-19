@@ -86,7 +86,7 @@ public class Bullet extends Entity {
 	 */
 	public Bullet() {
 		this(getDefaultPositionX(), getDefaultPositionY(), getDefaultVelocityX(), getDefaultVelocityY(),
-				getDefaultRadius());
+				getDefaultBulletRadius());
 	}
 	
 	
@@ -126,7 +126,7 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	private static double getDefaultBulletMass() {
-		return (4.0 / 3.0) * Math.PI * Math.pow(getDefaultRadius(), 3) * getDefaultBulletDensity();
+		return MassFormula(getDefaultBulletRadius(), getDefaultBulletDensity());
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Bullet extends Entity {
 	 * @return 	The default radius which is equal to 1.
 	 *			@see implementation
 	 */
-	private static double getDefaultRadius() {
+	private static double getDefaultBulletRadius() {
 		return 1;
 	}
 		
@@ -324,7 +324,7 @@ public class Bullet extends Entity {
 			this.mass = mass;
 		
 		else
-			this.mass = BulletMassFormula();
+			this.mass = MassFormula(getEntityRadius(),getEntityDensity());
 	}
 	
 	
@@ -386,7 +386,7 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	protected boolean isValidMass(double mass) {
-		return ((mass != Double.NaN) && (mass == BulletMassFormula()));
+		return ((mass != Double.NaN) && (mass == MassFormula(getEntityRadius(),getEntityDensity())));
 	}
 	
 	/**
@@ -403,17 +403,8 @@ public class Bullet extends Entity {
 	}
 
 	
-	/// HELP FUNCTIONS ///	
+
 	
-	/**
-	 * Return the mass of a bullet computed by the mass-formula.
-	 * 
-	 * @return 	The mass of a bullet computed by the bullet mass formula.
-	 * 			@see implementation
-	 */
-	private double BulletMassFormula() {
-		return (4.0 / 3.0) * Math.PI * Math.pow(this.getEntityRadius(), 3) * this.getEntityDensity();
-	}
 	
 	
 	/// MOVE ///

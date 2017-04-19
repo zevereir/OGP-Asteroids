@@ -1047,6 +1047,17 @@ public abstract class Entity {
 		return null;
 
 	}
+	
+	/**
+	 * Return the mass of an entity computed by the mass-formula.
+	 * 
+	 * @return 	The mass of a bullet computed by the bullet mass formula.
+	 * 			@see implementation
+	 */
+	protected static double MassFormula(double radius, double density) {
+		return (4.0 / 3.0) * Math.PI * Math.pow(radius, 3) * density;
+	}
+	
 
 	
 	/// MOVE ///
