@@ -945,6 +945,7 @@ public abstract class Entity {
 			
 			setPositionWithoutChecking(positionX, positionY);
 
+			
 			Boolean = this.entityFitsInWorld(this.getEntityWorld());
 
 			setPositionWithoutChecking(oldPositionX, oldPositionY);

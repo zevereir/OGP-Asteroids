@@ -33,7 +33,7 @@ import asteroids.util.internal.ResourceUtils;
 @SuppressWarnings("serial")
 public class WorldView2<F extends IFacade> extends JPanel implements KeyListener, ActionListener, CollisionListener {
 
-	private static final int TIMER_DELAY = 1000 / 40;
+	private static final int TIMER_DELAY = 1000 / 30;
 
 	private AsteroidsFrame2<F> game;
 	private F facade;
@@ -81,7 +81,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		} catch (ModelException e) {
 			handleError(e);
 		}
-		Image image = ResourceUtils.loadImage("asteroids/resources/deathstar.png").getScaledInstance(size, size,
+		Image image = ResourceUtils.loadImage("asteroids/resources/sphere.png").getScaledInstance(size, size,
 				Image.SCALE_DEFAULT);
 		return new ShipVisualization<>(Color.GREEN, enemy, image);
 	}
@@ -97,7 +97,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		} catch (ModelException e) {
 			handleError(e);
 		}
-		Image image = ResourceUtils.loadImage("asteroids/resources/deathstar.png").getScaledInstance(size, size,
+		Image image = ResourceUtils.loadImage("asteroids/resources/sphere.png").getScaledInstance(size, size,
 				Image.SCALE_DEFAULT);
 		assert image != null : "No player image!";
 		return new CompositeVisualization<>(player, //
@@ -203,7 +203,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 	protected Visualization<F, Bullet> createBulletVisualization(Bullet bullet) {
 		Ship ship = null;
 		try {
-			ship = facade.getBulletShip(bullet);
+			ship = facade.getBulletSource(bullet);
 		} catch (ModelException e) {
 			handleError(e);
 		}
@@ -302,9 +302,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		try {
 			if (fire && isPlayerActive(player)) {
 				facade.fireBullet(player);
-				for (Ship enemy : facade.getWorldShips(world))
-					if ((enemy != player) && (Math.random() > 0.75))
-						facade.fireBullet(enemy);
+				doFireEnemy();
 				game.getSound().play("torpedo");
 			}
 		} catch (ModelException exc) {
@@ -312,6 +310,12 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		} finally {
 			fire = false;
 		}
+	}
+
+	protected void doFireEnemy() throws ModelException {
+		for (Ship enemy : facade.getWorldShips(world))
+			if ((enemy != player) && (Math.random() > 0.75))
+				facade.fireBullet(enemy);
 	}
 
 	protected boolean isPlayerActive(Ship ship) {
@@ -338,6 +342,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 	}
 
 	private void doTurn() {
+		double deltaAngle = this.deltaAngle;
 		if (!Double.isNaN(deltaAngle)) {
 			try {
 				if (deltaAngle != 0) {
@@ -352,6 +357,7 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 
 	private void evolveWorld(long millisSinceLastEvolve) {
 		try {
+			millisSinceLastEvolve = Math.max(5, millisSinceLastEvolve);
 			facade.evolve(world, millisSinceLastEvolve / 1000., this);
 		} catch (ModelException exc) {
 			handleError(exc);
