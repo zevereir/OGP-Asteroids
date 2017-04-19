@@ -805,8 +805,8 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 
 	@Override
 	public int getNbStudentsInTeam() {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return 2;
 	}
 
 	@Override
