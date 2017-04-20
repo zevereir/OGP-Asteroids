@@ -166,7 +166,7 @@ public class Tests_Part2 {
 		assertEquals(5E16,facade.getShipMass(ship2),EPSILON );
 		
 		//ACCELERATION
-		assertEquals((1.1E21)/(5E16),facade.getShipAcceleration(ship1),EPSILON);
+		assertEquals((1.1E18)/(5E16),facade.getShipAcceleration(ship1),EPSILON);
 	}
 	
 	

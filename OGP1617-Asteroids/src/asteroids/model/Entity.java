@@ -985,6 +985,27 @@ public abstract class Entity {
 
 		return true;
 	}
+	
+	protected boolean canHaveAsWorld(World world){
+		if (!entityFitsInWorld(world))
+			return false;
+		
+		else if (this.getEntityWorld() != null)
+			return false;
+
+		// If the bullet belongs to a ship (which means the bullet is in a ship, and not in the world) false will be returned.
+		else if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
+			return false;
+		// An entity who is in the terminated state, cannot be in a world.
+		else if (this.isEntityTerminated())
+			return false;
+
+				// A terminated world cannot have any entities.
+		else if (world.isWorldTerminated())
+			return false;
+		else
+			return true;	
+	}
 
 	
 	/// HELP FUNCTIONS ///

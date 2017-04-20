@@ -192,9 +192,10 @@ public class World {
 	 */
 	public Set<Bullet> getWorldBullets() {
 		Set<Bullet> result = new HashSet<Bullet>();
-
-		result.addAll(this.bullets.values());
-
+		for (Object entity: getWorldEntities()){
+			if (entity instanceof Bullet){
+				result.add((Bullet)entity);}
+		}
 		return result;
 	}
 	
@@ -206,25 +207,28 @@ public class World {
 	 */
 	public Set<Ship> getWorldShips() {
 		Set<Ship> result = new HashSet<Ship>();
-
-		result.addAll(this.ships.values());
-
+		for (Object entity: getWorldEntities()){
+			if (entity instanceof Ship){
+				result.add((Ship)entity);}
+		}
 		return result;
 	}
 	
 	public Set<Asteroid> getWorldAsteroids() {
 		Set<Asteroid> result = new HashSet<Asteroid>();
-
-		result.addAll(this.asteroids.values());
-
+		for (Object entity: getWorldEntities()){
+			if (entity instanceof Asteroid){
+				result.add((Asteroid)entity);}
+		}
 		return result;
 	}
 	
 	public Set<Planetoid> getWorldPlanetoids() {
 		Set<Planetoid> result = new HashSet<Planetoid>();
-
-		result.addAll(this.planetoids.values());
-
+		for (Object entity: getWorldEntities()){
+			if (entity instanceof Planetoid){
+				result.add((Planetoid)entity);}
+		}
 		return result;
 	}
 
@@ -236,11 +240,7 @@ public class World {
 	 */
 	public Set<? extends Object> getWorldEntities() {
 		Set<Object> result = new HashSet<>();
-
-		result.addAll(this.getWorldBullets());
-		result.addAll(this.getWorldShips());
-		result.addAll(getWorldAsteroids());
-		result.addAll(getWorldPlanetoids());
+		result.addAll(entities.values());
 		return result;
 	}
 
@@ -391,33 +391,9 @@ public class World {
 	 *			@see implementation
 	 */
 	protected boolean canHaveAsEntity(Entity entity) {
-		// The entity already belongs to this world.
-		if (this.hasAsEntity(entity))
-			return false;
-
-		// The entity already belongs to a different world.
-		if (entity.getEntityWorld() != null)
-			return false;
-
-		// The entity is a ship and does not fit in the world.
-		if (entity instanceof Ship)
-			if (!entity.entityFitsInWorld(this))
-				return false;
-
-		// If the bullet belongs to a ship (which means the bullet is in a ship, and not in the world) or
-		// the bullet's new position is not within the boundaries of the world, false will be returned.
-		if (entity instanceof Bullet && (((Bullet) entity).getBulletShip() != null || !entity.entityFitsInWorld(this)))
-			return false;
-
-		// An entity who is in the terminated state, cannot be in a world.
-		if (entity.isEntityTerminated())
-			return false;
-
-		// A terminated world cannot have any entities.
-		if (this.isWorldTerminated())
-			return false;
-
-		return true;
+		
+		return entity.canHaveAsWorld(this);
+			
 	}
 
 	/**
@@ -430,11 +406,7 @@ public class World {
 	 * 			@see implementation
 	 */
 	protected boolean hasAsEntity(Entity entity) {
-		if (entity instanceof Ship)
-			return this.ships.containsValue(entity);
-
-		else
-			return this.bullets.containsValue(entity);
+		return getWorldEntities().contains(entity);
 	}
 
 	/**
@@ -498,17 +470,7 @@ public class World {
 	public void addEntityToWorld(Entity entity) {
 		if (canHaveAsEntity(entity)) {
 			entity.setEntityInWorld(this);
-
-			if (entity instanceof Ship)
-				ships.put(((Ship) entity).hashCode(), (Ship) entity);
-
-			else if (entity instanceof Bullet)
-				bullets.put(((Bullet) entity).hashCode(), (Bullet) entity);
-			else if (entity instanceof Asteroid)
-				asteroids.put(((Asteroid) entity).hashCode(), (Asteroid) entity);
-			else if (entity instanceof Planetoid)
-				planetoids.put(((Planetoid) entity).hashCode(), (Planetoid) entity);
-
+			entities.put(entity.hashCode(),entity);
 			entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
 		} 
 		else
@@ -538,20 +500,13 @@ public class World {
 		
 		if (!this.getWorldEntities().contains(entity))
 			throw new IllegalArgumentException();
-		
-		else if (entity instanceof Ship)
-			this.ships.remove(((Ship) entity).hashCode());
-
-		else if (entity instanceof Bullet)
-			this.bullets.remove(((Bullet) entity).hashCode());
-		else if (entity instanceof Asteroid)
-			this.asteroids.remove(((Asteroid) entity).hashCode());
-		else if (entity instanceof Planetoid)
-			this.planetoids.remove(((Planetoid) entity).hashCode());
-
+		else{
+		entities.remove(entity.hashCode());
 		entity_positions.remove(arrayToString(entity.getEntityPosition()));
 		entity.setEntityFree();
+		}
 	}
+		
 
 
 	/// EVOLVE ///
@@ -919,12 +874,8 @@ public class World {
 	public void Terminate() {
 		if (!isWorldTerminated()) {
 			setWorldState(State.TERMINATED);
-			
-			for (Bullet bullet : this.getWorldBullets())
-				bullet.setEntityFree();
-			
-			for (Ship ship : this.getWorldShips())
-				ship.setEntityFree();
+			for (Object entity: getWorldEntities())
+				removeEntityFromWorld((Entity)entity);
 		}
 	}
 
@@ -945,21 +896,13 @@ public class World {
 
 	/// RELATIONS WITH OTHER CLASSES ///
 	
-	/**
-	 * The map ships is a map with as key the hash-code representing the ship, and as value the ship itself. 
-	 * It contains all the ships that belong to the world.
-	 */
-	private final Map<Integer, Ship> ships = new HashMap<Integer, Ship>();
+	
 	
 	/**
-	 * The map bullets is a map with as key the hash-code representing the bullet, and as value the bullet itself.
-	 * It contains all the bullets that belong to the world.
+	 * The map entities is a map with as key the hash-code representing the entity, and as value the entity itself.
+	 * It contains all the entities that belong to the world.
 	 */
-	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
-	
-	private final Map<Integer, Asteroid> asteroids = new HashMap<Integer, Asteroid>();
-	
-	private final Map<Integer, Planetoid> planetoids = new HashMap<Integer, Planetoid>();
+	private final Map<Integer, Entity> entities = new HashMap<Integer, Entity>();
 	
 	/** 
 	 * The map entity_positions is a map with as key the string "x,y" representing the position of the entity and as 
