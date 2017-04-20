@@ -1,5 +1,7 @@
 package asteroids.model;
 
+
+
 /**
  * A class that describes bullets and their properties. A bullet has a position and
  * a velocity, both are described in a Cartesian x-y-field. A bullet also has an
@@ -482,6 +484,51 @@ public class Bullet extends Entity {
 	 * The ship the bullet is fired from. When the bullet is initiated, it's not fired so the source is null.
 	 */
 	private Ship source_ship = null;
+
+
+	@Override
+	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime) {
+		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
+				int counter = this.getAmountOfBounces();
+
+				// When the counter reaches 3, the bullet will be terminated.
+				if (counter >= 2)
+					this.Terminate();
+
+				// If 'counter' is (strict) less than 3, the bullet will bounce against the boundary.
+				else {
+					this.setAmountOfBounces(counter + 1);
+					
+					double VelocityX = this.getEntityVelocityX();
+					double VelocityY = this.getEntityVelocityY();
+
+					// The bullet will collide with an horizontal boundary.
+					if (collideHorizontalBoundary(this, collisionPosition))
+						this.setEntityVelocity(VelocityX, -VelocityY);
+
+					// The bullet will collide with an vertical boundary.
+					else
+						this.setEntityVelocity(-VelocityX, VelocityY);
+				}
+	}
+
+	@Override
+	protected void entityAndShipCollide(Entity entity,double defaultEvolvingTime) {
+		entity.entityAndBulletCollide(this,defaultEvolvingTime);
+		
+	}
+
+	@Override
+	protected void entityAndBulletCollide(Entity entity, double[] collisionPosition, double defaultEvolvingTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void entityAndMinorPlanetCollide(Entity entity, double[] collisionPosition, double defaultEvolvingTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

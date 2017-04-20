@@ -137,5 +137,18 @@ public class Planetoid extends MinorPlanet {
 			world.addEntityToWorld(child2);
 				
 		}
+		
+		///COLLISIONS///
+		protected void entityAndShipCollide(Entity entity,double defaultEvolvingTime){
+			World world = entity.getEntityWorld();
+			double radius = entity.getEntityRadius();
+			double random_x = radius+Math.random()*(world.getWorldWidth()-radius);
+			double random_y = radius+Math.random()*(world.getWorldHeight()-radius);
+			try {
+				entity.setEntityPosition(random_x, random_y);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				entity.Terminate();
+			}
+		}
 }
 

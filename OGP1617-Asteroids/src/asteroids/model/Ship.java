@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set; 
+import java.util.Set;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -188,7 +188,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	private static double getDefaultThrusterForce() {
-		return 1.1E18;
+		return 1.1E21;
 	}
 
 	/**
@@ -800,5 +800,36 @@ public class Ship extends Entity {
 	 * The map bullets is a map with as key the hash-code representing the bullet, and as value the bullet itself.
 	 */
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
+
+
+	@Override
+	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime) {
+		double VelocityX = this.getEntityVelocityX();
+		double VelocityY = this.getEntityVelocityY();
+		if (collideHorizontalBoundary(this, collisionPosition))
+			this.setEntityVelocity(VelocityX, -VelocityY);
+
+		else
+			this.setEntityVelocity(-VelocityX, VelocityY);
+	}
+	
+
+	@Override
+	protected void entityAndShipCollide(Entity entity, double defaultEvolvingTime) {
+		this.doubleShipOrMinorPlanetCollide(entity);
+		
+	}
+
+	@Override
+	protected void entityAndBulletCollide(Entity entity, double defaultEvolvingTime) {
+		
+		
+	}
+
+	@Override
+	protected void entityAndMinorPlanetCollide(Entity entity, double[] collisionPosition, double defaultEvolvingTime) {
+		
+		
+	}
 }
 

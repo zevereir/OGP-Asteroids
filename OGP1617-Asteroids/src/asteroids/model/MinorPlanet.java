@@ -1,5 +1,7 @@
 package asteroids.model;
 
+
+
 public abstract class MinorPlanet extends Entity{
 
 	protected MinorPlanet(double positionX, double positionY, double velocityX, double velocityY, double radius,
@@ -19,8 +21,6 @@ public abstract class MinorPlanet extends Entity{
 		return (4.0 / 3.0) * Math.PI * Math.pow(getEntityRadius(), 3) * getEntityDensity();
 	}
 
-	@Override
-	protected abstract void setEntityDensity(double density);
 	
 
 	
@@ -30,13 +30,7 @@ public abstract class MinorPlanet extends Entity{
 	protected void setEntityMass(double mass) {
 		this.mass = mass;
 		
-	}
-
-	
-	@Override
-	protected abstract boolean isValidDensity(double density); 
-
-		
+	}	
 	
 
 	@Override
@@ -49,15 +43,18 @@ public abstract class MinorPlanet extends Entity{
 		return (radius >= LOWER_MINOR_PLANET_RADIUS);
 		}
 
-	@Override
-	protected abstract void move(double moveTime);
-		
 
 	
-	@Override
-	public void Terminate() {
-		// TODO Auto-generated method stub
-		
+	///COLLISION///
+	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime) {
+		double VelocityX = this.getEntityVelocityX();
+		double VelocityY = this.getEntityVelocityY();
+
+		if (collideHorizontalBoundary(this, collisionPosition))
+			this.setEntityVelocity(VelocityX, -VelocityY);
+
+		else
+			this.setEntityVelocity(-VelocityX, VelocityY);
 	}
 
 }

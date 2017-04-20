@@ -1,6 +1,7 @@
 package asteroids.model;
 
 
+import asteroids.part2.CollisionListener;
 import be.kuleuven.cs.som.annotate.*;
  
 /**
@@ -94,6 +95,10 @@ public abstract class Entity {
 	 */
 	private final static double BETA = 1.01;
 
+	/**
+	 * A constant that is used to "correct" the errors that occur when using double values.
+	 */
+	private final static double GAMMA = 0.01;
 	
 	/// DEFAULTS ///
 
@@ -1079,6 +1084,63 @@ public abstract class Entity {
 		return (4.0 / 3.0) * Math.PI * Math.pow(radius, 3) * density;
 	}
 	
+	/**
+	 * Checks if a collision with a boundary is with a horizontal boundary.
+	 * 
+	 * @param 	entity
+	 * 			The entity that collides.
+	 * @param 	collisionArray
+	 * 			The collision position.
+	 * 
+	 * @return 	True if the collision position is approximately equal to 0 (the lower-boundary) or equal to the
+	 * 			height of the world (the upper-boundary).
+	 * 			@see implementation
+	 */
+	protected boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
+		boolean crossesLowerBoundary = (collisionArray[1] < GAMMA * entity.getEntityRadius());
+		boolean crossesUpperBoundary = (collisionArray[1] > (entity.getEntityWorld().getWorldHeight() - GAMMA * entity.getEntityRadius()));
+		
+		return (crossesLowerBoundary || crossesUpperBoundary);
+	}
+	
+	protected void doubleShipOrMinorPlanetCollide(Entity entity){
+		final double position_1X = this.getEntityPositionX();
+		final double position_1Y = this.getEntityPositionY();
+		final double position_2X = entity.getEntityPositionX();
+		final double position_2Y = entity.getEntityPositionY();
+		
+		final double velocity_1X = this.getEntityVelocityX();
+		final double velocity_1Y = this.getEntityVelocityY();
+		final double velocity_2X = entity.getEntityVelocityX();
+		final double velocity_2Y = entity.getEntityVelocityY();
+		
+		final double radius_1 = this.getEntityRadius();
+		final double radius_2 = entity.getEntityRadius();
+		final double total_radius = (radius_1 + radius_2);
+		
+		final double mass_1 = this.getEntityMass();
+		final double mass_2 = entity.getEntityMass();
+
+		final double delta_x = position_2X - position_1X;
+		final double delta_y = position_2Y - position_1Y;
+		
+		final double delta_rX = position_2X - position_1X;
+		final double delta_rY = position_2Y - position_1Y;
+		
+		final double delta_vX = velocity_2X - velocity_1X;
+		final double delta_vY = velocity_2Y - velocity_1Y;
+		
+		final double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
+
+		double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
+		double Jx = (BigJ * delta_x) / total_radius;
+		double Jy = (BigJ * delta_y) / total_radius;
+
+		this.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
+		entity.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
+	}
+	
+	
 
 	
 	/// MOVE ///
@@ -1141,6 +1203,40 @@ public abstract class Entity {
 		NO_WORLD, IN_WORLD, TERMINATED;
 	}
 
+	
+	///COLLISIONS///
+	protected void letCollisionHappen(Entity entity,double[] collisionPosition,
+			double defaultEvolvingTime, CollisionListener collisionListener){
+		double collisionPositionX = collisionPosition[0];
+		double collisionPositionY = collisionPosition[1];
+		if (entity == null){
+			if (collisionListener != null)
+				collisionListener.boundaryCollision(this, collisionPositionX, collisionPositionY);
+			this.entityAndBoundaryCollide(collisionPosition,defaultEvolvingTime);
+		
+		}
+		if (collisionListener != null)
+			collisionListener.objectCollision(this, entity,collisionPositionX,collisionPositionY);
+		else if (entity instanceof Ship)
+			this.entityAndShipCollide(entity,defaultEvolvingTime);
+		else if (entity instanceof Bullet)
+			this.entityAndBulletCollide(entity,defaultEvolvingTime);
+		else if (entity instanceof MinorPlanet)
+			this.entityAndMinorPlanetCollide(entity,collisionPosition,defaultEvolvingTime);
+		else
+			throw new IllegalArgumentException();
+					
+	}
+	
+	protected abstract void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime);
+	protected abstract void entityAndShipCollide(Entity entity,double defaultEvolvingTime);
+	protected abstract void entityAndBulletCollide(Entity entity,double defaultEvolvingTime);
+	protected abstract void entityAndMinorPlanetCollide(Entity entity,double[] collisionPosition,double defaultEvolvingTime);
+	
+	
+	
+	
+	
 	/// RELATIONS WITH OTHER CLASSES ///
 	
 	/**

@@ -94,4 +94,9 @@ public class Asteroid extends MinorPlanet {
 			setEntityState(State.TERMINATED);
 		}
 	}
+	
+	///COLLISIONS///
+	protected void entityAndShipCollide(Entity entity,double defaultEvolvingTime){
+		entity.Terminate();
+	}
 }
