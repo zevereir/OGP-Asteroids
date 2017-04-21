@@ -86,7 +86,7 @@ public class Planetoid extends MinorPlanet {
 	 * @param 	totalTraveledDistance
 	 *          The totalTraveledDistance of the planetoid in kilometers.
 	 * 
-	 * @effect 	The ship is initialized with the given values and the default orientation, mass, maximum 
+	 * @effect 	The planetoid is initialized with the given values and the default orientation, mass, maximum 
 	 *  		velocity and density.
 	 *   
 	 **/
