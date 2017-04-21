@@ -159,7 +159,7 @@ public class Planetoid extends MinorPlanet {
 			Asteroid child2 = new Asteroid(child2_positionX,child2_positionY,child2_velocityX,child2_velocityY,child_radius);
 			child1.setEntityOrientation(child1_orientation);
 			child2.setEntityOrientation(child2_orientation);
-			System.out.println(child1.getDistanceBetween(child2));
+			
 			
 			//Adding them to the world
 			World world = getEntityWorld();
@@ -167,7 +167,7 @@ public class Planetoid extends MinorPlanet {
 			try {
 				world.addEntityToWorld(child1);
 				child1.move(0.00001);
-				System.out.println(child1.getDistanceBetween(child2));
+				
 				
 			} catch (IllegalArgumentException illegalArgumentException) {
 			child1.Terminate();
