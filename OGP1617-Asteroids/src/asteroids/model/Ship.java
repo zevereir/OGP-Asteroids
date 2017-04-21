@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import asteroids.part2.CollisionListener;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -188,7 +190,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	private static double getDefaultThrusterForce() {
-		return 1.1E21;
+		return 1.1E18;
 	}
 
 	/**
@@ -801,9 +803,10 @@ public class Ship extends Entity {
 	 */
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
 
+	///COLLISIONS///
 
 	@Override
-	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime) {
+	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
 		double VelocityX = this.getEntityVelocityX();
 		double VelocityY = this.getEntityVelocityY();
 		if (collideHorizontalBoundary(this, collisionPosition))
@@ -811,25 +814,23 @@ public class Ship extends Entity {
 
 		else
 			this.setEntityVelocity(-VelocityX, VelocityY);
+		World world = this.getEntityWorld();
+		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
+	
 	}
 	
 
 	@Override
-	protected void entityAndShipCollide(Entity entity, double defaultEvolvingTime) {
-		this.doubleShipOrMinorPlanetCollide(entity);
+	protected void entityAndShipCollide(Ship ship,double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
+		this.doubleShipOrMinorPlanetCollide(ship);
+		World world = this.getEntityWorld();
+		world.updatePositionListAfterCollision(this,ship, defaultEvolvingTime);
 		
 	}
 
 	@Override
-	protected void entityAndBulletCollide(Entity entity, double defaultEvolvingTime) {
-		
-		
-	}
-
-	@Override
-	protected void entityAndMinorPlanetCollide(Entity entity, double[] collisionPosition, double defaultEvolvingTime) {
-		
-		
+	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
+		minorPlanet.entityAndShipCollide(this,collisionPosition,defaultEvolvingTime,collisionListener);
 	}
 }
 

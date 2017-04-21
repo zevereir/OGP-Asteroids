@@ -604,6 +604,8 @@ public class Tests_Part2 {
 		assertEquals(4.0,facade.getTimeNextCollision(world),EPSILON);
 		assertEquals(10000,facade.getPositionNextCollision(world)[0],EPSILON);
 		assertEquals(30000,facade.getPositionNextCollision(world)[1],EPSILON);
+		assert(ship11 == world.getCollisionEntity1());
+		assert(null == world.getCollisionEntity2());
 		facade.evolve(world, 6,null);
 		assertEquals(-200,facade.getShipVelocity(ship11)[1],EPSILON);
 	}

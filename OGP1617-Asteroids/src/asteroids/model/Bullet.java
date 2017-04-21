@@ -1,6 +1,6 @@
 package asteroids.model;
 
-
+import asteroids.part2.CollisionListener;
 
 /**
  * A class that describes bullets and their properties. A bullet has a position and
@@ -487,13 +487,17 @@ public class Bullet extends Entity {
 
 
 	@Override
-	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime) {
+	protected void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
 		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
 				int counter = this.getAmountOfBounces();
 
 				// When the counter reaches 3, the bullet will be terminated.
-				if (counter >= 2)
-					this.Terminate();
+				if (counter >= 2){
+					if (collisionListener != null){
+						double collisionPositionX = collisionPosition[0];
+						double collisionPositionY = collisionPosition[1];
+						collisionListener.boundaryCollision(this, collisionPositionX, collisionPositionY);}
+					this.Terminate();}
 
 				// If 'counter' is (strict) less than 3, the bullet will bounce against the boundary.
 				else {
@@ -509,24 +513,22 @@ public class Bullet extends Entity {
 					// The bullet will collide with an vertical boundary.
 					else
 						this.setEntityVelocity(-VelocityX, VelocityY);
+					World world = this.getEntityWorld();
+					world.updatePositionListAfterCollision(this, defaultEvolvingTime);
 				}
 	}
 
 	@Override
-	protected void entityAndShipCollide(Entity entity,double defaultEvolvingTime) {
-		entity.entityAndBulletCollide(this,defaultEvolvingTime);
+	protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
+		ship.entityAndBulletCollide(this,collisionPosition,collisionListener);
 		
 	}
 
-	@Override
-	protected void entityAndBulletCollide(Entity entity, double[] collisionPosition, double defaultEvolvingTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
-	protected void entityAndMinorPlanetCollide(Entity entity, double[] collisionPosition, double defaultEvolvingTime) {
-		// TODO Auto-generated method stub
+	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
+		minorPlanet.entityAndBulletCollide(this,collisionPosition,collisionListener);
 		
 	}
 }

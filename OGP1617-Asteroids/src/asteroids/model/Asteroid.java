@@ -1,6 +1,6 @@
 package asteroids.model;
 
-
+import asteroids.part2.CollisionListener;
 
 public class Asteroid extends MinorPlanet {
 
@@ -96,7 +96,11 @@ public class Asteroid extends MinorPlanet {
 	}
 	
 	///COLLISIONS///
-	protected void entityAndShipCollide(Entity entity,double defaultEvolvingTime){
-		entity.Terminate();
+	protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
+		double collisionPositionX = collisionPosition[0];
+		double collisionPositionY = collisionPosition[1];
+		if (collisionListener != null)
+			collisionListener.objectCollision(this, ship,collisionPositionX,collisionPositionY);
+		ship.Terminate();
 	}
 }

@@ -550,7 +550,7 @@ public class World {
 				}
 
 				// Check and execute the type of collision.
-				letCollisionHappen(collisionArray, defaultEvolvingTime, collisionListener);				
+				collision_entity_1.letCollisionHappen(collision_entity_2,collisionArray, timeToCollision, collisionListener);				
 				
 				double remainingTime = defaultEvolvingTime - timeToCollision;
 
@@ -573,6 +573,12 @@ public class World {
 		}
 	}
 		
+	public Entity getCollisionEntity1(){
+		return collision_entity_1;
+	}
+	public Entity getCollisionEntity2(){
+		return collision_entity_2;
+	}
 	
 	/// COLLISION-FUNCTIONS ///
 	/**
@@ -585,283 +591,316 @@ public class World {
 	 */
 	private Entity collision_entity_2 = null;
 
-	/**
-	 * Let a bullet and an entity collide.
-	 * 
-	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * 
-	 * @param 	entity1
-	 * 			The bullet or the entity that will collide.
-	 * @param 	entity2
-	 * 			The entity if entity1 is a bullet, or the bullet otherwise, that will collide.
-	 * @param 	collisionListener
-	 * 			The object of the class CollisionListener used to draw explosions.
-	 * @param 	collisionArray
-	 * 			The collision position.
-	 * 
-	 * @effect 	If the entity is the source of the bullet, the bullet will be reloaded onto the ship and removed from the world.
-	 * 			@see implementation
-	 * @effect 	If the entity is not the source_ship, both the bullet and the entity will be terminated and collisionListener 
-	 * 			will be invoked.
-	 * 			@see implementation
-	 */
-	private void BulletAndEntityCollide(Entity entity1, Entity entity2, CollisionListener collisionListener, double[] collisionArray) {
-		double position1X = ((Entity)entity1).getEntityPositionX();
-		double position1Y = ((Entity)entity1).getEntityPositionY();
-		double position2X = ((Entity)entity2).getEntityPositionX();
-		double position2Y = ((Entity)entity2).getEntityPositionY();
-		
-		// If a bullet collides with the ship who fired this bullet, the bullet will be reloaded onto the ship.
-		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet) entity1).getBulletSource() == ((Ship) entity2)) {
-			((Bullet) entity1).setPositionWithoutChecking(position2X, position2Y);
-			this.removeEntityFromWorld(entity1);
-			((Ship) entity2).addOneBulletToShip((Bullet) entity1);
-		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet) entity2).getBulletSource() == ((Ship) entity1)) {
-			((Bullet) entity2).setPositionWithoutChecking(position1X, position1Y);
-			this.removeEntityFromWorld(entity2);
-			((Ship) entity1).addOneBulletToShip((Bullet) entity2);
-		}
+//	/**
+//	 * Let a bullet and an entity collide.
+//	 * 
+//	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+//	 * 
+//	 * @param 	entity1
+//	 * 			The bullet or the entity that will collide.
+//	 * @param 	entity2
+//	 * 			The entity if entity1 is a bullet, or the bullet otherwise, that will collide.
+//	 * @param 	collisionListener
+//	 * 			The object of the class CollisionListener used to draw explosions.
+//	 * @param 	collisionArray
+//	 * 			The collision position.
+//	 * 
+//	 * @effect 	If the entity is the source of the bullet, the bullet will be reloaded onto the ship and removed from the world.
+//	 * 			@see implementation
+//	 * @effect 	If the entity is not the source_ship, both the bullet and the entity will be terminated and collisionListener 
+//	 * 			will be invoked.
+//	 * 			@see implementation
+//	 */
+//	private void BulletAndEntityCollide(Entity entity1, Entity entity2, CollisionListener collisionListener, double[] collisionArray) {
+//		double position1X = ((Entity)entity1).getEntityPositionX();
+//		double position1Y = ((Entity)entity1).getEntityPositionY();
+//		double position2X = ((Entity)entity2).getEntityPositionX();
+//		double position2Y = ((Entity)entity2).getEntityPositionY();
+//		
+//		// If a bullet collides with the ship who fired this bullet, the bullet will be reloaded onto the ship.
+//		if (entity1 instanceof Bullet && entity2 instanceof Ship && ((Bullet) entity1).getBulletSource() == ((Ship) entity2)) {
+//			((Bullet) entity1).setPositionWithoutChecking(position2X, position2Y);
+//			this.removeEntityFromWorld(entity1);
+//			((Ship) entity2).addOneBulletToShip((Bullet) entity1);
+//		} else if (entity2 instanceof Bullet && entity1 instanceof Ship && ((Bullet) entity2).getBulletSource() == ((Ship) entity1)) {
+//			((Bullet) entity2).setPositionWithoutChecking(position1X, position1Y);
+//			this.removeEntityFromWorld(entity2);
+//			((Ship) entity1).addOneBulletToShip((Bullet) entity2);
+//		}
+//
+//		// In all the other cases both entities will terminate each other. These cases are: Or a bullet who will collide
+//		// with a ship which is not the ship who fired the bullet, or two bullets who will collide with each other.
+//		else {
+//			if (collisionListener != null) {
+//				double collisionPositionX = collisionArray[0];
+//				double collisionPositionY = collisionArray[1];
+//
+//				collisionListener.objectCollision(collision_entity_1, collision_entity_2, collisionPositionX, collisionPositionY);
+//			}
+//			entity1.Terminate();
+//			entity2.Terminate();
+//		}
+//	}
+//
+//	/**
+//	 * Let a bullet collide with the boundaries of the world.
+//	 * 
+//	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+//	 * 
+//	 * @param 	bullet
+//	 * 			The bullet that will collide with the boundary.
+//	 * @param 	collisionArray
+//	 * 			The collision position.
+//	 * 
+//	 * @effect 	If the bullet has bounced more than two times, it will be terminated.
+//	 * 			@see implementation
+//	 * @effect 	The bullet's amount of bounces will be incremented by 1. If the boundary was horizontal, 
+//	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
+//	 * 			@see implementation
+//	 */
+//	private void BulletAndWorldCollide(Bullet bullet, double[] collisionArray) {
+//		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
+//		int counter = bullet.getAmountOfBounces();
+//
+//		// When the counter reaches 3, the bullet will be terminated.
+//		if (counter >= 2)
+//			bullet.Terminate();
+//
+//		// If 'counter' is (strict) less than 3, the bullet will bounce against the boundary.
+//		else {
+//			bullet.setAmountOfBounces(counter + 1);
+//			
+//			double VelocityX = bullet.getEntityVelocityX();
+//			double VelocityY = bullet.getEntityVelocityY();
+//
+//			// The bullet will collide with an horizontal boundary.
+//			if (collideHorizontalBoundary(bullet, collisionArray))
+//				bullet.setEntityVelocity(VelocityX, -VelocityY);
+//
+//			// The bullet will collide with an vertical boundary.
+//			else
+//				bullet.setEntityVelocity(-VelocityX, VelocityY);
+//		}
+//	}
+//
+//	/**
+//	 * Checks if a collision with a boundary is with a horizontal boundary.
+//	 * 
+//	 * @param 	entity
+//	 * 			The entity that collides.
+//	 * @param 	collisionArray
+//	 * 			The collision position.
+//	 * 
+//	 * @return 	True if the collision position is approximately equal to 0 (the lower-boundary) or equal to the
+//	 * 			height of the world (the upper-boundary).
+//	 * 			@see implementation
+//	 */
+//	private boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
+//		boolean crossesLowerBoundary = (collisionArray[1] < GAMMA * entity.getEntityRadius());
+//		boolean crossesUpperBoundary = (collisionArray[1] > (entity.getEntityWorld().getWorldHeight() - GAMMA * entity.getEntityRadius()));
+//		
+//		return (crossesLowerBoundary || crossesUpperBoundary);
+//	}
+//	
+//	/**
+//	 * Let a ship collide with the boundaries of the world.
+//	 * 
+//	 * @param 	ship
+//	 * 			The ship that collides.
+//	 * @param 	collisionArray
+//	 * 			The position where the collision will take place.
+//	 * 
+//	 * @effect	If the bullet collides with a horizontal boundary, the y-component of the velocity will change sign. 
+//	 * 			If the collision happens with a vertical boundary, the x-component changes sign
+//	 * 			@see implementation
+//	 */
+//	private void ShipAndWorldCollide(Ship ship, double[] collisionArray) {
+//		double VelocityX = ship.getEntityVelocityX();
+//		double VelocityY = ship.getEntityVelocityY();
+//
+//		if (collideHorizontalBoundary(ship, collisionArray))
+//			ship.setEntityVelocity(VelocityX, -VelocityY);
+//
+//		else
+//			ship.setEntityVelocity(-VelocityX, VelocityY);
+//	}
+//
+//	/**
+//	 * Let two ships collide with each other.
+//	 * 
+//	 * @param 	entity1
+//	 * 			the first ship.
+//	 * @param 	entity2
+//	 * 			The second ship.
+//	 * 
+//	 * @effect 	The velocities will be changed (this will be calculated by the provide formula).	
+//	 * 			@see implementation
+//	 */
+//	private void ShipsCollide(Entity entity1, Entity entity2) {
+//		final double position_1X = entity1.getEntityPositionX();
+//		final double position_1Y = entity1.getEntityPositionY();
+//		final double position_2X = entity2.getEntityPositionX();
+//		final double position_2Y = entity2.getEntityPositionY();
+//		
+//		final double velocity_1X = entity1.getEntityVelocityX();
+//		final double velocity_1Y = entity1.getEntityVelocityY();
+//		final double velocity_2X = entity2.getEntityVelocityX();
+//		final double velocity_2Y = entity2.getEntityVelocityY();
+//		
+//		final double radius_1 = entity1.getEntityRadius();
+//		final double radius_2 = entity2.getEntityRadius();
+//		final double total_radius = (radius_1 + radius_2);
+//		
+//		final double mass_1 = entity1.getEntityMass();
+//		final double mass_2 = entity2.getEntityMass();
+//
+//		final double delta_x = position_2X - position_1X;
+//		final double delta_y = position_2Y - position_1Y;
+//		
+//		final double delta_rX = position_2X - position_1X;
+//		final double delta_rY = position_2Y - position_1Y;
+//		
+//		final double delta_vX = velocity_2X - velocity_1X;
+//		final double delta_vY = velocity_2Y - velocity_1Y;
+//		
+//		final double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
+//
+//		double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
+//		double Jx = (BigJ * delta_x) / total_radius;
+//		double Jy = (BigJ * delta_y) / total_radius;
+//
+//		entity1.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
+//		entity2.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
+//	}
+//	
+//	/**
+//	 * Execute certain algorithms based on the type of collision.
+//	 * 
+//	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+//	 * 
+//	 * @param 	collisionArray
+//	 * 			The position of collision between an entity and the world, or two entities.
+//	 * @param 	defaultEvolvingTime
+//	 * 			The amount of time the world has to evolve.
+//	 * @param 	collisionListener
+//	 * 			An object of the class CollisionListener that is used to draw explosions.
+//	 * 
+//	 * @effect 	Resolving the collision of the entities.
+//	 * 			@see implementation
+//	 */
+//	private void letCollisionHappen(double[] collisionArray, double defaultEvolvingTime, CollisionListener collisionListener) {
+//		double collisionPositionX = collisionArray[0];
+//		double collisionPositionY = collisionArray[1];
+//		
+//		// COLLISION BETWEEN TWO SHIPS:
+//		if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship) {
+//			if (collisionListener != null)
+//				collisionListener.objectCollision(collision_entity_1, collision_entity_2, collisionPositionX, collisionPositionY);
+//
+//			// Let the collision happen.
+//			ShipsCollide(collision_entity_1, collision_entity_2);
+//
+//			// Remove the out-dated positions of the entities out of the map entity_positions.
+//			entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
+//			entity_positions.remove(arrayToString(collision_entity_2.getEntityPosition()));
+//			
+//			// Let the ships who will collide evolve a little more after the collision. Otherwise, 
+//			// the two ships would keep touching which would invoke the same collision again the next 
+//			// time the method evolve() will be invoked.
+//			collision_entity_1.move(GAMMA * defaultEvolvingTime);
+//			collision_entity_2.move(GAMMA * defaultEvolvingTime);
+//			
+//			// Add the new position with the related entities to the map entity_positions.
+//			entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
+//			entity_positions.put(arrayToString(collision_entity_2.getEntityPosition()), collision_entity_2);
+//		}
+//
+//		// COLLISION BETWEEN A SHIP AND THE BOUNDARY OF THE WORLD:
+//		else if (collision_entity_1 instanceof Ship && collision_entity_2 == null) {
+//			if (collisionListener != null)
+//				collisionListener.boundaryCollision(collision_entity_1, collisionPositionX, collisionPositionY);
+//
+//			// Let the collision happen.
+//			ShipAndWorldCollide((Ship)collision_entity_1, collisionArray);
+//
+//			// Remove the out-dated positions of the entities out of the map entity_positions.
+//			entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
+//			
+//			// Let the ship who will collide evolve a little more after the collision. Otherwise, 
+//			// the ship would keep touching with the boundary which would invoke the same collision 
+//			// again the next time the method evolve() will be invoked.
+//			collision_entity_1.move(GAMMA * defaultEvolvingTime);
+//			
+//			// Add the new position with the related entities to the map entity_positions.
+//			entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
+//		}
+//
+//		// COLLISION BETWEEN A BULLET AND THE BOUNDARY OF THE WORLD:
+//		else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null) {
+//			if (collisionListener != null)
+//				collisionListener.boundaryCollision(collision_entity_1, collisionPositionX, collisionPositionY);
+//
+//			// Let the collision happen.
+//			BulletAndWorldCollide((Bullet)collision_entity_1, collisionArray);
+//
+//			if (!collision_entity_1.isEntityTerminated()) {
+//
+//				// Remove the out-dated positions of the entities out of the map entity_positions.
+//				entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
+//			
+//				// Let the bullet who will collide evolve a little more after the collision. Otherwise, 
+//				// the bullet would keep touching the boundary, which would invoke the same collision
+//				// again the next time 'evolve()' will be invoked.
+//				collision_entity_1.move(GAMMA * defaultEvolvingTime);
+//				
+//				// Add the new position with the related entities to the map entity_positions.
+//				entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
+//			}
+//		}
+//
+//		// COLLISION BETWEEN A SHIP AND A BULLET OR BETWEEN TWO BULLETS:
+//		else {
+//			// In this case, at least one of the two entities will be removed from the world. In the case if one of the entities
+//			// is a bullet which collides with its parent-ship, it will be reloaded back onto this ship. In all the other cases, 
+//			// both entities will be terminated. This means it will not be necessary to evolve a little further to make sure the
+//			// entities aren't colliding any more, because this will never be the case.
+//			BulletAndEntityCollide(collision_entity_1, collision_entity_2, collisionListener, collisionArray);
+//		}
+//	}
 
-		// In all the other cases both entities will terminate each other. These cases are: Or a bullet who will collide
-		// with a ship which is not the ship who fired the bullet, or two bullets who will collide with each other.
-		else {
-			if (collisionListener != null) {
-				double collisionPositionX = collisionArray[0];
-				double collisionPositionY = collisionArray[1];
-
-				collisionListener.objectCollision(collision_entity_1, collision_entity_2, collisionPositionX, collisionPositionY);
-			}
-			entity1.Terminate();
-			entity2.Terminate();
-		}
-	}
-
-	/**
-	 * Let a bullet collide with the boundaries of the world.
-	 * 
-	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * 
-	 * @param 	bullet
-	 * 			The bullet that will collide with the boundary.
-	 * @param 	collisionArray
-	 * 			The collision position.
-	 * 
-	 * @effect 	If the bullet has bounced more than two times, it will be terminated.
-	 * 			@see implementation
-	 * @effect 	The bullet's amount of bounces will be incremented by 1. If the boundary was horizontal, 
-	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
-	 * 			@see implementation
-	 */
-	private void BulletAndWorldCollide(Bullet bullet, double[] collisionArray) {
-		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
-		int counter = bullet.getAmountOfBounces();
-
-		// When the counter reaches 3, the bullet will be terminated.
-		if (counter >= 2)
-			bullet.Terminate();
-
-		// If 'counter' is (strict) less than 3, the bullet will bounce against the boundary.
-		else {
-			bullet.setAmountOfBounces(counter + 1);
-			
-			double VelocityX = bullet.getEntityVelocityX();
-			double VelocityY = bullet.getEntityVelocityY();
-
-			// The bullet will collide with an horizontal boundary.
-			if (collideHorizontalBoundary(bullet, collisionArray))
-				bullet.setEntityVelocity(VelocityX, -VelocityY);
-
-			// The bullet will collide with an vertical boundary.
-			else
-				bullet.setEntityVelocity(-VelocityX, VelocityY);
-		}
-	}
-
-	/**
-	 * Checks if a collision with a boundary is with a horizontal boundary.
-	 * 
-	 * @param 	entity
-	 * 			The entity that collides.
-	 * @param 	collisionArray
-	 * 			The collision position.
-	 * 
-	 * @return 	True if the collision position is approximately equal to 0 (the lower-boundary) or equal to the
-	 * 			height of the world (the upper-boundary).
-	 * 			@see implementation
-	 */
-	private boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
-		boolean crossesLowerBoundary = (collisionArray[1] < GAMMA * entity.getEntityRadius());
-		boolean crossesUpperBoundary = (collisionArray[1] > (entity.getEntityWorld().getWorldHeight() - GAMMA * entity.getEntityRadius()));
-		
-		return (crossesLowerBoundary || crossesUpperBoundary);
-	}
 	
-	/**
-	 * Let a ship collide with the boundaries of the world.
-	 * 
-	 * @param 	ship
-	 * 			The ship that collides.
-	 * @param 	collisionArray
-	 * 			The position where the collision will take place.
-	 * 
-	 * @effect	If the bullet collides with a horizontal boundary, the y-component of the velocity will change sign. 
-	 * 			If the collision happens with a vertical boundary, the x-component changes sign
-	 * 			@see implementation
-	 */
-	private void ShipAndWorldCollide(Ship ship, double[] collisionArray) {
-		double VelocityX = ship.getEntityVelocityX();
-		double VelocityY = ship.getEntityVelocityY();
-
-		if (collideHorizontalBoundary(ship, collisionArray))
-			ship.setEntityVelocity(VelocityX, -VelocityY);
-
-		else
-			ship.setEntityVelocity(-VelocityX, VelocityY);
-	}
-
-	/**
-	 * Let two ships collide with each other.
-	 * 
-	 * @param 	entity1
-	 * 			the first ship.
-	 * @param 	entity2
-	 * 			The second ship.
-	 * 
-	 * @effect 	The velocities will be changed (this will be calculated by the provide formula).	
-	 * 			@see implementation
-	 */
-	private void ShipsCollide(Entity entity1, Entity entity2) {
-		final double position_1X = entity1.getEntityPositionX();
-		final double position_1Y = entity1.getEntityPositionY();
-		final double position_2X = entity2.getEntityPositionX();
-		final double position_2Y = entity2.getEntityPositionY();
-		
-		final double velocity_1X = entity1.getEntityVelocityX();
-		final double velocity_1Y = entity1.getEntityVelocityY();
-		final double velocity_2X = entity2.getEntityVelocityX();
-		final double velocity_2Y = entity2.getEntityVelocityY();
-		
-		final double radius_1 = entity1.getEntityRadius();
-		final double radius_2 = entity2.getEntityRadius();
-		final double total_radius = (radius_1 + radius_2);
-		
-		final double mass_1 = entity1.getEntityMass();
-		final double mass_2 = entity2.getEntityMass();
-
-		final double delta_x = position_2X - position_1X;
-		final double delta_y = position_2Y - position_1Y;
-		
-		final double delta_rX = position_2X - position_1X;
-		final double delta_rY = position_2Y - position_1Y;
-		
-		final double delta_vX = velocity_2X - velocity_1X;
-		final double delta_vY = velocity_2Y - velocity_1Y;
-		
-		final double delta_v_r = (delta_rX * delta_vX + delta_rY * delta_vY);
-
-		double BigJ = (2 * mass_1 * mass_2 * delta_v_r) / (total_radius * (mass_1 + mass_2));
-		double Jx = (BigJ * delta_x) / total_radius;
-		double Jy = (BigJ * delta_y) / total_radius;
-
-		entity1.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
-		entity2.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
-	}
+	protected void updatePositionListAfterCollision(Entity entity1, Entity entity2,double defaultEvolvingTime){
+		// Remove the out-dated positions of the entities out of the map entity_positions.
+					entity_positions.remove(arrayToString(entity1.getEntityPosition()));
+					entity_positions.remove(arrayToString(entity2.getEntityPosition()));
+					
+					// Let the ships who will collide evolve a little more after the collision. Otherwise, 
+					// the two ships would keep touching which would invoke the same collision again the next 
+					// time the method evolve() will be invoked.
+					entity1.move(GAMMA * defaultEvolvingTime);
+					entity2.move(GAMMA * defaultEvolvingTime);
+					
+					// Add the new position with the related entities to the map entity_positions.
+					entity_positions.put(arrayToString(entity1.getEntityPosition()), entity1);
+					entity_positions.put(arrayToString(entity2.getEntityPosition()), entity2);
+				}
 	
-	/**
-	 * Execute certain algorithms based on the type of collision.
-	 * 
-	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * 
-	 * @param 	collisionArray
-	 * 			The position of collision between an entity and the world, or two entities.
-	 * @param 	defaultEvolvingTime
-	 * 			The amount of time the world has to evolve.
-	 * @param 	collisionListener
-	 * 			An object of the class CollisionListener that is used to draw explosions.
-	 * 
-	 * @effect 	Resolving the collision of the entities.
-	 * 			@see implementation
-	 */
-	private void letCollisionHappen(double[] collisionArray, double defaultEvolvingTime, CollisionListener collisionListener) {
-		double collisionPositionX = collisionArray[0];
-		double collisionPositionY = collisionArray[1];
-		
-		// COLLISION BETWEEN TWO SHIPS:
-		if (collision_entity_1 instanceof Ship && collision_entity_2 instanceof Ship) {
-			if (collisionListener != null)
-				collisionListener.objectCollision(collision_entity_1, collision_entity_2, collisionPositionX, collisionPositionY);
-
-			// Let the collision happen.
-			ShipsCollide(collision_entity_1, collision_entity_2);
-
-			// Remove the out-dated positions of the entities out of the map entity_positions.
-			entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-			entity_positions.remove(arrayToString(collision_entity_2.getEntityPosition()));
-			
-			// Let the ships who will collide evolve a little more after the collision. Otherwise, 
-			// the two ships would keep touching which would invoke the same collision again the next 
-			// time the method evolve() will be invoked.
-			collision_entity_1.move(GAMMA * defaultEvolvingTime);
-			collision_entity_2.move(GAMMA * defaultEvolvingTime);
-			
-			// Add the new position with the related entities to the map entity_positions.
-			entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
-			entity_positions.put(arrayToString(collision_entity_2.getEntityPosition()), collision_entity_2);
-		}
-
-		// COLLISION BETWEEN A SHIP AND THE BOUNDARY OF THE WORLD:
-		else if (collision_entity_1 instanceof Ship && collision_entity_2 == null) {
-			if (collisionListener != null)
-				collisionListener.boundaryCollision(collision_entity_1, collisionPositionX, collisionPositionY);
-
-			// Let the collision happen.
-			ShipAndWorldCollide((Ship)collision_entity_1, collisionArray);
-
-			// Remove the out-dated positions of the entities out of the map entity_positions.
-			entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-			
-			// Let the ship who will collide evolve a little more after the collision. Otherwise, 
-			// the ship would keep touching with the boundary which would invoke the same collision 
-			// again the next time the method evolve() will be invoked.
-			collision_entity_1.move(GAMMA * defaultEvolvingTime);
-			
-			// Add the new position with the related entities to the map entity_positions.
-			entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
-		}
-
-		// COLLISION BETWEEN A BULLET AND THE BOUNDARY OF THE WORLD:
-		else if (collision_entity_1 instanceof Bullet && collision_entity_2 == null) {
-			if (collisionListener != null)
-				collisionListener.boundaryCollision(collision_entity_1, collisionPositionX, collisionPositionY);
-
-			// Let the collision happen.
-			BulletAndWorldCollide((Bullet)collision_entity_1, collisionArray);
-
-			if (!collision_entity_1.isEntityTerminated()) {
-
-				// Remove the out-dated positions of the entities out of the map entity_positions.
-				entity_positions.remove(arrayToString(collision_entity_1.getEntityPosition()));
-			
-				// Let the bullet who will collide evolve a little more after the collision. Otherwise, 
-				// the bullet would keep touching the boundary, which would invoke the same collision
-				// again the next time 'evolve()' will be invoked.
-				collision_entity_1.move(GAMMA * defaultEvolvingTime);
-				
-				// Add the new position with the related entities to the map entity_positions.
-				entity_positions.put(arrayToString(collision_entity_1.getEntityPosition()), collision_entity_1);
-			}
-		}
-
-		// COLLISION BETWEEN A SHIP AND A BULLET OR BETWEEN TWO BULLETS:
-		else {
-			// In this case, at least one of the two entities will be removed from the world. In the case if one of the entities
-			// is a bullet which collides with its parent-ship, it will be reloaded back onto this ship. In all the other cases, 
-			// both entities will be terminated. This means it will not be necessary to evolve a little further to make sure the
-			// entities aren't colliding any more, because this will never be the case.
-			BulletAndEntityCollide(collision_entity_1, collision_entity_2, collisionListener, collisionArray);
-		}
-	}
-
+	protected void updatePositionListAfterCollision(Entity entity,double defaultEvolvingTime){
+		// Remove the out-dated positions of the entities out of the map entity_positions.
+					entity_positions.remove(arrayToString(entity.getEntityPosition()));
+					
+					
+					// Let the ships who will collide evolve a little more after the collision. Otherwise, 
+					// the two ships would keep touching which would invoke the same collision again the next 
+					// time the method evolve() will be invoked.
+					entity.move(GAMMA * defaultEvolvingTime);
+									
+					// Add the new position with the related entities to the map entity_positions.
+					entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
+					
+				}
+	
+	
 	
 	/// TERMINATION AND STATES ///
 	

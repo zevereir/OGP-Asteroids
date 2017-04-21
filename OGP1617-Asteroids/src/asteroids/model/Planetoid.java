@@ -1,24 +1,30 @@
 package asteroids.model;
 
-
+import asteroids.part2.CollisionListener;
 
 public class Planetoid extends MinorPlanet {
 
 	public Planetoid(double positionX, double positionY, double velocityX, double velocityY, double radius,
-			double orientation, double mass, double maxVelocity, double density) {
+			double orientation, double mass, double maxVelocity, double density,double totalTraveledDistance) {
 		super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
+		setPlanetoidInitialRadius(radius);
+		setPlanetoidTotalTraveledDistance(totalTraveledDistance);
 
 	}
 	
-	public Planetoid(double positionX, double positionY, double velocityX, double velocityY, double radius){
+	public Planetoid(double positionX, double positionY, double velocityX, double velocityY, double radius,double totalTraveledDistance){
 		this(positionX, positionY, velocityX, velocityY, radius, getDefaultOrientation(), getDefaultPlanetoidMass(),
-				getDefaultMaxVelocity(), getDefaultPlanetoidDensity());
+				getDefaultMaxVelocity(), getDefaultPlanetoidDensity(),totalTraveledDistance);
 	}
 	
 	public Planetoid(){
-		this(getDefaultPositionX(),getDefaultPositionY(),getDefaultVelocityX(),getDefaultVelocityY(),getDefaultMinorPlanetRadius());
+		this(getDefaultPositionX(),getDefaultPositionY(),getDefaultVelocityX(),getDefaultVelocityY(),getDefaultMinorPlanetRadius(),getDefaultPlanetoidTraveledDistance());
 	}
 	
+	
+	///PROPERTIES///
+	protected double totalTraveledDistance;
+	protected double initial_radius;
 	
 	
 	///DEFAULTS///
@@ -37,9 +43,29 @@ public class Planetoid extends MinorPlanet {
 		return (4.0 / 3.0) * Math.PI * Math.pow(getDefaultMinorPlanetRadius(), 3) * getDefaultPlanetoidDensity();
 	}
 	
+	private static double getDefaultPlanetoidTraveledDistance(){
+		return 0;
+	}
+	///GETTERS///
+	public double getPlanetoidTotalTraveledDistance(){
+		return totalTraveledDistance;
+	}
+	protected double getPlanetoidInitialRadius(){
+		return this.initial_radius;
+	}
 	///SETTERS///
 	protected void setEntityDensity(double density){
 		this.density = getDefaultPlanetoidDensity();
+	}
+	protected void setPlanetoidTotalTraveledDistance(double totalTraveledDistance){
+		if (isValidTraveledDistance(totalTraveledDistance))
+			this.totalTraveledDistance = totalTraveledDistance;
+		else
+			throw new IllegalArgumentException();
+	}
+	
+	protected void setPlanetoidInitialRadius(double radius){
+		initial_radius = radius;
 	}
 	
 	///CHECKERS///
@@ -47,6 +73,9 @@ public class Planetoid extends MinorPlanet {
 		return (density == getDefaultPlanetoidDensity());
 	}
 
+	protected boolean isValidTraveledDistance(double totalTraveledDistance){
+		return (totalTraveledDistance>=0);
+	}
 
 	/// MOVE ///
 	
@@ -79,8 +108,9 @@ public class Planetoid extends MinorPlanet {
 	private void shrink(double time){
 		double x_distance = getEntityVelocityX()*time;
 		double y_distance = getEntityVelocityY()*time;
-		double traveled_distance = getEuclidianDistance(x_distance,y_distance);
-		double new_radius = getEntityRadius() - (10E-6)*traveled_distance;
+		double total_traveled_distance = getPlanetoidTotalTraveledDistance()+getEuclidianDistance(x_distance,y_distance);
+		this.setPlanetoidTotalTraveledDistance(total_traveled_distance);
+		double new_radius = getPlanetoidInitialRadius() - (10E-6)*getPlanetoidTotalTraveledDistance();
 		if (isValidRadius(new_radius))
 			setEntityRadius(new_radius);
 		else
@@ -139,15 +169,19 @@ public class Planetoid extends MinorPlanet {
 		}
 		
 		///COLLISIONS///
-		protected void entityAndShipCollide(Entity entity,double defaultEvolvingTime){
-			World world = entity.getEntityWorld();
-			double radius = entity.getEntityRadius();
+		protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
+			World world = ship.getEntityWorld();
+			double radius = ship.getEntityRadius();
 			double random_x = radius+Math.random()*(world.getWorldWidth()-radius);
 			double random_y = radius+Math.random()*(world.getWorldHeight()-radius);
 			try {
-				entity.setEntityPosition(random_x, random_y);
+				ship.setEntityPosition(random_x, random_y);
 			} catch (IllegalArgumentException illegalArgumentException) {
-				entity.Terminate();
+				double collisionPositionX = collisionPosition[0];
+				double collisionPositionY = collisionPosition[1];
+				if (collisionListener != null)
+					collisionListener.objectCollision(this, ship,collisionPositionX,collisionPositionY);
+				ship.Terminate();
 			}
 		}
 }

@@ -1205,33 +1205,43 @@ public abstract class Entity {
 
 	
 	///COLLISIONS///
-	protected void letCollisionHappen(Entity entity,double[] collisionPosition,
-			double defaultEvolvingTime, CollisionListener collisionListener){
-		double collisionPositionX = collisionPosition[0];
-		double collisionPositionY = collisionPosition[1];
+	protected void letCollisionHappen(Entity entity,double[] collisionPosition,double defaultEvolvingTime, CollisionListener collisionListener){
 		if (entity == null){
-			if (collisionListener != null)
-				collisionListener.boundaryCollision(this, collisionPositionX, collisionPositionY);
-			this.entityAndBoundaryCollide(collisionPosition,defaultEvolvingTime);
-		
+			this.entityAndBoundaryCollide(collisionPosition,defaultEvolvingTime,collisionListener);
 		}
-		if (collisionListener != null)
-			collisionListener.objectCollision(this, entity,collisionPositionX,collisionPositionY);
-		else if (entity instanceof Ship)
-			this.entityAndShipCollide(entity,defaultEvolvingTime);
-		else if (entity instanceof Bullet)
-			this.entityAndBulletCollide(entity,defaultEvolvingTime);
-		else if (entity instanceof MinorPlanet)
-			this.entityAndMinorPlanetCollide(entity,collisionPosition,defaultEvolvingTime);
-		else
-			throw new IllegalArgumentException();
+	
+		if (entity instanceof Ship){
+			this.entityAndShipCollide((Ship)entity,collisionPosition,defaultEvolvingTime,collisionListener);}
+		if (entity instanceof MinorPlanet){
+			this.entityAndMinorPlanetCollide((MinorPlanet)entity,collisionPosition,defaultEvolvingTime,collisionListener);}
+		if (entity instanceof Bullet) {
+			this.entityAndBulletCollide((Bullet)entity,collisionPosition,collisionListener);}
 					
 	}
 	
-	protected abstract void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime);
-	protected abstract void entityAndShipCollide(Entity entity,double defaultEvolvingTime);
-	protected abstract void entityAndBulletCollide(Entity entity,double defaultEvolvingTime);
-	protected abstract void entityAndMinorPlanetCollide(Entity entity,double[] collisionPosition,double defaultEvolvingTime);
+	protected abstract void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
+	protected abstract void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
+	
+	protected void entityAndBulletCollide(Bullet bullet,double[] collisionPosition,CollisionListener collisionListener){
+		if (bullet.getBulletSource() == this) {
+			World world = this.getEntityWorld();
+			double position1X = this.getEntityPositionX();
+			double position1Y = this.getEntityPositionY();
+			bullet.setPositionWithoutChecking(position1X, position1Y);
+			world.removeEntityFromWorld(bullet);
+			((Ship)this).addOneBulletToShip(bullet);}
+		else{
+			double collisionPositionX = collisionPosition[0];
+			double collisionPositionY = collisionPosition[1];
+			if (collisionListener != null)
+				collisionListener.objectCollision(this, bullet,collisionPositionX,collisionPositionY);
+			this.Terminate();
+			bullet.Terminate();
+		}
+	}
+		
+	
+	protected abstract void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
 	
 	
 	

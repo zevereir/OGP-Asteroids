@@ -1,6 +1,6 @@
 package asteroids.model;
 
-
+import asteroids.part2.CollisionListener;
 
 public abstract class MinorPlanet extends Entity{
 
@@ -46,7 +46,7 @@ public abstract class MinorPlanet extends Entity{
 
 	
 	///COLLISION///
-	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime) {
+	protected void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
 		double VelocityX = this.getEntityVelocityX();
 		double VelocityY = this.getEntityVelocityY();
 
@@ -55,6 +55,13 @@ public abstract class MinorPlanet extends Entity{
 
 		else
 			this.setEntityVelocity(-VelocityX, VelocityY);
+		World world = this.getEntityWorld();
+		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
+	}
+	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
+		this.doubleShipOrMinorPlanetCollide(minorPlanet);
+		World world = this.getEntityWorld();
+		world.updatePositionListAfterCollision(this,minorPlanet, defaultEvolvingTime);
 	}
 
 }

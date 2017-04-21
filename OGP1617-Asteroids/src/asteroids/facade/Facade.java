@@ -805,148 +805,221 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 
 	@Override
 	public int getNbStudentsInTeam() {
-		
-		return 2;
+			return 2;
+			
 	}
+	
 
 	@Override
 	public Set<? extends Asteroid> getWorldAsteroids(World world) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return world.getWorldAsteroids();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #53");
+		}
 	}
 
 	@Override
 	public void addAsteroidToWorld(World world, Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			world.addEntityToWorld(asteroid);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #54");
+		}
 	}
+	
 
 	@Override
 	public void removeAsteroidFromWorld(World world, Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			world.removeEntityFromWorld(asteroid);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #55");
+		}
 	}
 
 	@Override
 	public Set<? extends Planetoid> getWorldPlanetoids(World world) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return world.getWorldPlanetoids();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #56");
+		}
 	}
 
 	@Override
 	public void addPlanetoidToWorld(World world, Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			world.addEntityToWorld(planetoid);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #57");
+		}
 	}
+		
 
 	@Override
 	public void removePlanetoidFromWorld(World world, Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			world.removeEntityFromWorld(planetoid);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #58");
+		}
 	}
 
 	@Override
 	public Asteroid createAsteroid(double x, double y, double xVelocity, double yVelocity, double radius)
 			throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Asteroid asteroid= new Asteroid(x, y, xVelocity, yVelocity, radius);
+			return asteroid;
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #59");
+		}
 	}
 
 	@Override
 	public void terminateAsteroid(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			asteroid.Terminate();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #60");
+		}
 	}
 
 	@Override
 	public boolean isTerminatedAsteroid(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			return asteroid.isEntityTerminated();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #61");
+		}
 	}
 
 	@Override
 	public double[] getAsteroidPosition(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return asteroid.getEntityPosition();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #62");
+		}
 	}
 
 	@Override
 	public double[] getAsteroidVelocity(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return asteroid.getEntityVelocity();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #63");
+		}
 	}
 
 	@Override
 	public double getAsteroidRadius(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return asteroid.getEntityRadius();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #64");
+		}
 	}
 
 	@Override
 	public double getAsteroidMass(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return asteroid.getEntityMass();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #65");
+		}
 	}
 
 	@Override
 	public World getAsteroidWorld(Asteroid asteroid) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return asteroid.getEntityWorld();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #66");
+		}
 	}
-
 	@Override
 	public Planetoid createPlanetoid(double x, double y, double xVelocity, double yVelocity, double radius,
 			double totalTraveledDistance) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Planetoid planetoid = new Planetoid(x, y, xVelocity, yVelocity, radius, totalTraveledDistance);
+			return planetoid;
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #67");
+		}
 	}
-
 	@Override
 	public void terminatePlanetoid(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			planetoid.Terminate();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #68");
+		}
 	}
+		
 
 	@Override
 	public boolean isTerminatedPlanetoid(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			return planetoid.isEntityTerminated();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #69");
+		}
 	}
 
 	@Override
 	public double[] getPlanetoidPosition(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return planetoid.getEntityPosition();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #70");
+		}
 	}
 
 	@Override
 	public double[] getPlanetoidVelocity(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return planetoid.getEntityVelocity();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #71");
+		}
 	}
 
 	@Override
 	public double getPlanetoidRadius(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return planetoid.getEntityRadius();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #72");
+		}
 	}
 
 	@Override
 	public double getPlanetoidMass(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return planetoid.getEntityMass();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #73");
+		}
 	}
 
 	@Override
 	public double getPlanetoidTotalTraveledDistance(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			return planetoid.getPlanetoidTotalTraveledDistance();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #74");
+		}
 	}
 
 	@Override
 	public World getPlanetoidWorld(Planetoid planetoid) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return planetoid.getEntityWorld();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #75");
+		}
 	}
 
 	@Override
