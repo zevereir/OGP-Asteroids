@@ -309,7 +309,7 @@ public class Bullet extends Entity {
 	 * 		  | new.getEntityDensity == density 
 	 */
 	protected void setEntityDensity(double density) {
-		this.density = getDefaultBulletDensity();
+		this.density = density;
 	}
 
 	/**
