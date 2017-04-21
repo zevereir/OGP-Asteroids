@@ -5,7 +5,7 @@ import asteroids.part2.CollisionListener;
 import be.kuleuven.cs.som.annotate.*;
  
 /**
- * A class that describes and modifies all the entities. An entity can be a ship or bullet.
+ * A class that describes and modifies all the entities. An entity can be a ship, bullet or MinorPlanet.
  * 
  * @invar 	The position is a valid position.
  * 		  | isValidPosition(this.getEntityPositionX,this.getEntityPositionY)
@@ -29,7 +29,7 @@ public abstract class Entity {
 	/// CONSTRUCTOR /// 
 	
 	/**
-	 * Initialize an entity; bullet or ship, with the given parameters. 
+	 * Initialize an entity with the given parameters. 
 	 * 
 	 * @param 	positionX
 	 * 			The x-value of the entity's position.
@@ -1096,13 +1096,20 @@ public abstract class Entity {
 	 * 			height of the world (the upper-boundary).
 	 * 			@see implementation
 	 */
-	protected boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
+	protected static boolean collideHorizontalBoundary(Entity entity, double[] collisionArray) {
 		boolean crossesLowerBoundary = (collisionArray[1] < GAMMA * entity.getEntityRadius());
 		boolean crossesUpperBoundary = (collisionArray[1] > (entity.getEntityWorld().getWorldHeight() - GAMMA * entity.getEntityRadius()));
 		
 		return (crossesLowerBoundary || crossesUpperBoundary);
 	}
 	
+	/**
+	 * A function that resolves the collision between two ships or two minor planets.
+	 * @param entity 
+	 * 			the entity that will collide with the entity where the method is invoked on.
+	 * @post the velocities of the entities will be changed, the calculation is in the implementation.
+	 * 			@see implementation
+	 */
 	protected void doubleShipOrMinorPlanetCollide(Entity entity){
 		final double position_1X = this.getEntityPositionX();
 		final double position_1Y = this.getEntityPositionY();
@@ -1205,6 +1212,25 @@ public abstract class Entity {
 
 	
 	///COLLISIONS///
+	/**
+	 * A method that resolves collisions between an entity and the world or two entities.
+	 * @param entity
+	 * 			The entity that will collide with the entity where the method is invoked on.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @effect if the given entity is null, the entity where the method is invoked on will collide with a boundary.
+	 * 			@see implementation
+	 * @effect if the given entity is a ship, the entity where the method is invoked on will collide with this ship.
+	 * 			@see implemetation
+	 * @effect if the given entity is a minor planet, the entity where the method is invoked on will collide with this minor planet.
+	 * 			@see implemetation
+	 * @effect if the given entity is a bullet, the entity where the method is invoked on will collide with this bullet.
+	 * 			@see implemetation
+	 */
 	protected void letCollisionHappen(Entity entity,double[] collisionPosition,double defaultEvolvingTime, CollisionListener collisionListener){
 		if (entity == null){
 			this.entityAndBoundaryCollide(collisionPosition,defaultEvolvingTime,collisionListener);
@@ -1218,10 +1244,49 @@ public abstract class Entity {
 			this.entityAndBulletCollide((Bullet)entity,collisionPosition,collisionListener);}
 					
 	}
-	
+	/**
+	 * A method that resolves the collision between an entity and a boundary of the world.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @post the velocities will be changed
+	 * 			@see implementation of the abstract methods
+	 */
 	protected abstract void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
+	
+	/**
+	 * A method that resolves the collision between an entity and a ship.
+	 * @param ship
+	 * 			The ship that will collide with the entity where the method is invoked on.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @post the collision will be resolved
+	 * 			@see implementation of the abstract methods
+	 */
 	protected abstract void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
 	
+	/**
+	 * A method that resolves the collision between an entity and a bullet.
+	 * @param bullet
+	 * 			The bullet that will collide with the entity where the method is invoked on.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @post if the bullet collides with the ship that has fired it, it will be loaded on this ship.
+	 *			|(new)bullet.getBulletSource() = this.
+	 * @effect in all other cases, the bullet and the entity will be terminated.
+	 * 			@see implementation
+	 */
 	protected void entityAndBulletCollide(Bullet bullet,double[] collisionPosition,CollisionListener collisionListener){
 		if (bullet.getBulletSource() == this) {
 			World world = this.getEntityWorld();
@@ -1240,7 +1305,19 @@ public abstract class Entity {
 		}
 	}
 		
-	
+	/**
+	 * A method that resolves the collision between an entity and a minor planet.
+	 * @param minorPlanet
+	 * 			The minor planet that will collide with the entity where the method is invoked on.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @post the collision will be resolved
+	 * 			@see implementation of the abstract methods
+	 */
 	protected abstract void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
 	
 	

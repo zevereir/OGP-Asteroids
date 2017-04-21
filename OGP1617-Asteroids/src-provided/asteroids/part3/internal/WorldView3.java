@@ -45,7 +45,7 @@ public class WorldView3 extends WorldView2<IFacade> {
 			if (isPlayerActive(getPlayer())) {
 				if (getFacade().getWorldShips(getWorld()).size() == 1
 						&& getFacade().getWorldAsteroids(getWorld()).isEmpty()) {
-					gameOver("You win!");
+					gameOver("You Win!");
 				}
 			} else {
 				gameOver("You lose!");
