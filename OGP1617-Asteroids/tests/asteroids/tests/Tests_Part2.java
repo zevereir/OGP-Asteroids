@@ -713,7 +713,7 @@ public class Tests_Part2 {
 	@Test
 	public final void terminatePlanetoids() throws ModelException{
 		World world = createWorlds()[0];
-		Planetoid planetoid = facade.createPlanetoid(10000, 10000,10, 10, 40, 0);
+		Planetoid planetoid = facade.createPlanetoid(10000, 10000,10, 10, 100, 0);
 		facade.addPlanetoidToWorld(world, planetoid);
 		assert(facade.getPlanetoidWorld(planetoid) == world);
 		facade.terminatePlanetoid(planetoid);

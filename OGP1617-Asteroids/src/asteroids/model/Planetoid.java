@@ -140,7 +140,7 @@ public class Planetoid extends MinorPlanet {
 		public void planetoidDivision(){
 			//Calculating the child properties
 			double total_child_velocity = 1.5*getEuclidianDistance(getEntityVelocityX(),getDefaultVelocityY());
-			double child_radius = getEntityRadius()/2-0.01;
+			double child_radius = getEntityRadius()/2;
 			double child1_orientation = Math.random()*Math.PI;
 			double child2_orientation = (child1_orientation+Math.PI);
 			
@@ -159,22 +159,23 @@ public class Planetoid extends MinorPlanet {
 			Asteroid child2 = new Asteroid(child2_positionX,child2_positionY,child2_velocityX,child2_velocityY,child_radius);
 			child1.setEntityOrientation(child1_orientation);
 			child2.setEntityOrientation(child2_orientation);
-//			System.out.println(child1.getEntityVelocityX());
-//			System.out.println(child1.getEntityVelocityY());
-//			System.out.println(child2.getEntityVelocityX());
-//			System.out.println(child2.getEntityVelocityY());
-//			
+			System.out.println(child1.getDistanceBetween(child2));
+			
 			//Adding them to the world
 			World world = getEntityWorld();
 			this.getEntityWorld().removeEntityFromWorld(this);
 			try {
 				world.addEntityToWorld(child1);
+				child1.move(0.00001);
+				System.out.println(child1.getDistanceBetween(child2));
+				
 			} catch (IllegalArgumentException illegalArgumentException) {
 			child1.Terminate();
 			}
 			try {
 				world.addEntityToWorld(child2);
 			} catch (IllegalArgumentException illegalArgumentException) {
+				
 			child2.Terminate();
 			}
 				
