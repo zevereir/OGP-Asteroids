@@ -459,7 +459,8 @@ public class Bullet extends Entity {
 	/**
 	 * Terminate the bullet.
 	 * 
-	 * @effect 	The bullet's state will be set on terminated.
+	 * @effect 	The bullet's state will be set on terminated.If the bullet was in a world, it will 
+	 * 			be removed from this world. 
 	 * 			@see implementation
 	 */
 	public void Terminate() {
@@ -485,7 +486,27 @@ public class Bullet extends Entity {
 	 */
 	private Ship source_ship = null;
 
-
+	///COLLISIONS///
+	/**
+	 * Let a bullet collide with the boundaries of the world.
+	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * 
+	 * 
+	 * @effect 	If the bullet has bounced more than two times, it will be terminated.
+	 * 			@see implementation
+	 * @effect 	The bullet's amount of bounces will be incremented by 1. If the boundary was horizontal, 
+	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
+	 * 			After this, the positionlist in world will be updated.
+	 * 			@see implementation
+	 */
 	@Override
 	protected void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
 		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
@@ -517,7 +538,19 @@ public class Bullet extends Entity {
 					world.updatePositionListAfterCollision(this, defaultEvolvingTime);
 				}
 	}
-
+	/**
+	 * A method that resolves the collision between a ship and a bullet.
+	 * @param ship
+	 * 			The ship that will collide with the entity where the method is invoked on.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @effect the collision will be resolved by using the entityAndBulletCollide method on ship.
+	 * 			@see implementation
+	 */
 	@Override
 	protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
 		ship.entityAndBulletCollide(this,collisionPosition,collisionListener);
@@ -525,7 +558,19 @@ public class Bullet extends Entity {
 	}
 
 	
-
+	/**
+	 * A method that resolves the collision between a ship and a bullet.
+	 * @param minorPlanet
+	 * 			The minorPlanet that will collide with the entity where the method is invoked on.
+	 * @param collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * @effect the collision will be resolved by using the entityAndBulletCollide method on minorPlanet.
+	 * 			@see implementation
+	 */
 	@Override
 	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
 		minorPlanet.entityAndBulletCollide(this,collisionPosition,collisionListener);
