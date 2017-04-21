@@ -128,7 +128,7 @@ public class Planetoid extends MinorPlanet {
 			if (this.isEntityFree())
 				setEntityState(State.TERMINATED);
 			
-			else if (this.isEntityInWorld()) {		
+			else if (this.isEntityInWorld()) {
 				if (getEntityRadius() >=30){
 					planetoidDivision();}
 				else
@@ -140,9 +140,9 @@ public class Planetoid extends MinorPlanet {
 		public void planetoidDivision(){
 			//Calculating the child properties
 			double total_child_velocity = 1.5*getEuclidianDistance(getEntityVelocityX(),getDefaultVelocityY());
-			double child_radius = getEntityRadius()/2;
-			double child1_orientation = Math.random()*2*Math.PI;
-			double child2_orientation = 2*Math.PI - child1_orientation;
+			double child_radius = getEntityRadius()/2-0.01;
+			double child1_orientation = Math.random()*Math.PI;
+			double child2_orientation = (child1_orientation+Math.PI);
 			
 			double child1_velocityX = total_child_velocity*Math.cos(child1_orientation);
 			double child1_velocityY = total_child_velocity*Math.sin(child1_orientation); 
@@ -159,12 +159,24 @@ public class Planetoid extends MinorPlanet {
 			Asteroid child2 = new Asteroid(child2_positionX,child2_positionY,child2_velocityX,child2_velocityY,child_radius);
 			child1.setEntityOrientation(child1_orientation);
 			child2.setEntityOrientation(child2_orientation);
-			
+//			System.out.println(child1.getEntityVelocityX());
+//			System.out.println(child1.getEntityVelocityY());
+//			System.out.println(child2.getEntityVelocityX());
+//			System.out.println(child2.getEntityVelocityY());
+//			
 			//Adding them to the world
 			World world = getEntityWorld();
 			this.getEntityWorld().removeEntityFromWorld(this);
-			world.addEntityToWorld(child1);
-			world.addEntityToWorld(child2);
+			try {
+				world.addEntityToWorld(child1);
+			} catch (IllegalArgumentException illegalArgumentException) {
+			child1.Terminate();
+			}
+			try {
+				world.addEntityToWorld(child2);
+			} catch (IllegalArgumentException illegalArgumentException) {
+			child2.Terminate();
+			}
 				
 		}
 		

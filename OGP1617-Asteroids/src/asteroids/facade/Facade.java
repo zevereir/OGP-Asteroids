@@ -7,10 +7,12 @@ import java.util.Set;
 import asteroids.model.Bullet;
 import asteroids.model.Entity;
 import asteroids.model.Ship;
+import asteroids.model.Planetoid;
+import asteroids.model.Asteroid;
+import asteroids.model.MinorPlanet;
+
 import asteroids.model.World;
 import asteroids.part2.CollisionListener;
-import asteroids.model.Asteroid;
-import asteroids.model.Planetoid;
 import asteroids.model.Program;
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.util.ModelException;

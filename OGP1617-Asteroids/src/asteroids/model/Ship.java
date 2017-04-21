@@ -190,7 +190,7 @@ public class Ship extends Entity {
 	 */
 	@Immutable
 	private static double getDefaultThrusterForce() {
-		return 1.1E18;
+		return 1.1E19;
 	}
 
 	/**

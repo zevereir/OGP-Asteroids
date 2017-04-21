@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import asteroids.model.*;
 import asteroids.facade.Facade;
-import asteroids.part2.facade.IFacade;
+import asteroids.part3.facade.IFacade;
 import asteroids.util.ModelException;
 /**
  * A test class for the class Ship.
@@ -166,7 +166,7 @@ public class Tests_Part2 {
 		assertEquals(5E16,facade.getShipMass(ship2),EPSILON );
 		
 		//ACCELERATION
-		assertEquals((1.1E18)/(5E16),facade.getShipAcceleration(ship1),EPSILON);
+		assertEquals((1.1E19)/(5E16),facade.getShipAcceleration(ship1),EPSILON);
 	}
 	
 	
@@ -707,5 +707,18 @@ public class Tests_Part2 {
 		assertEquals(null,facade.getEntityAt(world, 5000, 5000));
 		facade.evolve(world, 4,null);
 		assertEquals(null,facade.getEntityAt(world, 10000, 10000));
+	}
+	
+	///PLANETOIDS///
+	@Test
+	public final void terminatePlanetoids() throws ModelException{
+		World world = createWorlds()[0];
+		Planetoid planetoid = facade.createPlanetoid(10000, 10000,10, 10, 40, 0);
+		facade.addPlanetoidToWorld(world, planetoid);
+		assert(facade.getPlanetoidWorld(planetoid) == world);
+		facade.terminatePlanetoid(planetoid);
+		assert(facade.isTerminatedPlanetoid(planetoid));
+		assertEquals(2,facade.getEntities(world).size(),EPSILON);
+		
 	}
 }
