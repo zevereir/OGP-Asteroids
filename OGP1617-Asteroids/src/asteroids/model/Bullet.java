@@ -271,6 +271,7 @@ public class Bullet extends Entity {
 		this.setBulletLoadedState(BulletState.NOT_LOADED);
 		this.setBulletShip(null);
 		this.setBulletSourceShip(ship);
+		this.setAmountOfBounces(0);
 	}
 	
 	/**
