@@ -202,8 +202,7 @@ public class Asteroid extends MinorPlanet {
 	 * 			The time until the collision will happen.
 	 * @param collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect when they collide, the ship is terminated.
-	 * 			@see implementation
+	 *
 	 */
 	protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
 		double collisionPositionX = collisionPosition[0];
