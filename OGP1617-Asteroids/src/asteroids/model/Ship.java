@@ -43,9 +43,9 @@ public class Ship extends Entity {
 	 * 			In the future, it would be possible that each ship has a different maximum velocity, density
 	 * 			and thruster-force. In this case, this constructor would come in handy.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the ship in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 *          The vertical position of the ship in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the ship in kilometers per second.

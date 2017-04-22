@@ -33,9 +33,9 @@ public class Planetoid extends MinorPlanet {
 	 * 			In the future, it would be possible that each planetoid has a different maximum velocity and density.
 	 * 			In this case, this constructor would come in handy.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the planetoid in kilometers.
-	 * @param 	y
+	 * @param 	positionXY
 	 *          The vertical position of the planetoid in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the planetoid in kilometers per second.

@@ -31,9 +31,9 @@ public abstract class MinorPlanet extends Entity{
 	 * 			In the future, it would be possible that each minor planet has a different maximum velocity and density.
 	 * 			In this case, this constructor would come in handy.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the minor planet in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 *          The vertical position of the minor planet in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the minor planet in kilometers per second.

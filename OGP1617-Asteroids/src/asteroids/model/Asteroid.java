@@ -32,9 +32,9 @@ public class Asteroid extends MinorPlanet {
 	 * 			In the future, it would be possible that each planetoid has a different maximum velocity and density.
 	 * 			In this case, this constructor would come in handy.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the asteroid in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 *          The vertical position of the asteroid in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the asteroid in kilometers per second.

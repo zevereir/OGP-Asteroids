@@ -776,7 +776,7 @@ public abstract class Entity {
 
 	/**
 	 * Set the velocity of the entity on the given velocity.
-	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * @param 	velocityX
 	 * 			The new x-value of the velocity.
 	 * @param 	velocityY
@@ -990,7 +990,22 @@ public abstract class Entity {
 
 		return true;
 	}
-	
+	/**
+	 * Checks if the entity can have this world as its world.
+	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
+	 * @param 	world
+	 * 			The world that has to be checked.
+	 * @return 	False if the entity is a ship and it does not fit in the world.
+	 *			@see implementation
+	 * @return 	False if the entity already has a world.
+	 * 			@see implementation
+	 * @return 	False if the entity is a bullet and it doesn't fit in the world or it's loaded on a ship.
+	 *			@see implementation
+	 * @return 	False if the entity or the world is terminated.
+	 *			@see implementation
+	 */
 	protected boolean canHaveAsWorld(World world){
 		if (!entityFitsInWorld(world))
 			return false;
@@ -1005,7 +1020,7 @@ public abstract class Entity {
 		else if (this.isEntityTerminated())
 			return false;
 
-				// A terminated world cannot have any entities.
+		// A terminated world cannot have any entities.
 		else if (world.isWorldTerminated())
 			return false;
 		else
@@ -1050,7 +1065,7 @@ public abstract class Entity {
 		double positionX = this.getEntityPositionX();
 		double positionY = this.getEntityPositionY();
 
-		// Check if the entity fits into the boundaries of the world.
+		
 		return ((positionX > left_bound) && (right_bound > positionX) && (positionY > lower_bound)
 				&& (upper_bound > positionY));
 	}
@@ -1065,7 +1080,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected Entity entityOverlappingInWorld(World world) {
-		// Check if the entity is not overlapping with another entity.
+		
 		for (Object entity : world.getWorldEntities())
 			if (this.overlap((Entity) entity) && !this.equals(entity))
 				return (Entity) entity;
@@ -1214,6 +1229,9 @@ public abstract class Entity {
 	///COLLISIONS///
 	/**
 	 * A method that resolves collisions between an entity and the world or two entities.
+	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @param entity
 	 * 			The entity that will collide with the entity where the method is invoked on.
 	 * @param collisionPosition
@@ -1232,14 +1250,17 @@ public abstract class Entity {
 	 * 			@see implemetation
 	 */
 	protected void letCollisionHappen(Entity entity,double[] collisionPosition,double defaultEvolvingTime, CollisionListener collisionListener){
+		//entity will be null if there's only one collisionEntity in World. This means there's a boundary collision.
 		if (entity == null){
 			this.entityAndBoundaryCollide(collisionPosition,defaultEvolvingTime,collisionListener);
 		}
-	
+		//Collision with a ship
 		if (entity instanceof Ship){
 			this.entityAndShipCollide((Ship)entity,collisionPosition,defaultEvolvingTime,collisionListener);}
+		//Collision with a minor planet
 		if (entity instanceof MinorPlanet){
 			this.entityAndMinorPlanetCollide((MinorPlanet)entity,collisionPosition,defaultEvolvingTime,collisionListener);}
+		//Collision with a bullet
 		if (entity instanceof Bullet) {
 			this.entityAndBulletCollide((Bullet)entity,collisionPosition,collisionListener);}
 					
@@ -1274,6 +1295,7 @@ public abstract class Entity {
 	
 	/**
 	 * A method that resolves the collision between an entity and a bullet.
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * @param bullet
 	 * 			The bullet that will collide with the entity where the method is invoked on.
 	 * @param collisionPosition
@@ -1288,6 +1310,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected void entityAndBulletCollide(Bullet bullet,double[] collisionPosition,CollisionListener collisionListener){
+		//the bullet hits it's source ship -> it's reloaded.
 		if (bullet.getBulletSource() == this) {
 			World world = this.getEntityWorld();
 			double position1X = this.getEntityPositionX();
@@ -1295,6 +1318,7 @@ public abstract class Entity {
 			bullet.setPositionWithoutChecking(position1X, position1Y);
 			world.removeEntityFromWorld(bullet);
 			((Ship)this).addOneBulletToShip(bullet);}
+		//The bullet and the entity are terminated
 		else{
 			double collisionPositionX = collisionPosition[0];
 			double collisionPositionY = collisionPosition[1];

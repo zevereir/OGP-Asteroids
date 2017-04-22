@@ -384,22 +384,11 @@ public class World {
 
 	/**
 	 * Checks if the world can have this entity.
-	 * 
-	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * 
+	 *  
 	 * @param 	entity
 	 * 			The entity that has to be checked.
-	 * 
-	 * @return 	False if the world already has this entity.
+	 * @return checks if the entity can have this world as its world.
 	 * 			@see implementation
-	 * @return 	False if the entity already has a world.
-	 * 			@see implementation
-	 * @return 	False if the entity is a ship and it does not fit in the world.
-	 *			@see implementation
-	 * @return 	False if the entity is a bullet and it doesn't fit in the world or it's loaded on a ship.
-	 *			@see implementation
-	 * @return 	False if the entity or the world is terminated.
-	 *			@see implementation
 	 */
 	protected boolean canHaveAsEntity(Entity entity) {
 		
