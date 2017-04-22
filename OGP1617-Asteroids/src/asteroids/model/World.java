@@ -184,6 +184,17 @@ public class World {
 		return minimumCollisionTime;
 	}
 
+	
+	public Set<Entity> getWorldSpecificEntities(String string){
+		Set<Entity> result = new HashSet<Entity>();
+		for (Object entity: getWorldEntities()){
+			String name = entity.getClass().getSimpleName();	
+			if (string == name)
+				result.add((Entity)entity);
+		}
+		return result;
+			
+	}
 	/**
 	 * Return the bullets that are in the world.
 	 * 
