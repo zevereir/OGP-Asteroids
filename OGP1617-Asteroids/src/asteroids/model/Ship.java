@@ -85,9 +85,9 @@ public class Ship extends Entity {
 	/**
 	 * Initializes a new ship with given parameters and the non-given parameters set to default.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the ship in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 *          The vertical position of the ship in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the ship in kilometers per second.

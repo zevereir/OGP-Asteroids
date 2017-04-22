@@ -52,7 +52,7 @@ public abstract class MinorPlanet extends Entity{
 	 * 
 	 * @effect	This minor planet will be initialized as a new entity with a given position (x, y), velocity (velocityX, velocityY),
 	 *			radius, density, mass and maximum velocity.
-	 *		  | super(x, y, velocityX, velocityY, radius, orientation, mass, maxVelocity, density)	 	
+	 *		  | super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density)	 	
 	 */
 	protected MinorPlanet(double positionX, double positionY, double velocityX, double velocityY, double radius,
 			double orientation, double mass, double maxVelocity, double density) {
@@ -74,6 +74,7 @@ public abstract class MinorPlanet extends Entity{
 		return LOWER_MINOR_PLANET_RADIUS;
 	}
 	
+	///GETTERS///
 	/**
 	 * Returns the mass of the minor planet.
 	 * @return the mass.
@@ -83,6 +84,7 @@ public abstract class MinorPlanet extends Entity{
 	public double getEntityMass() {
 		return MassFormula(getEntityRadius(),getEntityDensity());
 	}
+	///SETTERS///
 
 	/**
 	 * Set the mass of the bullet to a given value.
@@ -106,6 +108,7 @@ public abstract class MinorPlanet extends Entity{
 		
 	}	
 	
+	///CHECKERS///
 	/**
 	 * Checks if a mass is valid for this minor planet.
 	 * 
@@ -117,7 +120,7 @@ public abstract class MinorPlanet extends Entity{
 	 */
 	@Override
 	protected boolean isValidMass(double mass) {
-		return ((mass != Double.NaN) && (mass == MassFormula(getEntityRadius(),getEntityDensity())));
+		return (mass != Double.NaN) ;
 	}
 
 	/**

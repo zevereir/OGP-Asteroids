@@ -53,7 +53,7 @@ public class Asteroid extends MinorPlanet {
 	 *          
 	 * @effect	This asteroid will be initialized as a new entity with a given position (x, y), velocity (velocityX, velocityY),
 	 *			radius, density, mass and maximum velocity.
-	 *		  | super(x, y, velocityX, velocityY, radius, orientation, mass, maxVelocity, density)	 	
+	 *		  | super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density)	 	
 	 */
 	public Asteroid(double positionX, double positionY, double velocityX, double velocityY, double radius,
 			double orientation, double mass, double maxVelocity, double density) {
@@ -63,9 +63,9 @@ public class Asteroid extends MinorPlanet {
 	/**
 	 * Initializes a new asteroid with given parameters and the non-given parameters set to default.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the asteroid in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 *          The vertical position of the asteroid in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the asteroid in kilometers per second.

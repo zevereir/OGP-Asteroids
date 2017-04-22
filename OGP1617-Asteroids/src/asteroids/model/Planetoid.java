@@ -56,7 +56,7 @@ public class Planetoid extends MinorPlanet {
 	 * 
 	 * @effect	This planetoid will be initialized as a new entity with a given position (x, y), velocity (velocityX, velocityY),
 	 *			radius, density, mass and maximum velocity.
-	 *		  | super(x, y, velocityX, velocityY, radius, orientation, mass, maxVelocity, density)	 	
+	 *		  | super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density)	 	
 	 * @effect	The initialRadius of the planetoid will be set on the given radius.
 	 * 		  | setPlanetoidInitialRadius(radius)
 	 * @effect	The planetoids total traveled distance will be set on the given value.
@@ -73,9 +73,9 @@ public class Planetoid extends MinorPlanet {
 	/**
 	 * Initializes a new planetoid with given parameters and the non-given parameters set to default.
 	 * 
-	 * @param 	x
+	 * @param 	positionX
 	 *          The horizontal position of the planetoid in kilometers.
-	 * @param 	y
+	 * @param 	positionY
 	 *          The vertical position of the planetoid in kilometers.
 	 * @param 	velocityX
 	 *          The horizontal starting velocity of the planetoid in kilometers per second.
@@ -188,8 +188,9 @@ public class Planetoid extends MinorPlanet {
 	protected void setPlanetoidTotalTraveledDistance(double totalTraveledDistance){
 		if (isValidTraveledDistance(totalTraveledDistance))
 			this.totalTraveledDistance = totalTraveledDistance;
-		else
+		else{
 			throw new IllegalArgumentException();
+		}
 	}
 	/**
 	 * Set the planetoids initial radius to a given radius.

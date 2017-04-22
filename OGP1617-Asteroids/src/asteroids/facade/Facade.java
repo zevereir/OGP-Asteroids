@@ -9,7 +9,7 @@ import asteroids.model.Entity;
 import asteroids.model.Ship;
 import asteroids.model.Planetoid;
 import asteroids.model.Asteroid;
-import asteroids.model.MinorPlanet;
+
 
 import asteroids.model.World;
 import asteroids.part2.CollisionListener;
