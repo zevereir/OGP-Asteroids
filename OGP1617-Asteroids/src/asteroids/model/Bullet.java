@@ -245,7 +245,7 @@ public class Bullet extends Entity {
 	 * 			when the given state is null.
 	 * 			@see implementation
 	 */
-	protected void setBulletLoadedState(BulletState state) {
+	protected void setBulletLoadedState(BulletState state) throws IllegalStateException {
 		if (state == null)
 			throw new IllegalStateException();
 		
@@ -306,11 +306,14 @@ public class Bullet extends Entity {
 	 * @param 	density
 	 * 			The bullet's new density.
 	 * 
-	 * @post 	The new density will be equal to the given density.
-	 * 		  | new.getEntityDensity == density 
+	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default density.
+	 * 		  @see implementation
 	 */
 	protected void setEntityDensity(double density) {
-		this.density = density;
+		if (this.isValidDensity(density))
+			this.density = density;
+		else
+			this.density = getDefaultBulletDensity();
 	}
 
 	/**
@@ -502,10 +505,12 @@ public class Bullet extends Entity {
 	 * 
 	 * 
 	 * @effect 	If the bullet has bounced more than two times, it will be terminated.
+	 * 			|if (counter >= 2)
 	 * 			@see implementation
 	 * @effect 	The bullet's amount of bounces will be incremented by 1. If the boundary was horizontal, 
 	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
 	 * 			After this, the positionlist in world will be updated.
+	 * 			|else
 	 * 			@see implementation
 	 */
 	@Override

@@ -16,13 +16,13 @@ import asteroids.part2.CollisionListener;
 import asteroids.model.Program;
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.util.ModelException;
-//import be.kuleuven.cs.som.annotate.*;
+
 
 
 /**
  * A class that can be used to connect the IFacade class with the class Ship.
  * 
- * @version 5th of april
+ * @version 25th of april
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Facade implements asteroids.part3.facade.IFacade  {
@@ -804,14 +804,20 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #52");
 		}
 	}
-
+	/**
+	 * Return the number of students working in this team
+	 * @see implementation
+	 */
 	@Override
 	public int getNbStudentsInTeam() {
 			return 2;
 			
 	}
 	
-
+	/**
+	 * Return a set of all the asteroids in a world
+	 * @see implementation
+	 */
 	@Override
 	public Set<? extends Asteroid> getWorldAsteroids(World world) throws ModelException {
 		try {
@@ -821,6 +827,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 
+	/**
+	 * Add a given asteroid to a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void addAsteroidToWorld(World world, Asteroid asteroid) throws ModelException {
 		try {
@@ -830,7 +840,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 	
-
+	/**
+	 * Remove a given asteroid from a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void removeAsteroidFromWorld(World world, Asteroid asteroid) throws ModelException {
 		try {
@@ -839,7 +852,11 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #55");
 		}
 	}
-
+	
+	/**
+	 * Return a set of all the planetoids in a given world.
+	 * @see implementation
+	 */
 	@Override
 	public Set<? extends Planetoid> getWorldPlanetoids(World world) throws ModelException {
 		try {
@@ -848,7 +865,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #56");
 		}
 	}
-
+	/**
+	 * Add a given planetoid to a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void addPlanetoidToWorld(World world, Planetoid planetoid) throws ModelException {
 		try {
@@ -858,7 +878,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 		
-
+	/**
+	 * Remove a given planetoid from a given world.
+	 * @see implementation
+	 */
 	@Override
 	public void removePlanetoidFromWorld(World world, Planetoid planetoid) throws ModelException {
 		try {
@@ -868,6 +891,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 
+	/**
+	 * Create an asteroid with given values.
+	 * @see implementation
+	 */
 	@Override
 	public Asteroid createAsteroid(double x, double y, double xVelocity, double yVelocity, double radius)
 			throws ModelException {
@@ -878,7 +905,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #59");
 		}
 	}
-
+	/**
+	 *Terminate a given asteroid.
+	 * @see implementation
+	 */
 	@Override
 	public void terminateAsteroid(Asteroid asteroid) throws ModelException {
 		try {
@@ -887,7 +917,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #60");
 		}
 	}
-
+	/**
+	 * Checks whether an asteroid is terminated.
+	 * @see implementation
+	 */
 	@Override
 	public boolean isTerminatedAsteroid(Asteroid asteroid) throws ModelException {
 		try {
@@ -896,7 +929,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #61");
 		}
 	}
-
+	/**
+	 *Returns the position array of the given asteroid.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getAsteroidPosition(Asteroid asteroid) throws ModelException {
 		try {
@@ -905,7 +941,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #62");
 		}
 	}
-
+	/**
+	 *Returns the velocity array of the given asteroid.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getAsteroidVelocity(Asteroid asteroid) throws ModelException {
 		try {
@@ -914,7 +953,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #63");
 		}
 	}
-
+	/**
+	 *Returns the radius of the given asteroid.
+	 * @see implementation
+	 */
 	@Override
 	public double getAsteroidRadius(Asteroid asteroid) throws ModelException {
 		try {
@@ -923,7 +965,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #64");
 		}
 	}
-
+	/**
+	 *Returns the mass of the given asteroid.
+	 * @see implementation
+	 */
 	@Override
 	public double getAsteroidMass(Asteroid asteroid) throws ModelException {
 		try {
@@ -932,7 +977,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #65");
 		}
 	}
-
+	/**
+	 *Returns the world the given asteroid belongs to.
+	 * @see implementation
+	 */
 	@Override
 	public World getAsteroidWorld(Asteroid asteroid) throws ModelException {
 		try {
@@ -941,6 +989,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #66");
 		}
 	}
+	/**
+	 * Create a planetoid with given values.
+	 * @see implementation
+	 */
 	@Override
 	public Planetoid createPlanetoid(double x, double y, double xVelocity, double yVelocity, double radius,
 			double totalTraveledDistance) throws ModelException {
@@ -951,6 +1003,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #67");
 		}
 	}
+	/**
+	 * Terminate a given planetoid.
+	 * @see implementation
+	 */
 	@Override
 	public void terminatePlanetoid(Planetoid planetoid) throws ModelException {
 		try {
@@ -960,7 +1016,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 		
-
+	/**
+	 * Checks whether a given planetoid is terminated.
+	 * @see implementation
+	 */
 	@Override
 	public boolean isTerminatedPlanetoid(Planetoid planetoid) throws ModelException {
 		try {
@@ -970,6 +1029,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 
+	/**
+	 *Returns the position array of the given planetoid.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getPlanetoidPosition(Planetoid planetoid) throws ModelException {
 		try {
@@ -978,7 +1041,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #70");
 		}
 	}
-
+	/**
+	 *Returns the velocity array of the given planetoid.
+	 * @see implementation
+	 */
 	@Override
 	public double[] getPlanetoidVelocity(Planetoid planetoid) throws ModelException {
 		try {
@@ -987,7 +1053,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #71");
 		}
 	}
-
+	/**
+	 *Returns the radius of the given planetoid.
+	 * @see implementation
+	 */
 	@Override
 	public double getPlanetoidRadius(Planetoid planetoid) throws ModelException {
 		try {
@@ -996,7 +1065,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #72");
 		}
 	}
-
+	/**
+	 *Returns the mass of the given planetoid.
+	 * @see implementation
+	 */
 	@Override
 	public double getPlanetoidMass(Planetoid planetoid) throws ModelException {
 		try {
@@ -1005,7 +1077,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #73");
 		}
 	}
-
+	/**
+	 *Returns the total traveled distance of the given planetoid.
+	 * @see implementation
+	 */
 	@Override
 	public double getPlanetoidTotalTraveledDistance(Planetoid planetoid) throws ModelException {
 		try {
@@ -1014,7 +1089,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 			throw new ModelException("these are not valid arguments #74");
 		}
 	}
-
+	/**
+	 *Returns the world the given planetoid belongs to.
+	 * @see implementation
+	 */
 	@Override
 	public World getPlanetoidWorld(Planetoid planetoid) throws ModelException {
 		try {

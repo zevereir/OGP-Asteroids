@@ -178,7 +178,8 @@ public abstract class Entity {
 	 *         	The other entity.
 	 *            
 	 * @return 	Null if the time until the collision is positive infinity.
-	 * 			@see implementation
+	 * 			|if this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY
+	 * 			|result == null
 	 * @return	The position of collision, which  is calculated by moving the ships
 	 *         	at their respective velocities for the time until collision. 
 	 *         	delta_x is the difference of the x-coordinates of the two ships when they
@@ -246,10 +247,11 @@ public abstract class Entity {
 	 *            
 	 * @return	If this (the entity the method is invoked on) and otherEntity are the
 	 *			same entity, the distance between equals zero. 
-	 *			@see implementation
+	 *			|if (this.equals(entity))
+	 *			|result == 0
 	 * @return	The distance between the two entities if they're not the same. This
 	 *			is calculated by subtracting the sum of the radii of the entities
-	 *			from the distance between the centers. 
+	 *			from the distance between the centers.  
 	 *			@see implementation
 	 */
 	public double getDistanceBetween(Entity entity) {
@@ -412,14 +414,15 @@ public abstract class Entity {
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @return	Null if the time till collision equals POSITIVE_INFINITY.
-	 * 			@see implementation
+	 * 			|if getTimeCollisionBoundary() == Double.POSITIVE_INFINITY
+	 * 			|result == null
 	 * @return	The collision position of the given entity when it's colliding with a boundary of the world.
 	 * 			This would be after the given entity moved over a time-laps of getTimeCollisionBoundary().
-	 *		  | move(getTimeCollisionBoundary)
-	 * 		  | result[0] == (getEntityPosition + radius) || 
-	 * 		  |		result[1] == (getEntityPosition + radius) || 
-	 * 		  |		result[0] == (getEntityPosition - radius) || 
-	 * 		  |		result[1] == (getEntityPosition - radius)  
+	 *		  	| move(getTimeCollisionBoundary)
+	 * 		  	| result[0] == (getEntityPosition + radius) || 
+	 * 		  	| result[1] == (getEntityPosition + radius) || 
+	 * 		  	| result[0] == (getEntityPosition - radius) || 
+	 * 		 	| result[1] == (getEntityPosition - radius)  
 	 * 
 	 * @throws	IllegalAccesError
 	 * 			It should be impossible, once in the else-statement, to not-touch with one of the
@@ -487,12 +490,13 @@ public abstract class Entity {
 	}
 
 	/**
-	 * get the minimum time until the entity collides with a boundary.
+	 * Get the minimum time until the entity collides with a boundary.
 	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @return 	Positive infinity if the entity has no world or a proper state. 
-	 * 			@see implementation
+	 * 			|if (!this.isEntityInWorld() && this.hasEntityProperState())
+				|result == Double.POSITIVE_INFINITY
 	 * @return 	The time till collision with one of the boundaries of the world.
 	 * 			If the entity has no velocity, the entity will not collide with a boundary. In this case 
 	 * 			POSITIVE_INFINITY will be returned.
@@ -538,13 +542,16 @@ public abstract class Entity {
 				timeCollisionDown = Math.abs(distanceTillLowerBoundary / velocityY);
 
 			// Check the time until the entity will collide with the first boundary.
+			//Vertical
 			if (Math.min(timeCollisionLeft, timeCollisionRight) < Math.min(timeCollisionUp, timeCollisionDown))
+				//left or right
 				return Math.min(timeCollisionLeft, timeCollisionRight);
-			
+			//Horizontal
 			else if (Math.min(timeCollisionLeft, timeCollisionRight) > Math.min(timeCollisionUp, timeCollisionDown))
+				//up or down
 				return Math.min(timeCollisionUp, timeCollisionDown);
 			
-			// If the entity it's velocity equals zero, it will never collide with a boundary.
+			// If the entity its velocity equals zero, it will never collide with a boundary.
 			else
 				return Double.POSITIVE_INFINITY;
 		}
@@ -724,7 +731,7 @@ public abstract class Entity {
 	 * 			if the position is not valid.
 	 * 			@see implementation
 	 */
-	protected void setEntityPosition(double positionX, double positionY) {
+	protected void setEntityPosition(double positionX, double positionY) throws IllegalArgumentException {
 		if (!isValidPosition(positionX, positionY))
 			throw new IllegalArgumentException();
 
@@ -745,7 +752,7 @@ public abstract class Entity {
 	 * 			if the radius is not valid.
 	 * 			@see implementation
 	 */
-	protected void setEntityRadius(double radius) {
+	protected void setEntityRadius(double radius) throws IllegalArgumentException {
 		if (isValidRadius(radius))
 			this.radius = radius;
 		
@@ -766,7 +773,7 @@ public abstract class Entity {
 	 * 			If the given state is null.
 	 * 			@see implementation
 	 */
-	protected void setEntityState(State state) {
+	protected void setEntityState(State state) throws IllegalArgumentException {
 		if (state == null)
 			throw new IllegalArgumentException();
 		
@@ -776,17 +783,18 @@ public abstract class Entity {
 
 	/**
 	 * Set the velocity of the entity on the given velocity.
-	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * @param 	velocityX
 	 * 			The new x-value of the velocity.
 	 * @param 	velocityY
 	 * 			the new y-value of the velocity.
 	 * 
 	 * @post 	The new velocity will be equal to the given velocity
-	 * 		  | new.getEntityVelocityX() == velocityX
-	 * 		  | new.getEntityVelocityY() == velocityY
+	 * 		 	| new.getEntityVelocityX() == velocityX
+	 * 		  	| new.getEntityVelocityY() == velocityY
 	 * @post 	If one or both of the given parameters is not a number, the respective parameter is set to zero.
-	 * 			@see implementation
+	 * 			|if (!isValidVelocity(velocityX, velocityY))
+	 * 			| new.getEntityVelocityX() == 0 ||
+	 * 		  	| new.getEntityVelocityY() == 0
 	 * @post 	If the total velocity is greater than the maximum total velocity. The maximum velocity will
 	 * 			be mapped with the orientation.
 	 * 			@see implementation.
@@ -799,7 +807,7 @@ public abstract class Entity {
 			if (Double.isNaN(velocityY))
 				velocityY = 0;
 
-			// Scale the velocity if it exceeds the limit.
+			
 			if (getEuclidianDistance(velocityX, velocityY) > this.getEntityMaxVelocity()) {
 				double orientation = this.getEntityOrientation();
 
@@ -845,7 +853,7 @@ public abstract class Entity {
 	/// CHECKERS ///
 
 	/**
-	 * Checks if an entity as a proper state.
+	 * Checks if an entity has a proper state.
 	 * 
 	 * @return 	The boolean that checks whether the entity's state is IN_WORLD, NO_WORLD or Terminated.
 	 * 			@see implementation
@@ -928,8 +936,14 @@ public abstract class Entity {
 	 * 			The x-value of the position that has to be checked.
 	 * @param 	positionY
 	 * 			the y-value of the position that has to be checked.
-	 * 
-	 * @return 	A boolean that checks whether the entity fits in its world.
+	 * @return  false if the x- or y-value of the position is not a number.
+	 * 			|if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
+	 *			|result == false
+	 * @return  true if the boolean is not changed to false and if the entity doesn't belong to a world.
+	 * 			|((this.getEntityWorld() == null) && Boolean == true)
+	 *			|result == true		
+	 * @return 	true if the ship belongs to a world,the boolean is still true and the entity fits in the world.
+	 * 			|if ((this.getEntityWorld() != null) && Boolean == true)
 	 * 			@see implementation
 	 */
 	private boolean isValidPosition(double positionX, double positionY) {
@@ -998,13 +1012,20 @@ public abstract class Entity {
 	 * @param 	world
 	 * 			The world that has to be checked.
 	 * @return 	False if the entity is a ship and it does not fit in the world.
-	 *			@see implementation
+	 *			|if (!entityFitsInWorld(world))
+	 *			|result == false
 	 * @return 	False if the entity already has a world.
-	 * 			@see implementation
+	 * 			|if (this.getEntityWorld() != null)
+	 *			|result == false
 	 * @return 	False if the entity is a bullet and it doesn't fit in the world or it's loaded on a ship.
-	 *			@see implementation
+	 *			|if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
+	 *			|result == false
 	 * @return 	False if the entity or the world is terminated.
-	 *			@see implementation
+	 *			|if (this.isEntityTerminated() || world.isWorldTerminated())
+	 *			|result == false
+	 * @return  True in all other cases.
+	 * 			|else
+	 * 			|result == true
 	 */
 	protected boolean canHaveAsWorld(World world){
 		if (!entityFitsInWorld(world))
@@ -1016,12 +1037,8 @@ public abstract class Entity {
 		// If the bullet belongs to a ship (which means the bullet is in a ship, and not in the world) false will be returned.
 		else if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
 			return false;
-		// An entity who is in the terminated state, cannot be in a world.
-		else if (this.isEntityTerminated())
-			return false;
-
-		// A terminated world cannot have any entities.
-		else if (world.isWorldTerminated())
+		// An entity who is in the terminated state, cannot be in a world and a terminated world cannot have any entities. .
+		else if (this.isEntityTerminated() || world.isWorldTerminated())
 			return false;
 		else
 			return true;	
@@ -1186,9 +1203,11 @@ public abstract class Entity {
 	 *
 	 * @param	otherEntity
 	 * 			The other entity.
-	 * 
+	 * @return	True if the entity where this method is invoked on and entity are the same.
+	 * 			|if(this.equals(entity))
+	 * 			|result == true
 	 * @return	True if the distance between the two entities is negative.
-	 *		  | result == (this.getDistanceBetween(otherEntity) < 0)
+	 *		  	| result == (this.getDistanceBetween(otherEntity) < 0)
 	 */
 	public boolean overlap(Entity entity) {
 		if (this.equals(entity))
@@ -1241,13 +1260,17 @@ public abstract class Entity {
 	 * @param collisionListener
 	 * 			A variable used to visualize the explosions.
 	 * @effect if the given entity is null, the entity where the method is invoked on will collide with a boundary.
+	 * 			|if (entity == null)
 	 * 			@see implementation
 	 * @effect if the given entity is a ship, the entity where the method is invoked on will collide with this ship.
-	 * 			@see implemetation
+	 * 			|if (entity instanceof Ship)
+	 * 			@see implementation
 	 * @effect if the given entity is a minor planet, the entity where the method is invoked on will collide with this minor planet.
-	 * 			@see implemetation
+	 * 			|if (entity instanceof MinorPlanet)
+	 * 			@see implementation
 	 * @effect if the given entity is a bullet, the entity where the method is invoked on will collide with this bullet.
-	 * 			@see implemetation
+	 * 			|if (entity instanceof Bullet)
+	 * 			@see implementation
 	 */
 	protected void letCollisionHappen(Entity entity,double[] collisionPosition,double defaultEvolvingTime, CollisionListener collisionListener){
 		//entity will be null if there's only one collisionEntity in World. This means there's a boundary collision.
@@ -1307,7 +1330,9 @@ public abstract class Entity {
 	 * @post if the bullet collides with the ship that has fired it, it will be loaded on this ship.
 	 *			|(new)bullet.getBulletSource() = this.
 	 * @effect in all other cases, the bullet and the entity will be terminated.
-	 * 			@see implementation
+	 * 			|else
+	 * 			|this.Terminate()
+	 * 			|bullet.Terminate()
 	 */
 	protected void entityAndBulletCollide(Bullet bullet,double[] collisionPosition,CollisionListener collisionListener){
 		//the bullet hits it's source ship -> it's reloaded.

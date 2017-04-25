@@ -406,24 +406,28 @@ public class Ship extends Entity {
 	 * @param 	bullet
 	 *          The bullet that has to be checked.
 	 *          
-	 * @return 	False if the bullet is already in the ship, the bullet has another ship, the bullet does 
-	 * 			not lie fully in the ship, the bullet is terminated, or if the ship itself is terminated. 
-	 *         	@see implementation
+	 * @return 	False if the bullet is already in a ship
+	 * 			|if (bullet.getBulletShip() != null)
+	 * 			|result == false
+	 * @return  False if the bullet isn't completely in the ship.
+	 * 			|if (!this.bulletFullyInShip(bullet))
+	 *			|result == false
+	 * @return  False if the bullet or the ship is terminated. 
+	 * 			|if (bullet.isEntityTerminated() || this.isEntityTerminated())
+	 * 			|result == false
+	 * @return  True in all other cases.
+	 * 			|else
+	 * 			|result == true
 	 */
 	protected boolean canHaveAsBullet(Bullet bullet) {
-		if (this.hasAsBullet(bullet))
-			return false;
-		
+	
 		if (bullet.getBulletShip() != null)
 			return false;
 
 		if (!this.bulletFullyInShip(bullet))
 			return false;
 
-		if (bullet.isEntityTerminated())
-			return false;
-
-		if (this.isEntityTerminated())
+		if (bullet.isEntityTerminated() || this.isEntityTerminated())
 			return false;
 
 		return true;
@@ -497,7 +501,7 @@ public class Ship extends Entity {
 	 *          If the bullet cannot be loaded on the ship.
 	 *        | !canHaveAsBulet(bullet)
 	 */
-	public void addOneBulletToShip(Bullet bullet) {
+	public void addOneBulletToShip(Bullet bullet) throws IllegalArgumentException {
 		if (this.canHaveAsBullet(bullet)) {
 			this.bullets.put(bullet.hashCode(), bullet);
 			bullet.setBulletLoaded(this);
@@ -655,7 +659,7 @@ public class Ship extends Entity {
 			
 			World world = this.getEntityWorld();
 			
-			if (possibleToFire(bullet, this, world, positionBulletX, positionBulletY, radiusBullet))
+			if (possibleToFire(bullet, world, positionBulletX, positionBulletY, radiusBullet))
 				world.addEntityToWorld(bullet);
 		}
 	}
@@ -668,8 +672,6 @@ public class Ship extends Entity {
 	 * 
 	 * @param 	bullet
 	 * 			The bullet that will be checked.
-	 * @param 	ship
-	 * 			The ship that fires the bullet.
 	 * @param 	world
 	 * 			The world where the bullet is fired in.
 	 * @param 	posBulletX
@@ -685,7 +687,8 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 * 
 	 * @effect 	The bullet will be terminated when it's not within the boundaries of the world.
-	 * 			@see implementation
+	 * 			|if (!bullet.entityLiesInBoundaries(world))
+	 * 			|bullet.Terminate()
 	 * @effect 	The bullet will be reloaded if it overlaps with a bullet with the same source ship.
 	 * 			@see implementation
 	 * @effect 	The bullet will be terminated when it overlaps with a bullet that doesn't have the same source ship.
@@ -695,7 +698,7 @@ public class Ship extends Entity {
 	 * @effect 	If the bullet is overlapping a ship which is not its source ship, both will be terminated.
 	 * 			@see implementation
 	 */
-	private boolean possibleToFire(Bullet bullet, Ship ship, World world, double posBulletX, double posBulletY,
+	private  boolean possibleToFire(Bullet bullet, World world, double posBulletX, double posBulletY,
 			double radiusBullet) {
 		boolean Boolean = true;
 
@@ -715,9 +718,9 @@ public class Ship extends Entity {
 					// If entityInWorld is a bullet:
 					if (entityInWorld instanceof Bullet) {
 						// If the bullet overlaps with a bullet from its parent-ship, the newest bullet will not be fired.
-						if (ship.equals(((Bullet) entityInWorld).getBulletSource())) {
-							bullet.setPositionWithoutChecking(ship.getEntityPositionX(), ship.getEntityPositionY());
-							ship.addOneBulletToShip(bullet);
+						if (this.equals(((Bullet) entityInWorld).getBulletSource())) {
+							bullet.setPositionWithoutChecking(this.getEntityPositionX(), this.getEntityPositionY());
+							this.addOneBulletToShip(bullet);
 						}
 
 						// If the bullet overlaps with a bullet which does not belong to its parent-ship, the two will be terminated.
@@ -730,9 +733,9 @@ public class Ship extends Entity {
 					// If entityInWorld is a ship:
 					else if (entityInWorld instanceof Ship) {
 						// If the bullet overlaps with its parent-ship, the bullet will be reloaded.
-						if (ship.equals(entityInWorld)) {
-							bullet.setPositionWithoutChecking(ship.getEntityPositionX(), ship.getEntityPositionY());
-							ship.addOneBulletToShip(bullet);
+						if (this.equals(entityInWorld)) {
+							bullet.setPositionWithoutChecking(this.getEntityPositionX(), this.getEntityPositionY());
+							this.addOneBulletToShip(bullet);
 						}
 
 						// If the bullet overlaps with a different ship, the two will be terminated.

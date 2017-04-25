@@ -59,6 +59,7 @@ public abstract class MinorPlanet extends Entity{
 		super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
 		
 	}
+	
 	///DEFAULTS///
 	/**
 	 * The lower radius for a minor planet.
@@ -84,6 +85,7 @@ public abstract class MinorPlanet extends Entity{
 	public double getEntityMass() {
 		return MassFormula(getEntityRadius(),getEntityDensity());
 	}
+	
 	///SETTERS///
 
 	/**
@@ -173,7 +175,7 @@ public abstract class MinorPlanet extends Entity{
 	/**
 	 * A method that resolves the collision between two minor planets.
 	 * @param minorPlanet
-	 * 			The minorPlanet that will collide with the entity where the method is invoked on.
+	 * 			The minorPlanet that will collide with the minor planet where the method is invoked on.
 	 * @param collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
 	 * @param defaultEvolvingTime
