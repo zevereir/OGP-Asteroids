@@ -69,6 +69,7 @@ public class Planetoid extends MinorPlanet {
 		super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
 		setPlanetoidInitialRadius(radius);
 		setPlanetoidTotalTraveledDistance(totalTraveledDistance);
+		updatePlanetoidRadius();
 
 	}
 	
@@ -207,6 +208,16 @@ public class Planetoid extends MinorPlanet {
 		initial_radius = radius;
 	}
 	
+	private void updatePlanetoidRadius(){
+		double init_radius = getPlanetoidInitialRadius();
+		double totalTraveledDistance = getPlanetoidTotalTraveledDistance();
+		double new_radius = init_radius - 0.000001*totalTraveledDistance;
+		if (isValidRadius(new_radius))
+			setEntityRadius(new_radius);
+		else
+			Terminate();
+	}
+	
 	///CHECKERS///
 	/**
 	 * Checks if a density is valid for this planetoid.
@@ -283,11 +294,7 @@ public class Planetoid extends MinorPlanet {
 		double y_distance = getEntityVelocityY()*time;
 		double total_traveled_distance = getPlanetoidTotalTraveledDistance()+getEuclidianDistance(x_distance,y_distance);
 		this.setPlanetoidTotalTraveledDistance(total_traveled_distance);
-		double new_radius = getPlanetoidInitialRadius() - (10E-6)*getPlanetoidTotalTraveledDistance();
-		if (isValidRadius(new_radius))
-			setEntityRadius(new_radius);
-		else
-			Terminate();
+		updatePlanetoidRadius();
 	}
 	
 	///TERMINATE///

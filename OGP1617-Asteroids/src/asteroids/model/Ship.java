@@ -247,7 +247,10 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public double getShipAcceleration() {
-		return (this.getShipTrusterForce() / this.getEntityMass());
+		if (isThrusterActive())
+			return (this.getShipTrusterForce() / this.getEntityMass());
+		else
+			return 0;
 	}
 
 	/**
@@ -412,6 +415,9 @@ public class Ship extends Entity {
 	 * @return  False if the bullet isn't completely in the ship.
 	 * 			|if (!this.bulletFullyInShip(bullet))
 	 *			|result == false
+	 * @return  False if the bullet is null
+	 * 			|if(bullet == null)
+	 * 			|result == false 
 	 * @return  False if the bullet or the ship is terminated. 
 	 * 			|if (bullet.isEntityTerminated() || this.isEntityTerminated())
 	 * 			|result == false
@@ -421,9 +427,12 @@ public class Ship extends Entity {
 	 */
 	protected boolean canHaveAsBullet(Bullet bullet) {
 	
+		if(bullet == null)
+			return false;
+		
 		if (bullet.getBulletShip() != null)
 			return false;
-
+			
 		if (!this.bulletFullyInShip(bullet))
 			return false;
 
@@ -505,7 +514,6 @@ public class Ship extends Entity {
 		if (this.canHaveAsBullet(bullet)) {
 			this.bullets.put(bullet.hashCode(), bullet);
 			bullet.setBulletLoaded(this);
-			bullet.setEntityOrientation(this.getEntityOrientation());
 		} 
 		else
 			throw new IllegalArgumentException();
@@ -521,8 +529,16 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		for (Bullet bullet : bullets)
-			addOneBulletToShip(bullet);
+		Set<Bullet> already_added = new HashSet<Bullet>();
+		for (Bullet bullet : bullets){			
+			try {
+				addOneBulletToShip(bullet);
+			} catch (IllegalArgumentException illegalArgumentException) {
+				for (Bullet bullet_added : already_added){
+					removeBulletFromShip(bullet_added);}
+				throw new IllegalArgumentException();}
+			already_added.add(bullet);
+		}
 	}
 
 	
@@ -828,10 +844,11 @@ public class Ship extends Entity {
 	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
 		double VelocityX = this.getEntityVelocityX();
 		double VelocityY = this.getEntityVelocityY();
-		if (collideHorizontalBoundary(this, collisionPosition))
+		if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
+			this.setEntityVelocity(-VelocityX, -VelocityY);
+		else if (collideHorizontalBoundary(this, collisionPosition))
 			this.setEntityVelocity(VelocityX, -VelocityY);
-
-		else
+		else if (collideVerticalBoundary(this, collisionPosition))
 			this.setEntityVelocity(-VelocityX, VelocityY);
 		World world = this.getEntityWorld();
 		world.updatePositionListAfterCollision(this, defaultEvolvingTime);

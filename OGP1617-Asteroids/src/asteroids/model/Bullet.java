@@ -54,8 +54,9 @@ public class Bullet extends Entity {
 	 * 		  	@see implementation
 	 */
 	private Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius, double orientation,
-			double mass, double maxVelocity, double density) {
+			double mass, double maxVelocity, double density,double maximumBulletBounce) {
 		super(positonX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
+		setMaximumBulletBounce(maximumBulletBounce);
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class Bullet extends Entity {
 	 */
 	public Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius) {
 		this(positonX, positionY, velocityX, velocityY, radius, Entity.getDefaultOrientation(), getDefaultBulletMass(),
-				Entity.getDefaultMaxVelocity(), getDefaultBulletDensity());
+				Entity.getDefaultMaxVelocity(), getDefaultBulletDensity(),getDefaultMaximumBulletBounce());
 	}
 
 	/**
@@ -99,7 +100,8 @@ public class Bullet extends Entity {
 	 */
 	private final static double LOWER_BULLET_RADIUS = 1;
 
-	
+	/// PROPERTIES///
+	private double maximum_bullet_bounce;
 	/// COUNTERS ///
 	
 	/**
@@ -140,6 +142,12 @@ public class Bullet extends Entity {
 	private static double getDefaultBulletRadius() {
 		return 1;
 	}
+	/**
+	 * The maximum amount of bounces.
+	 */
+	private static double getDefaultMaximumBulletBounce(){
+		return 2;
+	}
 		
 	
 	/// GETTERS ///
@@ -150,7 +158,7 @@ public class Bullet extends Entity {
 	 * @return 	The amount of bounces.
 	 * 			@see implementation
 	 */
-	protected int getAmountOfBounces() {
+	public int getAmountOfBounces() {
 		return this.amountOfBounces;
 	}
 
@@ -194,6 +202,9 @@ public class Bullet extends Entity {
 		return this.mass;
 	}
 	
+	private double getMaximumBulletBounce(){
+		return this.maximum_bullet_bounce;
+	}
 	
 	/// SETTERS ///
 	
@@ -209,6 +220,12 @@ public class Bullet extends Entity {
 	protected void setAmountOfBounces(int amount) {
 		this.amountOfBounces = amount;
 	} 
+	private void setMaximumBulletBounce(double maxBounce){
+		if (isValidMaximumBulletBounce(maxBounce))
+			maximum_bullet_bounce = maxBounce;
+		else
+			maximum_bullet_bounce = getDefaultMaximumBulletBounce();
+	}
 
 	/**
 	 * Set a bullet loaded.
@@ -408,7 +425,9 @@ public class Bullet extends Entity {
 		return (radius >= LOWER_BULLET_RADIUS);
 	}
 
-	
+	private boolean isValidMaximumBulletBounce(double maxBounce){
+		return maxBounce >= 0;
+	}
 
 	
 	
@@ -464,13 +483,14 @@ public class Bullet extends Entity {
 	 * Terminate the bullet.
 	 * 
 	 * @effect 	The bullet's state will be set on terminated.If the bullet was in a world, it will 
-	 * 			be removed from this world. 
+	 * 			be removed from this world. If it was loaded, it will be removed.
 	 * 			@see implementation
 	 */
 	public void Terminate() {
+		if (this.isBulletLoaded())
+			this.getBulletShip().removeBulletFromShip(this);
 		if (this.isEntityFree())
-			setEntityState(State.TERMINATED);
-		
+			setEntityState(State.TERMINATED);		
 		else if (this.isEntityInWorld()) {
 			this.getEntityWorld().removeEntityFromWorld(this);
 			setEntityState(State.TERMINATED);
@@ -519,7 +539,7 @@ public class Bullet extends Entity {
 				int counter = this.getAmountOfBounces();
 
 				// When the counter reaches 3, the bullet will be terminated.
-				if (counter >= 2){
+				if (counter >= getMaximumBulletBounce()){
 					if (collisionListener != null){
 						double collisionPositionX = collisionPosition[0];
 						double collisionPositionY = collisionPosition[1];
@@ -532,13 +552,15 @@ public class Bullet extends Entity {
 					
 					double VelocityX = this.getEntityVelocityX();
 					double VelocityY = this.getEntityVelocityY();
-
+					//The bullet collides in one of the corners
+					if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
+						this.setEntityVelocity(-VelocityX, -VelocityY);
 					// The bullet will collide with an horizontal boundary.
-					if (collideHorizontalBoundary(this, collisionPosition))
+					else if (collideHorizontalBoundary(this, collisionPosition))
 						this.setEntityVelocity(VelocityX, -VelocityY);
 
 					// The bullet will collide with an vertical boundary.
-					else
+					else if (collideVerticalBoundary(this, collisionPosition))
 						this.setEntityVelocity(-VelocityX, VelocityY);
 					World world = this.getEntityWorld();
 					world.updatePositionListAfterCollision(this, defaultEvolvingTime);

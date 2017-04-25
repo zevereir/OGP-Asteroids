@@ -163,11 +163,13 @@ public abstract class MinorPlanet extends Entity{
 	protected void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
 		double VelocityX = this.getEntityVelocityX();
 		double VelocityY = this.getEntityVelocityY();
-
-		if (collideHorizontalBoundary(this, collisionPosition))
+		if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
+			this.setEntityVelocity(-VelocityX, -VelocityY);
+		
+		else if (collideHorizontalBoundary(this, collisionPosition))
 			this.setEntityVelocity(VelocityX, -VelocityY);
 
-		else
+		else if (collideVerticalBoundary(this, collisionPosition))
 			this.setEntityVelocity(-VelocityX, VelocityY);
 		World world = this.getEntityWorld();
 		world.updatePositionListAfterCollision(this, defaultEvolvingTime);

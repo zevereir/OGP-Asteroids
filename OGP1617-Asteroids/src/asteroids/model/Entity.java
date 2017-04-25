@@ -170,74 +170,7 @@ public abstract class Entity {
 	
 	/// GETTERS ///
 
-	/**
-	 * Calculate the position, if there is one, of the collision between two
-	 * entities.
-	 * 
-	 * @param  	otherEntity
-	 *         	The other entity.
-	 *            
-	 * @return 	Null if the time until the collision is positive infinity.
-	 * 			|if this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY
-	 * 			|result == null
-	 * @return	The position of collision, which  is calculated by moving the ships
-	 *         	at their respective velocities for the time until collision. 
-	 *         	delta_x is the difference of the x-coordinates of the two ships when they
-	 *         	are on their collision positions. delta_y is the difference of the
-	 *         	y-coordinates at the same moment. 
-	 *         	omega is the angle between the delta_y (vertical) and the connection
-	 *         	between the two centers.
-	 *			The actual position_colliside will be calculated using omega, the radius and the center
-	 *			of the entity the method is invoked on (this) at the moment it will collide.
-	 *        	@see implementation
-	 */
-	public double[] getCollisionPosition(Entity entity) {
-		double position1X = this.getEntityPositionX();
-		double position1Y = this.getEntityPositionY();
-		double position2X = entity.getEntityPositionX();
-		double position2Y = entity.getEntityPositionY();
-		
-		double velocity1X = this.getEntityVelocityX();
-		double velocity1Y = this.getEntityVelocityY();
-		double velocity2X = entity.getEntityVelocityX();
-		double velocity2Y = entity.getEntityVelocityY();
-		
-		double radius1 = this.getEntityRadius();
-
-		double time_till_overlapping = this.getTimeToCollision(entity);
-
-		if (time_till_overlapping == Double.POSITIVE_INFINITY)
-			return null;
-
-		else {
-			double collidingPosition1X = position1X + velocity1X * time_till_overlapping;
-			double collidingPosition1Y = position1Y + velocity1Y * time_till_overlapping;
-			double collidingPosition2X = position2X + velocity2X * time_till_overlapping;
-			double collidingPosition2Y = position2Y + velocity2Y * time_till_overlapping;
-			
-			double delta_x = (collidingPosition2X - collidingPosition1X);
-			double delta_y = (collidingPosition2Y - collidingPosition1Y);
-
-			double omega;
-
-			if (delta_x > 0)
-				omega = Math.atan(delta_y / delta_x);
-			
-			else if (delta_x == 0 && delta_y > 0) 
-				omega = Math.PI / 2;
-			
-			else if (delta_x == 0 && delta_y < 0) 
-				omega = 3 * Math.PI / 2;
-			
-			else
-				omega = Math.atan(delta_y / delta_x) + Math.PI;
-
-			double[] position_collide = { collidingPosition1X + radius1 * Math.cos(omega),
-					collidingPosition1Y + radius1 * Math.sin(omega) };
-			
-			return position_collide;
-		}
-	}
+	
 
 	/**
 	 * Calculate the distance between two entities.
@@ -430,6 +363,7 @@ public abstract class Entity {
 	 * 			be thrown.
 	 * 			@see implementation
 	 */
+	////-------------> boolean proper maken
 	public double[] getPositionCollisionBoundary() {
 		double time = getTimeCollisionBoundary();
 		double collidingPositionX = 0;
@@ -449,34 +383,104 @@ public abstract class Entity {
 			double height = this.getEntityWorld().getWorldHeight();
 			
 			double radius = this.getEntityRadius();
-
+			boolean collision_happened = false;
 			collidingPositionX = Math.abs(positionX + time * velocityX);
 			collidingPositionY = Math.abs(positionY + time * velocityY);
 
 			// Right boundary
-			if ((collidingPositionX + OMEGA * radius) <= width && width <= (collidingPositionX + BETA * radius))
+			if ((collidingPositionX + OMEGA * radius) <= width && width <= (collidingPositionX + BETA * radius)){
 				collidingPositionX += radius;
+				collision_happened = true;}
 			
 			// Left boundary
-			else if ((collidingPositionX - BETA * radius) <= 0 && 0 <= (collidingPositionX - OMEGA * radius))
+			 if ((collidingPositionX - BETA * radius) <= 0 && 0 <= (collidingPositionX - OMEGA * radius)){
 				collidingPositionX -= radius;
-			
+				collision_happened = true;}
 			// Upper boundary
-			else if ((collidingPositionY + OMEGA * radius) <= height && height <= (collidingPositionY + BETA * radius))
+			if ((collidingPositionY + OMEGA * radius) <= height && height <= (collidingPositionY + BETA * radius)){
 				collidingPositionY += radius;
-			
+				collision_happened = true;}
 			// Lower boundary
-			else if ((collidingPositionY - BETA * radius) <= 0 && 0 <= (collidingPositionY - OMEGA * radius))
+			if ((collidingPositionY - BETA * radius) <= 0 && 0 <= (collidingPositionY - OMEGA * radius)){
 				collidingPositionY -= radius;
-			
+				collision_happened = true;}
 			// If none of the above statements were correct, there was a fault!
-			else {
+			else if (!collision_happened) {
 				throw new IllegalAccessError();
 			}
 		}
 		
 		double[] new_position = { collidingPositionX, collidingPositionY };
 		return new_position;
+	}
+	
+	/**
+	 * Calculate the position, if there is one, of the collision between two
+	 * entities.
+	 * 
+	 * @param  	otherEntity
+	 *         	The other entity.
+	 *            
+	 * @return 	Null if the time until the collision is positive infinity.
+	 * 			|if this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY
+	 * 			|result == null
+	 * @return	The position of collision, which  is calculated by moving the ships
+	 *         	at their respective velocities for the time until collision. 
+	 *         	delta_x is the difference of the x-coordinates of the two ships when they
+	 *         	are on their collision positions. delta_y is the difference of the
+	 *         	y-coordinates at the same moment. 
+	 *         	omega is the angle between the delta_y (vertical) and the connection
+	 *         	between the two centers.
+	 *			The actual position_colliside will be calculated using omega, the radius and the center
+	 *			of the entity the method is invoked on (this) at the moment it will collide.
+	 *        	@see implementation
+	 */
+	public double[] getCollisionPosition(Entity entity) {
+		double position1X = this.getEntityPositionX();
+		double position1Y = this.getEntityPositionY();
+		double position2X = entity.getEntityPositionX();
+		double position2Y = entity.getEntityPositionY();
+		
+		double velocity1X = this.getEntityVelocityX();
+		double velocity1Y = this.getEntityVelocityY();
+		double velocity2X = entity.getEntityVelocityX();
+		double velocity2Y = entity.getEntityVelocityY();
+		
+		double radius1 = this.getEntityRadius();
+
+		double time_till_overlapping = this.getTimeToCollision(entity);
+
+		if (time_till_overlapping == Double.POSITIVE_INFINITY)
+			return null;
+
+		else {
+			double collidingPosition1X = position1X + velocity1X * time_till_overlapping;
+			double collidingPosition1Y = position1Y + velocity1Y * time_till_overlapping;
+			double collidingPosition2X = position2X + velocity2X * time_till_overlapping;
+			double collidingPosition2Y = position2Y + velocity2Y * time_till_overlapping;
+			
+			double delta_x = (collidingPosition2X - collidingPosition1X);
+			double delta_y = (collidingPosition2Y - collidingPosition1Y);
+
+			double omega;
+
+			if (delta_x > 0)
+				omega = Math.atan(delta_y / delta_x);
+			
+			else if (delta_x == 0 && delta_y > 0) 
+				omega = Math.PI / 2;
+			
+			else if (delta_x == 0 && delta_y < 0) 
+				omega = 3 * Math.PI / 2;
+			
+			else
+				omega = Math.atan(delta_y / delta_x) + Math.PI;
+
+			double[] position_collide = { collidingPosition1X + radius1 * Math.cos(omega),
+					collidingPosition1Y + radius1 * Math.sin(omega) };
+			
+			return position_collide;
+		}
 	}
 
 	/**
@@ -543,7 +547,7 @@ public abstract class Entity {
 
 			// Check the time until the entity will collide with the first boundary.
 			//Vertical
-			if (Math.min(timeCollisionLeft, timeCollisionRight) < Math.min(timeCollisionUp, timeCollisionDown))
+			if (Math.min(timeCollisionLeft, timeCollisionRight) <= Math.min(timeCollisionUp, timeCollisionDown))
 				//left or right
 				return Math.min(timeCollisionLeft, timeCollisionRight);
 			//Horizontal
@@ -578,9 +582,7 @@ public abstract class Entity {
 	 *		  | (this.overlap(otherEntity))
 	 */
 	public double getTimeToCollision(Entity entity) {
-		if ((!this.isEntityInWorld() && this.hasEntityProperState())
-				|| (!entity.isEntityInWorld() && entity.hasEntityProperState()))
-			throw new IllegalArgumentException();
+		
 
 		double position1X = this.getEntityPositionX();
 		double position1Y = this.getEntityPositionY();
@@ -610,6 +612,10 @@ public abstract class Entity {
 
 		if (this.overlap(entity))
 			throw new IllegalArgumentException();
+		
+		if ((!this.isEntityInWorld() && this.hasEntityProperState())
+				|| (!entity.isEntityInWorld() && entity.hasEntityProperState()))
+			return Double.POSITIVE_INFINITY;
 
 		else if (delta_v_r >= 0)
 			return Double.POSITIVE_INFINITY;
@@ -1028,7 +1034,9 @@ public abstract class Entity {
 	 * 			|result == true
 	 */
 	protected boolean canHaveAsWorld(World world){
-		if (!entityFitsInWorld(world))
+		if (world == null)
+			return false;
+		else if (!entityFitsInWorld(world))
 			return false;
 		
 		else if (this.getEntityWorld() != null)
@@ -1133,6 +1141,13 @@ public abstract class Entity {
 		boolean crossesUpperBoundary = (collisionArray[1] > (entity.getEntityWorld().getWorldHeight() - GAMMA * entity.getEntityRadius()));
 		
 		return (crossesLowerBoundary || crossesUpperBoundary);
+	}
+	
+	protected static boolean collideVerticalBoundary(Entity entity, double[] collisionArray) {
+		boolean crossesLeftBoundary = (collisionArray[0] < GAMMA * entity.getEntityRadius());
+		boolean crossesRightBoundary = (collisionArray[0] > (entity.getEntityWorld().getWorldWidth() - GAMMA * entity.getEntityRadius()));
+		
+		return (crossesLeftBoundary || crossesRightBoundary);
 	}
 	
 	/**

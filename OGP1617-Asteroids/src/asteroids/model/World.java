@@ -339,7 +339,7 @@ public class World {
 		if (height < 0)
 			height = Math.abs(height);
 
-		if (height > UPPER_WORLD_BOUND_HEIGHT)
+		if (!isValidWidthOrHeight(height))
 			height = UPPER_WORLD_BOUND_HEIGHT;
 
 		this.height = height;
@@ -363,7 +363,7 @@ public class World {
 		if (width < 0)
 			width = Math.abs(width);
 
-		if (width > UPPER_WORLD_BOUND_WIDTH)
+		if (!isValidWidthOrHeight(width))
 			width = UPPER_WORLD_BOUND_WIDTH;
 
 		this.width = width;
@@ -431,6 +431,9 @@ public class World {
 	
 	/// CHECKERS ///
 
+	private boolean isValidWidthOrHeight(double length){
+		return (length > 0 && Double.isFinite(length)) ;
+	}
 	/**
 	 * Checks if the world can have this entity.
 	 *  
@@ -441,7 +444,7 @@ public class World {
 	 */
 	protected boolean canHaveAsEntity(Entity entity) {
 		
-		return entity.canHaveAsWorld(this);
+		return (entity != null && entity.canHaveAsWorld(this));
 			
 	}
 
@@ -613,8 +616,11 @@ public class World {
 			// take place when we evolve over the defaultEvolvingTime. We can safely evolve the whole world
 			// (with all its entities) over defaultEvolvingTime.
 			else {
-				for (Object entity : getWorldEntities())
+				entity_positions.clear();
+				for (Object entity : getWorldEntities()){
 					((Entity) entity).move(defaultEvolvingTime);
+					entity_positions.put(arrayToString(((Entity) entity).getEntityPosition()), (Entity) entity);
+				}
 			}
 		}
 	}
@@ -693,7 +699,7 @@ public class World {
 	 */
 	protected void updatePositionListAfterCollision(Entity entity,double defaultEvolvingTime){
 		entity_positions.remove(arrayToString(entity.getEntityPosition()));
-		entity.move(GAMMA * defaultEvolvingTime);
+		entity.move(Math.pow(GAMMA,6) * defaultEvolvingTime);
 		entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
 	}
 				
