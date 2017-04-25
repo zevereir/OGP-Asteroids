@@ -24,6 +24,7 @@ import asteroids.part2.CollisionListener;
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public abstract class MinorPlanet extends Entity{
+	///CONSTRUCTOR///
 	/**
 	 * Initializes a new minor planet with given parameters.
 	 * 
