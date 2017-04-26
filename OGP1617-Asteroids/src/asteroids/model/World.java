@@ -86,65 +86,16 @@ public class World {
 		return this.state;
 	}
 
+	public Set<?> getWorldSpecificEntities(String string){
+		Set<Object> result = new HashSet<Object>();
+		for (Object entity : getWorldEntities()){
+			if (entity.getClass().getSimpleName().equals(string))
+				result.add(entity);}
+		return result;		
+	}
 
-	/**
-	 * Return the bullets that are in the world.
-	 * 
-	 * @return 	The set of bullets in the world by going over all the entities in getworldEntities().
-	 * 			@see implementation
-	 */
-	public Set<Bullet> getWorldBullets() {
-		Set<Bullet> result = new HashSet<Bullet>();
-		for (Object entity: getWorldEntities()){
-			if (entity instanceof Bullet){
-				result.add((Bullet)entity);}
-		}
-		return result;
-	}
-	
-	/**
-	 * Return the ships that are in the world.
-	 * 
-	 * @return 	The set of ships in the world by going over all the entities in getWorldEntities().
-	 * 			@see implementation
-	 */
-	public Set<Ship> getWorldShips() {
-		Set<Ship> result = new HashSet<Ship>();
-		for (Object entity: getWorldEntities()){
-			if (entity instanceof Ship){
-				result.add((Ship)entity);}
-		}
-		return result;
-	}
-	
-	/**
-	 * Return the asteroids that are in the world.
-	 * 
-	 * @return 	The set of asteroids in the world by going over all the entities in getWorldEntities().
-	 * 			@see implementation
-	 */
-	public Set<Asteroid> getWorldAsteroids() {
-		Set<Asteroid> result = new HashSet<Asteroid>();
-		for (Object entity: getWorldEntities()){
-			if (entity instanceof Asteroid){
-				result.add((Asteroid)entity);}
-		}
-		return result;
-	}
-	/**
-	 * Return the planetoids that are in the world.
-	 * 
-	 * @return 	The set of planetoids in the world by going over all the entities in getWorldEntities().
-	 * 			@see implementation
-	 */
-	public Set<Planetoid> getWorldPlanetoids() {
-		Set<Planetoid> result = new HashSet<Planetoid>();
-		for (Object entity: getWorldEntities()){
-			if (entity instanceof Planetoid){
-				result.add((Planetoid)entity);}
-		}
-		return result;
-	}
+
+
 
 	/**
 	 * Return the set of all the entities in the world.

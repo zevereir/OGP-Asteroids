@@ -170,7 +170,7 @@ public abstract class Entity {
 	
 	/// GETTERS ///
 
-	
+
 
 	/**
 	 * Calculate the distance between two entities.

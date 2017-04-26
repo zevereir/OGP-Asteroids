@@ -520,10 +520,11 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	 * Return a set of all the ships in a given world.
 	 * @see implementation
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<? extends Ship> getWorldShips(World world) throws ModelException {
 		try {
-			return world.getWorldShips();
+			return (Set<? extends Ship>) world.getWorldSpecificEntities("Ship");
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #33");
 		}
@@ -533,10 +534,11 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	 * Return a set of all the bullets in a given ship.
 	 * @see implementation
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<? extends Bullet> getWorldBullets(World world) throws ModelException {
 		try {
-			return world.getWorldBullets();
+			return (Set<? extends Bullet>) world.getWorldSpecificEntities("Bullet");
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("this is not a valid argument #34");
 		}
@@ -818,10 +820,11 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	 * Return a set of all the asteroids in a world
 	 * @see implementation
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<? extends Asteroid> getWorldAsteroids(World world) throws ModelException {
 		try {
-			return world.getWorldAsteroids();
+			return (Set<? extends Asteroid>) world.getWorldSpecificEntities("Asteroid");
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #53");
 		}
@@ -857,10 +860,11 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	 * Return a set of all the planetoids in a given world.
 	 * @see implementation
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<? extends Planetoid> getWorldPlanetoids(World world) throws ModelException {
 		try {
-			return world.getWorldPlanetoids();
+			return (Set<? extends Planetoid>) world.getWorldSpecificEntities("Planetoid");
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #56");
 		}

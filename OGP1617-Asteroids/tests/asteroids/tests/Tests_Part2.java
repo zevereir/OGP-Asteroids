@@ -58,7 +58,6 @@ public class Tests_Part2 {
 		Ship ship13 = facade.createShip(10000,12050,0,0,1000,3*Math.PI/2,0);
 		
 		Ship[] Total = { ship1, ship2, ship3, ship4, ship5, ship6, ship7,ship8,ship9,ship10,ship11,ship12,ship13};
-
 		return Total;
 	}
 	
@@ -166,6 +165,7 @@ public class Tests_Part2 {
 		assertEquals(5E16,facade.getShipMass(ship2),EPSILON );
 		
 		//ACCELERATION
+		facade.setThrusterActive(ship1, true);
 		assertEquals((1.1E18)/(5E16),facade.getShipAcceleration(ship1),EPSILON);
 	}
 	

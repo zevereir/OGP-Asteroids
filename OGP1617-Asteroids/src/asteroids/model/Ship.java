@@ -595,18 +595,18 @@ public class Ship extends Entity {
 		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
 		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
 
-		if (this.isThrusterActive()) {
-			final double acceleration = this.getShipAcceleration();
-			final double orientation = this.getEntityOrientation();
+		final double acceleration = this.getShipAcceleration();
+		final double orientation = this.getEntityOrientation();
 			
-			double newVelocityX = velocityX + acceleration * Math.cos(orientation) * moveTime;
-			double newVelocityY = velocityY + acceleration * Math.sin(orientation) * moveTime;
+		double newVelocityX = velocityX + acceleration * Math.cos(orientation) * moveTime;
+		double newVelocityY = velocityY + acceleration * Math.sin(orientation) * moveTime;
 			
-			this.setEntityVelocity(newVelocityX, newVelocityY);
-		}
+		this.setEntityVelocity(newVelocityX, newVelocityY);
+		
 		
 		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
+
 
 	
 	/// TURN ///
