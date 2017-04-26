@@ -1208,7 +1208,18 @@ public abstract class Entity {
 	 * @effect 	The entity will be moved.
 	 * 			@see implementation in the abstract methods
 	 */
-	protected abstract void move(double moveTime);
+	protected void move(double moveTime) {
+		if (moveTime < 0)
+			throw new IllegalArgumentException();
+		
+		double velocityX = this.getEntityVelocityX();
+		double velocityY = this.getEntityVelocityY();
+
+		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
+		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
+		
+		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
+	}
 	
 
 	/// OVERLAP ///

@@ -429,38 +429,7 @@ public class Bullet extends Entity {
 		return maxBounce >= 0;
 	}
 
-	
-	
-	
-	/// MOVE ///
-	
-	/**
-	 * Move the bullet for the given time moveTime.
-	 * 
-	 * @param 	moveTime
-	 * 			The time the bullet has to move.
-	 * 
-	 * @post 	After moveTime, the bullet's position will be set on moveTime times its velocity.
-	 * 			@see implementation
-	 * 
-	 * @throws 	IllegalArgumentException
-	 * 			If the given time is negative.
-	 * 		  | moveTime < 0
-	 */
-	protected void move(double moveTime) {
-		if (moveTime < 0)
-			throw new IllegalArgumentException();
-		
-		double velocityX = this.getEntityVelocityX();
-		double velocityY = this.getEntityVelocityY();
 
-		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
-		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
-		
-		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
-	}
-
-	
 	/// TERMINATION AND STATES ///
 	
 	/**

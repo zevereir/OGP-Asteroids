@@ -1,6 +1,6 @@
 package asteroids.tests;
 
-import static org.junit.Assert.assertArrayEquals;
+//import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.HashSet;
-import java.util.List;
+//import java.util.List;
 import java.util.Set;
 
 import org.junit.AfterClass;
@@ -24,8 +24,8 @@ import asteroids.model.World;
 import asteroids.part3.facade.IFacade;
 //import asteroids.model.Program;
 //import asteroids.model.programs.ProgramFactory;
-import asteroids.part3.programs.IProgramFactory;
-import asteroids.part3.programs.internal.ProgramParser;
+//import asteroids.part3.programs.IProgramFactory;
+//import asteroids.part3.programs.internal.ProgramParser;
 import asteroids.util.ModelException;
 
 public class Part3TestFull {
@@ -112,6 +112,7 @@ public class Part3TestFull {
     assertTrue(Double.isInfinite(facade.getShipPosition(ship)[0]));
     assertTrue(Double.isInfinite(facade.getShipPosition(ship)[1]));
     score += 2;
+    
   }
 
   @Test
@@ -134,6 +135,7 @@ public class Part3TestFull {
     assertTrue(0 - EPSILON <= velocity);
     assertTrue(velocity <= 300000 + EPSILON);
     score += 3;
+    
   }
 
   public void testCreateShipRadiusNan() throws ModelException {
@@ -160,7 +162,7 @@ public class Part3TestFull {
     try {
       max_score += 1;
       facade.createShip(100, 120, 10, 5, 50, -Math.PI, 1.0E20);
-    } catch (AssertionError exc) {
+    } catch (ModelException exc) {
       score += 1;
     }
   }
@@ -170,7 +172,7 @@ public class Part3TestFull {
     try {
       max_score += 1;
       facade.createShip(100, 120, 10, 5, 50, 3 * Math.PI, 1.0E20);
-    } catch (AssertionError exc) {
+    } catch (ModelException exc) {
       score += 1;
     }
   }
@@ -409,6 +411,7 @@ public class Part3TestFull {
       facade.addShipToWorld(world, ship);
     } catch (ModelException exc) {
       score += 1;
+     
     }
   }
 
@@ -469,6 +472,7 @@ public class Part3TestFull {
     assertEquals(null, facade.getShipWorld(ship1));
     assertEquals(world, facade.getShipWorld(ship2));
     score += 6;
+    
   }
 
   @Test
@@ -497,6 +501,7 @@ public class Part3TestFull {
       facade.removeShipFromWorld(world, ship2);
     } catch (ModelException exc) {
       score += 2;
+      
     }
   }
 
@@ -850,15 +855,14 @@ public class Part3TestFull {
   public void testBoundaryCollision_FiniteTimeRightCollision() throws ModelException {
     max_score += 6;
     World world = facade.createWorld(5000, 5000);
-    Ship ship = facade.createShip(500, 100, 100, 0, 100, 0, 1.0E20);
+    Ship ship = facade.createShip(500, 200, 100, 0, 100, 0, 1.0E20);
     facade.addShipToWorld(world, ship);
     double timeToCollision = facade.getTimeCollisionBoundary(ship);
     double expectedTime = (5000.0 - 600.0) / 100.0;
     assertEquals(expectedTime, timeToCollision, EPSILON);
     double[] collisionPosition = facade.getPositionCollisionBoundary(ship);
     assertEquals(5000, collisionPosition[0], EPSILON);
-    System.out.println(collisionPosition[1]);
-    assertEquals(100, collisionPosition[1], EPSILON);
+    assertEquals(200, collisionPosition[1], EPSILON);
     score += 6;
   }
 
@@ -1009,6 +1013,7 @@ public class Part3TestFull {
     facade.evolve(world, 30, null);
     assertEquals(0, facade.getWorldShips(world).size());
     score += 2;
+    
   }
 
   @Test
@@ -1161,6 +1166,7 @@ public class Part3TestFull {
     assertEquals(10, facade.getAsteroidVelocity(asteroid2)[0], EPSILON);
     assertEquals(0, facade.getAsteroidVelocity(asteroid2)[1], EPSILON);
     score += 7;
+    
   }
 
   @Test
@@ -1216,17 +1222,19 @@ public class Part3TestFull {
   }
 
   @Test
-  public void testEvolveBulletDiesOnSecondBounce() throws ModelException {
+  public void testEvolveBulletDiesOnThirdBounce() throws ModelException {
     max_score += 12;
     World world = facade.createWorld(1000, 1000);
     Bullet bullet = facade.createBullet(200, 200, -10, 0, 50);
     facade.addBulletToWorld(world, bullet);
+    // first bounce after 15 sec
     // second bounce after 105 sec
-    facade.evolve(world, 104.0, null);
+    // third bounce after 195 sec
+    facade.evolve(world, 194.0, null);
     assertEquals(1, facade.getWorldBullets(world).size());
-    assertEquals(940, facade.getBulletPosition(bullet)[0], EPSILON);
+    assertEquals(60, facade.getBulletPosition(bullet)[0], EPSILON);
     assertEquals(200, facade.getBulletPosition(bullet)[1], EPSILON);
-    assertEquals(10, facade.getBulletVelocity(bullet)[0], EPSILON);
+    assertEquals(-10, facade.getBulletVelocity(bullet)[0], EPSILON);
     assertEquals(0, facade.getBulletVelocity(bullet)[1], EPSILON);
     facade.evolve(world, 2.0, null);
     assertEquals(0, facade.getWorldBullets(world).size());
@@ -1299,6 +1307,7 @@ public class Part3TestFull {
     assertNull(facade.getShipWorld(ship));
     assertTrue(facade.getWorldShips(world).isEmpty());
     score += 5;
+    
   }
 
   @Test
@@ -1324,9 +1333,8 @@ public class Part3TestFull {
     assertNull(facade.getBulletWorld(bullet1));
     score += 7;
   }
-}
-//
-//  // Assignment Statement
+
+  // Assignment Statement
 //
 //  @Test
 //  public void testAssignmentStatement_NewGlobalVariable() throws ModelException {
@@ -2839,5 +2847,5 @@ public class Part3TestFull {
 //      score += 5;
 //    }
 //  }
-//
-//}
+
+}

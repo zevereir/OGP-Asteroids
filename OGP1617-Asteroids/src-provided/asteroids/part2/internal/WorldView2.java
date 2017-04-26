@@ -33,7 +33,7 @@ import asteroids.util.internal.ResourceUtils;
 @SuppressWarnings("serial")
 public class WorldView2<F extends IFacade> extends JPanel implements KeyListener, ActionListener, CollisionListener {
 
-	private static final int TIMER_DELAY = 1000 /60;
+	private static final int TIMER_DELAY = 1000 / 30;
 
 	private AsteroidsFrame2<F> game;
 	private F facade;
@@ -406,7 +406,8 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 	@Override
 	public void objectCollision(Object entity1, Object entity2, double x, double y) {
 		try {
-			if ((entity1 instanceof Bullet) ||(entity2 instanceof Bullet)) {
+			if ((entity1 instanceof Bullet && !(entity2 instanceof Bullet))
+					|| (entity2 instanceof Bullet && !(entity1 instanceof Bullet))) {
 				game.getSound().play("explosion");
 				explosions.add(new Explosion(x, facade.getWorldSize(world)[1] - y));
 			}

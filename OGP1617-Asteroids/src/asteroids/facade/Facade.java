@@ -55,7 +55,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			Ship ship = new Ship();
 			return ship;
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | AssertionError Error) {
 			throw new ModelException("these are no valid default arguments #1");
 		}
 	}
@@ -72,7 +72,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			Ship ship = new Ship(x, y, xVelocity, yVelocity, radius, orientation, mass);
 			return ship;
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | AssertionError Error) {
 			throw new ModelException("these are no valid arguments #2");
 		}
 	}
@@ -338,7 +338,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			Bullet bullet = new Bullet(x, y, xVelocity, yVelocity, radius);
 			return bullet;
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException| AssertionError Error) {
 			throw new ModelException("this are not valid arguments #19");
 		}
 	}
@@ -905,7 +905,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			Asteroid asteroid= new Asteroid(x, y, xVelocity, yVelocity, radius);
 			return asteroid;
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | AssertionError Error) {
 			throw new ModelException("these are not valid arguments #59");
 		}
 	}
@@ -1003,7 +1003,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			Planetoid planetoid = new Planetoid(x, y, xVelocity, yVelocity, radius, totalTraveledDistance);
 			return planetoid;
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | AssertionError Error) {
 			throw new ModelException("these are not valid arguments #67");
 		}
 	}

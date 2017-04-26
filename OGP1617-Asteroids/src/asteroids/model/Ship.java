@@ -608,7 +608,6 @@ public class Ship extends Entity {
 	}
 
 
-	
 	/// TURN ///
 	
 	/**

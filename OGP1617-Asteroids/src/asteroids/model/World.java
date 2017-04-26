@@ -9,10 +9,10 @@ import asteroids.part2.CollisionListener;
 /**
  * A class that describes worlds. A world has a height and a width and can contain bullets and ships.
  * 
- * @invar 	The world's height will be a positive number.
- * 		  | getWorldHeight > 0
- * @invar 	The world's width will be a positive number.
- * 		  | getWorldwidth > 0
+ * @invar 	The world's height will be valid.
+ * 		  | isValidWidthOrHeight(height)
+ * @invar 	The world's width will be valid.
+ * 		  | isValidWidthOrHeight(width)
  * 
  * 
  * @version 25th of April
@@ -86,6 +86,14 @@ public class World {
 		return this.state;
 	}
 
+	/**
+	 * Returns a set with only entities of a specific class that belong to the world.
+	 * @param string
+	 * 			The string that defines the specific class like "Class".
+	 * @return The set of the entities that belong to the class in the string.
+	 * 			@see implementation
+	 * 
+	 */
 	public Set<?> getWorldSpecificEntities(String string){
 		Set<Object> result = new HashSet<Object>();
 		for (Object entity : getWorldEntities()){
@@ -93,7 +101,6 @@ public class World {
 				result.add(entity);}
 		return result;		
 	}
-
 
 
 
@@ -520,7 +527,9 @@ public class World {
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
 		// A world cannot evolve if there are no entities or the evolving time equals zero 
 		// (which would mean that after evolving, the same situation will be achieved).
-		if (!this.getWorldEntities().isEmpty()) {
+		if (Double.isNaN(defaultEvolvingTime))
+			throw new IllegalArgumentException();	
+		else if (!this.getWorldEntities().isEmpty()) {
 
 			// Determine time till the first collision.
 			double timeToCollision = getTimeNextCollision();

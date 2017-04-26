@@ -71,7 +71,7 @@ public class Tests_Part2 {
 	}
 	
 	// ILLEGAL ORIENTATION
-	@Test(expected =AssertionError.class)
+	@Test(expected =ModelException.class)
 	public void createBadShipOrientation() throws ModelException{
 		Ship ship1 = facade.createShip(0, 0, 0, 0, 10, Math.PI * 10,0);
 	}
