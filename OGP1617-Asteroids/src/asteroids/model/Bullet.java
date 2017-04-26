@@ -20,7 +20,8 @@ import asteroids.part2.CollisionListener;
  * 		  | isValidMass(this.getEntityMass)
  * @invar 	The density is a valid density.
  * 		  | isValidDensity(this.getEntityDensity)
- * 
+ * @invar   The maximum amount of bounces is valid.
+ * 		  |	isValidMaximumBulletBounce(this.getMaximumBulletBounce)
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  */
@@ -49,9 +50,13 @@ public class Bullet extends Entity {
 	 * 			The maximum velocity in kilometers per second.
 	 * @param 	density
 	 * 			The density in kilograms per km^3.
+	 * @param   maximummBulletBounce
+	 * 			The maximum amount a bullet can bounce off a boundary.
 	 * 
 	 * @effect  A new entity will be made via the constructor of Entity.
 	 * 		  	@see implementation
+	 * @effect  The maximumBulletBounce will be set.
+	 * 			|setMaximumBulletBounce(maximumBulletBounce)
 	 */
 	private Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius, double orientation,
 			double mass, double maxVelocity, double density,double maximumBulletBounce) {
@@ -101,7 +106,9 @@ public class Bullet extends Entity {
 	private final static double LOWER_BULLET_RADIUS = 1;
 
 	/// PROPERTIES///
+	
 	private double maximum_bullet_bounce;
+	
 	/// COUNTERS ///
 	
 	/**
@@ -143,7 +150,9 @@ public class Bullet extends Entity {
 		return 1;
 	}
 	/**
-	 * The maximum amount of bounces.
+	 * The default maximum amount of bounces.
+	 * @return The default amount.
+	 * 			@see implementation
 	 */
 	private static double getDefaultMaximumBulletBounce(){
 		return 2;
@@ -193,7 +202,8 @@ public class Bullet extends Entity {
 		return this.source_ship;
 	}
 
-	/** Return the mass of the bullet.
+	/** 
+	 * Return the mass of the bullet.
 	 * 
 	 * @return 	The bullet's mass.
 	 * 			@see implementation
@@ -201,7 +211,11 @@ public class Bullet extends Entity {
 	public double getEntityMass() {
 		return this.mass;
 	}
-	
+	/**
+	 * Return the maximum amount of bounces a bullet can do.
+	 * @return the amount
+	 * 			@see implementation
+	 */
 	private double getMaximumBulletBounce(){
 		return this.maximum_bullet_bounce;
 	}
@@ -220,6 +234,16 @@ public class Bullet extends Entity {
 	protected void setAmountOfBounces(int amount) {
 		this.amountOfBounces = amount;
 	} 
+	
+	/**
+	 * Set the maximum amount of bounces the bullet can do to given amount.
+	 * 
+	 * @param 	maxBounce
+	 * 			The new maximum amount of bounces.
+	 * 
+	 * @post 	The new amount of bounces will be equal to the given amount. if maxBounce isn't valid, the default value will be used.
+	 * 		  	@see implementation	
+	 */
 	private void setMaximumBulletBounce(double maxBounce){
 		if (isValidMaximumBulletBounce(maxBounce))
 			maximum_bullet_bounce = maxBounce;
@@ -279,7 +303,7 @@ public class Bullet extends Entity {
 	 * @pre 	The bullet is not terminated.
 	 * 			@see implementation
 	 * 
-	 * @effect	The bullet's loaded state will be set to not loaded, the source ship to ship and the bullet's ship to null.
+	 * @effect	The bullet's loaded state will be set to not loaded, the source ship to ship, the bullet's ship to null and the amount of bounces to 0.
 	 * 			@see implementation
 	 */
 	protected void setBulletNotLoaded(Ship ship) {
@@ -324,7 +348,7 @@ public class Bullet extends Entity {
 	 * 			The bullet's new density.
 	 * 
 	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default density.
-	 * 		  @see implementation
+	 * 		 	@see implementation
 	 */
 	protected void setEntityDensity(double density) {
 		if (this.isValidDensity(density))
@@ -424,7 +448,13 @@ public class Bullet extends Entity {
 	protected boolean isValidRadius(double radius) {
 		return (radius >= LOWER_BULLET_RADIUS);
 	}
-
+	/**
+	 * Checks if a maximum amount of bounces is valid.
+	 * @param maxBounce
+	 * 			The amount that has to be checked.
+	 * @return true if maxbounce is nonnegative, false in all other cases.
+	 * 			@see implementation
+	 */
 	private boolean isValidMaximumBulletBounce(double maxBounce){
 		return maxBounce >= 0;
 	}

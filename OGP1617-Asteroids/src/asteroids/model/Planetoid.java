@@ -63,6 +63,8 @@ public class Planetoid extends MinorPlanet {
 	 * 		  | setPlanetoidInitialRadius(radius)
 	 * @effect	The planetoids total traveled distance will be set on the given value.
 	 *		  | setPlanetoidTotalTraveledDistance(totalTraveledDistance)
+	 * @effect	The planetoids radius will be updated.
+	 * 		  | updatePlanetoidRadius()
 	 */
 	public Planetoid(double positionX, double positionY, double velocityX, double velocityY, double radius,
 			double orientation, double mass, double maxVelocity, double density,double totalTraveledDistance) {
@@ -208,6 +210,12 @@ public class Planetoid extends MinorPlanet {
 		initial_radius = radius;
 	}
 	
+	/**
+	 * Update the planetoids radius.
+	 * @effect The new radius is 10E-6 times the totalTraveledDistance subtracted from the initialRadius. 
+	 * 			If this new radius is valid, it will be set. When it's not, the planetoid will be terminated.
+	 * 			@see implementation
+	 */
 	private void updatePlanetoidRadius(){
 		double init_radius = getPlanetoidInitialRadius();
 		double totalTraveledDistance = getPlanetoidTotalTraveledDistance();
@@ -256,7 +264,7 @@ public class Planetoid extends MinorPlanet {
 	 * 
 	 * @post 	After moveTime, the planetoids position will be set on moveTime times its velocity.
 	 * 			@see implementation
-	 * @effect  The planetoid will be shrinked for moveTime seconds.
+	 * @effect  The planetoid will be shrunk for moveTime seconds.
 	 * 			|shrink(moveTme)
 	 * 
 	 * @throws 	IllegalArgumentException
@@ -282,11 +290,8 @@ public class Planetoid extends MinorPlanet {
 	 * 			the time the planetoid has to shrink.
 	 * @effect	The traveled distance is incremented by the distance it will travel in time seconds. 
 	 * 			@see implementation
-	 * @effect  The radius of the ship will be decreased by 0.0001% times the traveled distance, when this new radius is valid.
-	 * 			@see implementation
-	 * @effect  When this new radius is not valid, the planetoid will be terminated.
-	 * 			|if (isValidRadius(new_radius))
-	 * 			|this.isEntityTerminated() == true
+	 * @effect  The radius will be updated
+	 * 			|updatePlanetoidRadius()
 	 * 			
 	 */
 	private void shrink(double time){

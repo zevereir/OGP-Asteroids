@@ -944,7 +944,7 @@ public abstract class Entity {
 	 * @param 	positionY
 	 * 			the y-value of the position that has to be checked.
 	 * @return  false if the x- or y-value of the position is not a number.
-	 * 			|if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
+	 * 			|if ((!Double.isNaN(positionX)) || (!Double.isNaN(positionY)))
 	 *			|result == false
 	 * @return  true if the boolean is not changed to false and if the entity doesn't belong to a world.
 	 * 			|((this.getEntityWorld() == null) && Boolean == true)
