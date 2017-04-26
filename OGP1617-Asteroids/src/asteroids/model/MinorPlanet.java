@@ -143,56 +143,35 @@ public abstract class MinorPlanet extends Entity{
 
 	
 	///COLLISION///
-	/**
-	 * A method that resolves the collision between an minor planet and a boundary.
-	 * @param collisionPosition
-	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
-	 * 			The time until the collision will happen.
-	 * @param collisionListener
-	 * 			A variable used to visualize the explosions.
-	 * @post the collision will be resolved by checking if the minor planet collides with a 
-	 * 			horizontal or vertical boundary and inverting the respective velocity.
-	 * 			|if collideHorizontalBoundary(this,collisionPosition)
-	 * 			|new.getEntityVelocityY == -this.getEntityVelocityY
-	 * 			|else
-	 * 			|new.getEntityVelocityX == -this.getEntityVelocityX
-	 * @effect after the change of velocity, the entity_positionlist in world will be updated.
-	 * 			|this.getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
-	 */
-	protected void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
-		double VelocityX = this.getEntityVelocityX();
-		double VelocityY = this.getEntityVelocityY();
-		if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
-			this.setEntityVelocity(-VelocityX, -VelocityY);
-		
-		else if (collideHorizontalBoundary(this, collisionPosition))
-			this.setEntityVelocity(VelocityX, -VelocityY);
-
-		else if (collideVerticalBoundary(this, collisionPosition))
-			this.setEntityVelocity(-VelocityX, VelocityY);
-		World world = this.getEntityWorld();
-		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
-	}
 	
 	/**
-	 * A method that resolves the collision between two minor planets.
-	 * @param minorPlanet
-	 * 			The minorPlanet that will collide with the minor planet where the method is invoked on.
-	 * @param collisionPosition
+	 * Resolves the collisions with other entities.
+	 * @param entity
+	 * 			The entity the minor planet collides with.
+	  *@param collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
 	 * @param defaultEvolvingTime
 	 * 			The time until the collision will happen.
 	 * @param collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect Because the two entities are both minor planets, doubleShipOrMinorPlanetCollide will be used. 
-	 * 			After this method, the positionlist in world will be updated.
+	 * @effect if the entity is a ship, the collision will be resolved by entityAndShipCollide(...).
+	 * 			|if(entity instanceof Ship)
+	 * 			@see implementation
+	 * @effect if the entity is a Bullet, the collision will be resolved by entityAndBulletCollide(...).
+	 * 			|if(entity instanceof Bullet)
+	 * 			@see implementation
+	 * @effect if the entity is a MinorPlanet, the collision will be resolved by doubleShipOrMinorPlanetCollide(...).
+	 * 			|if(entity instanceof Ship)
 	 * 			@see implementation
 	 */
-	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
-		this.doubleShipOrMinorPlanetCollide(minorPlanet);
-		World world = this.getEntityWorld();
-		world.updatePositionListAfterCollision(this,minorPlanet, defaultEvolvingTime);
+	protected void minorPlanetAndEntityCollide(Entity entity,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
+		if (entity instanceof Ship)
+			this.entityAndShipCollide((Ship)entity, collisionPosition, defaultEvolvingTime, collisionListener);
+		if (entity instanceof Bullet)
+			this.entityAndBulletCollide((Bullet)entity, collisionPosition, collisionListener);
+		if (entity instanceof MinorPlanet){
+			this.doubleShipOrMinorPlanetCollide((MinorPlanet)entity,defaultEvolvingTime);	
+		}
 	}
 
 }

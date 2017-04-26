@@ -188,6 +188,24 @@ public class World {
 	}
 
 	/**
+	 * Returns Collision Entity 1.
+	 * @return the entity
+	 * 			@see implementation
+	 */
+	private Entity getCollisionEntity1(){
+		return collision_entity_1;
+	}
+	/**
+	 * Returns Collision Entity 2.
+	 * @return the entity
+	 * 			@see implementation
+	 */
+	private Entity getCollisionEntity2(){
+		return collision_entity_2;
+	}
+	
+	
+	/**
 	 * Return the position where the next collision will take place.
 	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
@@ -388,10 +406,17 @@ public class World {
 
 	
 	/// CHECKERS ///
-
+	/**
+	 * Checks if a width or height is valid.
+	 * @param length
+	 * 			The width or height that has to be checked.
+	 * @return The boolean that checks the length.
+	 * 			@see implementation
+	 */
 	private boolean isValidWidthOrHeight(double length){
 		return (length > 0 && Double.isFinite(length)) ;
 	}
+	
 	/**
 	 * Checks if the world can have this entity.
 	 *  
@@ -525,10 +550,11 @@ public class World {
 	 * @note	The method does not have a specification. See the assignment for more information.
 	 */
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
+		//A world cannot evolve if defaultEvolvingTime is not a finite number. 
+		if (!Double.isFinite(defaultEvolvingTime))
+			throw new IllegalArgumentException();
 		// A world cannot evolve if there are no entities or the evolving time equals zero 
-		// (which would mean that after evolving, the same situation will be achieved).
-		if (Double.isNaN(defaultEvolvingTime))
-			throw new IllegalArgumentException();	
+				// (which would mean that after evolving, the same situation will be achieved).
 		else if (!this.getWorldEntities().isEmpty()) {
 
 			// Determine time till the first collision.
@@ -584,34 +610,7 @@ public class World {
 			}
 		}
 	}
-	/**
-	 * Returns Collision Entity 1.
-	 * @return the entity
-	 * 			@see implementation
-	 */
-	private Entity getCollisionEntity1(){
-		return collision_entity_1;
-	}
-	/**
-	 * Returns Collision Entity 2.
-	 * @return the entity
-	 * 			@see implementation
-	 */
-	private Entity getCollisionEntity2(){
-		return collision_entity_2;
-	}
 	
-	/**
-	 * Sets both the collision entities on null.
-	 * @post collision_entity_1 will be null
-	 * 			|new.getCollisionEntity1() ==null
-	 *@post collision_entity_2 will be null
-	 * 			|new.getCollisionEntity2() ==null
-	 */
-	private void resetCollisionEntities(){
-		collision_entity_1=null;
-		collision_entity_2=null;
-	}
 	
 	
 	/// COLLISION-FUNCTIONS ///
@@ -625,7 +624,18 @@ public class World {
 	 */
 	private Entity collision_entity_2 = null;
 
-
+	/**
+	 * Sets both the collision entities on null.
+	 * @post collision_entity_1 will be null
+	 * 			|new.getCollisionEntity1() ==null
+	 *@post collision_entity_2 will be null
+	 * 			|new.getCollisionEntity2() ==null
+	 */
+	private void resetCollisionEntities(){
+		collision_entity_1=null;
+		collision_entity_2=null;
+	}
+	
 	/**
 	 * Updates the entity_positions map and moves entities after colliding.
 	 * @param entity1
@@ -669,7 +679,7 @@ public class World {
 	/**
 	 * Terminate this world.
 	 * 
-	 * @effect  The world's state is set to Terminated and all the entities it contains are set to the state NO_WORLD.
+	 * @effect  The world's state is set to Terminated and all the entities it contains are removed from the world.
 	 * 			@see implementation
 	 */
 	public void Terminate() {

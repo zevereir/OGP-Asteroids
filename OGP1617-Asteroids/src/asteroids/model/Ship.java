@@ -243,7 +243,7 @@ public class Ship extends Entity {
 	/** 
 	 * Return the acceleration of the ship computed with Newton's third law.
 	 * 
-	 * @return 	The acceleration which will be calculated with the thruster-force and the mass of the ship.
+	 * @return 	The acceleration which will be calculated with the thruster-force and the mass of the ship. Zero is returned when the thrusters aren't active.
 	 * 			@see implementation
 	 */
 	public double getShipAcceleration() {
@@ -575,9 +575,10 @@ public class Ship extends Entity {
 	 * 
 	 * @param 	moveTime
 	 * 			The time for which the ship has to move.
-	
 	 * @post 	If the ship's thruster is active, its acceleration will be used to recalculate the velocity.
+	 * 			If the thuster isn't active, the acceleration will be 0 and the velocity will not be changed
 	 * 			@see implementation
+	 * 
 	 * @post 	After moveTime, the ship's position will be set on moveTime times its velocity. 
 	 * 			@see implementation
 	 * 
@@ -823,36 +824,7 @@ public class Ship extends Entity {
 
 	///COLLISIONS///
 
-	/**
-	 * A method that resolves the collision between an ship and a boundary.
-	 * @param collisionPosition
-	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
-	 * 			The time until the collision will happen.
-	 * @param collisionListener
-	 * 			A variable used to visualize the explosions.
-	 * @post the collision will be resolved by checking if the ship collides with a horizontal or vertical boundary and inverting the respective velocity.
-	 * 			|if collideHorizontalBoundary(this,collisionPosition)
-	 * 			|new.getEntityVelocityY == -this.getEntityVelocityY
-	 * 			|else
-	 * 			|new.getEntityVelocityX == -this.getEntityVelocityX
-	 * @effect after the change of velocity, the entity_positionlist in world will be updated.
-	 * 			|this.getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
-	 */
-	@Override
-	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
-		double VelocityX = this.getEntityVelocityX();
-		double VelocityY = this.getEntityVelocityY();
-		if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
-			this.setEntityVelocity(-VelocityX, -VelocityY);
-		else if (collideHorizontalBoundary(this, collisionPosition))
-			this.setEntityVelocity(VelocityX, -VelocityY);
-		else if (collideVerticalBoundary(this, collisionPosition))
-			this.setEntityVelocity(-VelocityX, VelocityY);
-		World world = this.getEntityWorld();
-		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
 	
-	}
 	
 	/**
 	 * A method that resolves the collision between two ships.
@@ -865,33 +837,12 @@ public class Ship extends Entity {
 	 * @param collisionListener
 	 * 			A variable used to visualize the explosions.
 	 * @effect Because the two entities are both ships, doubleShipOrMinorPlanetCollide will be used. 
-	 * 			After this method, the positionlist in world will be updated.
 	 * 			@see implementation
 	 */
 	@Override
 	protected void entityAndShipCollide(Ship ship,double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
-		this.doubleShipOrMinorPlanetCollide(ship);
-		World world = this.getEntityWorld();
-		world.updatePositionListAfterCollision(this,ship, defaultEvolvingTime);
-		
+		this.doubleShipOrMinorPlanetCollide(ship,defaultEvolvingTime);		
 	}
 
-	/**
-	 * A method that resolves the collision between a ship and a minor planet.
-	 * @param minorPlanet
-	 * 			The minorPlanet that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
-	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
-	 * 			The time until the collision will happen.
-	 * @param collisionListener
-	 * 			A variable used to visualize the explosions.
-	 * @effect the collision will be resolved by using the entityAndShipCollide method on minorPlanet.
-	 * 			@see implementation
-	 */
-	@Override
-	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
-		minorPlanet.entityAndShipCollide(this,collisionPosition,defaultEvolvingTime,collisionListener);
-	}
 }
 

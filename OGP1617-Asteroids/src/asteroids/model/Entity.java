@@ -359,11 +359,11 @@ public abstract class Entity {
 	 * 
 	 * @throws	IllegalAccesError
 	 * 			It should be impossible, once in the else-statement, to not-touch with one of the
-	 * 			boundaries of the world. Even though this is the case, the IlligalAccesError will
+	 * 			boundaries of the world. When this is the case, the IlligalAccesError will
 	 * 			be thrown.
 	 * 			@see implementation
 	 */
-	////-------------> boolean proper maken
+	
 	public double[] getPositionCollisionBoundary() {
 		double time = getTimeCollisionBoundary();
 		double collidingPositionX = 0;
@@ -383,6 +383,7 @@ public abstract class Entity {
 			double height = this.getEntityWorld().getWorldHeight();
 			
 			double radius = this.getEntityRadius();
+			
 			boolean collision_happened = false;
 			collidingPositionX = Math.abs(positionX + time * velocityX);
 			collidingPositionY = Math.abs(positionY + time * velocityY);
@@ -1156,8 +1157,10 @@ public abstract class Entity {
 	 * 			the entity that will collide with the entity where the method is invoked on.
 	 * @post the velocities of the entities will be changed, the calculation is in the implementation.
 	 * 			@see implementation
+	 * @post when the collision is resolved, the position_list will be updated.
+	 * 			@see implementation
 	 */
-	protected void doubleShipOrMinorPlanetCollide(Entity entity){
+	protected void doubleShipOrMinorPlanetCollide(Entity entity,double defaultEvolvingTime){
 		final double position_1X = this.getEntityPositionX();
 		final double position_1Y = this.getEntityPositionY();
 		final double position_2X = entity.getEntityPositionX();
@@ -1192,6 +1195,9 @@ public abstract class Entity {
 
 		this.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
 		entity.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
+		
+		World world = this.getEntityWorld();
+		world.updatePositionListAfterCollision(this,entity, defaultEvolvingTime);
 	}
 	
 	
@@ -1315,18 +1321,34 @@ public abstract class Entity {
 					
 	}
 	/**
-	 * A method that resolves the collision between an entity and a boundary of the world.
+	 * A method that resolves the collision between an entity and a boundary.
 	 * @param collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
 	 * @param defaultEvolvingTime
 	 * 			The time until the collision will happen.
 	 * @param collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @post the velocities will be changed
-	 * 			@see implementation of the abstract methods
+	 * @post the collision will be resolved by checking if the entity collides with a horizontal or vertical boundary and inverting the respective velocity.
+	 * 			|if collideHorizontalBoundary(this,collisionPosition)
+	 * 			|new.getEntityVelocityY == -this.getEntityVelocityY
+	 * 			|else
+	 * 			|new.getEntityVelocityX == -this.getEntityVelocityX
+	 * @effect after the change of velocity, the entity_positionlist in world will be updated.
+	 * 			|this.getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
 	 */
-	protected abstract void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
+	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
+		double VelocityX = this.getEntityVelocityX();
+		double VelocityY = this.getEntityVelocityY();
+		if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
+			this.setEntityVelocity(-VelocityX, -VelocityY);
+		else if (collideHorizontalBoundary(this, collisionPosition))
+			this.setEntityVelocity(VelocityX, -VelocityY);
+		else if (collideVerticalBoundary(this, collisionPosition))
+			this.setEntityVelocity(-VelocityX, VelocityY);
+		World world = this.getEntityWorld();
+		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
 	
+	}
 	/**
 	 * A method that resolves the collision between an entity and a ship.
 	 * @param ship
@@ -1390,10 +1412,12 @@ public abstract class Entity {
 	 * 			The time until the collision will happen.
 	 * @param collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @post the collision will be resolved
-	 * 			@see implementation of the abstract methods
+	 * @effect the collision will be resolved by using minorPlanetAndEntity(...) on minorPlanet.
+	 * 			@see implementation
 	 */
-	protected abstract void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
+	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
+		minorPlanet.minorPlanetAndEntityCollide(this,collisionPosition,defaultEvolvingTime,collisionListener);
+	}
 	
 	
 	

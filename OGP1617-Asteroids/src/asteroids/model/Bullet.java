@@ -554,25 +554,6 @@ public class Bullet extends Entity {
 		
 	}
 
-	
-	/**
-	 * A method that resolves the collision between a ship and a bullet.
-	 * @param minorPlanet
-	 * 			The minorPlanet that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
-	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
-	 * 			The time until the collision will happen.
-	 * @param collisionListener
-	 * 			A variable used to visualize the explosions.
-	 * @effect the collision will be resolved by using the entityAndBulletCollide method on minorPlanet.
-	 * 			@see implementation
-	 */
-	@Override
-	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
-		minorPlanet.entityAndBulletCollide(this,collisionPosition,collisionListener);
-		
-	}
 }
 
 
