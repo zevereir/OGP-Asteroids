@@ -165,5 +165,4 @@ public abstract class MinorPlanet extends Entity{
 			this.doubleShipOrMinorPlanetCollide((MinorPlanet)entity,defaultEvolvingTime);	
 		}
 	}
-
 }
