@@ -77,16 +77,7 @@ public abstract class MinorPlanet extends Entity{
 		return LOWER_MINOR_PLANET_RADIUS;
 	}
 	
-	///GETTERS///
-	/**
-	 * Returns the mass of the minor planet.
-	 * @return the mass.
-	 * 			@see implementation
-	 */
-	@Override
-	public double getEntityMass() {
-		return this.mass;
-	}
+	
 	
 	///SETTERS///
 
