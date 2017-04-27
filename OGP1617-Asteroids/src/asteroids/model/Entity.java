@@ -219,12 +219,13 @@ public abstract class Entity {
 	}
 
 	/**
-	 * Returns the entity's mass.
-	 * 
-	 * @return 	The mass.
-	 * 			@see implementation in the abstract methods
+	 * Returns the mass of the entity.
+	 * @return the mass.
+	 * 			@see implementation
 	 */
-	public abstract double getEntityMass();
+	public double getEntityMass() {
+		return this.mass;
+	}
 
 	/**
 	 * Returns the entity's maximum total velocity.

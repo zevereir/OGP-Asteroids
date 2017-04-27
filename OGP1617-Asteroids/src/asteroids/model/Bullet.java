@@ -202,15 +202,7 @@ public class Bullet extends Entity {
 		return this.source_ship;
 	}
 
-	/** 
-	 * Return the mass of the bullet.
-	 * 
-	 * @return 	The bullet's mass.
-	 * 			@see implementation
-	 */
-	public double getEntityMass() {
-		return this.mass;
-	}
+	
 	/**
 	 * Return the maximum amount of bounces a bullet can do.
 	 * @return the amount

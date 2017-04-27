@@ -58,6 +58,7 @@ public abstract class MinorPlanet extends Entity{
 	protected MinorPlanet(double positionX, double positionY, double velocityX, double velocityY, double radius,
 			double orientation, double mass, double maxVelocity, double density) {
 		super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
+		setEntityMass(MassFormula(radius, density));
 		
 	}
 	
@@ -84,7 +85,7 @@ public abstract class MinorPlanet extends Entity{
 	 */
 	@Override
 	public double getEntityMass() {
-		return MassFormula(getEntityRadius(),getEntityDensity());
+		return this.mass;
 	}
 	
 	///SETTERS///
