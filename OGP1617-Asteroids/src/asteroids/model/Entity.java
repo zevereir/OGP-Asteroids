@@ -1134,7 +1134,7 @@ public abstract class Entity {
 	 * @param 	collisionArray
 	 * 			The collision position.
 	 * 
-	 * @return 	True if the collision position is approximately equal to 0 (the lower-boundary) or equal to the
+	 * @return 	True if the y-value of the collision position is approximately equal to 0 (the lower-boundary) or equal to the
 	 * 			height of the world (the upper-boundary).
 	 * 			@see implementation
 	 */
@@ -1145,6 +1145,18 @@ public abstract class Entity {
 		return (crossesLowerBoundary || crossesUpperBoundary);
 	}
 	
+	/**
+	 * Checks if a collision with a boundary is with a vertical boundary.
+	 * 
+	 * @param 	entity
+	 * 			The entity that collides.
+	 * @param 	collisionArray
+	 * 			The collision position.
+	 * 
+	 * @return 	True if the x-value of the collision position is approximately equal to 0 (the left-boundary) or equal to the
+	 * 			height of the world (the right-boundary).
+	 * 			@see implementation
+	 */
 	protected static boolean collideVerticalBoundary(Entity entity, double[] collisionArray) {
 		boolean crossesLeftBoundary = (collisionArray[0] < GAMMA * entity.getEntityRadius());
 		boolean crossesRightBoundary = (collisionArray[0] > (entity.getEntityWorld().getWorldWidth() - GAMMA * entity.getEntityRadius()));
