@@ -22,8 +22,10 @@ import asteroids.part2.CollisionListener;
  * 		  | isValidDensity(this.getEntityDensity)
  * @invar   The maximum amount of bounces is valid.
  * 		  |	isValidMaximumBulletBounce(this.getMaximumBulletBounce)
+ * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
+ * 
  */
 public class Bullet extends Entity {
 	
