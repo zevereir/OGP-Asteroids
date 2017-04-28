@@ -115,6 +115,7 @@ public class Asteroid extends MinorPlanet {
 		return MassFormula(getDefaultMinorPlanetRadius(), getDefaultAsteroidDensity());
 	}
 	
+	
 	///SETTERS///
 	/**
 	 * Set the asteroids density to a given density.

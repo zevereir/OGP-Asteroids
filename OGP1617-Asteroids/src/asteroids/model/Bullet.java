@@ -212,6 +212,7 @@ public class Bullet extends Entity {
 		return this.maximum_bullet_bounce;
 	}
 	
+
 	/// SETTERS ///
 	
 	/**

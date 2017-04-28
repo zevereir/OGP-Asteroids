@@ -219,7 +219,7 @@ public class Ship extends Entity {
 		double bullets_weight = ((Ship) this).getTotalBulletsWeight();
 		return (this.mass + bullets_weight);
 	}
-
+	
 	/**
 	 * Return the minimum mass a ship can have.
 	 * 
