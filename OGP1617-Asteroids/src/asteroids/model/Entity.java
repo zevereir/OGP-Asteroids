@@ -22,7 +22,7 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
-
+ * 
  */
 public abstract class Entity {
 

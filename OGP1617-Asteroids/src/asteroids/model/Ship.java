@@ -31,6 +31,7 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
+ * 
  */
 public class Ship extends Entity {
 
@@ -519,6 +520,7 @@ public class Ship extends Entity {
 			throw new IllegalArgumentException();
 	}
 
+	
 	/**
 	 * Load multiple bullets on the ship.
 	 * 

@@ -7,6 +7,7 @@ import be.kuleuven.cs.som.annotate.Value;
  * 
  * @version 7th of April
  * @authors Sieben Bocklandt and Ruben Broekx
+ * 
  */
 @Value
 public class Position {

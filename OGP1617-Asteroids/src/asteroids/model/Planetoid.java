@@ -25,6 +25,7 @@ import asteroids.part2.CollisionListener;
  * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
+ * 
  */
 public class Planetoid extends MinorPlanet {
 	///CONSTRUCTOR///

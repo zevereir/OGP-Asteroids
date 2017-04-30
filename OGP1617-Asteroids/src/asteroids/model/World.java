@@ -17,7 +17,7 @@ import asteroids.part2.CollisionListener;
  * 
  * @version 25th of April
  * @authors Sieben Bocklandt and Ruben Broekx
-
+ * 
  */
 public class World {
 
