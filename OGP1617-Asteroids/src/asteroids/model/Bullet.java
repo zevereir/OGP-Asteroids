@@ -217,6 +217,7 @@ public class Bullet extends Entity {
 	}
 	
 	
+
 	/// SETTERS ///
 	
 	/**

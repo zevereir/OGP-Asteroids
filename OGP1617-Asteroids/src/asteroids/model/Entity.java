@@ -1218,6 +1218,7 @@ public abstract class Entity {
 		setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
 	
+	
 
 	/// OVERLAP ///
 
