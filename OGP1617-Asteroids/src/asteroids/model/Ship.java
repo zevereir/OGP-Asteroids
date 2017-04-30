@@ -221,7 +221,7 @@ public class Ship extends Entity {
 	@Basic
 	public double getEntityMass() {
 		double bullets_weight = ((Ship) this).getTotalBulletsWeight();
-		return (this.mass + bullets_weight);
+		return (mass + bullets_weight);
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public int getNbBulletsOnShip() {
-		return this.getShipBullets().size();
+		return getShipBullets().size();
 	}
 	
 	/** 
@@ -252,7 +252,7 @@ public class Ship extends Entity {
 	 */
 	public double getShipAcceleration() {
 		if (isThrusterActive())
-			return (this.getShipTrusterForce() / this.getEntityMass());
+			return (getShipTrusterForce() / getEntityMass());
 		else
 			return 0;
 	}
@@ -306,7 +306,7 @@ public class Ship extends Entity {
 	 */
 	@Basic
 	public boolean isThrusterActive() {
-		return this.thruster_activity;
+		return thruster_activity;
 	}
 	
 
@@ -365,7 +365,7 @@ public class Ship extends Entity {
 		if (thrusterForce < 0)
 			thrusterForce = getDefaultThrusterForce();
 
-		this.thruster_force = thrusterForce;
+		thruster_force = thrusterForce;
 	}
 	
 	/**
@@ -455,7 +455,7 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	protected boolean hasAsBullet(Bullet bullet) {
-		return this.bullets.containsKey(bullet.hashCode());
+		return bullets.containsKey(bullet.hashCode());
 	}
 
 	/**
@@ -514,8 +514,8 @@ public class Ship extends Entity {
 	 *        | !canHaveAsBulet(bullet)
 	 */
 	public void addOneBulletToShip(Bullet bullet) throws IllegalArgumentException {
-		if (this.canHaveAsBullet(bullet)) {
-			this.bullets.put(bullet.hashCode(), bullet);
+		if (canHaveAsBullet(bullet)) {
+			bullets.put(bullet.hashCode(), bullet);
 			bullet.setBulletLoaded(this);
 		} 
 		else
@@ -532,37 +532,10 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		//Set<Bullet> already_added = new HashSet<Bullet>();
-		
-		// REMARK: addOneBulletToShip already checks whether or not the bullet is already in the ship!
 		bullets.forEach(bullet->{
 			addOneBulletToShip(bullet);
-		});	
-		
-//		bullets.forEach(bullet->{
-//			if(!already_added.contains(bullet)){
-//				try{
-//					addOneBulletToShip(bullet);
-//					already_added.add(bullet);
-//				} catch (IllegalArgumentException illegalArgumentException) {
-//					throw new IllegalArgumentException();
-//				}
-//			}
-//		});	
+		});
 	}
-		
-//	--> OUDE VERSIE <--
-//		for (Bullet bullet : bullets){
-//			try {
-//				addOneBulletToShip(bullet);
-//			} catch (IllegalArgumentException illegalArgumentException) {
-//				for (Bullet bullet_added : already_added){
-//					removeBulletFromShip(bullet_added);
-//				}
-//				throw new IllegalArgumentException();
-//			}
-//			already_added.add(bullet);
-//		}
 
 	
 	/// REMOVERS ///
@@ -581,11 +554,11 @@ public class Ship extends Entity {
 	 *        | this.hasAsBullet(bullet)
 	 */
 	public void removeBulletFromShip(Bullet bullet) {
-		if (!this.hasAsBullet(bullet))
+		if (!hasAsBullet(bullet))
 			throw new IllegalArgumentException();
 
 		else {
-			this.bullets.remove(bullet.hashCode());
+			bullets.remove(bullet.hashCode());
 			bullet.setBulletNotLoaded(this);
 		}
 	}
@@ -625,9 +598,9 @@ public class Ship extends Entity {
 		double newVelocityX = velocityX + acceleration * Math.cos(orientation) * moveTime;
 		double newVelocityY = velocityY + acceleration * Math.sin(orientation) * moveTime;
 			
-		this.setEntityVelocity(newVelocityX, newVelocityY);
+		setEntityVelocity(newVelocityX, newVelocityY);
 		
-		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
+		setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
 
 
@@ -648,9 +621,9 @@ public class Ship extends Entity {
 	 *        | this.setEntityOrientation(this.getEntityOrientation() + angle)
 	 */
 	public void turn(double angle) {
-		assert isValidOrientation(this.getEntityOrientation() + angle);
+		assert isValidOrientation(getEntityOrientation() + angle);
 		
-		this.setEntityOrientation(this.getEntityOrientation() + angle);
+		setEntityOrientation(getEntityOrientation() + angle);
 	}
 
 	
@@ -675,7 +648,7 @@ public class Ship extends Entity {
 	 *		  | possibleToFire(bullet,this,world, positionBulletX, positionBulletY, radiusBullet)
 	 */
 	public void fireBullet() {
-		if (!bullets.isEmpty() && this.isEntityInWorld()) {
+		if (!bullets.isEmpty() && isEntityInWorld()) {
 			
 			Map.Entry<Integer, Bullet> entry = bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
@@ -695,7 +668,7 @@ public class Ship extends Entity {
 			bullet.setEntityVelocity(getInitialFiringVelocity() * Math.cos(orientation),
 					getInitialFiringVelocity() * Math.sin(orientation));
 			
-			World world = this.getEntityWorld();
+			World world = getEntityWorld();
 			
 			if (possibleToFire(bullet, world, positionBulletX, positionBulletY, radiusBullet))
 				world.addEntityToWorld(bullet);
@@ -725,8 +698,8 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 * 
 	 * @effect 	The bullet will be terminated when it's not within the boundaries of the world.
-	 * 			|if (!bullet.entityLiesInBoundaries(world))
-	 * 			|bullet.Terminate()
+	 * 		  | if (!bullet.entityLiesInBoundaries(world))
+	 * 		  |   bullet.Terminate()
 	 * @effect 	The bullet will be reloaded if it overlaps with a bullet with the same source ship.
 	 * 			@see implementation
 	 * @effect 	The bullet will be terminated when it overlaps with a bullet that doesn't have the same source ship.
@@ -757,8 +730,8 @@ public class Ship extends Entity {
 					if (entityInWorld instanceof Bullet) {
 						// If the bullet overlaps with a bullet from its parent-ship, the newest bullet will not be fired.
 						if (this.equals(((Bullet) entityInWorld).getBulletSource())) {
-							bullet.setPositionWithoutChecking(this.getEntityPositionX(), this.getEntityPositionY());
-							this.addOneBulletToShip(bullet);
+							bullet.setPositionWithoutChecking(getEntityPositionX(), getEntityPositionY());
+							addOneBulletToShip(bullet);
 						}
 
 						// If the bullet overlaps with a bullet which does not belong to its parent-ship, the two will be terminated.
@@ -772,8 +745,8 @@ public class Ship extends Entity {
 					else if (entityInWorld instanceof Ship) {
 						// If the bullet overlaps with its parent-ship, the bullet will be reloaded.
 						if (this.equals(entityInWorld)) {
-							bullet.setPositionWithoutChecking(this.getEntityPositionX(), this.getEntityPositionY());
-							this.addOneBulletToShip(bullet);
+							bullet.setPositionWithoutChecking(getEntityPositionX(), getEntityPositionY());
+							addOneBulletToShip(bullet);
 						}
 
 						// If the bullet overlaps with a different ship, the two will be terminated.
@@ -798,7 +771,7 @@ public class Ship extends Entity {
 	 * 		  | new.isThrusterActive == True
 	 */
 	private void thrustOn() {
-		this.thruster_activity= true;
+		thruster_activity= true;
 	}
 
 	/**
@@ -808,7 +781,7 @@ public class Ship extends Entity {
 	 * 		  | new.isThrusterActive == False
 	 */
 	private void thrustOff() {
-		this.thruster_activity = false;
+		thruster_activity = false;
 	}
 	
 
@@ -822,16 +795,16 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public void Terminate() {
-		if (this.isEntityFree())
+		if (isEntityFree())
 			setEntityState(State.TERMINATED);
 		
-		else if (this.isEntityInWorld()) {
-			this.getEntityWorld().removeEntityFromWorld(this);
+		else if (isEntityInWorld()) {
+			getEntityWorld().removeEntityFromWorld(this);
 			setEntityState(State.TERMINATED);
 		}
 
-		for (Bullet bullet : this.getShipBullets()) {
-			this.removeBulletFromShip(bullet);
+		for (Bullet bullet : getShipBullets()) {
+			removeBulletFromShip(bullet);
 			bullet.Terminate();
 		}
 	}
@@ -863,7 +836,7 @@ public class Ship extends Entity {
 	 */
 	@Override
 	protected void entityAndShipCollide(Ship ship, double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
-		this.doubleShipOrMinorPlanetCollide(ship,defaultEvolvingTime);		
+		this.doubleShipOrMinorPlanetCollide(ship, defaultEvolvingTime);		
 	}
 
 }

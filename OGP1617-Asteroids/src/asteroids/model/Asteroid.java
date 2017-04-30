@@ -162,11 +162,11 @@ public class Asteroid extends MinorPlanet {
 	 * 			@see implementation
 	 */
 	public void Terminate() {
-		if (this.isEntityFree())
+		if (isEntityFree())
 			setEntityState(State.TERMINATED);
 		
-		else { //if (this.isEntityInWorld()) {
-			this.getEntityWorld().removeEntityFromWorld(this);
+		else if (isEntityInWorld()) {
+			getEntityWorld().removeEntityFromWorld(this);
 			setEntityState(State.TERMINATED);
 		}
 	}

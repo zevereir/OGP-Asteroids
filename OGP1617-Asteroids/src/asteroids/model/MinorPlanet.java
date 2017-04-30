@@ -158,15 +158,15 @@ public abstract class MinorPlanet extends Entity{
 	 * @effect 	If the entity is a MinorPlanet, the collision will be resolved by doubleShipOrMinorPlanetCollide(...).
 	 * 			@see implementation
 	 */
-	protected void minorPlanetAndEntityCollide(Entity entity,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
+	protected void entityAndMinorPlanetCollide(Entity entity,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
 		if (entity instanceof Ship)
-			this.entityAndShipCollide((Ship)entity, collisionPosition, defaultEvolvingTime, collisionListener);
+			entityAndShipCollide((Ship)entity, collisionPosition, defaultEvolvingTime, collisionListener);
 		
 		if (entity instanceof Bullet)
-			this.entityAndBulletCollide((Bullet)entity, collisionPosition, collisionListener);
+			entityAndBulletCollide((Bullet)entity, collisionPosition, collisionListener);
 		
 		if (entity instanceof MinorPlanet)
-			this.doubleShipOrMinorPlanetCollide((MinorPlanet)entity,defaultEvolvingTime);	
+			doubleShipOrMinorPlanetCollide((MinorPlanet)entity,defaultEvolvingTime);	
 	}
 	
 }

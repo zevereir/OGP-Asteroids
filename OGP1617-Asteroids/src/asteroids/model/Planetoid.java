@@ -171,7 +171,7 @@ public class Planetoid extends MinorPlanet {
 	 * 			@see implementation
 	 */
 	protected final double getPlanetoidInitialRadius(){
-		return this.initial_radius;
+		return initial_radius;
 	}
 	
 	
@@ -318,7 +318,7 @@ public class Planetoid extends MinorPlanet {
 		double y_distance = getEntityVelocityY()*time;
 		double total_traveled_distance = getPlanetoidTotalTraveledDistance() + getEuclidianDistance(x_distance,y_distance);
 		
-		this.setPlanetoidTotalTraveledDistance(total_traveled_distance);
+		setPlanetoidTotalTraveledDistance(total_traveled_distance);
 		
 		updatePlanetoidRadius();
 	}
@@ -341,11 +341,11 @@ public class Planetoid extends MinorPlanet {
 		if (this.isEntityFree())
 			setEntityState(State.TERMINATED);
 
-		else {// if (this.isEntityInWorld()) {
+		else if (this.isEntityInWorld()) {
 			if (getEntityRadius() >=30)
 				planetoidDivision();
 			else
-				this.getEntityWorld().removeEntityFromWorld(this);
+				getEntityWorld().removeEntityFromWorld(this);
 			
 			setEntityState(State.TERMINATED);
 		}
@@ -403,7 +403,6 @@ public class Planetoid extends MinorPlanet {
 		} catch (IllegalArgumentException illegalArgumentException) {
 			child2.Terminate();
 		}
-
 	}
 
 	

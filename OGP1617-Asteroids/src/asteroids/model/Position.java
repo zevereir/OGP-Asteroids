@@ -26,8 +26,8 @@ public class Position {
 	 * 			@see implementation
 	 */
 	private Position(double positionX, double positionY) {
-		this.setPositionX(positionX);
-		this.setPositionY(positionY);
+		setPositionX(positionX);
+		setPositionY(positionY);
 	}
 	
 	

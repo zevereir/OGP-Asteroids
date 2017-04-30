@@ -163,7 +163,7 @@ public class World {
 	 * 			@see implementation
 	 */
 	protected double getWorldWidth() {
-		return this.getWorldSize()[0];
+		return getWorldSize()[0];
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class World {
 	 * 			@see implementation
 	 */
 	protected double getWorldHeight() {
-		return this.getWorldSize()[1];
+		return getWorldSize()[1];
 	}
 
 	/**
@@ -466,7 +466,7 @@ public class World {
 	 * 			@see implementation
 	 */
 	public boolean isWorldTerminated() {
-		return this.getState() == State.TERMINATED;
+		return (getState() == State.TERMINATED);
 	}
 
 
@@ -538,7 +538,7 @@ public class World {
 	 */
 	public void removeEntityFromWorld(Entity entity) throws IllegalArgumentException  {
 		
-		if (!this.getWorldEntities().contains(entity))
+		if (!getWorldEntities().contains(entity))
 			throw new IllegalArgumentException();
 		
 		else{
@@ -562,7 +562,7 @@ public class World {
 			throw new IllegalArgumentException();
 		
 		// A world cannot evolve if there are no entities
-		else if (!this.getWorldEntities().isEmpty()) {
+		else if (!getWorldEntities().isEmpty()) {
 
 			// Determine time till the first collision.
 			double timeToCollision = getTimeNextCollision();
@@ -640,8 +640,8 @@ public class World {
 	 * 		  | new.getCollisionEntity2() ==null
 	 */
 	private void resetCollisionEntities(){
-		collision_entity_1=null;
-		collision_entity_2=null;
+		collision_entity_1 = null;
+		collision_entity_2 = null;
 	}
 	
 	/**

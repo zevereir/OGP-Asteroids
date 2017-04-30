@@ -496,7 +496,7 @@ public class Bullet extends Entity {
 			setEntityState(State.TERMINATED);		
 		
 		// In all the other cases, the bullet lays inside a world, and will be terminated and removed from this world.
-		else { //if (isEntityInWorld()) {
+		else if (isEntityInWorld()) {
 			getEntityWorld().removeEntityFromWorld(this);
 			setEntityState(State.TERMINATED);
 		}
@@ -547,21 +547,16 @@ public class Bullet extends Entity {
 		if (counter < getMaximumBulletBounce()){
 			setAmountOfBounces(counter + 1);
 
-			double VelocityX = getEntityVelocityX();
-			double VelocityY = getEntityVelocityY();
+			double VelocityX = this.getEntityVelocityX();
+			double VelocityY = this.getEntityVelocityY();
 			
-			//The bullet collides in one of the corners
-			if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
-				setEntityVelocity(-VelocityX, -VelocityY);
+			if (collideHorizontalBoundary(this, collisionPosition))
+				VelocityY = -VelocityY;
 			
-			// The bullet will collide with an horizontal boundary.
-			else if (collideHorizontalBoundary(this, collisionPosition))
-				setEntityVelocity(VelocityX, -VelocityY);
-
-			// The bullet will collide with an vertical boundary.
-			else if (collideVerticalBoundary(this, collisionPosition))
-				setEntityVelocity(-VelocityX, VelocityY);
+			if (collideVerticalBoundary(this, collisionPosition))
+				VelocityX = -VelocityX;
 			
+			setEntityVelocity(VelocityX, VelocityY);
 			World world = getEntityWorld();
 			world.updatePositionListAfterCollision(this, defaultEvolvingTime);	
 		}
