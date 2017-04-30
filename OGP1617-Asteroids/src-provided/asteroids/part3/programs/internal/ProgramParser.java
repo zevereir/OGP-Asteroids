@@ -13,11 +13,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
-import asteroids.model.Program;
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.part3.programs.internal.generated.AsteroidsProgramLexer;
 import asteroids.part3.programs.internal.generated.AsteroidsProgramParser;
 import asteroids.util.internal.ResourceUtils;
+import program.Program;
 
 /**
  * Parser for Asteroids programs.

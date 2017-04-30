@@ -8,7 +8,6 @@ import asteroids.model.Bullet;
 import asteroids.model.Entity;
 import asteroids.model.Ship;
 import asteroids.model.Planetoid;
-import asteroids.model.Program;
 import asteroids.model.Asteroid;
 
 
@@ -17,6 +16,7 @@ import asteroids.part2.CollisionListener;
 
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.util.ModelException;
+import program.Program;
 
 
 

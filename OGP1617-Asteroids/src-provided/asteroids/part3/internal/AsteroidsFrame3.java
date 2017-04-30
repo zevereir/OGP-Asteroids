@@ -11,7 +11,6 @@ import java.util.Set;
 import asteroids.model.Asteroid;
 import asteroids.model.Bullet;
 import asteroids.model.Planetoid;
-import asteroids.model.Program;
 import asteroids.model.Ship;
 import asteroids.model.World;
 import asteroids.part2.internal.AsteroidsFrame2;
@@ -23,6 +22,7 @@ import asteroids.part3.programs.IProgramFactory;
 import asteroids.part3.programs.internal.ParseOutcome;
 import asteroids.part3.programs.internal.ProgramParser;
 import asteroids.util.ModelException;
+import program.Program;
 
 @SuppressWarnings("serial")
 public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
