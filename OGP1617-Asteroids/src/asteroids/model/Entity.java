@@ -50,9 +50,8 @@ public abstract class Entity {
 	 * 			The density of the entity.
 	 * 
 	 * @effect 	The properties will be set on their given values.
-	 * 			@see implementation
-	 * 			
-	 ***/
+	 * 			@see implementation 			
+	 **/
 	protected Entity(double positionX, double positionY, double velocityX, double velocityY, double radius,
 			double orientation, double mass, double maxVelocity, double density) {
 		setEntityRadius(radius);
@@ -98,6 +97,7 @@ public abstract class Entity {
 	 * A constant that is used to "correct" the errors that occur when using double values.
 	 */
 	private final static double GAMMA = 0.01;
+	
 	
 	/// DEFAULTS ///
 
@@ -356,10 +356,8 @@ public abstract class Entity {
 	 * 		  |   result[0] == (getEntityPosition - radius) || 
 	 * 		  |   result[1] == (getEntityPosition - radius)  
 	 * 
-	 * @throws	IllegalAccesError
-	 * 			It should be impossible, once in the else-statement, to not-touch with one of the
-	 * 			boundaries of the world. When this is the case, the IlligalAccesError will
-	 * 			be thrown.
+	 * @throws	IllegalAccesError, it should be impossible, once in the else-statement, to not-touch with one of the
+	 * 			boundaries of the world. When this is the case, the IlligalAccesError will be thrown.
 	 * 			@see implementation
 	 */
 	public double[] getPositionCollisionBoundary() {
@@ -784,6 +782,7 @@ public abstract class Entity {
 
 	/**
 	 * Set the velocity of the entity on the given velocity.
+	 * 
 	 * @param 	velocityX
 	 * 			The new x-value of the velocity.
 	 * @param 	velocityY
@@ -935,14 +934,10 @@ public abstract class Entity {
 	 * 			The x-value of the position that has to be checked.
 	 * @param 	positionY
 	 * 			the y-value of the position that has to be checked.
+	 * 
 	 * @return  false if the x- or y-value of the position is not a number.
-	 * 		  | if ((!Double.isNaN(positionX)) || (!Double.isNaN(positionY)))
-	 *		  | result == false
-	 * @return  true if the boolean is not changed to false and if the entity doesn't belong to a world.
-	 * 		  | ((this.getEntityWorld() == null) && Boolean == true)
-	 *		  | result == true		
+	 * 			@see implementation
 	 * @return 	true if the ship belongs to a world,the boolean is still true and the entity fits in the world.
-	 * 		  | if ((this.getEntityWorld() != null) && Boolean == true)
 	 * 			@see implementation
 	 */
 	private boolean isValidPosition(double positionX, double positionY) {
@@ -1009,6 +1004,7 @@ public abstract class Entity {
 	 * 
 	 * @param 	world
 	 * 			The world that has to be checked.
+	 * 
 	 * @return 	False if the entity is a ship and it does not fit in the world.
 	 *		  | if (!entityFitsInWorld(world))
 	 *		  |   result == false
@@ -1156,11 +1152,13 @@ public abstract class Entity {
 	
 	/**
 	 * A function that resolves the collision between two ships or two minor planets.
-	 * @param entity 
-	 * 			the entity that will collide with the entity where the method is invoked on.
-	 * @post the velocities of the entities will be changed, the calculation is in the implementation.
+	 * 
+	 * @param 	entity 
+	 * 			The entity that will collide with the entity where the method is invoked on.
+	 * 
+	 * @post 	The velocities of the entities will be changed, the calculation is in the implementation.
 	 * 			@see implementation
-	 * @post when the collision is resolved, the position_list will be updated.
+	 * @post 	When the collision is resolved, the position_list will be updated.
 	 * 			@see implementation
 	 */
 	protected void doubleShipOrMinorPlanetCollide(Entity entity,double defaultEvolvingTime){
@@ -1202,8 +1200,6 @@ public abstract class Entity {
 		World world = this.getEntityWorld();
 		world.updatePositionListAfterCollision(this,entity, defaultEvolvingTime);
 	}
-	
-	
 
 	
 	/// MOVE ///
@@ -1240,7 +1236,7 @@ public abstract class Entity {
 	 * 			The other entity.
 	 * @return	True if the entity where this method is invoked on and entity are the same.
 	 * 		  | if(this.equals(entity))
-	 * 		  | result == true
+	 * 		  |   result == true
 	 * @return	True if the distance between the two entities is negative.
 	 *		  | result == (this.getDistanceBetween(otherEntity) < 0)
 	 */
@@ -1297,16 +1293,12 @@ public abstract class Entity {
 	 * 			A variable used to visualize the explosions.
 	 * 
 	 * @effect 	If the given entity is null, the entity where the method is invoked on will collide with a boundary.
-	 * 		  | if (entity == null)
 	 * 			@see implementation
 	 * @effect 	If the given entity is a ship, the entity where the method is invoked on will collide with this ship.
-	 * 		  | if (entity instanceof Ship)
 	 * 			@see implementation
 	 * @effect 	If the given entity is a minor planet, the entity where the method is invoked on will collide with this minor planet.
-	 * 		  | if (entity instanceof MinorPlanet)
 	 * 			@see implementation
 	 * @effect 	If the given entity is a bullet, the entity where the method is invoked on will collide with this bullet.
-	 * 		  | if (entity instanceof Bullet)
 	 * 			@see implementation
 	 */
 	protected void letCollisionHappen(Entity entity,double[] collisionPosition,double defaultEvolvingTime, CollisionListener collisionListener){

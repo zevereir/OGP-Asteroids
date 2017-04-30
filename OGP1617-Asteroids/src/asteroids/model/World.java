@@ -192,7 +192,8 @@ public class World {
 
 	/**
 	 * Returns Collision Entity 1.
-	 * @return the entity
+	 * 
+	 * @return 	The entity
 	 * 			@see implementation
 	 */
 	private Entity getCollisionEntity1(){
@@ -201,7 +202,8 @@ public class World {
 	
 	/**
 	 * Returns Collision Entity 2.
-	 * @return the entity
+	 * 
+	 * @return 	The entity
 	 * 			@see implementation
 	 */
 	private Entity getCollisionEntity2(){
@@ -216,11 +218,9 @@ public class World {
 	 * 
 	 * @return 	The position of collision between two entities, this is the position if both collision_entity_1 and 
 	 * 			collision_entity_2 are not null.
-	 * 			|if (getCollisionEntity1() != null && getCollisionEntity2() != null)
 	 * 			@see implementation
 	 * @return	The position of collision between an entity and a boundary of the world, this is the position 
 	 * 			when collision_entity_1 is not null, but collision_entity_2 is. 
-	 * 			|if (getCollisionEntity1() != null && getCollisionEntity2() == null)
 	 * 			@see implementation
 	 * @return 	An array of two with both values set to POSITIVE_INFINITY, this is when there are no collisions, so 
 	 * 			both collision_entity_1 and collision_entity_2 are null.
@@ -256,15 +256,11 @@ public class World {
 	 *		  | setCollisionEntity1(entity)
 	 *		  | setCollisionEntity2(null)
 	 *		  | new.minimumCollisionTime <= minimumCollisionTime.
-	 * 			@see implementation
-	 * 
-	 * @post 	If there is a collision, collision_entity_1 and collision_entity_2 
-	 * 			will be set on the entities that collide (entity1 and entity2).  
-	 * 			Minimum collision time will be smaller than its previous value.
+	 * @effect 	If there is a collision, collision_entity_1 and collision_entity_2 will be set on the entities that 
+	 * 			collide (entity1 and entity2). Minimum collision time will be smaller than its previous value.
 	 *		  | setCollisionEntity1(entity1)
 	 *		  | setCollisionEntity2(entity2)
 	 *		  | new.minimumCollisionTime <= minimumCollisionTime.
-	 * 			@see implementation
 	 * 
 	 * @return 	The time till the first collision in a world will happen.
 	 * 			@see implementation
@@ -389,10 +385,11 @@ public class World {
 	
 	/**
 	 * Set the variable collision_entity_1 to a given entity.
-	 * @param entity
+	 * 
+	 * @param 	entity
 	 * 			The entity that will collide
-	 * @post collision_entity_1 will be equal to the given entity
-	 * 			|new.getCollisionEntity1 == entity.
+	 * @post 	collision_entity_1 will be equal to the given entity
+	 * 		  | new.getCollisionEntity1 == entity.
 	 */
 	private void setCollisionEntity1(Entity entity){
 		collision_entity_1 = entity;
@@ -400,10 +397,11 @@ public class World {
 	
 	/**
 	 * Set the variable collision_entity_2 to a given entity.
-	 * @param entity
+	 * 
+	 * @param 	entity
 	 * 			The entity that will collide
-	 * @post collision_entity_2 will be equal to the given entity
-	 * 			|new.getCollisionEntity2 == entity.
+	 * @post 	collision_entity_2 will be equal to the given entity
+	 * 		  | new.getCollisionEntity2 == entity.
 	 */
 	private void setCollisionEntity2(Entity entity){
 		collision_entity_2 = entity;
@@ -414,9 +412,11 @@ public class World {
 	
 	/**
 	 * Checks if a width or height is valid.
-	 * @param length
+	 * 
+	 * @param 	length
 	 * 			The width or height that has to be checked.
-	 * @return The boolean that checks the length.
+	 * 
+	 * @return 	The boolean that checks the length.
 	 * 			@see implementation
 	 */
 	private boolean isValidWidthOrHeight(double length){
@@ -428,7 +428,8 @@ public class World {
 	 *  
 	 * @param 	entity
 	 * 			The entity that has to be checked.
-	 * @return The boolean that checks if the entity can have this world as its world.
+	 * 
+	 * @return 	The boolean that checks if the entity can have this world as its world.
 	 * 			@see implementation
 	 */
 	protected boolean canHaveAsEntity(Entity entity) {		
@@ -501,8 +502,7 @@ public class World {
 	 * @effect	The entity's world will be set on "this", which represents this world.
 	 * 		  | entity.setEntityInWorld(this)
 	 * 
-	 * @throws 	IllegalArgumentException
-	 * 			If the world cannot have this entity.
+	 * @throws 	IllegalArgumentException if the world cannot have this entity.
 	 * 		  | (!canHaveAsEntity(entity))
 	 *
 	 */
@@ -533,8 +533,7 @@ public class World {
 	 * @effect 	The entity will be set on state NO_WORLD.
 	 * 		  | entity.setEntityFree()
 	 * 
-	 * @throws 	IllegalArgumentException
-	 * 			If the world doesn't have the entity.
+	 * @throws 	IllegalArgumentException if the world doesn't have the entity.
 	 * 			@see implementation
 	 */
 	public void removeEntityFromWorld(Entity entity) throws IllegalArgumentException  {
@@ -550,14 +549,12 @@ public class World {
 	}
 		
 
-
 	/// EVOLVE ///
 	
 	/**
 	 * Evolve the world by the given time "defaultEvolvingTime" and resolve collisions that will happen.
 	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * @note	The method does not have a specification. See the assignment for more information.
 	 */
 	public void evolve(double defaultEvolvingTime, CollisionListener collisionListener) {
 		//A world cannot evolve if defaultEvolvingTime is not a finite number. 
@@ -620,7 +617,6 @@ public class World {
 			}
 		}
 	}
-	
 	
 	
 	/// COLLISION-FUNCTIONS ///
@@ -715,9 +711,9 @@ public class World {
 	private State state = State.NOT_TERMINATED;
 
 	/**
-	 * The two states of a world
-	 * NOT_TERMINATED: the world is not terminated.
-	 * TERMINATED: the world doesn't exist anymore, so it's terminated.
+	 * The two states of a world:
+	 *   NOT_TERMINATED: the world is not terminated.
+	 *   TERMINATED: the world doesn't exist anymore, so it's terminated.
 	 */
 	private static enum State {
 		NOT_TERMINATED, TERMINATED;
