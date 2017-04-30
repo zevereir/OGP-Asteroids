@@ -21,8 +21,8 @@ import asteroids.part3.facade.IFacade;
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.part3.programs.internal.ParseOutcome;
 import asteroids.part3.programs.internal.ProgramParser;
+import asteroids.program.Program;
 import asteroids.util.ModelException;
-import program.Program;
 
 @SuppressWarnings("serial")
 public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {

@@ -15,8 +15,8 @@ import asteroids.model.World;
 import asteroids.part2.CollisionListener;
 
 import asteroids.part3.programs.IProgramFactory;
+import asteroids.program.Program;
 import asteroids.util.ModelException;
-import program.Program;
 
 
 

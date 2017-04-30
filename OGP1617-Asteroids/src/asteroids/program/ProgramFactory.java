@@ -1,4 +1,4 @@
-package program;
+package asteroids.program;
 
 import java.util.List;
 

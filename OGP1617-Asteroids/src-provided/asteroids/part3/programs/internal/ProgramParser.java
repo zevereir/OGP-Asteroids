@@ -16,8 +16,8 @@ import org.antlr.v4.runtime.Recognizer;
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.part3.programs.internal.generated.AsteroidsProgramLexer;
 import asteroids.part3.programs.internal.generated.AsteroidsProgramParser;
+import asteroids.program.Program;
 import asteroids.util.internal.ResourceUtils;
-import program.Program;
 
 /**
  * Parser for Asteroids programs.
