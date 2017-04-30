@@ -44,13 +44,15 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 	
 	@Override
 	public void startGame() {
-		// Set op a world with 1 ship for the player and a random number
+		// Set in a world with 1 ship for the player and a random number
 		// of enemy ships.
 		World world;
 		Ship player;
 		IFacade facade = getFacade();
 		int width = getWidth();
 		int height = getHeight();
+		
+		// Create the main ship (the ship for the player).
 		try {
 			world = facade.createWorld(width, height);
 			player = facade.createShip(width / 2., height / 2., 1, 6, 40, 0, 3.9e17);
@@ -59,7 +61,7 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 			handleError(e);
 			return;
 		}
-
+		// Load 50 bullets onto the players ship.
 		for (int i = 1; i < 50; i++) {
 			try {
 				Bullet bullet = facade.createBullet(width / 2.0, height / 2.0, 0, 0, Math.random() + 2);
@@ -68,6 +70,8 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 				handleError(e);
 			}
 		}
+		
+		// Spawn a random number of asteroids.
 		int nbAsteroids = (int) (Math.random() * 4 + 1);
 		Set<Asteroid> asteroids = new HashSet<>();
 		for (int j = 0; j < nbAsteroids; j++) {
@@ -79,9 +83,11 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 					asteroids.add(asteroid);
 				}
 			} catch (ModelException exc) {
-				// so be it
+				// so be it		(daaaaaaamn gurl)
 			}
 		}
+		
+		// Spawn a random number of planetoids.
 		int nbPlanetoids = (int) (Math.random() * 4 + 1);
 		Set<Planetoid> planetoids = new HashSet<>();
 		for (int j = 0; j < nbPlanetoids; j++) {
@@ -96,6 +102,8 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 				// so be it
 			}
 		}
+		
+		// Spawn a random number of free bullets.
 		int nbBullets = (int) (Math.random() * 3);
 		for (int j = 0; j < nbBullets; j++) {
 			try {
@@ -106,6 +114,8 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 				// so be it
 			}
 		}
+		
+		// Start the game.
 		try {
 			WorldView3 view = new WorldView3(this, world, player, null);
 			switchContent(view);
@@ -122,13 +132,18 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 		int height = getHeight();
 		World world;
 		Ship playerHuman, playerAI;
+		
+		// Create the world.
 		try {
 			world = facade.createWorld(width, height);
 			playerHuman = facade.createShip(width / 5 * 4, height / 2., 0, 0, 40, Math.PI, 3.9e17);
 			facade.addShipToWorld(world, playerHuman);
+			
+			// Create the AI ship.
 			playerAI = facade.createShip(width / 5, height / 2., 0, 0, 40, 0, 5E15);
 			facade.addShipToWorld(world, playerAI);
 			
+			// Add bullets to the ship of the player.
 			for (int i = 1; i < 50; i++) {
 				try {
 					Bullet bullet = facade.createBullet(width / 5 * 4, height / 2., 0, 0, Math.random() + 2);
@@ -137,6 +152,8 @@ public class AsteroidsFrame3 extends AsteroidsFrame2<IFacade> {
 					handleError(e);
 				}
 			}
+			
+			// Add bullets to the ship of the AI.
 			for (int i = 1; i < 50; i++) {
 				try {
 					Bullet bullet = facade.createBullet(width / 5, height / 2., 0, 0, Math.random() + 2);

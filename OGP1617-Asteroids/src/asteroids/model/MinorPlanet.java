@@ -1,6 +1,7 @@
 package asteroids.model;
 
 import asteroids.part2.CollisionListener;
+
 /**
  * A class that describes minor planets (asteroids and planetoids). A minor planet has a position and
  * a velocity, both are described in a Cartesian xy-field. It also has an
@@ -20,12 +21,14 @@ import asteroids.part2.CollisionListener;
  * @invar 	The density is a valid density.
  * 		  | isValidDensity(this.getEntityDensity)
  * 
- * @version 8th of April
+ * @version 29th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */
 public abstract class MinorPlanet extends Entity{
-	///CONSTRUCTOR///
+	
+	/// CONSTRUCTOR ///
+	
 	/**
 	 * Initializes a new minor planet with given parameters.
 	 * 
@@ -60,10 +63,10 @@ public abstract class MinorPlanet extends Entity{
 			double orientation, double mass, double maxVelocity, double density) {
 		super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
 		setEntityMass(MassFormula(radius, density));
-		
 	}
 	
-	///DEFAULTS///
+	/// DEFAULTS ///
+	
 	/**
 	 * The lower radius for a minor planet.
 	 */
@@ -71,14 +74,14 @@ public abstract class MinorPlanet extends Entity{
 	
 	/**
 	 * Returns the lower radius a minor planet can have.
-	 * @return the radius.
+	 * 
+	 * @return 	The radius.
 	 * 			@see implementation
 	 */
 	protected static double getDefaultMinorPlanetRadius(){
 		return LOWER_MINOR_PLANET_RADIUS;
 	}
-	
-	
+
 	
 	///SETTERS///
 
@@ -90,8 +93,8 @@ public abstract class MinorPlanet extends Entity{
 	 * 
 	 * @post 	The new mass will be equal to the given mass.
 	 * 			@see implementation
-	 * @throws  IllegalArgumentException
-	 * 			if the given mass isn't valid.
+	 * 
+	 * @throws  IllegalArgumentException if the given mass isn't valid.
 	 * 			@see implementation
 	 */
 	@Override
@@ -100,11 +103,11 @@ public abstract class MinorPlanet extends Entity{
 			this.mass = mass;
 		else
 			throw new IllegalArgumentException();
-		
-		
 	}	
 	
-	///CHECKERS///
+	
+	/// CHECKERS ///
+	
 	/**
 	 * Checks if a mass is valid for this minor planet.
 	 * 
@@ -131,39 +134,39 @@ public abstract class MinorPlanet extends Entity{
 	@Override
 	protected boolean isValidRadius(double radius) {
 		return (radius >= LOWER_MINOR_PLANET_RADIUS);
-		}
-
+	}
 
 	
-	///COLLISION///
+	/// COLLISION ///
 	
 	/**
 	 * Resolves the collisions with other entities.
-	 * @param entity
+	 * 
+	 * @param 	entity
 	 * 			The entity the minor planet collides with.
-	  *@param collisionPosition
+	  *@param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect if the entity is a ship, the collision will be resolved by entityAndShipCollide(...).
-	 * 			|if(entity instanceof Ship)
+	 * 
+	 * @effect 	If the entity is a ship, the collision will be resolved by entityAndShipCollide(...).
 	 * 			@see implementation
-	 * @effect if the entity is a Bullet, the collision will be resolved by entityAndBulletCollide(...).
-	 * 			|if(entity instanceof Bullet)
+	 * @effect 	If the entity is a Bullet, the collision will be resolved by entityAndBulletCollide(...).
 	 * 			@see implementation
-	 * @effect if the entity is a MinorPlanet, the collision will be resolved by doubleShipOrMinorPlanetCollide(...).
-	 * 			|if(entity instanceof Ship)
+	 * @effect 	If the entity is a MinorPlanet, the collision will be resolved by doubleShipOrMinorPlanetCollide(...).
 	 * 			@see implementation
 	 */
 	protected void minorPlanetAndEntityCollide(Entity entity,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
 		if (entity instanceof Ship)
 			this.entityAndShipCollide((Ship)entity, collisionPosition, defaultEvolvingTime, collisionListener);
+		
 		if (entity instanceof Bullet)
 			this.entityAndBulletCollide((Bullet)entity, collisionPosition, collisionListener);
-		if (entity instanceof MinorPlanet){
+		
+		if (entity instanceof MinorPlanet)
 			this.doubleShipOrMinorPlanetCollide((MinorPlanet)entity,defaultEvolvingTime);	
-		}
 	}
+	
 }

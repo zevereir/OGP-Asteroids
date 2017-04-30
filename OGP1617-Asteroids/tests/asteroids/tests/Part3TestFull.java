@@ -684,6 +684,8 @@ public class Part3TestFull {
       bullets.add(bullet1);
       bullets.add(bullet2);
       bullets.add(bullet3);
+      bullets.add(bullet3);
+      
       facade.loadBulletsOnShip(ship, bullets);
       assertEquals(3, facade.getNbBulletsOnShip(ship));
       assertTrue(facade.getBulletsOnShip(ship).contains(bullet1));

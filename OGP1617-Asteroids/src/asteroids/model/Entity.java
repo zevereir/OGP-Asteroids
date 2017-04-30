@@ -1,6 +1,5 @@
 package asteroids.model;
 
-
 import asteroids.part2.CollisionListener;
 import be.kuleuven.cs.som.annotate.*;
  
@@ -20,7 +19,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar 	The density is a valid density.
  * 		  | isValidDensity(this.getEntityDensity)
  * 
- * @version 8th of April
+ * @version 30th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */
@@ -170,8 +169,6 @@ public abstract class Entity {
 	
 	/// GETTERS ///
 
-
-
 	/**
 	 * Calculate the distance between two entities.
 	 * 
@@ -180,8 +177,8 @@ public abstract class Entity {
 	 *            
 	 * @return	If this (the entity the method is invoked on) and otherEntity are the
 	 *			same entity, the distance between equals zero. 
-	 *			|if (this.equals(entity))
-	 *			|result == 0
+	 *		  | if (this.equals(entity))
+	 *		  | result == 0
 	 * @return	The distance between the two entities if they're not the same. This
 	 *			is calculated by subtracting the sum of the radii of the entities
 	 *			from the distance between the centers.  
@@ -220,7 +217,8 @@ public abstract class Entity {
 
 	/**
 	 * Returns the mass of the entity.
-	 * @return the mass.
+	 * 
+	 * @return 	the mass.
 	 * 			@see implementation
 	 */
 	public double getEntityMass() {
@@ -310,7 +308,7 @@ public abstract class Entity {
 	/**
 	 * Returns the entity's y-velocity value.
 	 * 
-	 * @return the y-value of the velocity.
+	 * @return 	The y-value of the velocity.
 	 * 			@see implementation
 	 */
 	protected double getEntityVelocityY() {
@@ -348,15 +346,15 @@ public abstract class Entity {
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @return	Null if the time till collision equals POSITIVE_INFINITY.
-	 * 			|if getTimeCollisionBoundary() == Double.POSITIVE_INFINITY
-	 * 			|result == null
+	 * 		  | if getTimeCollisionBoundary() == Double.POSITIVE_INFINITY
+	 * 		  | result == null
 	 * @return	The collision position of the given entity when it's colliding with a boundary of the world.
 	 * 			This would be after the given entity moved over a time-laps of getTimeCollisionBoundary().
-	 *		  	| move(getTimeCollisionBoundary)
-	 * 		  	| result[0] == (getEntityPosition + radius) || 
-	 * 		  	| result[1] == (getEntityPosition + radius) || 
-	 * 		  	| result[0] == (getEntityPosition - radius) || 
-	 * 		 	| result[1] == (getEntityPosition - radius)  
+	 *		  | move(getTimeCollisionBoundary)
+	 * 		  | result[0] == (getEntityPosition + radius) || 
+	 * 		  |   result[1] == (getEntityPosition + radius) || 
+	 * 		  |   result[0] == (getEntityPosition - radius) || 
+	 * 		  |   result[1] == (getEntityPosition - radius)  
 	 * 
 	 * @throws	IllegalAccesError
 	 * 			It should be impossible, once in the else-statement, to not-touch with one of the
@@ -364,7 +362,6 @@ public abstract class Entity {
 	 * 			be thrown.
 	 * 			@see implementation
 	 */
-	
 	public double[] getPositionCollisionBoundary() {
 		double time = getTimeCollisionBoundary();
 		double collidingPositionX = 0;
@@ -392,23 +389,33 @@ public abstract class Entity {
 			// Right boundary
 			if ((collidingPositionX + OMEGA * radius) <= width && width <= (collidingPositionX + BETA * radius)){
 				collidingPositionX += radius;
-				collision_happened = true;}
-			
+				collision_happened = true;
+			}
 			// Left boundary
-			 if ((collidingPositionX - BETA * radius) <= 0 && 0 <= (collidingPositionX - OMEGA * radius)){
+			if ((collidingPositionX - BETA * radius) <= 0 && 0 <= (collidingPositionX - OMEGA * radius)){
 				collidingPositionX -= radius;
-				collision_happened = true;}
+				collision_happened = true;
+			}
 			// Upper boundary
 			if ((collidingPositionY + OMEGA * radius) <= height && height <= (collidingPositionY + BETA * radius)){
 				collidingPositionY += radius;
-				collision_happened = true;}
+				collision_happened = true;
+			}
 			// Lower boundary
 			if ((collidingPositionY - BETA * radius) <= 0 && 0 <= (collidingPositionY - OMEGA * radius)){
 				collidingPositionY -= radius;
-				collision_happened = true;}
-			// If none of the above statements were correct, there was a fault!
+				collision_happened = true;
+			}
+			
+			// It should not be possible to get to this state, but if an entity does, we can assume that the entity isn't touching 
+			// the boundary which means it is or inside the world, or overlapping the boundary, or outside the world. 
+			// In the former two cases, we terminate the entity.
 			else if (!collision_happened) {
-				throw new IllegalAccessError();
+				if (! entityFitsInWorld(this.getEntityWorld()))
+					this.Terminate();
+				
+				else
+					throw new IllegalAccessError();
 			}
 		}
 		
@@ -424,8 +431,8 @@ public abstract class Entity {
 	 *         	The other entity.
 	 *            
 	 * @return 	Null if the time until the collision is positive infinity.
-	 * 			|if this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY
-	 * 			|result == null
+	 * 		  | if this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY
+	 * 		  | result == null
 	 * @return	The position of collision, which  is calculated by moving the ships
 	 *         	at their respective velocities for the time until collision. 
 	 *         	delta_x is the difference of the x-coordinates of the two ships when they
@@ -501,15 +508,15 @@ public abstract class Entity {
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @return 	Positive infinity if the entity has no world or a proper state. 
-	 * 			|if (!this.isEntityInWorld() && this.hasEntityProperState())
-				|result == Double.POSITIVE_INFINITY
+	 * 		  | if (!this.isEntityInWorld() && this.hasEntityProperState())
+			  | result == Double.POSITIVE_INFINITY
 	 * @return 	The time till collision with one of the boundaries of the world.
 	 * 			If the entity has no velocity, the entity will not collide with a boundary. In this case 
 	 * 			POSITIVE_INFINITY will be returned.
 	 *			@see implementation
 	 */
 	public double getTimeCollisionBoundary() {
-		if (!this.isEntityInWorld() && this.hasEntityProperState())
+		if (! this.isEntityInWorld() && this.hasEntityProperState())
 			return Double.POSITIVE_INFINITY;
 		
 		else {
@@ -529,37 +536,25 @@ public abstract class Entity {
 			double distanceTillUpperBoundary = (height - (positionY + radius));
 			double distanceTillLowerBoundary = (positionY - radius);
 
-			double timeCollisionRight = Double.POSITIVE_INFINITY;
-			double timeCollisionLeft = Double.POSITIVE_INFINITY;
-			double timeCollisionUp = Double.POSITIVE_INFINITY;
-			double timeCollisionDown = Double.POSITIVE_INFINITY;
-
-			// Calculate the time, if so, till the collision will happen with each boundary.
-			if (velocityX > 0)
-				timeCollisionRight = Math.abs(distanceTillRightBoundary / velocityX);
+			double timeCollisionHorizontal = Double.POSITIVE_INFINITY;
+			double timeCollisionVertical = Double.POSITIVE_INFINITY;
 			
-			if (velocityX < 0)
-				timeCollisionLeft = Math.abs(distanceTillLeftBoundary / velocityX);
+			// Calculate the time, if so, till the collision with each boundary.
+			if (velocityX > 0)
+				timeCollisionHorizontal = Math.abs(distanceTillRightBoundary / velocityX);
+			
+			else if (velocityX < 0)
+				timeCollisionHorizontal = Math.abs(distanceTillLeftBoundary / velocityX);
 			
 			if (velocityY > 0)
-				timeCollisionUp = Math.abs(distanceTillUpperBoundary / velocityY);
+				timeCollisionVertical = Math.abs(distanceTillUpperBoundary / velocityY);
 			
-			if (velocityY < 0)
-				timeCollisionDown = Math.abs(distanceTillLowerBoundary / velocityY);
+			else if (velocityY < 0)
+				timeCollisionVertical = Math.abs(distanceTillLowerBoundary / velocityY);
 
-			// Check the time until the entity will collide with the first boundary.
-			//Vertical
-			if (Math.min(timeCollisionLeft, timeCollisionRight) <= Math.min(timeCollisionUp, timeCollisionDown))
-				//left or right
-				return Math.min(timeCollisionLeft, timeCollisionRight);
-			//Horizontal
-			else if (Math.min(timeCollisionLeft, timeCollisionRight) > Math.min(timeCollisionUp, timeCollisionDown))
-				//up or down
-				return Math.min(timeCollisionUp, timeCollisionDown);
-			
-			// If the entity its velocity equals zero, it will never collide with a boundary.
-			else
-				return Double.POSITIVE_INFINITY;
+			// Return the time until the entity will collide with the first boundary.
+			// If the entity has no velocity, POSITIVE_INFINITY will be returned.
+			return Math.min(timeCollisionHorizontal, timeCollisionVertical);
 		}
 	}
 
@@ -584,8 +579,6 @@ public abstract class Entity {
 	 *		  | (this.overlap(otherEntity))
 	 */
 	public double getTimeToCollision(Entity entity) {
-		
-
 		double position1X = this.getEntityPositionX();
 		double position1Y = this.getEntityPositionY();
 		double position2X = entity.getEntityPositionX();
@@ -797,12 +790,12 @@ public abstract class Entity {
 	 * 			the new y-value of the velocity.
 	 * 
 	 * @post 	The new velocity will be equal to the given velocity
-	 * 		 	| new.getEntityVelocityX() == velocityX
-	 * 		  	| new.getEntityVelocityY() == velocityY
+	 * 		  | new.getEntityVelocityX() == velocityX
+	 * 		  | new.getEntityVelocityY() == velocityY
 	 * @post 	If one or both of the given parameters is not a number, the respective parameter is set to zero.
-	 * 			|if (!isValidVelocity(velocityX, velocityY))
-	 * 			| new.getEntityVelocityX() == 0 ||
-	 * 		  	| new.getEntityVelocityY() == 0
+	 * 		  | if (!isValidVelocity(velocityX, velocityY))
+	 * 		  |   new.getEntityVelocityX() == 0 ||
+	 * 		  |   new.getEntityVelocityY() == 0
 	 * @post 	If the total velocity is greater than the maximum total velocity. The maximum velocity will
 	 * 			be mapped with the orientation.
 	 * 			@see implementation.
@@ -811,11 +804,9 @@ public abstract class Entity {
 		if (!isValidVelocity(velocityX, velocityY)) {
 			if (Double.isNaN(velocityX))
 				velocityX = 0;
-
 			if (Double.isNaN(velocityY))
 				velocityY = 0;
 
-			
 			if (getEuclidianDistance(velocityX, velocityY) > this.getEntityMaxVelocity()) {
 				double orientation = this.getEntityOrientation();
 
@@ -945,13 +936,13 @@ public abstract class Entity {
 	 * @param 	positionY
 	 * 			the y-value of the position that has to be checked.
 	 * @return  false if the x- or y-value of the position is not a number.
-	 * 			|if ((!Double.isNaN(positionX)) || (!Double.isNaN(positionY)))
-	 *			|result == false
+	 * 		  | if ((!Double.isNaN(positionX)) || (!Double.isNaN(positionY)))
+	 *		  | result == false
 	 * @return  true if the boolean is not changed to false and if the entity doesn't belong to a world.
-	 * 			|((this.getEntityWorld() == null) && Boolean == true)
-	 *			|result == true		
+	 * 		  | ((this.getEntityWorld() == null) && Boolean == true)
+	 *		  | result == true		
 	 * @return 	true if the ship belongs to a world,the boolean is still true and the entity fits in the world.
-	 * 			|if ((this.getEntityWorld() != null) && Boolean == true)
+	 * 		  | if ((this.getEntityWorld() != null) && Boolean == true)
 	 * 			@see implementation
 	 */
 	private boolean isValidPosition(double positionX, double positionY) {
@@ -959,7 +950,6 @@ public abstract class Entity {
 		
 		// Check if the given positions have a valid number.
 		if ((Double.isNaN(positionX)) || (Double.isNaN(positionY)))
-			
 			Boolean = false;
 		
 		// Check if the entity with the new position would not overlap another entity, or the boundaries of the world.
@@ -972,7 +962,6 @@ public abstract class Entity {
 			
 			setPositionWithoutChecking(positionX, positionY);
 
-			
 			Boolean = this.entityFitsInWorld(this.getEntityWorld());
 
 			setPositionWithoutChecking(oldPositionX, oldPositionY);
@@ -1012,6 +1001,7 @@ public abstract class Entity {
 
 		return true;
 	}
+	
 	/**
 	 * Checks if the entity can have this world as its world.
 	 * 
@@ -1020,24 +1010,25 @@ public abstract class Entity {
 	 * @param 	world
 	 * 			The world that has to be checked.
 	 * @return 	False if the entity is a ship and it does not fit in the world.
-	 *			|if (!entityFitsInWorld(world))
-	 *			|result == false
+	 *		  | if (!entityFitsInWorld(world))
+	 *		  |   result == false
 	 * @return 	False if the entity already has a world.
-	 * 			|if (this.getEntityWorld() != null)
-	 *			|result == false
+	 * 		  | if (this.getEntityWorld() != null)
+	 *		  |   result == false
 	 * @return 	False if the entity is a bullet and it doesn't fit in the world or it's loaded on a ship.
-	 *			|if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
-	 *			|result == false
+	 *		  | if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
+	 *		  |   result == false
 	 * @return 	False if the entity or the world is terminated.
-	 *			|if (this.isEntityTerminated() || world.isWorldTerminated())
-	 *			|result == false
+	 *		  | if (this.isEntityTerminated() || world.isWorldTerminated())
+	 *		  |   result == false
 	 * @return  True in all other cases.
-	 * 			|else
-	 * 			|result == true
+	 * 		  | else
+	 * 		  |   result == true
 	 */
 	protected boolean canHaveAsWorld(World world){
 		if (world == null)
 			return false;
+		
 		else if (!entityFitsInWorld(world))
 			return false;
 		
@@ -1047,9 +1038,11 @@ public abstract class Entity {
 		// If the bullet belongs to a ship (which means the bullet is in a ship, and not in the world) false will be returned.
 		else if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
 			return false;
+		
 		// An entity who is in the terminated state, cannot be in a world and a terminated world cannot have any entities. .
 		else if (this.isEntityTerminated() || world.isWorldTerminated())
 			return false;
+		
 		else
 			return true;	
 	}
@@ -1092,7 +1085,6 @@ public abstract class Entity {
 		double positionX = this.getEntityPositionX();
 		double positionY = this.getEntityPositionY();
 
-		
 		return ((positionX > left_bound) && (right_bound > positionX) && (positionY > lower_bound)
 				&& (upper_bound > positionY));
 	}
@@ -1107,13 +1099,11 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected Entity entityOverlappingInWorld(World world) {
-		
 		for (Object entity : world.getWorldEntities())
 			if (this.overlap((Entity) entity) && !this.equals(entity))
 				return (Entity) entity;
 		
 		return null;
-
 	}
 	
 	/**
@@ -1249,10 +1239,10 @@ public abstract class Entity {
 	 * @param	otherEntity
 	 * 			The other entity.
 	 * @return	True if the entity where this method is invoked on and entity are the same.
-	 * 			|if(this.equals(entity))
-	 * 			|result == true
+	 * 		  | if(this.equals(entity))
+	 * 		  | result == true
 	 * @return	True if the distance between the two entities is negative.
-	 *		  	| result == (this.getDistanceBetween(otherEntity) < 0)
+	 *		  | result == (this.getDistanceBetween(otherEntity) < 0)
 	 */
 	public boolean overlap(Entity entity) {
 		if (this.equals(entity))
@@ -1280,10 +1270,10 @@ public abstract class Entity {
 	private State state = State.NO_WORLD;
 
 	/**
-	 * The three stated an entity can be in: 
-	 * 	NO_WORLD: the entity has no world.
-	 * IN_WORLD: the entity is in a world.
-	 * TERMINATED: the entity is terminated, so it doesn't exist anymore.
+	 * The three states an entity can be in: 
+	 * 	 NO_WORLD: the entity has no world.
+	 *   IN_WORLD: the entity is in a world.
+	 *   TERMINATED: the entity is terminated, so it doesn't exist anymore.
 	 */
 	protected static enum State {
 		NO_WORLD, IN_WORLD, TERMINATED;
@@ -1291,125 +1281,146 @@ public abstract class Entity {
 
 	
 	///COLLISIONS///
+	
 	/**
 	 * A method that resolves collisions between an entity and the world or two entities.
 	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
-	 * @param entity
+	 * @param 	entity
 	 * 			The entity that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect if the given entity is null, the entity where the method is invoked on will collide with a boundary.
-	 * 			|if (entity == null)
+	 * 
+	 * @effect 	If the given entity is null, the entity where the method is invoked on will collide with a boundary.
+	 * 		  | if (entity == null)
 	 * 			@see implementation
-	 * @effect if the given entity is a ship, the entity where the method is invoked on will collide with this ship.
-	 * 			|if (entity instanceof Ship)
+	 * @effect 	If the given entity is a ship, the entity where the method is invoked on will collide with this ship.
+	 * 		  | if (entity instanceof Ship)
 	 * 			@see implementation
-	 * @effect if the given entity is a minor planet, the entity where the method is invoked on will collide with this minor planet.
-	 * 			|if (entity instanceof MinorPlanet)
+	 * @effect 	If the given entity is a minor planet, the entity where the method is invoked on will collide with this minor planet.
+	 * 		  | if (entity instanceof MinorPlanet)
 	 * 			@see implementation
-	 * @effect if the given entity is a bullet, the entity where the method is invoked on will collide with this bullet.
-	 * 			|if (entity instanceof Bullet)
+	 * @effect 	If the given entity is a bullet, the entity where the method is invoked on will collide with this bullet.
+	 * 		  | if (entity instanceof Bullet)
 	 * 			@see implementation
 	 */
 	protected void letCollisionHappen(Entity entity,double[] collisionPosition,double defaultEvolvingTime, CollisionListener collisionListener){
 		//entity will be null if there's only one collisionEntity in World. This means there's a boundary collision.
-		if (entity == null){
+		if (entity == null)
 			this.entityAndBoundaryCollide(collisionPosition,defaultEvolvingTime,collisionListener);
-		}
+		
 		//Collision with a ship
-		if (entity instanceof Ship){
-			this.entityAndShipCollide((Ship)entity,collisionPosition,defaultEvolvingTime,collisionListener);}
+		else if (entity instanceof Ship)
+			this.entityAndShipCollide((Ship)entity,collisionPosition,defaultEvolvingTime,collisionListener);
+		
 		//Collision with a minor planet
-		if (entity instanceof MinorPlanet){
-			this.entityAndMinorPlanetCollide((MinorPlanet)entity,collisionPosition,defaultEvolvingTime,collisionListener);}
+		else if (entity instanceof MinorPlanet)
+			this.entityAndMinorPlanetCollide((MinorPlanet)entity,collisionPosition,defaultEvolvingTime,collisionListener);
+		
 		//Collision with a bullet
-		if (entity instanceof Bullet) {
-			this.entityAndBulletCollide((Bullet)entity,collisionPosition,collisionListener);}
-					
+		else if (entity instanceof Bullet) 
+			this.entityAndBulletCollide((Bullet)entity,collisionPosition,collisionListener);					
 	}
+	
 	/**
 	 * A method that resolves the collision between an entity and a boundary.
-	 * @param collisionPosition
+	 * 
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @post the collision will be resolved by checking if the entity collides with a horizontal or vertical boundary and inverting the respective velocity.
-	 * 			|if collideHorizontalBoundary(this,collisionPosition)
-	 * 			|new.getEntityVelocityY == -this.getEntityVelocityY
-	 * 			|else
-	 * 			|new.getEntityVelocityX == -this.getEntityVelocityX
-	 * @effect after the change of velocity, the entity_positionlist in world will be updated.
-	 * 			|this.getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
+	 * 
+	 * @post 	The collision will be resolved by checking if the entity collides with a horizontal or vertical boundary and inverting the respective velocity.
+	 * 		  | if collideHorizontalBoundary(this,collisionPosition)
+	 * 		  |   new.getEntityVelocityY == -this.getEntityVelocityY
+	 * 		  | else
+	 * 		  |   new.getEntityVelocityX == -this.getEntityVelocityX
+	 * 
+	 * @effect 	After the change of velocity, the entity_positionlist in world will be updated.
+	 * 		  | this.getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
 	 */
 	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
 		double VelocityX = this.getEntityVelocityX();
 		double VelocityY = this.getEntityVelocityY();
-		if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
-			this.setEntityVelocity(-VelocityX, -VelocityY);
-		else if (collideHorizontalBoundary(this, collisionPosition))
-			this.setEntityVelocity(VelocityX, -VelocityY);
-		else if (collideVerticalBoundary(this, collisionPosition))
-			this.setEntityVelocity(-VelocityX, VelocityY);
+		
+		if (collideHorizontalBoundary(this, collisionPosition))
+			VelocityY = -VelocityY;
+		
+		if (collideVerticalBoundary(this, collisionPosition))
+			VelocityX = -VelocityX;
+		
+		this.setEntityVelocity(VelocityX, VelocityY);
 		World world = this.getEntityWorld();
 		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
-	
 	}
+	
 	/**
 	 * A method that resolves the collision between an entity and a ship.
-	 * @param ship
+	 * 
+	 * @param 	ship
 	 * 			The ship that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @post the collision will be resolved
+	 * 
+	 * @post 	The collision will be resolved
 	 * 			@see implementation of the abstract methods
 	 */
 	protected abstract void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener);
 	
 	/**
 	 * A method that resolves the collision between an entity and a bullet.
+	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
-	 * @param bullet
+	 * 
+	 * @param 	bullet
 	 * 			The bullet that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @post if the bullet collides with the ship that has fired it, it will be loaded on this ship.
-	 *			|(new)bullet.getBulletSource() = this.
-	 * @effect in all other cases, the bullet and the entity will be terminated.
-	 * 			|else
-	 * 			|this.Terminate()
-	 * 			|bullet.Terminate()
+	 * 
+	 * @effect 	if the bullet collides with the ship that has fired it, it will be loaded on this ship.
+	 *		  | if (bullet.getBulletSource() = this)
+	 *		  |   (new)bullet.getBulletSource() = this.
+	 * @effect 	In all other cases, the bullet and the entity will be terminated.
+	 * 		  | else
+	 * 		  |   this.Terminate()
+	 * 		  |   bullet.Terminate()
 	 */
-	protected void entityAndBulletCollide(Bullet bullet,double[] collisionPosition,CollisionListener collisionListener){
+	protected void entityAndBulletCollide(Bullet bullet, double[] collisionPosition, CollisionListener collisionListener){
 		//the bullet hits it's source ship -> it's reloaded.
 		if (bullet.getBulletSource() == this) {
 			World world = this.getEntityWorld();
+			
 			double position1X = this.getEntityPositionX();
 			double position1Y = this.getEntityPositionY();
+			
 			bullet.setPositionWithoutChecking(position1X, position1Y);
 			world.removeEntityFromWorld(bullet);
-			((Ship)this).addOneBulletToShip(bullet);}
+			((Ship)this).addOneBulletToShip(bullet);
+		}
+		
 		//The bullet and the entity are terminated
 		else{
 			double collisionPositionX = collisionPosition[0];
 			double collisionPositionY = collisionPosition[1];
+			
 			if (collisionListener != null)
 				collisionListener.objectCollision(this, bullet,collisionPositionX,collisionPositionY);
+			
 			this.Terminate();
 			bullet.Terminate();
 		}
@@ -1417,23 +1428,22 @@ public abstract class Entity {
 		
 	/**
 	 * A method that resolves the collision between an entity and a minor planet.
-	 * @param minorPlanet
+	 * 
+	 * @param 	minorPlanet
 	 * 			The minor planet that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect the collision will be resolved by using minorPlanetAndEntity(...) on minorPlanet.
+	 * 
+	 * @effect 	The collision will be resolved by using minorPlanetAndEntity(...) on minorPlanet.
 	 * 			@see implementation
 	 */
 	protected void entityAndMinorPlanetCollide(MinorPlanet minorPlanet,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
 		minorPlanet.minorPlanetAndEntityCollide(this,collisionPosition,defaultEvolvingTime,collisionListener);
 	}
-	
-	
-	
 	
 	
 	/// RELATIONS WITH OTHER CLASSES ///
@@ -1442,5 +1452,6 @@ public abstract class Entity {
 	 * The world where the entity is placed in. When initiated, the entity has no world.
 	 */
 	private World world = null;
+	
 }
 

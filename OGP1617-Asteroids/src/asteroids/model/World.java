@@ -15,7 +15,7 @@ import asteroids.part2.CollisionListener;
  * 		  | isValidWidthOrHeight(width)
  * 
  * 
- * @version 25th of April
+ * @version 30th of April
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */
@@ -75,7 +75,6 @@ public class World {
 	
 	/// GETTERS ///
 
-
 	/** 
 	 * Return the state of the world.
 	 * 
@@ -88,21 +87,23 @@ public class World {
 
 	/**
 	 * Returns a set with only entities of a specific class that belong to the world.
-	 * @param string
+	 * 
+	 * @param 	string
 	 * 			The string that defines the specific class like "Class".
-	 * @return The set of the entities that belong to the class in the string.
+	 * 
+	 * @return 	The set of the entities that belong to the class in the string.
 	 * 			@see implementation
 	 * 
 	 */
 	public Set<?> getWorldSpecificEntities(String string){
 		Set<Object> result = new HashSet<Object>();
+		
 		for (Object entity : getWorldEntities()){
 			if (entity.getClass().getSimpleName().equals(string))
 				result.add(entity);}
+		
 		return result;		
 	}
-
-
 
 	/**
 	 * Return the set of all the entities in the world.
@@ -112,7 +113,9 @@ public class World {
 	 */
 	public Set<? extends Object> getWorldEntities() {
 		Set<Object> result = new HashSet<>();
+		
 		result.addAll(entities.values());
+		
 		return result;
 	}
 	
@@ -124,7 +127,9 @@ public class World {
 	 */
 	public Map<String,Entity> getWorldEntityPositions() {
 		Map<String, Entity> result = new HashMap<String,Entity>();
+		
 		result.putAll(entity_positions);
+		
 		return result;
 	}
 	
@@ -139,7 +144,6 @@ public class World {
 	 * @return 	Null if there is no entity at the given position.
 	 * 			@see implementation
 	 * @return 	The entity that is at the given position, if there is an entity at this position.
-	 * 			|if (entity_positions.containsKey("PositionX,PositionY"))
 	 * 			@see implementation
 	 */
 	public Object getEntityAt(double positionX, double positionY) {
@@ -172,7 +176,6 @@ public class World {
 		return this.getWorldSize()[1];
 	}
 
-
 	/**
 	 * Return the size of the world.
 	 * 
@@ -195,6 +198,7 @@ public class World {
 	private Entity getCollisionEntity1(){
 		return collision_entity_1;
 	}
+	
 	/**
 	 * Returns Collision Entity 2.
 	 * @return the entity
@@ -245,21 +249,21 @@ public class World {
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @effect  Collision entity1 and collision entity2 will be set on null before the collision-check.
-	 * 			|resetCollisionEntities()
+	 * 		  | resetCollisionEntities()
 	 * @effect 	If there is a collision between an entity and a boundary of the world, collision_entity_1  
 	 * 			will be set on the entity that collides. collision_entity_2 will be null. Minimum collision time will
 	 * 			be smaller than its previous value.
-	 *			|setCollisionEntity1(entity)
-	 *			|setCollisionEntity2(null)
-	 *			|new.minimumCollisionTime <= minimumCollisionTime.
+	 *		  | setCollisionEntity1(entity)
+	 *		  | setCollisionEntity2(null)
+	 *		  | new.minimumCollisionTime <= minimumCollisionTime.
 	 * 			@see implementation
 	 * 
 	 * @post 	If there is a collision, collision_entity_1 and collision_entity_2 
 	 * 			will be set on the entities that collide (entity1 and entity2).  
 	 * 			Minimum collision time will be smaller than its previous value.
-	 *			|setCollisionEntity1(entity1)
-	 *			|setCollisionEntity2(entity2)
-	 *			|new.minimumCollisionTime <= minimumCollisionTime.
+	 *		  | setCollisionEntity1(entity1)
+	 *		  | setCollisionEntity2(entity2)
+	 *		  | new.minimumCollisionTime <= minimumCollisionTime.
 	 * 			@see implementation
 	 * 
 	 * @return 	The time till the first collision in a world will happen.
@@ -294,6 +298,7 @@ public class World {
 		}
 		return minimumCollisionTime;
 	}
+	
 	
 	/// SETTERS ///
 
@@ -406,6 +411,7 @@ public class World {
 
 	
 	/// CHECKERS ///
+	
 	/**
 	 * Checks if a width or height is valid.
 	 * @param length
@@ -425,10 +431,8 @@ public class World {
 	 * @return The boolean that checks if the entity can have this world as its world.
 	 * 			@see implementation
 	 */
-	protected boolean canHaveAsEntity(Entity entity) {
-		
+	protected boolean canHaveAsEntity(Entity entity) {		
 		return (entity != null && entity.canHaveAsWorld(this));
-			
 	}
 
 	/**
@@ -468,7 +472,7 @@ public class World {
 	/// HELP FUNCTIONS ///
 	
 	/**
-	 * Set an array [x,y] to a string "x,y".
+	 * Set an array [x,y] to a string "x, y".
 	 * 
 	 * @param	array
 	 * 			The array that has to be formed into a string.
@@ -489,12 +493,14 @@ public class World {
 	 * @param 	entity
 	 * 			The entity that has to be added to the world.
 	 * 
-	 * @effect 	The entity's world will be set on "this", which represents this world.
-	 * 		 	| entity.setEntityInWorld(this)
 	 * @post 	The entity will belong to the world.
-	 * 			|new.getWorldEntities().contains(entity)
+	 * 		  | new.getWorldEntities().contains(entity)
 	 * @post	The entity will be added with its position as key into the entity_positions map.
-	 * 			|new.getWorldEntityPositions().containsValue(entity)
+	 * 		  | new.getWorldEntityPositions().containsValue(entity)
+	 * 
+	 * @effect	The entity's world will be set on "this", which represents this world.
+	 * 		  | entity.setEntityInWorld(this)
+	 * 
 	 * @throws 	IllegalArgumentException
 	 * 			If the world cannot have this entity.
 	 * 		  | (!canHaveAsEntity(entity))
@@ -518,13 +524,16 @@ public class World {
 	 * 
 	 * @param 	entity
 	 * 			The entity that has to be removed.
+	 * 
 	 * @post 	The entity will be removed together with its key from the entity_positions list.
-	 * 			|!new.getWorldEntityPositions().containsValue(entity)
+	 * 		  | !new.getWorldEntityPositions().containsValue(entity)
 	 * @post 	The entity will not belong to the world anymore.
-	 * 			|!new.getWorldEntities().contains(entity)
+	 * 		  | !new.getWorldEntities().contains(entity)
+	 * 
 	 * @effect 	The entity will be set on state NO_WORLD.
-	 * 			|entity.setEntityFree()
-	 * @throws IllegalArgumentException
+	 * 		  | entity.setEntityFree()
+	 * 
+	 * @throws 	IllegalArgumentException
 	 * 			If the world doesn't have the entity.
 	 * 			@see implementation
 	 */
@@ -532,10 +541,11 @@ public class World {
 		
 		if (!this.getWorldEntities().contains(entity))
 			throw new IllegalArgumentException();
+		
 		else{
-		entities.remove(entity.hashCode());
-		entity_positions.remove(arrayToString(entity.getEntityPosition()));
-		entity.setEntityFree();
+			entities.remove(entity.hashCode());
+			entity_positions.remove(arrayToString(entity.getEntityPosition()));
+			entity.setEntityFree();
 		}
 	}
 		
@@ -553,8 +563,8 @@ public class World {
 		//A world cannot evolve if defaultEvolvingTime is not a finite number. 
 		if (!Double.isFinite(defaultEvolvingTime))
 			throw new IllegalArgumentException();
-		// A world cannot evolve if there are no entities or the evolving time equals zero 
-				// (which would mean that after evolving, the same situation will be achieved).
+		
+		// A world cannot evolve if there are no entities
 		else if (!this.getWorldEntities().isEmpty()) {
 
 			// Determine time till the first collision.
@@ -614,6 +624,7 @@ public class World {
 	
 	
 	/// COLLISION-FUNCTIONS ///
+	
 	/**
 	 * A variable that contains an entity when there's a collision in the future.
 	 */
@@ -626,10 +637,11 @@ public class World {
 
 	/**
 	 * Sets both the collision entities on null.
-	 * @post collision_entity_1 will be null
-	 * 			|new.getCollisionEntity1() ==null
-	 *@post collision_entity_2 will be null
-	 * 			|new.getCollisionEntity2() ==null
+	 * 
+	 * @post	collision_entity_1 will be null
+	 * 		  | new.getCollisionEntity1() ==null
+	 * @post 	collision_entity_2 will be null
+	 * 		  | new.getCollisionEntity2() ==null
 	 */
 	private void resetCollisionEntities(){
 		collision_entity_1=null;
@@ -638,30 +650,34 @@ public class World {
 	
 	/**
 	 * Updates the entity_positions map and moves entities after colliding.
-	 * @param entity1
+	 * 
+	 * @param 	entity1
 	 * 			An entity that collided.				
-	 * @param entity2
+	 * @param 	entity2
 	 * 			the other entity that collided.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			the time until the collision happened.
-	 * @effect updatePositionListAfterCollision() will be used onthe entities (or only entity1 when colliding with a boundary) .
+	 * 
+	 * @effect 	updatePositionListAfterCollision() will be used onthe entities (or only entity1 when colliding with a boundary) .
 	 * 			@see implementation
 	 */
 	protected void updatePositionListAfterCollision(Entity entity1, Entity entity2,double defaultEvolvingTime){
-		updatePositionListAfterCollision(entity1,defaultEvolvingTime);		
+		updatePositionListAfterCollision(entity1,defaultEvolvingTime);
+		
 		if (entity2 != null){
 			updatePositionListAfterCollision(entity2,defaultEvolvingTime);
 		}
 	}
 	
 	/**
-	 * Updates the entity_positions map and moves an entity after colliding to avoid direct collisions .
-	 
-	 * @param entity
+	 * Updates the entity_positions map and moves an entity after colliding to avoid direct collisions.
+	 * 
+	 * @param 	entity
 	 * 			An entity that collided. 				
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			the time until the collision happened.
-	 * @effect The entity will be removed from the entity_positions map, moved for a small time (a fraction
+	 * 
+	 * @effect 	The entity will be removed from the entity_positions map, moved for a small time (a fraction
 	 * 			of the time until collision) and then reput in the map. The move is needed, because otherwise, 
 	 *	 		the entity would keep touching the boundary which would invoke the same collision again the next 
 	 *	 		time the method evolve() will be invoked.
@@ -669,7 +685,9 @@ public class World {
 	 */
 	protected void updatePositionListAfterCollision(Entity entity,double defaultEvolvingTime){
 		entity_positions.remove(arrayToString(entity.getEntityPosition()));
+		
 		entity.move(Math.pow(GAMMA,6) * defaultEvolvingTime);
+		
 		entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
 	}
 				
@@ -685,6 +703,7 @@ public class World {
 	public void Terminate() {
 		if (!isWorldTerminated()) {
 			setWorldState(State.TERMINATED);
+			
 			for (Object entity: getWorldEntities())
 				removeEntityFromWorld((Entity)entity);
 		}
@@ -707,7 +726,6 @@ public class World {
 
 	/// RELATIONS WITH OTHER CLASSES ///
 	
-
 	/**
 	 * The map entities is a map with as key the hash-code representing the entity, and as value the entity itself.
 	 * It contains all the entities that belong to the world.

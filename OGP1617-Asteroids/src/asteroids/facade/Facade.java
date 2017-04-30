@@ -22,7 +22,7 @@ import asteroids.util.ModelException;
 /**
  * A class that can be used to connect the IFacade class with the class Ship.
  * 
- * @version 25th of april
+ * @version 29th of april
  * @authors Sieben Bocklandt and Ruben Broekx
  */
 public class Facade implements asteroids.part3.facade.IFacade  {
@@ -62,7 +62,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	
 	/**
 	 * Returns a ship with given parameters. 
-	
+	 * 
 	 * @return	A new ship with given properties and a default maximum velocity will be returned.
 	 * 		  | result = Ship(x, y, xVelocity, yVelocity, radius, orientation)
 	 */
@@ -100,7 +100,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	
 	/**
 	 * Return the velocity of ship as an array of length 2, with the velocity along the X-axis at index 0 
-	 *  and the velocity along the Y-axis at index 1.
+	 * and the velocity along the Y-axis at index 1.
 	 * 
 	 * @param 	ship
 	 * 			The ship whose velocity is asked.
@@ -183,7 +183,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			return ship1.getDistanceBetween(ship2);
 		} catch (IllegalArgumentException illegalArgumentException) {
-		throw new ModelException("these are not valid arguments #8");
+			throw new ModelException("these are not valid arguments #8");
 		}
 	}	
 
@@ -1094,8 +1094,10 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		}
 	}
 	/**
-	 *Returns the world the given planetoid belongs to.
-	 * @see implementation
+	 * Returns the world the given planetoid belongs to.
+	 *
+	 * @return 	The world to which the given planetoid belongs to
+	 * 			@see implementation
 	 */
 	@Override
 	public World getPlanetoidWorld(Planetoid planetoid) throws ModelException {

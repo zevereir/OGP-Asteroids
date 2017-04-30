@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import asteroids.part2.CollisionListener;
 import be.kuleuven.cs.som.annotate.*;
@@ -411,23 +414,22 @@ public class Ship extends Entity {
 	 *          The bullet that has to be checked.
 	 *          
 	 * @return 	False if the bullet is already in a ship
-	 * 			|if (bullet.getBulletShip() != null)
-	 * 			|result == false
+	 * 		  | if (bullet.getBulletShip() != null)
+	 * 		  |   result == false
 	 * @return  False if the bullet isn't completely in the ship.
-	 * 			|if (!this.bulletFullyInShip(bullet))
-	 *			|result == false
+	 * 		  | if (!this.bulletFullyInShip(bullet))
+	 *		  |   result == false
 	 * @return  False if the bullet is null
-	 * 			|if(bullet == null)
-	 * 			|result == false 
+	 * 		  | if(bullet == null)
+	 * 		  |   result == false 
 	 * @return  False if the bullet or the ship is terminated. 
-	 * 			|if (bullet.isEntityTerminated() || this.isEntityTerminated())
-	 * 			|result == false
+	 * 		  | if (bullet.isEntityTerminated() || this.isEntityTerminated())
+	 * 		  |   result == false
 	 * @return  True in all other cases.
-	 * 			|else
-	 * 			|result == true
+	 * 		  | else
+	 * 		  |   result == true
 	 */
 	protected boolean canHaveAsBullet(Bullet bullet) {
-	
 		if(bullet == null)
 			return false;
 		
@@ -530,17 +532,37 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		Set<Bullet> already_added = new HashSet<Bullet>();
-		for (Bullet bullet : bullets){			
-			try {
-				addOneBulletToShip(bullet);
-			} catch (IllegalArgumentException illegalArgumentException) {
-				for (Bullet bullet_added : already_added){
-					removeBulletFromShip(bullet_added);}
-				throw new IllegalArgumentException();}
-			already_added.add(bullet);
-		}
+		//Set<Bullet> already_added = new HashSet<Bullet>();
+		
+		// REMARK: addOneBulletToShip already checks whether or not the bullet is already in the ship!
+		bullets.forEach(bullet->{
+			addOneBulletToShip(bullet);
+		});	
+		
+//		bullets.forEach(bullet->{
+//			if(!already_added.contains(bullet)){
+//				try{
+//					addOneBulletToShip(bullet);
+//					already_added.add(bullet);
+//				} catch (IllegalArgumentException illegalArgumentException) {
+//					throw new IllegalArgumentException();
+//				}
+//			}
+//		});	
 	}
+		
+//	--> OUDE VERSIE <--
+//		for (Bullet bullet : bullets){
+//			try {
+//				addOneBulletToShip(bullet);
+//			} catch (IllegalArgumentException illegalArgumentException) {
+//				for (Bullet bullet_added : already_added){
+//					removeBulletFromShip(bullet_added);
+//				}
+//				throw new IllegalArgumentException();
+//			}
+//			already_added.add(bullet);
+//		}
 
 	
 	/// REMOVERS ///
@@ -604,7 +626,6 @@ public class Ship extends Entity {
 		double newVelocityY = velocityY + acceleration * Math.sin(orientation) * moveTime;
 			
 		this.setEntityVelocity(newVelocityX, newVelocityY);
-		
 		
 		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
@@ -825,23 +846,23 @@ public class Ship extends Entity {
 
 	///COLLISIONS///
 
-	
-	
 	/**
 	 * A method that resolves the collision between two ships.
-	 * @param ship
+	 * 
+	 * @param 	ship
 	 * 			The ship that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect Because the two entities are both ships, doubleShipOrMinorPlanetCollide will be used. 
+	 * 
+	 * @effect 	Because the two entities are both ships, doubleShipOrMinorPlanetCollide will be used. 
 	 * 			@see implementation
 	 */
 	@Override
-	protected void entityAndShipCollide(Ship ship,double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
+	protected void entityAndShipCollide(Ship ship, double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
 		this.doubleShipOrMinorPlanetCollide(ship,defaultEvolvingTime);		
 	}
 

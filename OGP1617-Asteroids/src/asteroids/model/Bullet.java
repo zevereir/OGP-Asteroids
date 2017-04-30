@@ -58,7 +58,7 @@ public class Bullet extends Entity {
 	 * @effect  A new entity will be made via the constructor of Entity.
 	 * 		  	@see implementation
 	 * @effect  The maximumBulletBounce will be set.
-	 * 			|setMaximumBulletBounce(maximumBulletBounce)
+	 * 		  | setMaximumBulletBounce(maximumBulletBounce)
 	 */
 	private Bullet(double positonX, double positionY, double velocityX, double velocityY, double radius, double orientation,
 			double mass, double maxVelocity, double density,double maximumBulletBounce) {
@@ -153,7 +153,8 @@ public class Bullet extends Entity {
 	}
 	/**
 	 * The default maximum amount of bounces.
-	 * @return The default amount.
+	 * 
+	 * @return 	The default amount.
 	 * 			@see implementation
 	 */
 	private static double getDefaultMaximumBulletBounce(){
@@ -170,7 +171,7 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	public int getAmountOfBounces() {
-		return this.amountOfBounces;
+		return amountOfBounces;
 	}
 
 	/**
@@ -181,7 +182,7 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	private BulletState getBulletLoadedState() {
-		return this.state;
+		return state;
 	}
 	
 	/**
@@ -191,7 +192,7 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	public Ship getBulletShip() {
-		return this.ship;
+		return ship;
 	}
 
 	/**
@@ -201,18 +202,20 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	public Ship getBulletSource() {
-		return this.source_ship;
+		return source_ship;
 	}
 
 	
 	/**
 	 * Return the maximum amount of bounces a bullet can do.
-	 * @return the amount
+	 * 
+	 * @return 	The maximal amount of bounces a bullet can have.
 	 * 			@see implementation
 	 */
 	private double getMaximumBulletBounce(){
-		return this.maximum_bullet_bounce;
+		return maximum_bullet_bounce;
 	}
+	
 	
 	/// SETTERS ///
 	
@@ -226,7 +229,7 @@ public class Bullet extends Entity {
 	 * 		  | new.getAmountOfBounces() == amount		
 	 */
 	protected void setAmountOfBounces(int amount) {
-		this.amountOfBounces = amount;
+		amountOfBounces = amount;
 	} 
 	
 	/**
@@ -259,12 +262,12 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	protected void setBulletLoaded(Ship ship) {
-		assert (!this.isEntityTerminated() && !ship.isEntityTerminated());
+		assert (! isEntityTerminated() && !ship.isEntityTerminated());
 		
-		this.setBulletLoadedState(BulletState.LOADED);
-		this.setEntityFree();
-		this.setBulletShip(ship);
-		this.setBulletSourceShip(null);
+		setBulletLoadedState(BulletState.LOADED);
+		setEntityFree();
+		setBulletShip(ship);
+		setBulletSourceShip(null);
 	}
 
 	/**
@@ -283,7 +286,6 @@ public class Bullet extends Entity {
 	protected void setBulletLoadedState(BulletState state) throws IllegalStateException {
 		if (state == null)
 			throw new IllegalStateException();
-		
 		else
 			this.state = state;
 	}
@@ -301,12 +303,12 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	protected void setBulletNotLoaded(Ship ship) {
-		assert (!this.isEntityTerminated());
+		assert (!isEntityTerminated());
 		
-		this.setBulletLoadedState(BulletState.NOT_LOADED);
-		this.setBulletShip(null);
-		this.setBulletSourceShip(ship);
-		this.setAmountOfBounces(0);
+		setBulletLoadedState(BulletState.NOT_LOADED);
+		setBulletShip(null);
+		setBulletSourceShip(ship);
+		setAmountOfBounces(0);
 	}
 	
 	/**
@@ -332,7 +334,7 @@ public class Bullet extends Entity {
 	 * 		  | new.getBulletSource() == ship
 	 */
 	protected void setBulletSourceShip(Ship ship) {
-		this.source_ship = ship;
+		source_ship = ship;
 	}
 
 	/**
@@ -345,7 +347,7 @@ public class Bullet extends Entity {
 	 * 		 	@see implementation
 	 */
 	protected void setEntityDensity(double density) {
-		if (this.isValidDensity(density))
+		if (isValidDensity(density))
 			this.density = density;
 		else
 			this.density = getDefaultBulletDensity();
@@ -363,7 +365,6 @@ public class Bullet extends Entity {
 	protected void setEntityMass(double mass) {
 		if (isValidMass(mass))
 			this.mass = mass;
-		
 		else
 			this.mass = MassFormula(getEntityRadius(),getEntityDensity());
 	}
@@ -401,7 +402,7 @@ public class Bullet extends Entity {
 	 * 			@see implementation
 	 */
 	private boolean isBulletLoaded() {
-		return (this.getBulletLoadedState() == BulletState.LOADED);
+		return (getBulletLoadedState() == BulletState.LOADED);
 	}
 	
 	/**
@@ -442,11 +443,15 @@ public class Bullet extends Entity {
 	protected boolean isValidRadius(double radius) {
 		return (radius >= LOWER_BULLET_RADIUS);
 	}
+	
 	/**
 	 * Checks if a maximum amount of bounces is valid.
-	 * @param maxBounce
+	 * 
+	 * @param 	maxBounce
 	 * 			The amount that has to be checked.
-	 * @return true if maxbounce is nonnegative, false in all other cases.
+	 * 
+	 * @return 	True if maxBounce is positive, false in all other cases. It is possible to bounce
+	 * 			an infinite amount of times for a bullet.
 	 * 			@see implementation
 	 */
 	private boolean isValidMaximumBulletBounce(double maxBounce){
@@ -462,11 +467,11 @@ public class Bullet extends Entity {
 	private BulletState state = BulletState.NOT_LOADED;
 
 	/***
-	 * The states a bullet can be in. 
-	 * LOADED: the bullet is loaded on a ship.
-	 * NOT_LOADED: the bullet is not loaded on a ship.
-	 * These states are called loaded states, cause they're a different sort of states than the normal states 
-	 * (IN_WORLD, NO_WORLD and TERMINTED). 
+	 * The two states, calles loaded states, a bullet can be in:
+	 *   LOADED: the bullet is loaded on a ship.
+	 *   NOT_LOADED: the bullet is not loaded on a ship.
+	 *   
+	 * These states differ and do not correlate with the states discussed in the class Entity.
 	 */
 	private static enum BulletState {
 		LOADED, NOT_LOADED;
@@ -475,17 +480,24 @@ public class Bullet extends Entity {
 	/**
 	 * Terminate the bullet.
 	 * 
+	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
+	 * 
 	 * @effect 	The bullet's state will be set on terminated.If the bullet was in a world, it will 
 	 * 			be removed from this world. If it was loaded, it will be removed.
 	 * 			@see implementation
 	 */
 	public void Terminate() {
-		if (this.isBulletLoaded())
-			this.getBulletShip().removeBulletFromShip(this);
-		if (this.isEntityFree())
+		// First remove the link, if there is one, between the bullet and its ship.
+		if (isBulletLoaded())
+			getBulletShip().removeBulletFromShip(this);
+		
+		// If the entity is free, which means it does not lay inside a world, the bullet gets terminated.
+		if (isEntityFree())
 			setEntityState(State.TERMINATED);		
-		else if (this.isEntityInWorld()) {
-			this.getEntityWorld().removeEntityFromWorld(this);
+		
+		// In all the other cases, the bullet lays inside a world, and will be terminated and removed from this world.
+		else { //if (isEntityInWorld()) {
+			getEntityWorld().removeEntityFromWorld(this);
 			setEntityState(State.TERMINATED);
 		}
 	}
@@ -503,81 +515,87 @@ public class Bullet extends Entity {
 	 */
 	private Ship source_ship = null;
 
-	///COLLISIONS///
+	
+	/// COLLISIONS ///
+	
 	/**
 	 * Let a bullet collide with the boundaries of the world.
 	 * 
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
 	 * 
-	 * 
 	 * @effect 	If the bullet has bounced more than two times, it will be terminated.
-	 * 			|if (counter >= 2)
 	 * 			@see implementation
 	 * @effect 	The bullet's amount of bounces will be incremented by 1. If the boundary was horizontal, 
 	 * 			the y-velocity changes sign. If the boundary was vertical, the x-velocity changes sign.
-	 * 			After this, the positionlist in world will be updated.
-	 * 			|else
+	 * 			After this, the position-list in world will be updated.
 	 * 			@see implementation
 	 */
 	@Override
-	protected void entityAndBoundaryCollide(double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
+	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime, CollisionListener collisionListener) {
 		// 'counter' will count how many times the bullet has bounced off the boundaries of the world.
-				int counter = this.getAmountOfBounces();
+		int counter = getAmountOfBounces();
 
-				// When the counter reaches 3, the bullet will be terminated.
-				if (counter >= getMaximumBulletBounce()){
-					if (collisionListener != null){
-						double collisionPositionX = collisionPosition[0];
-						double collisionPositionY = collisionPosition[1];
-						collisionListener.boundaryCollision(this, collisionPositionX, collisionPositionY);}
-					this.Terminate();}
+		// If 'counter' is (strict) less than the maximum of bounces it is required to do, the bullet will 
+		// bounce against the boundary.
+		if (counter < getMaximumBulletBounce()){
+			setAmountOfBounces(counter + 1);
 
-				// If 'counter' is (strict) less than 3, the bullet will bounce against the boundary.
-				else {
-					this.setAmountOfBounces(counter + 1);
-					
-					double VelocityX = this.getEntityVelocityX();
-					double VelocityY = this.getEntityVelocityY();
-					//The bullet collides in one of the corners
-					if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
-						this.setEntityVelocity(-VelocityX, -VelocityY);
-					// The bullet will collide with an horizontal boundary.
-					else if (collideHorizontalBoundary(this, collisionPosition))
-						this.setEntityVelocity(VelocityX, -VelocityY);
+			double VelocityX = getEntityVelocityX();
+			double VelocityY = getEntityVelocityY();
+			
+			//The bullet collides in one of the corners
+			if (collideHorizontalBoundary(this, collisionPosition) && collideVerticalBoundary(this, collisionPosition) )
+				setEntityVelocity(-VelocityX, -VelocityY);
+			
+			// The bullet will collide with an horizontal boundary.
+			else if (collideHorizontalBoundary(this, collisionPosition))
+				setEntityVelocity(VelocityX, -VelocityY);
 
-					// The bullet will collide with an vertical boundary.
-					else if (collideVerticalBoundary(this, collisionPosition))
-						this.setEntityVelocity(-VelocityX, VelocityY);
-					World world = this.getEntityWorld();
-					world.updatePositionListAfterCollision(this, defaultEvolvingTime);
-				}
+			// The bullet will collide with an vertical boundary.
+			else if (collideVerticalBoundary(this, collisionPosition))
+				setEntityVelocity(-VelocityX, VelocityY);
+			
+			World world = getEntityWorld();
+			world.updatePositionListAfterCollision(this, defaultEvolvingTime);	
+		}
+
+		// When the counter reaches 3, the bullet will be terminated.
+		else {
+			if (collisionListener != null){
+				double collisionPositionX = collisionPosition[0];
+				double collisionPositionY = collisionPosition[1];
+				collisionListener.boundaryCollision(this, collisionPositionX, collisionPositionY);
+			}
+			Terminate();
+		}
 	}
+	
 	/**
 	 * A method that resolves the collision between a ship and a bullet.
-	 * @param ship
+	 * 
+	 * @param 	ship
 	 * 			The ship that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 * @effect the collision will be resolved by using the entityAndBulletCollide method on ship.
+	 * 
+	 * @effect 	The collision will be resolved by using the entityAndBulletCollide method on ship.
 	 * 			@see implementation
 	 */
 	@Override
 	protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener) {
-		ship.entityAndBulletCollide(this,collisionPosition,collisionListener);
-		
+		ship.entityAndBulletCollide(this,collisionPosition,collisionListener);	
 	}
-
 }
 
 

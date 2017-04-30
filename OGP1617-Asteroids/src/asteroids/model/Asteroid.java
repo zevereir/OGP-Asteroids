@@ -1,6 +1,7 @@
 package asteroids.model;
 
 import asteroids.part2.CollisionListener;
+
 /**
  * A class that describes asteroids and their properties. An asteroid has a position and
  * a velocity, both are described in a Cartesian xy-field. It also has an
@@ -25,7 +26,9 @@ import asteroids.part2.CollisionListener;
  * 
  */
 public class Asteroid extends MinorPlanet {
-	///CONSTRUCTOR///
+	
+	/// CONSTRUCTOR ///
+	
 	/**
 	 * Initializes a new asteroid with given parameters.
 	 * 
@@ -59,8 +62,8 @@ public class Asteroid extends MinorPlanet {
 	public Asteroid(double positionX, double positionY, double velocityX, double velocityY, double radius,
 			double orientation, double mass, double maxVelocity, double density) {
 		super(positionX, positionY, velocityX, velocityY, radius, orientation, mass, maxVelocity, density);
-
 	}
+	
 	/**
 	 * Initializes a new asteroid with given parameters and the non-given parameters set to default.
 	 * 
@@ -76,13 +79,13 @@ public class Asteroid extends MinorPlanet {
 	 *          The radius that defines the circular shape of the asteroid in kilometers.
 	 * 
 	 * @effect 	The asteroid is initialized with the given values and the default orientation, mass, maximum 
-	 *  		velocity and density.
-	 *   
-	 **/
+	 *  		velocity and density.   
+	 */
 	public Asteroid(double positionX, double positionY, double velocityX, double velocityY, double radius){
 		this(positionX, positionY, velocityX, velocityY, radius, getDefaultOrientation(), getDefaultAsteroidMass(),
 				getDefaultMaxVelocity(), getDefaultAsteroidDensity());
 	}
+	
 	/**
 	 * Initializes a new asteroid with all it's parameters set to default.
 	 * 
@@ -94,17 +97,17 @@ public class Asteroid extends MinorPlanet {
 	}
 	
 	
+	/// DEFAULTS ///
 	
-	///DEFAULTS///
 	/**
 	 * A method that returns the default asteroid density.
-	 * @return the density
+	 * 
+	 * @return 	The density.
 	 * 			@see implementation
 	 */
 	private static double getDefaultAsteroidDensity(){
 		return 2.65E12;
 	}
-	
 	
 	/**
 	 * Return the default Asteroid mass.
@@ -116,7 +119,9 @@ public class Asteroid extends MinorPlanet {
 		return MassFormula(getDefaultMinorPlanetRadius(), getDefaultAsteroidDensity());
 	}
 	
-	///SETTERS///
+	
+	/// SETTERS ///
+	
 	/**
 	 * Set the asteroids density to a given density.
 	 * 
@@ -130,7 +135,9 @@ public class Asteroid extends MinorPlanet {
 		this.density = density;
 	}
 
-	///CHECKERS///
+	
+	/// CHECKERS ///
+	
 	/**
 	 * Checks if a density is valid for this asteroid.
 	 * 
@@ -144,14 +151,13 @@ public class Asteroid extends MinorPlanet {
 		return (density == getDefaultAsteroidDensity());
 	}
 	
-	
 
+	/// TERMINATE ///
 	
-	///TERMINATE///
 	/**
 	 * Terminate the asteroid.
 	 * 
-	 * @post	Theasteroids state will be set to Terminated. If the asteroid was in a world, it will 
+	 * @post	The asteroids state will be set to Terminated. If the asteroid was in a world, it will 
 	 * 			be removed from this world. 
 	 * 			@see implementation
 	 */
@@ -159,30 +165,35 @@ public class Asteroid extends MinorPlanet {
 		if (this.isEntityFree())
 			setEntityState(State.TERMINATED);
 		
-		else if (this.isEntityInWorld()) {
+		else { //if (this.isEntityInWorld()) {
 			this.getEntityWorld().removeEntityFromWorld(this);
 			setEntityState(State.TERMINATED);
 		}
 	}
 	
-	///COLLISIONS///
+	
+	/// COLLISIONS ///
+	
 	/**
 	 * A method that resolves the collision between a ship and an asteroid.
-	 * @param ship
+	 * 
+	 * @param 	ship
 	 * 			The ship that will collide with the entity where the method is invoked on.
-	 * @param collisionPosition
+	 * @param 	collisionPosition
 	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param defaultEvolvingTime
+	 * @param 	defaultEvolvingTime
 	 * 			The time until the collision will happen.
-	 * @param collisionListener
+	 * @param 	collisionListener
 	 * 			A variable used to visualize the explosions.
-	 *
 	 */
 	protected void entityAndShipCollide(Ship ship,double[] collisionPosition,double defaultEvolvingTime,CollisionListener collisionListener){
 		double collisionPositionX = collisionPosition[0];
 		double collisionPositionY = collisionPosition[1];
+		
 		if (collisionListener != null)
 			collisionListener.objectCollision(this, ship,collisionPositionX,collisionPositionY);
+		
 		ship.Terminate();
 	}
+	
 }
