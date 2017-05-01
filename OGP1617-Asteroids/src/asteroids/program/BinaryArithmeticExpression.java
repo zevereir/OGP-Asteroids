@@ -3,7 +3,7 @@ package asteroids.program;
 abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 
-	
+	/// CONSTRUCTOR ///
 	protected BinaryArithmeticExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression) throws IllegalArgumentException{
 			setLeftOperand(leftExpression);
 			setRightOperand(rightExpression);			
@@ -11,7 +11,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 	}
 	
-	//GETTERS//
+	/// GETTERS ///
 	protected int getNbOperands(){
 		return 2;
 	}
@@ -23,13 +23,14 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 		return right_operand;
 	}
 	
-	//SETTERS//
+	/// SETTERS ///
 	protected void setLeftOperand(ArithmeticExpression expression) throws IllegalArgumentException{
 		if (canHaveAsArithmeticOperand(expression))
 			left_operand = expression;
 		else
 			throw new IllegalArgumentException();
 	}
+	
 	protected void setRightOperand(ArithmeticExpression expression) throws IllegalArgumentException{
 		if (canHaveAsArithmeticOperand(expression))
 			right_operand = expression;
@@ -37,7 +38,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 			throw new IllegalArgumentException();
 	}
 	
-	//CHECKERS//
+	/// CHECKERS ///
 	protected boolean canHaveAsNbOperands(double number){
 		return number == 2;
 	}
@@ -51,7 +52,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	}
 	
 
-	//PROPERTIES//
+	/// PROPERTIES ///
 	protected ArithmeticExpression left_operand = null;
 	protected ArithmeticExpression right_operand = null;
 
