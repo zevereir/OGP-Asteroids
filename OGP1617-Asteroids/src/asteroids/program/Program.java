@@ -1,5 +1,13 @@
 package asteroids.program;
 
-public class Program  {
+import java.util.List;
+
+public class Program {
+	
+	/// CONSTRUCTOR ///
+	
+	protected Program(List<MyFunction> functions, MyStatement main) {
+		
+	}
 	
 }
