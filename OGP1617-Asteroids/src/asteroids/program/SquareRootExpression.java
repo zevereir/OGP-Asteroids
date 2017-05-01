@@ -7,9 +7,11 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 	}
 
 	@Override
-	protected Object getExpressionResult() {
-		// TODO Auto-generated method stub
-		return null;
+	protected Object getExpressionResult() throws IllegalArgumentException{
+		if ((double)getOperand().getExpressionResult() < 0)
+			throw new IllegalArgumentException();
+		
+		return Math.sqrt((double)getOperand().getExpressionResult());
 	}
 
 	

@@ -8,7 +8,6 @@ class NegationExpression extends UnaryArithmeticExpression {
 
 	@Override
 	protected Object getExpressionResult() {
-		// TODO Auto-generated method stub
 		return -(double)getOperand().getExpressionResult();
 	}
 	
