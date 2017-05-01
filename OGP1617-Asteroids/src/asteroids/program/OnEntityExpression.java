@@ -1,27 +1,28 @@
 package asteroids.program;
 
-class OnEntityExpression extends MyExpression {
+import asteroids.model.Entity;
+
+abstract class OnEntityExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected OnEntityExpression(EntityExpression operand) throws IllegalArgumentException {
-		if (! canHaveAsOnEntityExpressionOperand(operand))
-			throw new IllegalArgumentException();
-
+	protected OnEntityExpression(Entity operand) throws IllegalArgumentException {
 		setOperand(operand);
 	}
 
 
 	/// GETTERS ///
 
-	public EntityExpression getOperand() {
+	public Entity getOperand() {
 		return operand;
 	}
 	
 	
 	/// SETTERS ///
 
-	protected void setOperand(EntityExpression operand) {
+	protected void setOperand(Entity operand) {
+		if (! canHaveAsOnEntityExpressionOperand(operand))
+			throw new IllegalArgumentException();
 		this.operand = operand;
 	}
 	
@@ -29,14 +30,14 @@ class OnEntityExpression extends MyExpression {
 
 	/// CHECKERS ///
 
-	public boolean canHaveAsOnEntityExpressionOperand(EntityExpression expression){
-		return expression != null;			
+	public boolean canHaveAsOnEntityExpressionOperand(Entity expression){
+		return ((expression != null) && (expression instanceof Entity));			
 	}
 
 
 	/// PROPERTIES ///
 
-	private EntityExpression operand;
+	private Entity operand;
 
 
 	

@@ -329,7 +329,7 @@ public abstract class Entity {
 	 * @return 	The x-position of the position.
 	 * 			@see implementation
 	 */
-	protected double getEntityPositionX() {
+	public double getEntityPositionX() {
 		return position.getPositionX();
 	}
 
@@ -339,7 +339,7 @@ public abstract class Entity {
 	 * @return 	The y-position of the position.
 	 * 			@see implementation
 	 */
-	protected double getEntityPositionY() {
+	public double getEntityPositionY() {
 		return position.getPositionY();
 	}
 
@@ -369,7 +369,7 @@ public abstract class Entity {
 	 * @return 	The x-value of the velocity.
 	 * 			@see implementation
 	 */
-	protected double getEntityVelocityX() {
+	public double getEntityVelocityX() {
 		return velocity.getVelocityX();
 	}
 
@@ -379,7 +379,7 @@ public abstract class Entity {
 	 * @return 	The y-value of the velocity.
 	 * 			@see implementation
 	 */
-	protected double getEntityVelocityY() {
+	public double getEntityVelocityY() {
 		return velocity.getVelocityY();
 	}
 	
