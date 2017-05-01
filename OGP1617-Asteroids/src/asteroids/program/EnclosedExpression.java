@@ -1,5 +1,5 @@
 package asteroids.program;
 
-public class EnclosedExpression extends MyExpression {
+class EnclosedExpression extends MyExpression {
 
 }

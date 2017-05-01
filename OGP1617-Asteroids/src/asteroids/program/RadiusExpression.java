@@ -1,5 +1,5 @@
 package asteroids.program;
 
-class RadiusExpression extends MyExpression {
+class RadiusExpression extends OnEntityExpression {
 
 }

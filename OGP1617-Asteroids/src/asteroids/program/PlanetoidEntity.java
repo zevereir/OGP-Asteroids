@@ -1,5 +1,5 @@
 package asteroids.program;
 
-public class PlanetoidEntity extends EntityExpression {
+class PlanetoidEntity extends EntityExpression {
 
 }

@@ -1,5 +1,5 @@
 package asteroids.program;
 
-class LessThanExpression extends MyExpression {
+class LessThanExpression extends ArithmeticExpression {
 
 }

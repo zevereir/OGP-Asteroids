@@ -1,5 +1,5 @@
 package asteroids.program;
 
-public class MultiplicationExpression extends MyExpression {
+class MultiplicationExpression extends ArithmeticExpression {
 
 }

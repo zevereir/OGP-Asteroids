@@ -1,5 +1,5 @@
 package asteroids.program;
 
-class NegationExpression extends MyExpression {
+class NegationExpression extends ArithmeticExpression {
 
 }

@@ -1,5 +1,5 @@
 package asteroids.program;
 
-class SquareRootExpression extends MyExpression {
+class SquareRootExpression extends ArithmeticExpression{
 
 }
