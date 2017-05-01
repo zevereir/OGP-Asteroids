@@ -520,6 +520,7 @@ public class Ship extends Entity {
 
 	public void addProgramToShip(Program program){
 		this.program = program;
+		program.setProgramShip(this);
 	}
 
 	/**

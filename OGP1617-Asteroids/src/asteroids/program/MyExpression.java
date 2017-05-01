@@ -2,6 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
+import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
 
 public abstract class MyExpression {
@@ -134,5 +135,19 @@ public abstract class MyExpression {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	/// GETTERS ///
+	protected Program getExpressionProgram(){
+		return this.program;
+	}
+	
+	protected Ship getExpressionShip(){
+		return this.getExpressionProgram().getProgramShip();
+	}
+	/// SETTERS ///
+	protected void setExpressionProgram(Program program){
+		this.program = program;
+	}
+	/// CONNECTIONS WITH OTHER CLASSES ///
+	private Program program = null;
 
 }

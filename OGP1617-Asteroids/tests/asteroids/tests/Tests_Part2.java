@@ -719,4 +719,16 @@ public class Tests_Part2 {
 		assertEquals(2,facade.getEntities(world).size(),EPSILON);
 		
 	}
+	
+	/// GET MINOR PLANETS ///
+	@Test
+	public final void getPlanets() throws ModelException{
+		World world = createWorlds()[0];
+		Planetoid planetoid = facade.createPlanetoid(10000, 10000,10, 10, 100, 0);
+		Asteroid asteroid = facade.createAsteroid(20000, 20000, 0, 0, 50);
+		facade.addPlanetoidToWorld(world, planetoid);
+		facade.addAsteroidToWorld(world, asteroid);
+		assert(2 == world.getWorldSpecificEntities("MinorPlanet").size());
+	}
+		
 }

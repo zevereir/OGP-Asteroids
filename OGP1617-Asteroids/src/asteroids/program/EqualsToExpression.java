@@ -11,7 +11,7 @@ class EqualsToExpression extends MyExpression {
 	
 	@Override
 	protected Object getExpressionResult() {
-		// TODO Auto-generated method stub
+
 		return getLeftOperand().equals(getRightOperand());
 	}
 

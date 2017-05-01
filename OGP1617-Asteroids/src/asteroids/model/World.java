@@ -278,7 +278,7 @@ public class World {
 		Set<Object> result = new HashSet<Object>();
 		
 		for (Object entity : getWorldEntities()){
-			if (entity.getClass().getSimpleName().equals(string))
+			if (entity.getClass().getSimpleName().equals(string) || entity.getClass().getSuperclass().getSimpleName().equals(string))
 				result.add(entity);}
 		
 		return result;		
