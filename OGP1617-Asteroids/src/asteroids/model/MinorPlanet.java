@@ -65,12 +65,16 @@ public abstract class MinorPlanet extends Entity{
 		setEntityMass(MassFormula(radius, density));
 	}
 	
-	/// DEFAULTS ///
+	
+	/// CONSTANTS ///
 	
 	/**
 	 * The lower radius for a minor planet.
 	 */
-	protected final static double LOWER_MINOR_PLANET_RADIUS = 5;
+	protected final static double LOWER_MINOR_PLANET_RADIUS = 5;	
+	
+	
+	/// DEFAULTS ///
 	
 	/**
 	 * Returns the lower radius a minor planet can have.

@@ -114,9 +114,9 @@ public class Planetoid extends MinorPlanet {
 	
 	
 	/// PROPERTIES ///
-	
-	protected double totalTraveledDistance;
+
 	protected double initial_radius;
+	protected double totalTraveledDistance;
 	
 	
 	/// DEFAULTS ///
@@ -155,16 +155,6 @@ public class Planetoid extends MinorPlanet {
 	/// GETTERS ///
 	
 	/**
-	 * Return the total traveled distance of the planetoid.
-	 * 
-	 * @return 	The distance.
-	 * 			@see implementation
-	 */
-	public double getPlanetoidTotalTraveledDistance(){
-		return totalTraveledDistance;
-	}
-	
-	/**
 	 * Return the initial radius of the planetoid
 	 * 
 	 * @return 	The initial radius.
@@ -172,6 +162,16 @@ public class Planetoid extends MinorPlanet {
 	 */
 	protected final double getPlanetoidInitialRadius(){
 		return initial_radius;
+	}
+	
+	/**
+	 * Return the total traveled distance of the planetoid.
+	 * 
+	 * @return 	The distance.
+	 * 			@see implementation
+	 */
+	public double getPlanetoidTotalTraveledDistance(){
+		return totalTraveledDistance;
 	}
 	
 	
@@ -191,6 +191,19 @@ public class Planetoid extends MinorPlanet {
 	}
 	
 	/**
+	 * Set the planetoids initial radius to a given radius.
+	 * 
+	 * @param 	radius
+	 * 			The planetoids new initial radius.
+	 * 
+	 * @post 	The new initial radiuswill be equal to the given radius.
+	 * 		  | new.getPlanetoidInitialRadius() == radius.
+	 */
+	protected void setPlanetoidInitialRadius(double radius){
+		initial_radius = radius;
+	}
+	
+	/**
 	 * Set the planetoids total traveled distance to a given value.
 	 * 
 	 * @param 	totalTraveledDistance
@@ -206,19 +219,6 @@ public class Planetoid extends MinorPlanet {
 			this.totalTraveledDistance = totalTraveledDistance;
 		else
 			throw new IllegalArgumentException();
-	}
-	
-	/**
-	 * Set the planetoids initial radius to a given radius.
-	 * 
-	 * @param 	radius
-	 * 			The planetoids new initial radius.
-	 * 
-	 * @post 	The new initial radiuswill be equal to the given radius.
-	 * 		  | new.getPlanetoidInitialRadius() == radius.
-	 */
-	protected void setPlanetoidInitialRadius(double radius){
-		initial_radius = radius;
 	}
 	
 	/**
@@ -266,6 +266,63 @@ public class Planetoid extends MinorPlanet {
 	 */
 	protected boolean isValidTraveledDistance(double totalTraveledDistance){
 		return (totalTraveledDistance>=0 && totalTraveledDistance >= getDefaultPlanetoidTraveledDistance());
+	}
+	
+	
+	/// HELP FUNCTIONS ///
+
+	/**
+	 * Divides the planetoid in two children (asteroids) who will fly in a straight line away from eachother.
+	 * 
+	 * @effect 	Two children will be made via the asteroid constructor. They will have followong properties: 
+	 * 			they have anti-supplementary orientations( one of the two is chosen random).
+	 * 			the total velocity is 1.5 times the velocity of the planetoid.
+	 * 			The radius is 0.5 times the radius of the planetoid.
+	 * 			@see implementation
+	 * @effect 	The first child will be moved for 0.00001 seconds after it's placed in the world, to avoid collision with the second child.
+	 * 			@see implementation
+	 * @effect 	If one of the children cannot be placed in the world, it will be terminated.
+	 * 			@see implementation
+	 */
+	public void planetoidDivision() {
+		// Calculating the child properties
+		double total_child_velocity = 1.5 * getEuclidianDistance(getEntityVelocityX(), getDefaultVelocityY());
+		double child_radius = getEntityRadius() / 2;
+		double child1_orientation = Math.random() * Math.PI;
+		double child2_orientation = (child1_orientation + Math.PI);
+
+		double child1_velocityX = total_child_velocity * Math.cos(child1_orientation);
+		double child1_velocityY = total_child_velocity * Math.sin(child1_orientation);
+		double child2_velocityX = total_child_velocity * Math.cos(child2_orientation);
+		double child2_velocityY = total_child_velocity * Math.sin(child2_orientation);
+
+		double child1_positionX = getEntityPositionX() + child_radius * Math.cos(child1_orientation);
+		double child1_positionY = getEntityPositionY() + child_radius * Math.sin(child1_orientation);
+		double child2_positionX = getEntityPositionX() + child_radius * Math.cos(child2_orientation);
+		double child2_positionY = getEntityPositionY() + child_radius * Math.sin(child2_orientation);
+
+		// Making the children
+		Asteroid child1 = new Asteroid(child1_positionX, child1_positionY, child1_velocityX, child1_velocityY, child_radius);
+		Asteroid child2 = new Asteroid(child2_positionX, child2_positionY, child2_velocityX, child2_velocityY, child_radius);
+		child1.setEntityOrientation(child1_orientation);
+		child2.setEntityOrientation(child2_orientation);
+
+		// Adding them to the world
+		World world = getEntityWorld();
+		this.getEntityWorld().removeEntityFromWorld(this);
+		
+		try {
+			world.addEntityToWorld(child1);
+			child1.move(0.00001);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			child1.Terminate();
+		}
+		
+		try {
+			world.addEntityToWorld(child2);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			child2.Terminate();
+		}
 	}
 
 
@@ -322,88 +379,6 @@ public class Planetoid extends MinorPlanet {
 		
 		updatePlanetoidRadius();
 	}
-	
-	
-	/// TERMINATE ///
-
-	/**
-	 * Terminate the planetoid.
-	 * 
-	 * @post	The planetoids state will be set to Terminated. If the planetoid was in a world, it will 
-	 * 			be removed from this world. 
-	 * 			@see implementation
-	 * 
-	 * @effect 	If the planetoid was big enough, it will be divided in two asteroids.
-	 * 		  | if (getEntityRadius >= 30)
-	 * 		  |   planetoidDivision()
-	 */
-	public void Terminate() {
-		if (this.isEntityFree())
-			setEntityState(State.TERMINATED);
-
-		else if (this.isEntityInWorld()) {
-			if (getEntityRadius() >=30)
-				planetoidDivision();
-			else
-				getEntityWorld().removeEntityFromWorld(this);
-			
-			setEntityState(State.TERMINATED);
-		}
-	}
-
-	/**
-	 * Divides the planetoid in two children (asteroids) who will fly in a straight line away from eachother.
-	 * 
-	 * @effect 	Two children will be made via the asteroid constructor. They will have followong properties: 
-	 * 			they have anti-supplementary orientations( one of the two is chosen random).
-	 * 			the total velocity is 1.5 times the velocity of the planetoid.
-	 * 			The radius is 0.5 times the radius of the planetoid.
-	 * 			@see implementation
-	 * @effect 	The first child will be moved for 0.00001 seconds after it's placed in the world, to avoid collision with the second child.
-	 * 			@see implementation
-	 * @effect 	If one of the children cannot be placed in the world, it will be terminated.
-	 * 			@see implementation
-	 */
-	public void planetoidDivision() {
-		// Calculating the child properties
-		double total_child_velocity = 1.5 * getEuclidianDistance(getEntityVelocityX(), getDefaultVelocityY());
-		double child_radius = getEntityRadius() / 2;
-		double child1_orientation = Math.random() * Math.PI;
-		double child2_orientation = (child1_orientation + Math.PI);
-
-		double child1_velocityX = total_child_velocity * Math.cos(child1_orientation);
-		double child1_velocityY = total_child_velocity * Math.sin(child1_orientation);
-		double child2_velocityX = total_child_velocity * Math.cos(child2_orientation);
-		double child2_velocityY = total_child_velocity * Math.sin(child2_orientation);
-
-		double child1_positionX = getEntityPositionX() + child_radius * Math.cos(child1_orientation);
-		double child1_positionY = getEntityPositionY() + child_radius * Math.sin(child1_orientation);
-		double child2_positionX = getEntityPositionX() + child_radius * Math.cos(child2_orientation);
-		double child2_positionY = getEntityPositionY() + child_radius * Math.sin(child2_orientation);
-
-		// Making the children
-		Asteroid child1 = new Asteroid(child1_positionX, child1_positionY, child1_velocityX, child1_velocityY, child_radius);
-		Asteroid child2 = new Asteroid(child2_positionX, child2_positionY, child2_velocityX, child2_velocityY, child_radius);
-		child1.setEntityOrientation(child1_orientation);
-		child2.setEntityOrientation(child2_orientation);
-
-		// Adding them to the world
-		World world = getEntityWorld();
-		this.getEntityWorld().removeEntityFromWorld(this);
-		
-		try {
-			world.addEntityToWorld(child1);
-			child1.move(0.00001);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			child1.Terminate();
-		}
-		
-		try {
-			world.addEntityToWorld(child2);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			child2.Terminate();
-		}
-	}
 
 	
 	/// COLLISIONS ///
@@ -440,6 +415,34 @@ public class Planetoid extends MinorPlanet {
 			if (collisionListener != null)
 				collisionListener.objectCollision(this, ship,collisionPositionX,collisionPositionY);
 			ship.Terminate();
+		}
+	}
+	
+	
+	/// TERMINATE ///
+
+	/**
+	 * Terminate the planetoid.
+	 * 
+	 * @post	The planetoids state will be set to Terminated. If the planetoid was in a world, it will 
+	 * 			be removed from this world. 
+	 * 			@see implementation
+	 * 
+	 * @effect 	If the planetoid was big enough, it will be divided in two asteroids.
+	 * 		  | if (getEntityRadius >= 30)
+	 * 		  |   planetoidDivision()
+	 */
+	public void Terminate() {
+		if (this.isEntityFree())
+			setEntityState(State.TERMINATED);
+
+		else if (this.isEntityInWorld()) {
+			if (getEntityRadius() >=30)
+				planetoidDivision();
+			else
+				getEntityWorld().removeEntityFromWorld(this);
+			
+			setEntityState(State.TERMINATED);
 		}
 	}
 	

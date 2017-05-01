@@ -151,26 +151,6 @@ public class Asteroid extends MinorPlanet {
 		return (density == getDefaultAsteroidDensity());
 	}
 	
-
-	/// TERMINATE ///
-	
-	/**
-	 * Terminate the asteroid.
-	 * 
-	 * @post	The asteroids state will be set to Terminated. If the asteroid was in a world, it will 
-	 * 			be removed from this world. 
-	 * 			@see implementation
-	 */
-	public void Terminate() {
-		if (isEntityFree())
-			setEntityState(State.TERMINATED);
-		
-		else if (isEntityInWorld()) {
-			getEntityWorld().removeEntityFromWorld(this);
-			setEntityState(State.TERMINATED);
-		}
-	}
-	
 	
 	/// COLLISIONS ///
 	
@@ -194,6 +174,26 @@ public class Asteroid extends MinorPlanet {
 			collisionListener.objectCollision(this, ship,collisionPositionX,collisionPositionY);
 		
 		ship.Terminate();
+	}
+	
+
+	/// TERMINATE ///
+	
+	/**
+	 * Terminate the asteroid.
+	 * 
+	 * @post	The asteroids state will be set to Terminated. If the asteroid was in a world, it will 
+	 * 			be removed from this world. 
+	 * 			@see implementation
+	 */
+	public void Terminate() {
+		if (isEntityFree())
+			setEntityState(State.TERMINATED);
+		
+		else if (isEntityInWorld()) {
+			getEntityWorld().removeEntityFromWorld(this);
+			setEntityState(State.TERMINATED);
+		}
 	}
 	
 }

@@ -51,16 +51,16 @@ public class World {
 	
 	/// BASIC PROPERTIES ///
 
-	private double width;
 	private double height;
+	private double width;
 
 	
 	/// CONSTANTS ///
 	
 	/**
-	 * The maximum width a world can have.
+	 * A constant that is used to "correct" the errors that occur when using double values.
 	 */
-	private final static double UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
+	private final static double GAMMA = 0.01;
 	
 	/**
 	 * The maximum height a world can have.
@@ -68,69 +68,31 @@ public class World {
 	private final static double UPPER_WORLD_BOUND_HEIGHT = Double.MAX_VALUE;
 	
 	/**
-	 * A constant that is used to "correct" the errors that occur when using double values.
+	 * The maximum width a world can have.
 	 */
-	private final static double GAMMA = 0.01;
+	private final static double UPPER_WORLD_BOUND_WIDTH = Double.MAX_VALUE;
 
 	
 	/// GETTERS ///
 
-	/** 
-	 * Return the state of the world.
-	 * 
-	 * @return 	The state.
-	 * 			@see implementation
-	 */
-	private State getState() {
-		return this.state;
-	}
-
 	/**
-	 * Returns a set with only entities of a specific class that belong to the world.
+	 * Returns Collision Entity 1.
 	 * 
-	 * @param 	string
-	 * 			The string that defines the specific class like "Class".
-	 * 
-	 * @return 	The set of the entities that belong to the class in the string.
-	 * 			@see implementation
-	 * 
-	 */
-	public Set<?> getWorldSpecificEntities(String string){
-		Set<Object> result = new HashSet<Object>();
-		
-		for (Object entity : getWorldEntities()){
-			if (entity.getClass().getSimpleName().equals(string))
-				result.add(entity);}
-		
-		return result;		
-	}
-
-	/**
-	 * Return the set of all the entities in the world.
-	 * 
-	 * @return 	The set of entities in the world.
+	 * @return 	The entity
 	 * 			@see implementation
 	 */
-	public Set<? extends Object> getWorldEntities() {
-		Set<Object> result = new HashSet<>();
-		
-		result.addAll(entities.values());
-		
-		return result;
+	private Entity getCollisionEntity1(){
+		return collision_entity_1;
 	}
 	
 	/**
-	 * Return the map with as keys the positions of all the entities in the world and as values the respective entities.
+	 * Returns Collision Entity 2.
 	 * 
-	 * @return 	The map.
+	 * @return 	The entity
 	 * 			@see implementation
 	 */
-	public Map<String,Entity> getWorldEntityPositions() {
-		Map<String, Entity> result = new HashMap<String,Entity>();
-		
-		result.putAll(entity_positions);
-		
-		return result;
+	private Entity getCollisionEntity2(){
+		return collision_entity_2;
 	}
 	
 	/**
@@ -155,61 +117,6 @@ public class World {
 		else
 			return null;
 	}
-	
-	/**
-	 * Return the width of the world.
-	 * 
-	 * @return 	The width of the world.
-	 * 			@see implementation
-	 */
-	protected double getWorldWidth() {
-		return getWorldSize()[0];
-	}
-
-	/**
-	 * Return the height of the world.
-	 * 
-	 * @return 	The height of the world.
-	 * 			@see implementation
-	 */
-	protected double getWorldHeight() {
-		return getWorldSize()[1];
-	}
-
-	/**
-	 * Return the size of the world.
-	 * 
-	 * @return 	The size of the world, expressed as an array.
-	 * 			@see implementation
-	 */
-	public double[] getWorldSize() {
-		double width = this.width;
-		double height = this.height;
-		double[] size_array = { width, height };
-
-		return size_array;
-	}
-
-	/**
-	 * Returns Collision Entity 1.
-	 * 
-	 * @return 	The entity
-	 * 			@see implementation
-	 */
-	private Entity getCollisionEntity1(){
-		return collision_entity_1;
-	}
-	
-	/**
-	 * Returns Collision Entity 2.
-	 * 
-	 * @return 	The entity
-	 * 			@see implementation
-	 */
-	private Entity getCollisionEntity2(){
-		return collision_entity_2;
-	}
-	
 	
 	/**
 	 * Return the position where the next collision will take place.
@@ -241,6 +148,16 @@ public class World {
 			double[] new_array = { infinity, infinity };
 			return new_array;
 		}
+	}
+
+	/** 
+	 * Return the state of the world.
+	 * 
+	 * @return 	The state.
+	 * 			@see implementation
+	 */
+	private State getState() {
+		return this.state;
 	}
 	
 	/**
@@ -294,9 +211,115 @@ public class World {
 		}
 		return minimumCollisionTime;
 	}
+
+	/**
+	 * Return the set of all the entities in the world.
+	 * 
+	 * @return 	The set of entities in the world.
+	 * 			@see implementation
+	 */
+	public Set<? extends Object> getWorldEntities() {
+		Set<Object> result = new HashSet<>();
+		
+		result.addAll(entities.values());
+		
+		return result;
+	}
+	
+	/**
+	 * Return the map with as keys the positions of all the entities in the world and as values the respective entities.
+	 * 
+	 * @return 	The map.
+	 * 			@see implementation
+	 */
+	public Map<String,Entity> getWorldEntityPositions() {
+		Map<String, Entity> result = new HashMap<String,Entity>();
+		
+		result.putAll(entity_positions);
+		
+		return result;
+	}
+
+	/**
+	 * Return the height of the world.
+	 * 
+	 * @return 	The height of the world.
+	 * 			@see implementation
+	 */
+	protected double getWorldHeight() {
+		return getWorldSize()[1];
+	}
+
+	/**
+	 * Return the size of the world.
+	 * 
+	 * @return 	The size of the world, expressed as an array.
+	 * 			@see implementation
+	 */
+	public double[] getWorldSize() {
+		double width = this.width;
+		double height = this.height;
+		double[] size_array = { width, height };
+
+		return size_array;
+	}
+
+	/**
+	 * Returns a set with only entities of a specific class that belong to the world.
+	 * 
+	 * @param 	string
+	 * 			The string that defines the specific class like "Class".
+	 * 
+	 * @return 	The set of the entities that belong to the class in the string.
+	 * 			@see implementation
+	 * 
+	 */
+	public Set<?> getWorldSpecificEntities(String string){
+		Set<Object> result = new HashSet<Object>();
+		
+		for (Object entity : getWorldEntities()){
+			if (entity.getClass().getSimpleName().equals(string))
+				result.add(entity);}
+		
+		return result;		
+	}
+	
+	/**
+	 * Return the width of the world.
+	 * 
+	 * @return 	The width of the world.
+	 * 			@see implementation
+	 */
+	protected double getWorldWidth() {
+		return getWorldSize()[0];
+	}
 	
 	
 	/// SETTERS ///
+	
+	/**
+	 * Set the variable collision_entity_1 to a given entity.
+	 * 
+	 * @param 	entity
+	 * 			The entity that will collide
+	 * @post 	collision_entity_1 will be equal to the given entity
+	 * 		  | new.getCollisionEntity1 == entity.
+	 */
+	private void setCollisionEntity1(Entity entity){
+		collision_entity_1 = entity;
+	}
+	
+	/**
+	 * Set the variable collision_entity_2 to a given entity.
+	 * 
+	 * @param 	entity
+	 * 			The entity that will collide
+	 * @post 	collision_entity_2 will be equal to the given entity
+	 * 		  | new.getCollisionEntity2 == entity.
+	 */
+	private void setCollisionEntity2(Entity entity){
+		collision_entity_2 = entity;
+	}
 
 	/**
 	 * Set the worlds height.
@@ -320,30 +343,6 @@ public class World {
 			height = UPPER_WORLD_BOUND_HEIGHT;
 
 		this.height = height;
-	}
-	
-	/**
-	 * Set the world's width.
-	 * 
-	 * @param 	width
-	 * 			The new width.
-	 * 
-	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
-	 * 		  | new.getWorldWidth() == Math.abs(width)
-	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
-	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
-	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
-	 * 			new width of the world.
-	 * 		  | new.getWorldWidth() == width
-	 */
-	private void setWorldWidth(double width) {
-		if (width < 0)
-			width = Math.abs(width);
-
-		if (!isValidWidthOrHeight(width))
-			width = UPPER_WORLD_BOUND_WIDTH;
-
-		this.width = width;
 	}
 
 	/** 
@@ -384,44 +383,31 @@ public class World {
 	}
 	
 	/**
-	 * Set the variable collision_entity_1 to a given entity.
+	 * Set the world's width.
 	 * 
-	 * @param 	entity
-	 * 			The entity that will collide
-	 * @post 	collision_entity_1 will be equal to the given entity
-	 * 		  | new.getCollisionEntity1 == entity.
-	 */
-	private void setCollisionEntity1(Entity entity){
-		collision_entity_1 = entity;
-	}
-	
-	/**
-	 * Set the variable collision_entity_2 to a given entity.
+	 * @param 	width
+	 * 			The new width.
 	 * 
-	 * @param 	entity
-	 * 			The entity that will collide
-	 * @post 	collision_entity_2 will be equal to the given entity
-	 * 		  | new.getCollisionEntity2 == entity.
+	 * @post 	If the given width is negative, the new width is the absolute value of the given width.
+	 * 		  | new.getWorldWidth() == Math.abs(width)
+	 * @post 	If the given width is too big, the width of the world will be set to the upper bound.
+	 * 		  | new.getWorldWidth() == UPPER_WORLD_BOUND_WIDTH
+	 * @post 	In all the other cases the given width will be a valid width and will be set as the 
+	 * 			new width of the world.
+	 * 		  | new.getWorldWidth() == width
 	 */
-	private void setCollisionEntity2(Entity entity){
-		collision_entity_2 = entity;
+	private void setWorldWidth(double width) {
+		if (width < 0)
+			width = Math.abs(width);
+
+		if (!isValidWidthOrHeight(width))
+			width = UPPER_WORLD_BOUND_WIDTH;
+
+		this.width = width;
 	}
 
 	
 	/// CHECKERS ///
-	
-	/**
-	 * Checks if a width or height is valid.
-	 * 
-	 * @param 	length
-	 * 			The width or height that has to be checked.
-	 * 
-	 * @return 	The boolean that checks the length.
-	 * 			@see implementation
-	 */
-	private boolean isValidWidthOrHeight(double length){
-		return (length > 0 && Double.isFinite(length)) ;
-	}
 	
 	/**
 	 * Checks if the world can have this entity.
@@ -458,6 +444,19 @@ public class World {
 	protected boolean hasWorldProperState() {
 		return (!isWorldTerminated()) ^ isWorldTerminated();
 	}
+	
+	/**
+	 * Checks if a width or height is valid.
+	 * 
+	 * @param 	length
+	 * 			The width or height that has to be checked.
+	 * 
+	 * @return 	The boolean that checks the length.
+	 * 			@see implementation
+	 */
+	private boolean isValidWidthOrHeight(double length){
+		return (length > 0 && Double.isFinite(length)) ;
+	}
 
 	/**
 	 * Checks whether the world is terminated or not.
@@ -467,22 +466,6 @@ public class World {
 	 */
 	public boolean isWorldTerminated() {
 		return (getState() == State.TERMINATED);
-	}
-
-
-	/// HELP FUNCTIONS ///
-	
-	/**
-	 * Set an array [x,y] to a string "x, y".
-	 * 
-	 * @param	array
-	 * 			The array that has to be formed into a string.
-	 * 			
-	 * @return	A position in form of a string.
-	 * 			@see implementation
-	 */
-	private String arrayToString(double[] array) {
-		return (array[0] + "," + array[1]);
 	}
 
 	
@@ -546,6 +529,22 @@ public class World {
 			entity_positions.remove(arrayToString(entity.getEntityPosition()));
 			entity.setEntityFree();
 		}
+	}
+
+
+	/// HELP FUNCTIONS ///
+	
+	/**
+	 * Set an array [x,y] to a string "x, y".
+	 * 
+	 * @param	array
+	 * 			The array that has to be formed into a string.
+	 * 			
+	 * @return	A position in form of a string.
+	 * 			@see implementation
+	 */
+	private String arrayToString(double[] array) {
+		return (array[0] + "," + array[1]);
 	}
 		
 
@@ -645,27 +644,6 @@ public class World {
 	}
 	
 	/**
-	 * Updates the entity_positions map and moves entities after colliding.
-	 * 
-	 * @param 	entity1
-	 * 			An entity that collided.				
-	 * @param 	entity2
-	 * 			the other entity that collided.
-	 * @param 	defaultEvolvingTime
-	 * 			the time until the collision happened.
-	 * 
-	 * @effect 	updatePositionListAfterCollision() will be used onthe entities (or only entity1 when colliding with a boundary) .
-	 * 			@see implementation
-	 */
-	protected void updatePositionListAfterCollision(Entity entity1, Entity entity2,double defaultEvolvingTime){
-		updatePositionListAfterCollision(entity1,defaultEvolvingTime);
-		
-		if (entity2 != null){
-			updatePositionListAfterCollision(entity2,defaultEvolvingTime);
-		}
-	}
-	
-	/**
 	 * Updates the entity_positions map and moves an entity after colliding to avoid direct collisions.
 	 * 
 	 * @param 	entity
@@ -686,9 +664,44 @@ public class World {
 		
 		entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
 	}
+	
+	/**
+	 * Updates the entity_positions map and moves entities after colliding.
+	 * 
+	 * @param 	entity1
+	 * 			An entity that collided.				
+	 * @param 	entity2
+	 * 			the other entity that collided.
+	 * @param 	defaultEvolvingTime
+	 * 			the time until the collision happened.
+	 * 
+	 * @effect 	updatePositionListAfterCollision() will be used onthe entities (or only entity1 when colliding with a boundary) .
+	 * 			@see implementation
+	 */
+	protected void updatePositionListAfterCollision(Entity entity1, Entity entity2,double defaultEvolvingTime){
+		updatePositionListAfterCollision(entity1,defaultEvolvingTime);
+		
+		if (entity2 != null){
+			updatePositionListAfterCollision(entity2,defaultEvolvingTime);
+		}
+	}
 				
 
 	/// TERMINATION AND STATES ///
+
+	/**
+	 * The state of the world is initiated as NOT_TERMINATED.
+	 */
+	private State state = State.NOT_TERMINATED;
+
+	/**
+	 * The two states of a world:
+	 *   NOT_TERMINATED: the world is not terminated.
+	 *   TERMINATED: the world doesn't exist anymore, so it's terminated.
+	 */
+	private static enum State {
+		NOT_TERMINATED, TERMINATED;
+	}
 	
 	/**
 	 * Terminate this world.
@@ -703,20 +716,6 @@ public class World {
 			for (Object entity: getWorldEntities())
 				removeEntityFromWorld((Entity)entity);
 		}
-	}
-
-	/**
-	 * The state of the world is initiated as NOT_TERMINATED.
-	 */
-	private State state = State.NOT_TERMINATED;
-
-	/**
-	 * The two states of a world:
-	 *   NOT_TERMINATED: the world is not terminated.
-	 *   TERMINATED: the world doesn't exist anymore, so it's terminated.
-	 */
-	private static enum State {
-		NOT_TERMINATED, TERMINATED;
 	}
 	
 

@@ -152,6 +152,16 @@ public class Ship extends Entity {
 	private static double getDefaultMass() {
 		return MassFormula(getDefaultShipRadius(), getDefaultShipDensity());
 	}
+
+	/**
+	 * Return the default density of a ship.
+	 * 
+	 * @return 	The default density is equal to 1.42E12.
+	 * 			@see implementation
+	 */
+	private static double getDefaultShipDensity() {
+		return 1.42E12;
+	}
 	
 	/**
 	 * Return the default radius of a ship.
@@ -162,16 +172,6 @@ public class Ship extends Entity {
 	@Immutable
 	private static double getDefaultShipRadius() {
 		return 10;
-	}
-
-	/**
-	 * Return the default density of a ship.
-	 * 
-	 * @return 	The default density is equal to 1.42E12.
-	 * 			@see implementation
-	 */
-	private static double getDefaultShipDensity() {
-		return 1.42E12;
 	}
 
 	/**
@@ -269,6 +269,10 @@ public class Ship extends Entity {
 		
 		return result;
 	}
+	
+	public Program getShipProgram(){
+		return program;
+	}
 
 	/**
 	 * Return the thruster-force of the ship.
@@ -295,21 +299,6 @@ public class Ship extends Entity {
 			weight += bullet.getEntityMass();
 
 		return weight;
-	}
-	
-	/**
-	 * Return the thrusterActivity of the ship.
-	 * 
-	 * @return 	The thrusterActivity.
-	 * 			@see implementation
-	 */
-	@Basic
-	public boolean isThrusterActive() {
-		return thruster_activity;
-	}
-	
-	public Program getShipProgram(){
-		return program;
 	}
 	
 	
@@ -391,26 +380,6 @@ public class Ship extends Entity {
 	/// CHECKERS ///
 
 	/**
-	 * Checks if a bullet lies fully in the ship.
-	 * 
-	 * @param 	bullet
-	 *          The bullet that has to be checked.
-	 *          
-	 * @return 	False if the sum of distance between the centers and the radius 
-	 * 			of the bullet is greater than the radius of the ship.
-	 *         	@see implementation
-	 */
-	private boolean bulletFullyInShip(Bullet bullet) {
-		double delta_x = Math.abs(bullet.getEntityPositionX() - this.getEntityPositionX());
-		double delta_y = Math.abs(bullet.getEntityPositionY() - this.getEntityPositionY());
-		double bullet_radius = bullet.getEntityRadius();
-		double ship_radius = this.getEntityRadius();
-		double distance_between = getEuclidianDistance(delta_x, delta_y);
-		
-		return ((distance_between + bullet_radius) < ship_radius);
-	}
-
-	/**
 	 * Checks if a bullet may be loaded on the ship.
 	 * 
 	 * @param 	bullet
@@ -439,10 +408,10 @@ public class Ship extends Entity {
 		if (bullet.getBulletShip() != null)
 			return false;
 			
-		if (!this.bulletFullyInShip(bullet))
+		if (!isBulletFullyInShip(bullet))
 			return false;
 
-		if (bullet.isEntityTerminated() || this.isEntityTerminated())
+		if (bullet.isEntityTerminated() || isEntityTerminated())
 			return false;
 
 		return true;
@@ -459,6 +428,37 @@ public class Ship extends Entity {
 	 */
 	protected boolean hasAsBullet(Bullet bullet) {
 		return bullets.containsKey(bullet.hashCode());
+	}
+
+	/**
+	 * Checks if a bullet lies fully in the ship.
+	 * 
+	 * @param 	bullet
+	 *          The bullet that has to be checked.
+	 *          
+	 * @return 	False if the sum of distance between the centers and the radius 
+	 * 			of the bullet is greater than the radius of the ship.
+	 *         	@see implementation
+	 */
+	private boolean isBulletFullyInShip(Bullet bullet) {
+		double delta_x = Math.abs(bullet.getEntityPositionX() - this.getEntityPositionX());
+		double delta_y = Math.abs(bullet.getEntityPositionY() - this.getEntityPositionY());
+		double bullet_radius = bullet.getEntityRadius();
+		double ship_radius = this.getEntityRadius();
+		double distance_between = getEuclidianDistance(delta_x, delta_y);
+		
+		return ((distance_between + bullet_radius) < ship_radius);
+	}
+	
+	/**
+	 * Return the thrusterActivity of the ship.
+	 * 
+	 * @return 	The thrusterActivity.
+	 * 			@see implementation
+	 */
+	@Basic
+	public boolean isThrusterActive() {
+		return thruster_activity;
 	}
 
 	/**
@@ -504,6 +504,25 @@ public class Ship extends Entity {
 	/// ADDERS ///
 
 	/**
+	 * Load multiple bullets on the ship.
+	 * 
+	 * @param 	bullets
+	 *          The collection of bullets that have to be loaded.
+	 *          
+	 * @effect 	The bullets will be added one at a time.
+	 * 			@see implementation
+	 */
+	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
+		bullets.forEach(bullet->{
+			addOneBulletToShip(bullet);
+		});
+	}
+
+	public void addProgramToShip(Program program){
+		this.program = program;
+	}
+
+	/**
 	 * Load one bullet on the ship.
 	 * 
 	 * @param 	bullet
@@ -523,26 +542,6 @@ public class Ship extends Entity {
 		} 
 		else
 			throw new IllegalArgumentException();
-	}
-
-	
-	/**
-	 * Load multiple bullets on the ship.
-	 * 
-	 * @param 	bullets
-	 *          The collection of bullets that have to be loaded.
-	 *          
-	 * @effect 	The bullets will be added one at a time.
-	 * 			@see implementation
-	 */
-	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		bullets.forEach(bullet->{
-			addOneBulletToShip(bullet);
-		});
-	}
-
-	public void addProgramToShip(Program program){
-		this.program = program;
 	}
 	
 	
@@ -771,6 +770,16 @@ public class Ship extends Entity {
 
 	
 	/// THRUSTER ///
+
+	/**
+	 * Set the ship's thruster on inactive.
+	 * 
+	 * @post 	The ship's thruster is inactive.
+	 * 		  | new.isThrusterActive == False
+	 */
+	private void thrustOff() {
+		thruster_activity = false;
+	}
 	
 	/**
 	 * Set the ship's thruster on active.
@@ -781,15 +790,28 @@ public class Ship extends Entity {
 	private void thrustOn() {
 		thruster_activity= true;
 	}
+	
+
+	/// COLLISIONS ///
 
 	/**
-	 * Set the ship's thruster on inactive.
+	 * A method that resolves the collision between two ships.
 	 * 
-	 * @post 	The ship's thruster is inactive.
-	 * 		  | new.isThrusterActive == False
+	 * @param 	ship
+	 * 			The ship that will collide with the entity where the method is invoked on.
+	 * @param 	collisionPosition
+	 * 			An array that contains the x- and y-value of the position where the collision will happen.
+	 * @param 	defaultEvolvingTime
+	 * 			The time until the collision will happen.
+	 * @param 	collisionListener
+	 * 			A variable used to visualize the explosions.
+	 * 
+	 * @effect 	Because the two entities are both ships, doubleShipOrMinorPlanetCollide will be used. 
+	 * 			@see implementation
 	 */
-	private void thrustOff() {
-		thruster_activity = false;
+	@Override
+	protected void entityAndShipCollide(Ship ship, double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
+		this.doubleShipOrMinorPlanetCollide(ship, defaultEvolvingTime);		
 	}
 	
 
@@ -817,12 +839,14 @@ public class Ship extends Entity {
 		}
 	}
 
-	///RUN PROGRAM///
+	
+	/// RUN PROGRAM ///
+	
 	public List<Object> executeProgram(double dt){
 		return this.getShipProgram().execute(dt);
 	}
 	
-	/// CONNECTIONS WITH OTHER CLASSES ///
+	/// RELATIONS WITH OTHER CLASSES ///
 
 	/**
 	 * The map bullets is a map with as key the hash-code representing the bullet, and as value the bullet itself.
@@ -830,28 +854,6 @@ public class Ship extends Entity {
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
 
 	private  Program program = null;
-
-	///COLLISIONS///
-
-	/**
-	 * A method that resolves the collision between two ships.
-	 * 
-	 * @param 	ship
-	 * 			The ship that will collide with the entity where the method is invoked on.
-	 * @param 	collisionPosition
-	 * 			An array that contains the x- and y-value of the position where the collision will happen.
-	 * @param 	defaultEvolvingTime
-	 * 			The time until the collision will happen.
-	 * @param 	collisionListener
-	 * 			A variable used to visualize the explosions.
-	 * 
-	 * @effect 	Because the two entities are both ships, doubleShipOrMinorPlanetCollide will be used. 
-	 * 			@see implementation
-	 */
-	@Override
-	protected void entityAndShipCollide(Ship ship, double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
-		this.doubleShipOrMinorPlanetCollide(ship, defaultEvolvingTime);		
-	}
 
 }
 
