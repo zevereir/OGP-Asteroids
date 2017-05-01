@@ -1,8 +1,8 @@
 package asteroids.program;
 
 class NegationExpression extends UnaryArithmeticExpression {
-	
-	public public NegationExpression(ArithmeticExpression operand) {
+
+	protected NegationExpression(ArithmeticExpression operand) throws IllegalArgumentException {
 		super(operand);
 	}
 
@@ -14,6 +14,12 @@ class NegationExpression extends UnaryArithmeticExpression {
 	
 	public String getOperatorSymbol() {
 		return "-";
+	}
+
+	@Override
+	public boolean hasAsSubExpression(MyExpression expression) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

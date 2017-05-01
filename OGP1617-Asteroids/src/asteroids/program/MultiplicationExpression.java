@@ -7,4 +7,10 @@ class MultiplicationExpression extends BinaryArithmeticExpression {
 		return null;
 	}
 
+	@Override
+	public boolean hasAsSubExpression(MyExpression expression) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
