@@ -11,4 +11,10 @@ class LessThanExpression extends BinaryArithmeticExpression {
 		return (double)getLeftOperand().getExpressionResult() < (double)getRightOperand().getExpressionResult();
 	}
 
+	@Override
+	public boolean hasAsSubExpression(MyExpression expression) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

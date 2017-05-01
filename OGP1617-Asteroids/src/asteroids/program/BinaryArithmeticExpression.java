@@ -2,11 +2,15 @@ package asteroids.program;
 
 abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
+
 	
 	protected BinaryArithmeticExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression) throws IllegalArgumentException{
 			setLeftOperand(leftExpression);
 			setRightOperand(rightExpression);			
+
+
 	}
+	
 	
 	//GETTERS//
 	protected int getNbOperands(){

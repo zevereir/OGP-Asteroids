@@ -2,7 +2,7 @@ package asteroids.program;
 
 class AdditionExpression extends BinaryArithmeticExpression {
 	
-	protected AdditionExpression(MyExpression leftExpression, MyExpression rightExpression)
+	protected AdditionExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}
@@ -10,6 +10,12 @@ class AdditionExpression extends BinaryArithmeticExpression {
 	@Override
 	protected Object getExpressionResult() {
 		return (double)getLeftOperand().getExpressionResult() + (double)getRightOperand().getExpressionResult();
+	}
+
+	@Override
+	public boolean hasAsSubExpression(MyExpression expression) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
