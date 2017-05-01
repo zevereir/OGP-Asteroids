@@ -2,7 +2,9 @@ package asteroids.program;
 
 import java.util.List;
 
+import asteroids.model.Entity;
 import asteroids.part3.programs.SourceLocation;
+import asteroids.util.ModelException;
 
 public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<MyExpression, MyStatement, MyFunction, Program>{
 
@@ -65,155 +67,132 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 		return null;
 	}
 
-	@Override
 	public MyExpression createReadVariableExpression(String variableName, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public MyExpression createReadParameterExpression(String parameterName, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public MyExpression createFunctionCallExpression(String functionName, List<MyExpression> actualArgs,
 			SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation)  {
+		
+			MyExpression result = new NegationExpression((ArithmeticExpression)expression);
+			return result;
 	}
 
-	@Override
-	public MyExpression createNotExpression(MyExpression expression, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	public MyExpression createNotExpression(MyExpression expression, SourceLocation sourceLocation)   {
+			MyExpression result = new LogicalNegationExpression(expression);
+			return result;
+		
 	}
 
-	@Override
 	public MyExpression createDoubleLiteralExpression(double value, SourceLocation location) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public MyExpression createNullExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new NullEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createSelfExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new SelfEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createShipExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new ShipEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createAsteroidExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new AsteroidEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createPlanetoidExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new PlanetoidEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createBulletExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new BulletEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createPlanetExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new PlanetEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createAnyExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new AnyEntity();
+		return result;
 	}
 
-	@Override
 	public MyExpression createGetXExpression(MyExpression e, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new XPositionExpression((Entity)(e.getExpressionResult()));
+		return result;
 	}
 
-	@Override
 	public MyExpression createGetYExpression(MyExpression e, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new YPositionExpression((Entity)(e.getExpressionResult()));
+		return result;
 	}
 
-	@Override
 	public MyExpression createGetVXExpression(MyExpression e, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new XVelocityExpression((Entity)(e.getExpressionResult()));
+		return result;
 	}
 
-	@Override
 	public MyExpression createGetVYExpression(MyExpression e, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new YVelocityExpression((Entity)(e.getExpressionResult()));
+		return result;
 	}
 
-	@Override
 	public MyExpression createGetRadiusExpression(MyExpression e, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new RadiusExpression((Entity)(e.getExpressionResult()));
+		return result;
 	}
 
-	@Override
 	public MyExpression createLessThanExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new LessThanExpression((ArithmeticExpression)e1,(ArithmeticExpression)e2);
+		return result;
 	}
 
-	@Override
 	public MyExpression createEqualityExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new EqualsToExpression(e1,e2);
+		return result;
 	}
 
-	@Override
 	public MyExpression createAdditionExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new AdditionExpression((ArithmeticExpression)e1,(ArithmeticExpression)e2);
+		return result;
 	}
 
-	@Override
 	public MyExpression createMultiplicationExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new MultiplicationExpression((ArithmeticExpression)e1,(ArithmeticExpression)e2);
+		return result;
 	}
 
-	@Override
 	public MyExpression createSqrtExpression(MyExpression e, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new SquareRootExpression((ArithmeticExpression)e);
+		return result;
 	}
 
-	@Override
 	public MyExpression createGetDirectionExpression(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new DirectionExpression();
+		return result;
 	}
 
 	@Override

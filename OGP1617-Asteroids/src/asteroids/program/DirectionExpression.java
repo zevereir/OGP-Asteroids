@@ -2,14 +2,31 @@ package asteroids.program;
 
 import asteroids.model.Entity;
 
-class DirectionExpression extends OnEntityExpression {
-	protected DirectionExpression(Entity operand) throws IllegalArgumentException {
-		super(operand);
-	}
+class DirectionExpression extends MyExpression {
+	/// CONSTRUCTOR ///
+		public DirectionExpression() {
+			setDirectionOperand(getExpressionShip().getEntityOrientation());
+		}
 
-	@Override
-	protected Object getExpressionResult() {
-		return getExpressionShip().getEntityOrientation();
+		/// GETTERS ///
+		protected double getOperand(){
+			return operand;
+		}
+
+		@Override
+		protected Object getExpressionResult() {
+			return getOperand();
+		}
+		/// SETTERS ///
+
+		protected void setDirectionOperand(double operand) throws IllegalArgumentException{
+			this.operand = operand;
+		}
+		
+
+		/// PROPERTIES ///
+		private double operand;
+
 	}
 
 }
