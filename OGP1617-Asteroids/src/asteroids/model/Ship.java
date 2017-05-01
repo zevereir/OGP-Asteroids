@@ -307,10 +307,11 @@ public class Ship extends Entity {
 		return thruster_activity;
 	}
 	
-
 	public Program getShipProgram(){
 		return program;
 	}
+	
+	
 	/// SETTERS ///
 
 	/**
