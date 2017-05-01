@@ -6,6 +6,9 @@ import asteroids.part3.programs.SourceLocation;
 
 public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<MyExpression, MyStatement, MyFunction, Program>{
 
+	public ProgramFactory(){
+	
+	}
 	@Override
 	public Program createProgram(List<MyFunction> functions, MyStatement main) {
 		// TODO Auto-generated method stub
