@@ -1,7 +1,7 @@
 package asteroids.program;
 
 class LessThanExpression extends BinaryArithmeticExpression {
-	protected LessThanExpression(MyExpression leftExpression, MyExpression rightExpression)
+	protected LessThanExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}
@@ -11,10 +11,6 @@ class LessThanExpression extends BinaryArithmeticExpression {
 		return (double)getLeftOperand().getExpressionResult() < (double)getRightOperand().getExpressionResult();
 	}
 
-	@Override
-	public boolean hasAsSubExpression(MyExpression expression) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 }

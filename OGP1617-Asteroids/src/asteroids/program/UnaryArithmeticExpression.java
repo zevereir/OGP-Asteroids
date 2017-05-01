@@ -17,15 +17,22 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		return number == 1;
 	}
 	
-	public MyExpression getOperand() {
+	public ArithmeticExpression getOperand() {
 		return operand;
 	}
 	
-	protected void setOperand(MyExpression operand) {
+	protected void setOperand(ArithmeticExpression operand) {
 		this.operand = operand;
 	}
 	
-	private MyExpression operand;
+	private ArithmeticExpression operand;
 	
+	@Override
+	public boolean hasAsSubExpression(ArithmeticExpression expression){
+		if (this == expression)
+			return true;
+		else
+			return (getOperand().hasAsSubExpression(expression));				
+	}
 
 }

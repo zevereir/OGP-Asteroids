@@ -12,10 +12,6 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 		return null;
 	}
 
-	@Override
-	public boolean hasAsSubExpression(MyExpression expression) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }

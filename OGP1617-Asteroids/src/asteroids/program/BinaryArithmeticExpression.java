@@ -11,7 +11,6 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 	}
 	
-	
 	//GETTERS//
 	protected int getNbOperands(){
 		return 2;
@@ -43,6 +42,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 		return number == 2;
 	}
 	
+	@Override
 	public boolean hasAsSubExpression(ArithmeticExpression expression){
 		if (this == expression)
 			return true;

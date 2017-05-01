@@ -10,7 +10,6 @@ class MultiplicationExpression extends BinaryArithmeticExpression {
 	protected Object getExpressionResult() {
 		return (double)getLeftOperand().getExpressionResult() * (double)getRightOperand().getExpressionResult();
 	}
-
 	
 
 }

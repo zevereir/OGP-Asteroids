@@ -12,7 +12,7 @@ abstract class ArithmeticExpression extends MyExpression {
 		return (expression != null) && (!expression.hasAsSubExpression(this));
 	}
 	
-	public abstract boolean hasAsSubExpression(MyExpression expression);
+	public abstract boolean hasAsSubExpression(ArithmeticExpression expression);
 	
 	
 }

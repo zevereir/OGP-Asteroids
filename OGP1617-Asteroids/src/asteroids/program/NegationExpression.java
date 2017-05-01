@@ -16,11 +16,6 @@ class NegationExpression extends UnaryArithmeticExpression {
 		return "-";
 	}
 
-	@Override
-	public boolean hasAsSubExpression(MyExpression expression) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 	
