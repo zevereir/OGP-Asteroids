@@ -1,15 +1,28 @@
 package asteroids.program;
 
+import java.util.Set;
+
+import asteroids.model.Bullet;
+import asteroids.model.Entity;
+import asteroids.model.Ship;
+
 class BulletEntity extends EntityExpression {
 
-	protected BulletEntity(EntityExpression operand) throws IllegalArgumentException {
-		super(operand);
+	protected BulletEntity() throws IllegalArgumentException {
+		Ship source = getExpressionShip();
+		Set<? extends Object> entities = source.getEntityWorld().getWorldEntities();
+		@SuppressWarnings("unchecked")
+		Set<Bullet> bulletsFromSource = (Set<Bullet>) entities.stream().filter(e -> e instanceof Bullet && (isFiredFromShip((Bullet)e)));
+		Object operand = bulletsFromSource.stream().skip((int)(bulletsFromSource.size() * Math.random())).findFirst();
+		setOperand((Entity)operand);
 	}
 	
-	@Override
-	protected Object getExpressionResult() {
-		return 
+	private boolean isFiredFromShip(Bullet bullet){
+		return (getExpressionShip() == bullet.getBulletSource());
+		
 	}
+	
+	
 
 
 	

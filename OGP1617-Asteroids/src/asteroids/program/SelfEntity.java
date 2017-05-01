@@ -4,9 +4,10 @@ class SelfEntity extends EntityExpression {
 
 	
 	
-	@Override
-	protected Object getExpressionResult() {
-		return getExpressionShip();
+	protected SelfEntity() throws IllegalArgumentException {
+		setOperand(getExpressionShip());
 	}
+
+	
 
 }

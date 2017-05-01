@@ -2,13 +2,8 @@ package asteroids.program;
 
 class PlanetEntity extends EntityExpression {
 
-	protected PlanetEntity(EntityExpression operand) throws IllegalArgumentException {
-		super(operand);
+	protected PlanetEntity() throws IllegalArgumentException {
+		setOperand(getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet")));
 		
-	}
-
-	@Override
-	protected Object getExpressionResult() {
-		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet"));
 	}
 }

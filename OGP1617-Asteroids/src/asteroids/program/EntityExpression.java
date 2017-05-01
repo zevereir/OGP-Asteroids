@@ -1,30 +1,24 @@
 package asteroids.program;
 
 import java.util.Set;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Predicate;
+
 
 import asteroids.model.Entity;
 import asteroids.model.Ship;
-import asteroids.model.World;
+
 
 abstract class EntityExpression extends MyExpression {
-
-	/// CONSTRUCTOR ///
-
-	protected EntityExpression(EntityExpression operand) throws IllegalArgumentException {
-		if (! canHaveAsEntityExpressionOperand(operand))
-			throw new IllegalArgumentException();
-
-		setOperand(operand);
-	}
 
 
 	/// GETTERS ///
 
-	public EntityExpression getOperand() {
+	public Entity getOperand() {
 		return operand;
+	}
+	
+	@Override
+	protected Object getExpressionResult() {
+		return  getOperand();
 	}
 	
 	protected Entity getClosestEntity(Set<? extends Object> entities){
@@ -44,22 +38,13 @@ abstract class EntityExpression extends MyExpression {
 
 	/// SETTERS ///
 
-	protected void setOperand(EntityExpression operand) {
+	protected void setOperand(Entity operand) {
 		this.operand = operand;
 	}
-	
-
-
-	/// CHECKERS ///
-
-	public boolean canHaveAsEntityExpressionOperand(EntityExpression expression){
-		return true;			
-	}
-
 
 	/// PROPERTIES ///
 
-	private EntityExpression operand;
+	private Entity operand = null;
 
 
 }

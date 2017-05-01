@@ -4,9 +4,8 @@ class NullEntity extends EntityExpression {
 
 	
 	
-	@Override
-	protected Object getExpressionResult() {
-		return null;
+	protected NullEntity() throws IllegalArgumentException {
+		setOperand(null);
 	}
 
 }
