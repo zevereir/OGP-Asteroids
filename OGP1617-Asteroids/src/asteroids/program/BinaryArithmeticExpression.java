@@ -4,17 +4,19 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 
 	/// CONSTRUCTOR ///
+	
 	protected BinaryArithmeticExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression) throws IllegalArgumentException{
 			setLeftOperand(leftExpression);
 			setRightOperand(rightExpression);			
-
-
 	}
 	
+	
 	/// GETTERS ///
+	
 	protected int getNbOperands(){
 		return 2;
 	}
+	
 	protected ArithmeticExpression getLeftOperand(){
 		return left_operand;
 	}
@@ -23,7 +25,9 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 		return right_operand;
 	}
 	
+	
 	/// SETTERS ///
+	
 	protected void setLeftOperand(ArithmeticExpression expression) throws IllegalArgumentException{
 		if (canHaveAsArithmeticOperand(expression))
 			left_operand = expression;
@@ -38,7 +42,9 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 			throw new IllegalArgumentException();
 	}
 	
+	
 	/// CHECKERS ///
+	
 	protected boolean canHaveAsNbOperands(double number){
 		return number == 2;
 	}
@@ -53,6 +59,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	
 
 	/// PROPERTIES ///
+	
 	protected ArithmeticExpression left_operand = null;
 	protected ArithmeticExpression right_operand = null;
 

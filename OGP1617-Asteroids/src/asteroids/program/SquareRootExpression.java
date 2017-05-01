@@ -13,7 +13,5 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 		
 		return Math.sqrt((double)getOperand().getExpressionResult());
 	}
-
 	
-
 }

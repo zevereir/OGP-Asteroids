@@ -3,6 +3,7 @@ package asteroids.program;
 abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
+	
 	protected UnaryArithmeticExpression(ArithmeticExpression operand) throws IllegalArgumentException {
 		if (! canHaveAsArithmeticOperand(operand))
 			throw new IllegalArgumentException();
@@ -10,7 +11,9 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		setOperand(operand);
 	}
 	
+	
 	/// GETTERS ///
+	
 	public final int getNbOperands() {
 		return 1;
 	}
@@ -19,12 +22,16 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		return operand;
 	}
 	
+	
 	/// SETTERS ///
+	
 	protected void setOperand(ArithmeticExpression operand) {
 		this.operand = operand;
 	}
 	
+	
 	/// CHECKERS ///
+	
 	public final boolean canHaveAsNbOperands(int number) {
 		return number == 1;
 	}
@@ -39,8 +46,7 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 	
 	
 	/// PROPERTIES ///
+	
 	private ArithmeticExpression operand;
-	
-	
 
 }
