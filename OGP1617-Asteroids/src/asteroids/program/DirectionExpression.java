@@ -1,6 +1,6 @@
 package asteroids.program;
 
-import asteroids.model.Entity;
+
 
 class DirectionExpression extends MyExpression {
 	/// CONSTRUCTOR ///
@@ -27,6 +27,6 @@ class DirectionExpression extends MyExpression {
 		/// PROPERTIES ///
 		private double operand;
 
-	}
+	
 
 }
