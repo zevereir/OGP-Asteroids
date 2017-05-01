@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import asteroids.part2.CollisionListener;
+import asteroids.program.Program;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -310,6 +308,9 @@ public class Ship extends Entity {
 	}
 	
 
+	public Program getShipProgram(){
+		return program;
+	}
 	/// SETTERS ///
 
 	/**
@@ -538,6 +539,10 @@ public class Ship extends Entity {
 		});
 	}
 
+	public void addProgramToShip(Program program){
+		this.program = program;
+	}
+	
 	
 	/// REMOVERS ///
 
@@ -817,6 +822,8 @@ public class Ship extends Entity {
 	 * The map bullets is a map with as key the hash-code representing the bullet, and as value the bullet itself.
 	 */
 	private final Map<Integer, Bullet> bullets = new HashMap<Integer, Bullet>();
+
+	private  Program program = null;
 
 	///COLLISIONS///
 

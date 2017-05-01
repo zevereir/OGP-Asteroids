@@ -1111,15 +1111,22 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 
 	@Override
 	public Program getShipProgram(Ship ship) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return ship.getShipProgram();
+		} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #76");
+		}
 	}
 
 	@Override
 	public void loadProgramOnShip(Ship ship, Program program) throws ModelException {
-		// TODO Auto-generated method stub
-		
+		try {
+			ship.addProgramToShip(program);		
+			} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #77");
+		}
 	}
+
 
 	@Override
 	public List<Object> executeProgram(Ship ship, double dt) throws ModelException {
