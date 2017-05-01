@@ -1,6 +1,7 @@
 package asteroids.program;
 
-class YPositionExpression extends OnEntityExpression {
+abstract class BinaryArithmeticExpression extends ArithmeticExpression {
+
 	@Override
 	protected Object getExpressionResult() {
 		// TODO Auto-generated method stub

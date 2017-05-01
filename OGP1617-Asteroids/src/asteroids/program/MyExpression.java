@@ -4,7 +4,11 @@ import java.util.List;
 
 import asteroids.part3.programs.SourceLocation;
 
-public class MyExpression {
+public abstract class MyExpression {
+	
+	protected abstract Object getExpressionResult();
+	
+	
 	public MyExpression createReadVariableExpression(String variableName, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
