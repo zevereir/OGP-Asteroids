@@ -2,7 +2,7 @@ package asteroids.program;
 
 abstract class ArithmeticExpression extends MyExpression {
 
-	public abstract int getNbOperands();
+	protected abstract int getNbOperands();
 	
 	public boolean canHaveAsNbOperands(int nbOperands) {
 		return nbOperands > 0;
