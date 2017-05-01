@@ -3,6 +3,7 @@ package asteroids.model;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -816,6 +817,10 @@ public class Ship extends Entity {
 		}
 	}
 
+	///RUN PROGRAM///
+	public List<Object> executeProgram(double dt){
+		return this.getShipProgram().execute(dt);
+	}
 	
 	/// CONNECTIONS WITH OTHER CLASSES ///
 

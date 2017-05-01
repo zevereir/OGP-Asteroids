@@ -16,6 +16,7 @@ import asteroids.part2.CollisionListener;
 
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.program.Program;
+import asteroids.program.ProgramFactory;
 import asteroids.util.ModelException;
 
 
@@ -1130,13 +1131,19 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 
 	@Override
 	public List<Object> executeProgram(Ship ship, double dt) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return ship.executeProgram(dt);	
+			} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #78");
+		}
 	}
 
 	@Override
 	public IProgramFactory<?, ?, ?, ? extends Program> createProgramFactory() throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new ProgramFactory();
+			} catch (IllegalArgumentException illegalArgumentException) {
+			throw new ModelException("these are not valid arguments #79");
+		}
 	}
 }
