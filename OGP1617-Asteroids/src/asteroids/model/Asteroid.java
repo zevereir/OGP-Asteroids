@@ -9,17 +9,17 @@ import asteroids.part2.CollisionListener;
  * the asteroids last properties.
  * 
  * @invar 	The position is a valid position.
- * 		  | isValidPosition(this.getEntityPositionX,this.getEntityPositionY)
+ * 		  | isValidPosition(getEntityPositionX, getEntityPositionY)
  * @invar 	The velocity is a valid velocity.
- * 		  | isValidVelocity(this.getEntityVelocityX,this.getEntityVelocityY)
+ * 		  | isValidVelocity(getEntityVelocityX, getEntityVelocityY)
  * @invar 	The orientation is a valid orientation.
- * 		  | isValidOrientation(this.getEntityOrientation)
+ * 		  | isValidOrientation(getEntityOrientation)
  * @invar 	The radius is a valid radius.
- * 		  | isValidRadius(this.getEntityRadius)
+ * 		  | isValidRadius(getEntityRadius)
  * @invar 	The mass is a valid mass.
- * 		  | isValidMass(this.getEntityMass)
+ * 		  | isValidMass(getEntityMass)
  * @invar 	The density is a valid density.
- * 		  | isValidDensity(this.getEntityDensity)
+ * 		  | isValidDensity(getEntityDensity)
  * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx

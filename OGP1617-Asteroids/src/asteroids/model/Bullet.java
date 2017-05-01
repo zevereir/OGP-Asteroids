@@ -9,19 +9,19 @@ import asteroids.part2.CollisionListener;
  * The mass, density and maximum total velocity are the last properties.
  * 
  * @invar 	The position is a valid position.
- * 		  | isValidPosition(this.getEntityPositionX,this.getEntityPositionY)
+ * 		  | isValidPosition(getEntityPositionX, getEntityPositionY)
  * @invar 	The velocity is a valid velocity.
- * 		  | isValidVelocity(this.getEntityVelocityX,this.getEntityVelocityY)
+ * 		  | isValidVelocity(getEntityVelocityX, getEntityVelocityY)
  * @invar 	The orientation is a valid orientation.
- * 		  | isValidOrientation(this.getEntityOrientation)
+ * 		  | isValidOrientation(getEntityOrientation)
  * @invar 	The radius is a valid radius.
- * 		  | isValidRadius(this.getEntityRadius)
+ * 		  | isValidRadius(getEntityRadius)
  * @invar 	The mass is a valid mass.
- * 		  | isValidMass(this.getEntityMass)
+ * 		  | isValidMass(getEntityMass)
  * @invar 	The density is a valid density.
- * 		  | isValidDensity(this.getEntityDensity)
+ * 		  | isValidDensity(getEntityDensity)
  * @invar   The maximum amount of bounces is valid.
- * 		  |	isValidMaximumBulletBounce(this.getMaximumBulletBounce)
+ * 		  |	isValidMaximumBulletBounce(getMaximumBulletBounce)
  * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
@@ -492,8 +492,8 @@ public class Bullet extends Entity {
 		if (counter < getMaximumBulletBounce()){
 			setAmountOfBounces(counter + 1);
 
-			double VelocityX = this.getEntityVelocityX();
-			double VelocityY = this.getEntityVelocityY();
+			double VelocityX = getEntityVelocityX();
+			double VelocityY = getEntityVelocityY();
 
 			if (collideHorizontalBoundary(this, collisionPosition))
 				VelocityY = -VelocityY;
@@ -546,7 +546,7 @@ public class Bullet extends Entity {
 	private BulletState state = BulletState.NOT_LOADED;
 
 	/***
-	 * The two states, calles loaded states, a bullet can be in:
+	 * The two states, called loaded states, a bullet can be in:
 	 *   LOADED: the bullet is loaded on a ship.
 	 *   NOT_LOADED: the bullet is not loaded on a ship.
 	 *   

@@ -19,17 +19,17 @@ import be.kuleuven.cs.som.annotate.*;
  * the ship's last properties.
  * 
  * @invar 	The position is a valid position.
- * 		  | isValidPosition(this.getEntityPositionX,this.getEntityPositionY)
+ * 		  | isValidPosition(getEntityPositionX, getEntityPositionY)
  * @invar 	The velocity is a valid velocity.
- * 		  | isValidVelocity(this.getEntityVelocityX,this.getEntityVelocityY)
+ * 		  | isValidVelocity(getEntityVelocityX, getEntityVelocityY)
  * @invar 	The orientation is a valid orientation.
- * 		  | isValidOrientation(this.getEntityOrientation)
+ * 		  | isValidOrientation(getEntityOrientation)
  * @invar 	The radius is a valid radius.
- * 		  | isValidRadius(this.getEntityRadius)
+ * 		  | isValidRadius(getEntityRadius)
  * @invar 	The mass is a valid mass.
- * 		  | isValidMass(this.getEntityMass)
+ * 		  | isValidMass(getEntityMass)
  * @invar 	The density is a valid density.
- * 		  | isValidDensity(this.getEntityDensity)
+ * 		  | isValidDensity(getEntityDensity)
  * 
  * @version 8th of April
  * @authors Sieben Bocklandt and Ruben Broekx
@@ -265,7 +265,7 @@ public class Ship extends Entity {
 	public Set<Bullet> getShipBullets() {
 		Set<Bullet> result = new HashSet<Bullet>();
 		
-		result.addAll(this.bullets.values());
+		result.addAll(bullets.values());
 		
 		return result;
 	}
@@ -282,7 +282,7 @@ public class Ship extends Entity {
 	 */
 	@Basic
 	private double getShipTrusterForce() {
-		return this.thruster_force;
+		return thruster_force;
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class Ship extends Entity {
 	private double getTotalBulletsWeight() {
 		double weight = 0;
 
-		for (Bullet bullet : this.getShipBullets())
+		for (Bullet bullet : getShipBullets())
 			weight += bullet.getEntityMass();
 
 		return weight;
@@ -389,13 +389,13 @@ public class Ship extends Entity {
 	 * 		  | if (bullet.getBulletShip() != null)
 	 * 		  |   result == false
 	 * @return  False if the bullet isn't completely in the ship.
-	 * 		  | if (!this.bulletFullyInShip(bullet))
+	 * 		  | if (!bulletFullyInShip(bullet))
 	 *		  |   result == false
 	 * @return  False if the bullet is null
 	 * 		  | if(bullet == null)
 	 * 		  |   result == false 
 	 * @return  False if the bullet or the ship is terminated. 
-	 * 		  | if (bullet.isEntityTerminated() || this.isEntityTerminated())
+	 * 		  | if (bullet.isEntityTerminated() || isEntityTerminated())
 	 * 		  |   result == false
 	 * @return  True in all other cases.
 	 * 		  | else
@@ -441,10 +441,10 @@ public class Ship extends Entity {
 	 *         	@see implementation
 	 */
 	private boolean isBulletFullyInShip(Bullet bullet) {
-		double delta_x = Math.abs(bullet.getEntityPositionX() - this.getEntityPositionX());
-		double delta_y = Math.abs(bullet.getEntityPositionY() - this.getEntityPositionY());
+		double delta_x = Math.abs(bullet.getEntityPositionX() - getEntityPositionX());
+		double delta_y = Math.abs(bullet.getEntityPositionY() - getEntityPositionY());
 		double bullet_radius = bullet.getEntityRadius();
-		double ship_radius = this.getEntityRadius();
+		double ship_radius = getEntityRadius();
 		double distance_between = getEuclidianDistance(delta_x, delta_y);
 		
 		return ((distance_between + bullet_radius) < ship_radius);
@@ -559,7 +559,7 @@ public class Ship extends Entity {
 	 *        
 	 * @throws 	IllegalArgumenException
 	 *          If the bullet wasn't loaded on the ship.
-	 *        | this.hasAsBullet(bullet)
+	 *        | hasAsBullet(bullet)
 	 */
 	public void removeBulletFromShip(Bullet bullet) {
 		if (!hasAsBullet(bullet))
@@ -594,14 +594,14 @@ public class Ship extends Entity {
 		if (moveTime < 0)
 			throw new IllegalArgumentException();
 
-		double velocityX = this.getEntityVelocityX();
-		double velocityY = this.getEntityVelocityY();
+		double velocityX = getEntityVelocityX();
+		double velocityY = getEntityVelocityY();
 
-		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
-		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
+		final double collidingPositionX = getEntityPositionX() + velocityX * moveTime;
+		final double collidingPositionY = getEntityPositionY() + velocityY * moveTime;
 
-		final double acceleration = this.getShipAcceleration();
-		final double orientation = this.getEntityOrientation();
+		final double acceleration = getShipAcceleration();
+		final double orientation = getEntityOrientation();
 			
 		double newVelocityX = velocityX + acceleration * Math.cos(orientation) * moveTime;
 		double newVelocityY = velocityY + acceleration * Math.sin(orientation) * moveTime;
@@ -622,11 +622,11 @@ public class Ship extends Entity {
 	 *          The given angle which will determine the difference in orientation.
 	 * 
 	 * @pre 	The new orientation will be between 0 and 2*PI, 0 included.
-	 *        | isVallidRadian(this.getEntityOrientation() + angle)
+	 *        | isVallidRadian(getEntityOrientation() + angle)
 	 * 
 	 * @effect 	The new orientation of the ship is equal to the sum of the
 	 *         	orientation and the given angle.
-	 *        | this.setEntityOrientation(this.getEntityOrientation() + angle)
+	 *        | setEntityOrientation(getEntityOrientation() + angle)
 	 */
 	public void turn(double angle) {
 		assert isValidOrientation(getEntityOrientation() + angle);
@@ -661,12 +661,12 @@ public class Ship extends Entity {
 			Map.Entry<Integer, Bullet> entry = bullets.entrySet().iterator().next();
 			Bullet bullet = entry.getValue();
 
-			this.removeBulletFromShip(bullet);
+			removeBulletFromShip(bullet);
 
-			double positionShipX = this.getEntityPositionX();
-			double positionShipY = this.getEntityPositionY();
-			double orientation = this.getEntityOrientation();
-			double radiusShip = this.getEntityRadius();
+			double positionShipX = getEntityPositionX();
+			double positionShipY = getEntityPositionY();
+			double orientation = getEntityOrientation();
+			double radiusShip = getEntityRadius();
 			double radiusBullet = bullet.getEntityRadius();
 			double positionBulletX = positionShipX + Math.cos(orientation) * (radiusShip + radiusBullet + 1);
 			double positionBulletY = positionShipY + Math.sin(orientation) * (radiusShip + radiusBullet + 1);
@@ -844,7 +844,7 @@ public class Ship extends Entity {
 	/// RUN PROGRAM ///
 	
 	public List<Object> executeProgram(double dt){
-		return this.getShipProgram().execute(dt);
+		return getShipProgram().execute(dt);
 	}
 	
 	/// RELATIONS WITH OTHER CLASSES ///

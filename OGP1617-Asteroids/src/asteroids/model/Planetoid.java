@@ -9,19 +9,19 @@ import asteroids.part2.CollisionListener;
  * the planetoids last properties.
  * 
  * @invar 	The position is a valid position.
- * 		  | isValidPosition(this.getEntityPositionX(),this.getEntityPositionY())
+ * 		  | isValidPosition(getEntityPositionX(), getEntityPositionY())
  * @invar 	The velocity is a valid velocity.
- * 		  | isValidVelocity(this.getEntityVelocityX(),this.getEntityVelocityY())
+ * 		  | isValidVelocity(getEntityVelocityX(), getEntityVelocityY())
  * @invar 	The orientation is a valid orientation.
- * 		  | isValidOrientation(this.getEntityOrientation())
+ * 		  | isValidOrientation(getEntityOrientation())
  * @invar 	The radius is a valid radius.
- * 		  | isValidRadius(this.getEntityRadius())
+ * 		  | isValidRadius(getEntityRadius())
  * @invar 	The mass is a valid mass.
- * 		  | isValidMass(this.getEntityMass())
+ * 		  | isValidMass(getEntityMass())
  * @invar 	The density is a valid density.
- * 		  | isValidDensity(this.getEntityDensity())
+ * 		  | isValidDensity(getEntityDensity())
  * @invar   The total traveled distance is valid.
- * 		  | isValidTotalTraveledDistance(this.getPlanetoidTotalTraveledDistance())
+ * 		  | isValidTotalTraveledDistance(getPlanetoidTotalTraveledDistance())
  * 
  * @version 29th of April
  * @authors Sieben Bocklandt and Ruben Broekx
@@ -309,7 +309,7 @@ public class Planetoid extends MinorPlanet {
 
 		// Adding them to the world
 		World world = getEntityWorld();
-		this.getEntityWorld().removeEntityFromWorld(this);
+		getEntityWorld().removeEntityFromWorld(this);
 		
 		try {
 			world.addEntityToWorld(child1);
@@ -350,13 +350,13 @@ public class Planetoid extends MinorPlanet {
 		
 		shrink(moveTime);
 		
-		double velocityX = this.getEntityVelocityX();
-		double velocityY = this.getEntityVelocityY();
+		double velocityX = getEntityVelocityX();
+		double velocityY = getEntityVelocityY();
 
-		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
-		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
+		final double collidingPositionX = getEntityPositionX() + velocityX * moveTime;
+		final double collidingPositionY = getEntityPositionY() + velocityY * moveTime;
 		
-		this.setPositionWithoutChecking(collidingPositionX, collidingPositionY);
+		setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
 	
 	/**
@@ -433,10 +433,10 @@ public class Planetoid extends MinorPlanet {
 	 * 		  |   planetoidDivision()
 	 */
 	public void Terminate() {
-		if (this.isEntityFree())
+		if (isEntityFree())
 			setEntityState(State.TERMINATED);
 
-		else if (this.isEntityInWorld()) {
+		else if (isEntityInWorld()) {
 			if (getEntityRadius() >=30)
 				planetoidDivision();
 			else

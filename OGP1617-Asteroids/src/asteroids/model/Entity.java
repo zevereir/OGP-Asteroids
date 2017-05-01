@@ -7,17 +7,17 @@ import be.kuleuven.cs.som.annotate.*;
  * A class that describes and modifies all the entities. An entity can be a ship, bullet or MinorPlanet.
  * 
  * @invar 	The position is a valid position.
- * 		  | isValidPosition(this.getEntityPositionX,this.getEntityPositionY)
+ * 		  | isValidPosition(getEntityPositionX, getEntityPositionY)
  * @invar 	The velocity is a valid velocity.
- * 		  | isValidVelocity(this.getEntityVelocityX,this.getEntityVelocityY)
+ * 		  | isValidVelocity(getEntityVelocityX, getEntityVelocityY)
  * @invar 	The orientation is a valid orientation.
- * 		  | isValidOrientation(this.getEntityOrientation)
+ * 		  | isValidOrientation(getEntityOrientation)
  * @invar 	The radius is a valid radius.
- * 		  | isValidRadius(this.getEntityRadius)
+ * 		  | isValidRadius(getEntityRadius)
  * @invar 	The mass is a valid mass.
- * 		  | isValidMass(this.getEntityMass)
+ * 		  | isValidMass(getEntityMass)
  * @invar 	The density is a valid density.
- * 		  | isValidDensity(this.getEntityDensity)
+ * 		  | isValidDensity(getEntityDensity)
  * 
  * @version 30th of April
  * @authors Sieben Bocklandt and Ruben Broekx
@@ -176,7 +176,7 @@ public abstract class Entity {
 	 *         	The other entity.
 	 *            
 	 * @return 	Null if the time until the collision is positive infinity.
-	 * 		  | if this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY
+	 * 		  | if getTimeToCollision(entity) == Double.POSITIVE_INFINITY
 	 * 		  |   result == null
 	 * @return	The position of collision, which  is calculated by moving the ships
 	 *         	at their respective velocities for the time until collision. 
@@ -190,19 +190,19 @@ public abstract class Entity {
 	 *        	@see implementation
 	 */
 	public double[] getCollisionPosition(Entity entity) {
-		double position1X = this.getEntityPositionX();
-		double position1Y = this.getEntityPositionY();
+		double position1X = getEntityPositionX();
+		double position1Y = getEntityPositionY();
 		double position2X = entity.getEntityPositionX();
 		double position2Y = entity.getEntityPositionY();
 		
-		double velocity1X = this.getEntityVelocityX();
-		double velocity1Y = this.getEntityVelocityY();
+		double velocity1X = getEntityVelocityX();
+		double velocity1Y = getEntityVelocityY();
 		double velocity2X = entity.getEntityVelocityX();
 		double velocity2Y = entity.getEntityVelocityY();
 		
-		double radius1 = this.getEntityRadius();
+		double radius1 = getEntityRadius();
 
-		double time_till_overlapping = this.getTimeToCollision(entity);
+		double time_till_overlapping = getTimeToCollision(entity);
 
 		if (time_till_overlapping == Double.POSITIVE_INFINITY)
 			return null;
@@ -256,12 +256,12 @@ public abstract class Entity {
 		if (this.equals(entity))
 			return 0;
 
-		final double position1X = this.getEntityPositionX();
-		final double position1Y = this.getEntityPositionY();
+		final double position1X = getEntityPositionX();
+		final double position1Y = getEntityPositionY();
 		final double position2X = entity.getEntityPositionX();
 		final double position2Y = entity.getEntityPositionY();
 		
-		final double radius1 = this.getEntityRadius();
+		final double radius1 = getEntityRadius();
 		final double radius2 = entity.getEntityRadius();
 		final double total_radius = radius1 + radius2;
 		
@@ -437,16 +437,16 @@ public abstract class Entity {
 			return null;
 		
 		else {
-			double positionX = this.getEntityPositionX();
-			double positionY = this.getEntityPositionY();
+			double positionX = getEntityPositionX();
+			double positionY = getEntityPositionY();
 		
-			double velocityX = this.getEntityVelocityX();
-			double velocityY = this.getEntityVelocityY();
+			double velocityX = getEntityVelocityX();
+			double velocityY = getEntityVelocityY();
 			
-			double width = this.getEntityWorld().getWorldWidth();
-			double height = this.getEntityWorld().getWorldHeight();
+			double width = getEntityWorld().getWorldWidth();
+			double height = getEntityWorld().getWorldHeight();
 			
-			double radius = this.getEntityRadius();
+			double radius = getEntityRadius();
 			
 			boolean collision_happened = false;
 			collidingPositionX = Math.abs(positionX + time * velocityX);
@@ -499,7 +499,7 @@ public abstract class Entity {
 	 * @note	The method will be provided with comments, to make it more easily to follow the flow of our thinking.
 	 * 
 	 * @return 	Positive infinity if the entity has no world or a proper state. 
-	 * 		  | if (!this.isEntityInWorld() && this.hasEntityProperState())
+	 * 		  | if (!isEntityInWorld() && hasEntityProperState())
 			  | result == Double.POSITIVE_INFINITY
 	 * @return 	The time till collision with one of the boundaries of the world.
 	 * 			If the entity has no velocity, the entity will not collide with a boundary. In this case 
@@ -507,20 +507,20 @@ public abstract class Entity {
 	 *			@see implementation
 	 */
 	public double getTimeCollisionBoundary() {
-		if (! this.isEntityInWorld() && this.hasEntityProperState())
+		if (! isEntityInWorld() && hasEntityProperState())
 			return Double.POSITIVE_INFINITY;
 		
 		else {
-			double positionX = this.getEntityPositionX();
-			double positionY = this.getEntityPositionY();
+			double positionX = getEntityPositionX();
+			double positionY = getEntityPositionY();
 		
-			double velocityX = this.getEntityVelocityX();
-			double velocityY = this.getEntityVelocityY();
+			double velocityX = getEntityVelocityX();
+			double velocityY = getEntityVelocityY();
 			
-			double width = this.getEntityWorld().getWorldWidth();
-			double height = this.getEntityWorld().getWorldHeight();
+			double width = getEntityWorld().getWorldWidth();
+			double height = getEntityWorld().getWorldHeight();
 			
-			double radius = this.getEntityRadius();
+			double radius = getEntityRadius();
 
 			double distanceTillRightBoundary = (width - (positionX + radius));
 			double distanceTillLeftBoundary = (positionX - radius);
@@ -558,7 +558,7 @@ public abstract class Entity {
 	 * @post	The amount of seconds until the collision will take place is calculated. 
 	 * 			This means that if the two entities travel this amount of time at their
 	 * 			respective velocity, the distance between them will equal 0 (they collide). 
-	 *		  | this.move(getTimeToCollision(Entity otherEntity)) 
+	 *		  | move(getTimeToCollision(Entity otherEntity)) 
 	 *		  | otherEntity.move(getTimeToCollision(Entity otherEntity))
 	 *		  | this.getDistanceBetween(otherEntity) == 0
 	 * 
@@ -569,17 +569,17 @@ public abstract class Entity {
 	 *		  | (this.overlap(otherEntity))
 	 */
 	public double getTimeToCollision(Entity entity) {
-		double position1X = this.getEntityPositionX();
-		double position1Y = this.getEntityPositionY();
+		double position1X = getEntityPositionX();
+		double position1Y = getEntityPositionY();
 		double position2X = entity.getEntityPositionX();
 		double position2Y = entity.getEntityPositionY();
 
-		double velocity1X = this.getEntityVelocityX();
-		double velocity1Y = this.getEntityVelocityY();
+		double velocity1X = getEntityVelocityX();
+		double velocity1Y = getEntityVelocityY();
 		double velocity2X = entity.getEntityVelocityX();
 		double velocity2Y = entity.getEntityVelocityY();
 
-		double radius1 = this.getEntityRadius();
+		double radius1 = getEntityRadius();
 		double radius2 = entity.getEntityRadius();
 		double total_radius = (radius1 + radius2);
 
@@ -636,7 +636,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected void setEntityFree() {
-		assert (!this.isEntityTerminated());
+		assert (!isEntityTerminated());
 		setEntityState(State.NO_WORLD);
 		setEntityWorld(null);
 	}
@@ -654,7 +654,7 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected void setEntityInWorld(World world) {
-		assert (!this.isEntityTerminated());
+		assert (!isEntityTerminated());
 		setEntityState(State.IN_WORLD);
 		setEntityWorld(world);
 	}
@@ -798,8 +798,8 @@ public abstract class Entity {
 			if (Double.isNaN(velocityY))
 				velocityY = 0;
 
-			if (getEuclidianDistance(velocityX, velocityY) > this.getEntityMaxVelocity()) {
-				double orientation = this.getEntityOrientation();
+			if (getEuclidianDistance(velocityX, velocityY) > getEntityMaxVelocity()) {
+				double orientation = getEntityOrientation();
 
 				velocityX = Math.cos(orientation) * getEntityMaxVelocity();
 				velocityY = Math.sin(orientation) * getEntityMaxVelocity();
@@ -854,13 +854,13 @@ public abstract class Entity {
 	 *		  | if (!entityFitsInWorld(world))
 	 *		  |   result == false
 	 * @return 	False if the entity already has a world.
-	 * 		  | if (this.getEntityWorld() != null)
+	 * 		  | if (getEntityWorld() != null)
 	 *		  |   result == false
 	 * @return 	False if the entity is a bullet and it doesn't fit in the world or it's loaded on a ship.
 	 *		  | if (this instanceof Bullet && (((Bullet) this).getBulletShip() != null))
 	 *		  |   result == false
 	 * @return 	False if the entity or the world is terminated.
-	 *		  | if (this.isEntityTerminated() || world.isWorldTerminated())
+	 *		  | if (isEntityTerminated() || world.isWorldTerminated())
 	 *		  |   result == false
 	 * @return  True in all other cases.
 	 * 		  | else
@@ -989,13 +989,13 @@ public abstract class Entity {
 		// To check this, we have to set the new positions to the entity and check if the entity would be overlapping. 
 		// At the end of this statement, we have to make sure that position of the entity is back to it's old position, 
 		// because an isValid function shouldn't change the values of its properties.
-		if ((this.getEntityWorld() != null) && Boolean == true) {
+		if ((getEntityWorld() != null) && Boolean == true) {
 			double oldPositionX = getEntityPositionX();
 			double oldPositionY = getEntityPositionY();
 			
 			setPositionWithoutChecking(positionX, positionY);
 
-			Boolean = this.entityFitsInWorld(this.getEntityWorld());
+			Boolean = entityFitsInWorld(getEntityWorld());
 
 			setPositionWithoutChecking(oldPositionX, oldPositionY);
 		}
@@ -1088,21 +1088,21 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected void doubleShipOrMinorPlanetCollide(Entity entity,double defaultEvolvingTime){
-		final double position_1X = this.getEntityPositionX();
-		final double position_1Y = this.getEntityPositionY();
+		final double position_1X = getEntityPositionX();
+		final double position_1Y = getEntityPositionY();
 		final double position_2X = entity.getEntityPositionX();
 		final double position_2Y = entity.getEntityPositionY();
 		
-		final double velocity_1X = this.getEntityVelocityX();
-		final double velocity_1Y = this.getEntityVelocityY();
+		final double velocity_1X = getEntityVelocityX();
+		final double velocity_1Y = getEntityVelocityY();
 		final double velocity_2X = entity.getEntityVelocityX();
 		final double velocity_2Y = entity.getEntityVelocityY();
 		
-		final double radius_1 = this.getEntityRadius();
+		final double radius_1 = getEntityRadius();
 		final double radius_2 = entity.getEntityRadius();
 		final double total_radius = (radius_1 + radius_2);
 		
-		final double mass_1 = this.getEntityMass();
+		final double mass_1 = getEntityMass();
 		final double mass_2 = entity.getEntityMass();
 
 		final double delta_x = position_2X - position_1X;
@@ -1120,10 +1120,10 @@ public abstract class Entity {
 		double Jx = (BigJ * delta_x) / total_radius;
 		double Jy = (BigJ * delta_y) / total_radius;
 
-		this.setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
+		setEntityVelocity(velocity_1X + Jx / mass_1, velocity_1Y + Jy / mass_1);
 		entity.setEntityVelocity(velocity_2X - Jx / mass_2, velocity_2Y - Jy / mass_2);
 		
-		World world = this.getEntityWorld();
+		World world = getEntityWorld();
 		world.updatePositionListAfterCollision(this,entity, defaultEvolvingTime);
 	}
 	
@@ -1153,14 +1153,14 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected boolean entityLiesInBoundaries(World world) {
-		double radius = this.getEntityRadius();
+		double radius = getEntityRadius();
 		double upper_bound = (world.getWorldHeight() - OMEGA * radius);
 		double lower_bound = OMEGA * radius;
 		double right_bound = (world.getWorldWidth() - OMEGA * radius);
 		double left_bound = OMEGA * radius;
 
-		double positionX = this.getEntityPositionX();
-		double positionY = this.getEntityPositionY();
+		double positionX = getEntityPositionX();
+		double positionY = getEntityPositionY();
 
 		return ((positionX > left_bound) && (right_bound > positionX) && (positionY > lower_bound)
 				&& (upper_bound > positionY));
@@ -1209,11 +1209,11 @@ public abstract class Entity {
 		if (moveTime < 0)
 			throw new IllegalArgumentException();
 		
-		double velocityX = this.getEntityVelocityX();
-		double velocityY = this.getEntityVelocityY();
+		double velocityX = getEntityVelocityX();
+		double velocityY = getEntityVelocityY();
 
-		final double collidingPositionX = this.getEntityPositionX() + velocityX * moveTime;
-		final double collidingPositionY = this.getEntityPositionY() + velocityY * moveTime;
+		final double collidingPositionX = getEntityPositionX() + velocityX * moveTime;
+		final double collidingPositionY = getEntityPositionY() + velocityY * moveTime;
 		
 		setPositionWithoutChecking(collidingPositionX, collidingPositionY);
 	}
@@ -1282,16 +1282,16 @@ public abstract class Entity {
 	 * 
 	 * @post 	The collision will be resolved by checking if the entity collides with a horizontal or vertical boundary and inverting the respective velocity.
 	 * 		  | if collideHorizontalBoundary(this,collisionPosition)
-	 * 		  |   new.getEntityVelocityY == -this.getEntityVelocityY
+	 * 		  |   new.getEntityVelocityY == -getEntityVelocityY
 	 * 		  | else
-	 * 		  |   new.getEntityVelocityX == -this.getEntityVelocityX
+	 * 		  |   new.getEntityVelocityX == -getEntityVelocityX
 	 * 
 	 * @effect 	After the change of velocity, the entity_positionlist in world will be updated.
-	 * 		  | this.getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
+	 * 		  | getEntityWorld().updatePositionListAfterCollision(this,defaultEvolvingTime)
 	 */
 	protected void entityAndBoundaryCollide(double[] collisionPosition, double defaultEvolvingTime,CollisionListener collisionListener) {
-		double VelocityX = this.getEntityVelocityX();
-		double VelocityY = this.getEntityVelocityY();
+		double VelocityX = getEntityVelocityX();
+		double VelocityY = getEntityVelocityY();
 		
 		if (collideHorizontalBoundary(this, collisionPosition))
 			VelocityY = -VelocityY;
@@ -1299,8 +1299,8 @@ public abstract class Entity {
 		if (collideVerticalBoundary(this, collisionPosition))
 			VelocityX = -VelocityX;
 		
-		this.setEntityVelocity(VelocityX, VelocityY);
-		World world = this.getEntityWorld();
+		setEntityVelocity(VelocityX, VelocityY);
+		World world = getEntityWorld();
 		world.updatePositionListAfterCollision(this, defaultEvolvingTime);
 	}
 	
@@ -1323,13 +1323,13 @@ public abstract class Entity {
 	 *		  |   (new)bullet.getBulletSource() = this.
 	 * @effect 	In all other cases, the bullet and the entity will be terminated.
 	 * 		  | else
-	 * 		  |   this.Terminate()
+	 * 		  |   Terminate()
 	 * 		  |   bullet.Terminate()
 	 */
 	protected void entityAndBulletCollide(Bullet bullet, double[] collisionPosition, CollisionListener collisionListener){
 		//the bullet hits it's source ship -> it's reloaded.
 		if (bullet.getBulletSource() == this) {
-			World world = this.getEntityWorld();
+			World world = getEntityWorld();
 			
 			double position1X = getEntityPositionX();
 			double position1Y = getEntityPositionY();
@@ -1347,7 +1347,7 @@ public abstract class Entity {
 			if (collisionListener != null)
 				collisionListener.objectCollision(this, bullet,collisionPositionX,collisionPositionY);
 			
-			this.Terminate();
+			Terminate();
 			bullet.Terminate();
 		}
 	}

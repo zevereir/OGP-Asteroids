@@ -157,7 +157,7 @@ public class World {
 	 * 			@see implementation
 	 */
 	private State getState() {
-		return this.state;
+		return state;
 	}
 	
 	/**
