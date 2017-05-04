@@ -3,9 +3,11 @@ package asteroids.program;
  class BreakStatement extends MyStatement {
 
 	@Override
-	public Object getStatementResult() {
+	public void evaluate() {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
+
+	
 
 }
