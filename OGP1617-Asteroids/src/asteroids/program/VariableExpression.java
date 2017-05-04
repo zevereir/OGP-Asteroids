@@ -1,36 +1,35 @@
 package asteroids.program;
 
+
 class VariableExpression extends MyExpression {
 	
 	/// CONSTRUCTOR ///
-	public VariableExpression(MyExpression operand) {
-		setVariableOperand(operand);
+	
+	public VariableExpression(String variableName) {	
+		setVariable(variableName);
 	}
 
+	/// PROPERTIES ///
+	private String variableName;
 	/// GETTERS ///
-	protected MyExpression getOperand(){
-		return operand;
+	
+	
+	protected double getVariable(String variableName){
+		return this.getExpressionProgram().getProgramVariables().get(variableName);
 	}
 
 	@Override
 	protected Object getExpressionResult() {
-		return (double)operand.getExpressionResult();
+		return getVariable(variableName);
 	}
+	
+	
 	/// SETTERS ///
 
-	protected void setVariableOperand(MyExpression operand) throws IllegalArgumentException{
-		if (!canHaveAsVariableOperand(operand))
-			throw new IllegalArgumentException();
-		this.operand = operand;
+	protected void setVariable(String variableName) throws IllegalArgumentException{
+		this.variableName = variableName;
+		getExpressionProgram().addVariable(variableName,Double.NaN);
 	}
-	/// CHECKERS ///
-	protected boolean canHaveAsVariableOperand(MyExpression operand){
-		return (operand.getExpressionResult() instanceof Double && operand.getExpressionResult() != null );
-
-	}
-
-	/// PROPERTIES ///
-	private MyExpression operand;
 
 }
 

@@ -1,12 +1,20 @@
 package asteroids.program;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import asteroids.part3.programs.SourceLocation;
 
 public class MyFunction {
 	
-	public MyFunction createFunctionDefinition(String functionName, MyStatement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Map<String,Object> getFunctionParameters(){
+		return parameters;
 	}
-
+	
+	protected void addParameter(String parameterName,Object parameter){
+		parameters.put(parameterName, parameter);
+	}
+	
+	private Map<String,Object> parameters = new HashMap<String,Object>();
+	
 }

@@ -68,19 +68,19 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createReadVariableExpression(String variableName, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new VariableExpression(variableName);
+		return result;
 	}
 
 	public MyExpression createReadParameterExpression(String parameterName, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new ParameterExpression(parameterName);
+		return result;
 	}
 
 	public MyExpression createFunctionCallExpression(String functionName, List<MyExpression> actualArgs,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new FunctionExpression(functionName, actualArgs);
+		return result;
 	}
 
 	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation)  {
@@ -96,8 +96,8 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createDoubleLiteralExpression(double value, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyExpression result = new DoubleLiteralExpression(value);
+		return result;
 	}
 
 	public MyExpression createNullExpression(SourceLocation location) {
