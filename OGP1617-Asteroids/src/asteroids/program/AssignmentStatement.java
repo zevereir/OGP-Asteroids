@@ -3,19 +3,27 @@ package asteroids.program;
 class AssignmentStatement extends MyStatement {
 	
 	public AssignmentStatement(String variableName, MyExpression expression) {
-		setAssignment(variableName,expression);
+		setVariableName(variableName);
+		setExpression(expression);
 	}
 
-	@Override
-	public void evaluate() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	protected setAssignment(String variableName, MyExpression expression){
+	public void evaluate() {
 		getStatementProgram().addVariable(variableName,expression);
 		
 	}
+	
+	protected void setVariableName(String variableName){
+		this.variableName = variableName;
+		
+	}
+	protected void setExpression(MyExpression expression){
+		this.expression = expression;
+		
+	}
+	
+	private MyExpression expression;
+	private String variableName;
 
 	
 	

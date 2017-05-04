@@ -21,7 +21,7 @@ public class Program {
 //		return Test.getReturnStatementResult();
 //	}
 	public double execute( double dt) {
-		return (double) Test.getReturnStatementResult();
+		return (double) Test.evaluate();
 	}
 	MyStatement Test;
 	
@@ -31,7 +31,7 @@ public class Program {
 		return ship;
 	}
 	
-	protected Map<String,Double> getProgramVariables(){
+	protected Map<String,MyExpression> getProgramVariables(){
 		return variables;
 	}
 	
@@ -50,8 +50,8 @@ public class Program {
 	}
 	
 	/// ADDERS ///
-	protected void addVariable(String string, double variable){
-		variables.put(string, variable);
+	protected void addVariable(String string, MyExpression expression){
+		variables.put(string, expression);
 	}
 	protected void addFunction(String string, Function<List<MyExpression>,?> function){
 		functions.put(string, function);
@@ -65,7 +65,7 @@ public class Program {
 	
 	private Ship ship = null;
 	private Map<String, Function<List<MyExpression>,?>> functions = new HashMap<String, Function<List<MyExpression>,?>>();
-	private Map<String, Double> variables = new HashMap<String, Double>();
+	private Map<String, MyExpression> variables = new HashMap<String, MyExpression>();
 	private Map<String, Double> constants = new HashMap<String, Double>();
 	
 }

@@ -1,8 +1,8 @@
 package asteroids.program;
 
  class ReturnStatement extends MyStatement {
-	 public ReturnStatement(MyExpression value){
-		 setExpression(value);
+	 public ReturnStatement(MyExpression expression){
+		 setExpression(expression);
 	 }
 
 	 protected void setExpression(MyExpression expression){
@@ -11,7 +11,8 @@ package asteroids.program;
 	 
 	 private MyExpression expression;
 	 
-	 public Object getStatementResult(){
+	 public Object evaluate(){
+	
 		 return expression.getExpressionResult();
 	 }
 }

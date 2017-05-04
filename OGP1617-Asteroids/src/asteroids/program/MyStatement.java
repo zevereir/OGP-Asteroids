@@ -7,9 +7,6 @@ import asteroids.part3.programs.SourceLocation;
 
 public abstract class MyStatement {
 	
-	public abstract void evaluate();
-		
-
 	/// GETTERS ///
 	protected Program getStatementProgram(){
 		return this.program;
@@ -24,4 +21,9 @@ public abstract class MyStatement {
 	}
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	private Program program = null;
+
+	
+	protected evaluate(){
+		
+	}
 }
