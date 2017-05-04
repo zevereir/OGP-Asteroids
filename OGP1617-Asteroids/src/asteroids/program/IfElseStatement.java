@@ -7,22 +7,14 @@ package asteroids.program;
 		setIfBody(ifBody);
 		setElseBody(elseBody);
 	}
+	
+	@Override
 	public void evaluate() {
 		if ((boolean)condition.getExpressionResult())
 			ifBody.evaluate();
 		else if (elseBody != null)
 			elseBody.evaluate();
 	}
-	
-	public Object evaluateWithReturn() {
-		if ((boolean)condition.getExpressionResult())
-			return ifBody.evaluateWithReturn();
-		else if (elseBody != null)
-			return elseBody.evaluateWithReturn();
-		else
-			return null;
-	}
-	
 	
 	private void setCondition(MyExpression condition){
 		this.condition = condition;

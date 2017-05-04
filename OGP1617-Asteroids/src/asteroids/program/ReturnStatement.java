@@ -11,8 +11,13 @@ package asteroids.program;
 	 
 	 private MyExpression expression;
 	 
-	 public Object evaluateWithReturn(){	
+	 public Object evaluateReturn(){	
 		 return expression.getExpressionResult();
 	 }
+
+	@Override
+	protected void evaluate() {
+				
+	}
 
 }

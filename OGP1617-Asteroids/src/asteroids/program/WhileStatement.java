@@ -15,15 +15,10 @@ class WhileStatement extends MyStatement {
 		this.body = body;
 	}
 	
+	@Override
 	public void evaluate() {
 		while ((boolean) condition.getExpressionResult())
 			body.evaluate();
-	}
-	
-	public Object evaluateWithReturn() {
-		while ((boolean) condition.getExpressionResult())
-			return body.evaluateWithReturn();
-		return null;
 	}
 
 

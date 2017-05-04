@@ -8,21 +8,12 @@ class SequenceStatement extends MyStatement {
 	public SequenceStatement(List<MyStatement> statements) {
 		
 	}
-	
+	@Override
 	public void evaluate() {
 		for (MyStatement statement : statements) {
-			if (statement.evaluateWithReturn() == null) 
-				statement.evaluate();
+			statement.evaluate();
 		}
 	}
-	
-	public void evaluateWithReturn() {
-		for (MyStatement statement : statements) {
-			if (statement.evaluateWithReturn() != null) 
-				statement.evaluateWithReturn();
-		}
-	}
-
 
 	private List<MyStatement> statements = new ArrayList<MyStatement>();
 }
