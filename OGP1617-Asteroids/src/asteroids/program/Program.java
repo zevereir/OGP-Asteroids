@@ -14,12 +14,9 @@ public class Program {
 	/// CONSTRUCTOR ///
 	
 	protected Program(List<MyFunction> functions, MyStatement main) {
-	this.main = main;
+		this.main = main;
 	}
-//	
-//	public List<Object> execute( double dt) {
-//		return Test.getReturnStatementResult();
-//	}
+
 	public void execute( double dt) {
 		addTime(dt);		
 		main.evaluate();
