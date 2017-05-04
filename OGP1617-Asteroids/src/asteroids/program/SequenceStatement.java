@@ -6,6 +6,7 @@ import java.util.List;
 class SequenceStatement extends MyStatement {
 	
 	public SequenceStatement(List<MyStatement> statements) {
+		setStatements(statements);
 		
 	}
 	@Override
@@ -14,6 +15,12 @@ class SequenceStatement extends MyStatement {
 			statement.evaluate();
 		}
 	}
+	
+	private void setStatements(List<MyStatement> statements){
+		this.statements = statements;
+	}
+	
+	
 
 	private List<MyStatement> statements = new ArrayList<MyStatement>();
 }

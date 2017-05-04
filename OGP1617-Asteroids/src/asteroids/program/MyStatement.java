@@ -17,9 +17,12 @@ public abstract class MyStatement {
 	protected void setStatementProgram(Program program){
 		this.program = program;
 	}
+	
+	
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	private Program program = null;
 
 	
 	protected abstract void evaluate();	
+	
 }

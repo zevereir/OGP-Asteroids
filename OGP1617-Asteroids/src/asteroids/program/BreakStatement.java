@@ -1,9 +1,17 @@
 package asteroids.program;
 
 class BreakStatement extends MyStatement {
+	public BreakStatement(){
+	}
+	
 	public void evaluate() {
-		// TODO Auto-generated method stub
+		
+		
 		
 	}
+	protected void setWhile(WhileStatement While){
+		this.While = While;
+	}
+	private WhileStatement While = null;
 
 }
