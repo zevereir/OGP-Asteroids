@@ -54,8 +54,13 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	@Override
+<<<<<<< HEAD
 	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
 		MyStatement result = new PrintStatement(value);
+=======
+	public MyStatement createPrintStatement(MyExpression expression, SourceLocation sourceLocation) {
+		MyStatement result = new PrintStatement(expression);
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 		return result;
 	}
 
