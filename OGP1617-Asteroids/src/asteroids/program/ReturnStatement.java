@@ -11,7 +11,7 @@ package asteroids.program;
 	 
 	 private MyExpression expression;
 	 
-	 public Object getReturnStatementResult(){
+	 public Object getStatementResult(){
 		 return expression.getExpressionResult();
 	 }
 }
