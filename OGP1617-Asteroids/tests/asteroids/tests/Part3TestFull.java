@@ -34,6 +34,13 @@ public class Part3TestFull {
   private static final double BIG_EPSILON = 1.0E14;
   private static final double VERY_BIG_EPSILON = 1.0E34;
 
+//  @Test
+//	public final void TestProgram1(){
+//		IProgramFactory<?, ?, ?, Program> programFactory = new ProgramFactory();
+//		Program program =ProgramParser.parseProgramFromString("return 5 + 90;", programFactory);
+//		System.out.println(program.execute(1));
+//	}
+  
   static int nbStudentsInTeam;
   IFacade facade;
   IProgramFactory<?, ?, ?, Program> programFactory = new ProgramFactory();

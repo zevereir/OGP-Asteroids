@@ -15,6 +15,10 @@ import org.junit.Test;
 import asteroids.model.*;
 import asteroids.facade.Facade;
 import asteroids.part3.facade.IFacade;
+import asteroids.part3.programs.IProgramFactory;
+import asteroids.part3.programs.internal.ProgramParser;
+import asteroids.program.Program;
+import asteroids.program.ProgramFactory;
 import asteroids.util.ModelException;
 /**
  * A test class for the class Ship.
@@ -730,5 +734,6 @@ public class Tests_Part2 {
 		facade.addAsteroidToWorld(world, asteroid);
 		assert(2 == world.getWorldSpecificEntities("MinorPlanet").size());
 	}
+	
 		
 }

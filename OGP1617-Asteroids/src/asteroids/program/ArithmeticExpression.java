@@ -8,11 +8,11 @@ abstract class ArithmeticExpression extends MyExpression {
 		return nbOperands > 0;
 	}
 	
-	public boolean canHaveAsArithmeticOperand(ArithmeticExpression expression) {
-		return (expression != null) && (!expression.hasAsSubExpression(this));
+	public boolean canHaveAsArithmeticOperand(MyExpression expression) {
+		return (expression != null) ;
 	}
 	
-	public abstract boolean hasAsSubExpression(ArithmeticExpression expression);
+//	public abstract boolean hasAsSubExpression(MyExpression expression);
 	
 	
 }

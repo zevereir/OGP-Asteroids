@@ -14,13 +14,16 @@ public class Program {
 	/// CONSTRUCTOR ///
 	
 	protected Program(List<MyFunction> functions, MyStatement main) {
-		
+	Test = main;
 	}
-	
-	public List<Object> execute( double dt) {
-		return null;
+//	
+//	public List<Object> executel( double dt) {
+//		return Test.getReturnStatementResult();
+//	}
+	public double execute( double dt) {
+		return (double) Test.getReturnStatementResult();
 	}
-	
+	MyStatement Test;
 	
 	/// GETTERS ///
 	

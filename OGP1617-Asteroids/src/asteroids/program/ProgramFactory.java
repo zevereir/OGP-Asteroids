@@ -11,10 +11,10 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	public ProgramFactory(){
 	
 	}
+	
 	@Override
 	public Program createProgram(List<MyFunction> functions, MyStatement main) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Program(functions, main);
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createAdditionExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new AdditionExpression((ArithmeticExpression)e1,(ArithmeticExpression)e2);
+		MyExpression result = new AdditionExpression(e1,e2);
 		return result;
 	}
 
