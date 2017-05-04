@@ -23,7 +23,12 @@ public abstract class MyStatement {
 	private Program program = null;
 
 	
-	protected evaluate(){
-		
+	protected void evaluate(){
+		this.evaluate();
 	}
+	
+	protected Object evaluateWithReturn(){
+		return this.evaluateWithReturn();
+	}
+	
 }

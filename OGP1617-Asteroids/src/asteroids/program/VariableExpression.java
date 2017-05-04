@@ -28,7 +28,6 @@ class VariableExpression extends MyExpression {
 
 	protected void setVariable(String variableName) throws IllegalArgumentException{
 		this.variableName = variableName;
-		getExpressionProgram().addVariable(variableName,null);
 	}
 
 }
