@@ -14,16 +14,19 @@ public class Program {
 	/// CONSTRUCTOR ///
 	
 	protected Program(List<MyFunction> functions, MyStatement main) {
-	Test = main;
+	this.main = main;
 	}
 //	
 //	public List<Object> execute( double dt) {
 //		return Test.getReturnStatementResult();
 //	}
-	public double execute( double dt) {
-		return (double) Test.evaluate();
+	public void execute( double dt) {
+		addTime(dt);		
+		main.evaluate();
 	}
-	MyStatement Test;
+	
+	private MyStatement main;
+	private double time_left = 0;
 	
 	/// GETTERS ///
 	
@@ -42,6 +45,9 @@ public class Program {
 	protected Map<String,Function<List<MyExpression>,?>> getProgramFunctions(){
 		return functions;
 	}
+	protected double getTimeLeft(){
+		return time_left;
+	}
 	
 	/// SETTERS ///
 	
@@ -58,6 +64,10 @@ public class Program {
 	}
 	protected void addConstant(String string, double constant){
 		constants.put(string, constant);
+	}
+	
+	protected void addTime(double dt){
+		time_left =+ dt;
 	}
 	
 	

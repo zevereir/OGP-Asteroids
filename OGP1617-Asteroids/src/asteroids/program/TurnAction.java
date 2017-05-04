@@ -4,7 +4,7 @@ import asteroids.program.ActionStatement;
 
 class TurnAction extends ActionStatement {
 	
-	public TurnAction(MyExpression angle) {
+	public TurnAction(MyExpression angle) {	
 		setAngle(angle);
 	}
 
@@ -16,9 +16,9 @@ class TurnAction extends ActionStatement {
 		this.angle = angle;
 	}
 	
-	// -------> BEKIJKEN <--------- //
-	public void evaluate() {
-		this.getStatementShip().turn(getAngle());
+	public void execute() {
+		
+		this.getStatementShip().turn((double)getAngle().getExpressionResult());
 	}
 	
 	private MyExpression angle;

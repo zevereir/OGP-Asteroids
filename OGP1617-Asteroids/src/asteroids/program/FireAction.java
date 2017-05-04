@@ -5,8 +5,8 @@ class FireAction extends ActionStatement {
 	public FireAction() {
 		//
 	}
-	
-	public void evaluate() {
+	@Override
+	public void execute() {
 		this.getStatementShip().fireBullet();
 	}
 }
