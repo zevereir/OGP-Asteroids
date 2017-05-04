@@ -15,14 +15,21 @@ class WhileStatement extends MyStatement {
 		this.body = body;
 	}
 	
+	public void setBroken(){
+		this.isBroken = true;
+	}
+	
 	@Override
 	public void evaluate() {
-		while ((boolean) condition.getExpressionResult())
+		if (body instanceof BreakStatement)
+			body.setWhile(this);
+		while ((boolean) condition.getExpressionResult() && !isBroken)
 			body.evaluate();
 	}
 
 
 	private MyExpression condition;
 	private MyStatement body;
+	private boolean isBroken = false;
 	
 }

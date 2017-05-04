@@ -54,8 +54,8 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	@Override
-	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
-		MyStatement result = new PrintStatement();
+	public MyStatement createPrintStatement(MyExpression expression, SourceLocation sourceLocation) {
+		MyStatement result = new PrintStatement(expression);
 		return result;
 	}
 
