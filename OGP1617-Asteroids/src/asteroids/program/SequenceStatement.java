@@ -11,8 +11,13 @@ class SequenceStatement extends MyStatement {
 	}
 	@Override
 	public void evaluate() {
+		boolean containsBreak = false;
+		
 		for (MyStatement statement : statements) {
-			statement.evaluate();
+			if(! (statement instanceof BreakStatement) && !containsBreak)
+				statement.evaluate();				
+			else
+				containsBreak = true;
 		}
 	}
 	
@@ -20,7 +25,13 @@ class SequenceStatement extends MyStatement {
 		this.statements = statements;
 	}
 	
-	
+	public boolean containsBreak() {
+		boolean containsBreak = false;
+		for (MyStatement statement : statements)
+			if(statement instanceof BreakStatement)
+				containsBreak = true;
+		return containsBreak;
+	}
 
 	private List<MyStatement> statements = new ArrayList<MyStatement>();
 }
