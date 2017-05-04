@@ -836,7 +836,7 @@ public class Ship extends Entity {
 
 		for (Bullet bullet : getShipBullets()) {
 			removeBulletFromShip(bullet);
-			bullet.Terminate();
+			bullet.Terminate(); 
 		}
 	}
 
