@@ -24,8 +24,7 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	@Override
-	public MyStatement createAssignmentStatement(String variableName, MyExpression value,
-			SourceLocation sourceLocation) {
+	public MyStatement createAssignmentStatement(String variableName, MyExpression expression, SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -49,16 +48,15 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	@Override
-	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,
-			SourceLocation sourceLocation) {
+	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,SourceLocation sourceLocation) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new PrintStatement();
+		return result;
 	}
 
 	@Override
@@ -197,32 +195,32 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	@Override
 	public MyStatement createThrustOnStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new ThrustOnAction();
+		return result;
 	}
 
 	@Override
 	public MyStatement createThrustOffStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new ThrustOffAction();
+		return result;
 	}
 
 	@Override
 	public MyStatement createFireStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new FireAction();
+		return result;
 	}
 
 	@Override
 	public MyStatement createTurnStatement(MyExpression angle, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new TurnAction(angle);
+		return result;
 	}
 
 	@Override
 	public MyStatement createSkipStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new SkipAction();
+		return result;
 	}
 
 }

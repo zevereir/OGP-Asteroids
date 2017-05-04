@@ -17,7 +17,7 @@ public class Program {
 	Test = main;
 	}
 //	
-//	public List<Object> executel( double dt) {
+//	public List<Object> execute( double dt) {
 //		return Test.getReturnStatementResult();
 //	}
 	public double execute( double dt) {

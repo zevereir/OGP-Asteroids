@@ -36,13 +36,13 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		return number == 1;
 	}
 	
-	@Override
-	public boolean hasAsSubExpression(ArithmeticExpression expression){
-		if (this == expression)
-			return true;
-		else
-			return (getOperand().hasAsSubExpression(expression));				
-	}
+//	@Override
+//	public boolean hasAsSubExpression(ArithmeticExpression expression){
+//		if (this == expression)
+//			return true;
+//		else
+//			return (getOperand().hasAsSubExpression(expression));				
+//	}
 	
 	
 	/// PROPERTIES ///
