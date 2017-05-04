@@ -25,5 +25,4 @@ class WhileStatement extends MyStatement {
 	private MyExpression condition;
 	private MyStatement body;
 	
-	
 }
