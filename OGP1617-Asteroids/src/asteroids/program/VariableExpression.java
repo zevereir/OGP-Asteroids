@@ -14,7 +14,7 @@ class VariableExpression extends MyExpression {
 	/// GETTERS ///
 	
 	
-	protected double getVariable(String variableName){
+	protected MyExpression getVariable(String variableName){
 		return this.getExpressionProgram().getProgramVariables().get(variableName);
 	}
 
@@ -28,7 +28,7 @@ class VariableExpression extends MyExpression {
 
 	protected void setVariable(String variableName) throws IllegalArgumentException{
 		this.variableName = variableName;
-		getExpressionProgram().addVariable(variableName,Double.NaN);
+		getExpressionProgram().addVariable(variableName,null);
 	}
 
 }

@@ -6,6 +6,4 @@ class SelfEntity extends EntityExpression {
 		setOperand(getExpressionShip());
 	}
 
-	
-
 }
