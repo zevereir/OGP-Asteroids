@@ -9,9 +9,9 @@ class BreakStatement extends MyStatement {
 		
 		
 	}
+	
 	protected void setWhile(WhileStatement While){
 		this.While = While;
 	}
 	private WhileStatement While = null;
-
 }

@@ -25,44 +25,44 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	@Override
 	public MyStatement createAssignmentStatement(String variableName, MyExpression expression, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new AssignmentStatement(variableName,expression);
+		return result;
 	}
 
 	@Override
 	public MyStatement createWhileStatement(MyExpression condition, MyStatement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new WhileStatement(condition,body);
+		return result;
 	}
 
 	@Override
 	public MyStatement createBreakStatement(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new BreakStatement();
+		return result;
 	}
 
 	@Override
 	public MyStatement createReturnStatement(MyExpression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new ReturnStatement(value);
+		return result;
 	}
 
 	@Override
 	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new IfElseStatement(condition,ifBody,elseBody);
+		return result;
 	}
 
 	@Override
 	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
-		MyStatement result = new PrintStatement();
+		MyStatement result = new PrintStatement(value);
 		return result;
 	}
 
 	@Override
 	public MyStatement createSequenceStatement(List<MyStatement> statements, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyStatement result = new SequenceStatement(statements);
+		return result;
 	}
 
 	public MyExpression createReadVariableExpression(String variableName, SourceLocation sourceLocation) {
