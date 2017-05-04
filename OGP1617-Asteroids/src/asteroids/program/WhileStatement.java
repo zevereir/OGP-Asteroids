@@ -19,7 +19,16 @@ class WhileStatement extends MyStatement {
 		while ((boolean) condition.getExpressionResult())
 			body.evaluate();
 	}
+	
+	public Object evaluateWithReturn() {
+		while ((boolean) condition.getExpressionResult())
+			return body.evaluateWithReturn();
+		return null;
+	}
+
 
 	private MyExpression condition;
 	private MyStatement body;
+	
+	
 }

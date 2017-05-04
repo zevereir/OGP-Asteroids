@@ -24,9 +24,6 @@ class AssignmentStatement extends MyStatement {
 	
 	private MyExpression expression;
 	private String variableName;
-
-	
-	
 	
 
 }
