@@ -4,7 +4,7 @@ import java.util.List;
 
 import asteroids.model.Entity;
 import asteroids.part3.programs.SourceLocation;
-import asteroids.util.ModelException;
+
 
 public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<MyExpression, MyStatement, MyFunction, Program>{
 
@@ -19,8 +19,8 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	@Override
 	public MyFunction createFunctionDefinition(String functionName, MyStatement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		MyFunction result = new MyFunction(functionName,body);
+		return result;
 	}
 
 	@Override

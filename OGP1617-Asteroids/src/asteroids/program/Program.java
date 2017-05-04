@@ -1,9 +1,10 @@
 package asteroids.program;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+
 
 import asteroids.model.Ship;
 
@@ -14,17 +15,22 @@ public class Program {
 	/// CONSTRUCTOR ///
 	
 	protected Program(List<MyFunction> functions, MyStatement main) {
+		this.functions = functions;
 		this.main = main;
 	}
 
-	public void execute( double dt) {
-		addTime(dt);		
-		main.evaluate();
+	public List<Object> execute( double dt) {
+		addTime(dt);
+		if (first_time){
+			main.evaluate();
+			first_time = false;}
+		return null;
+		
 	}
 	
 	private MyStatement main;
 	private double time_left = 0;
-	
+	private boolean first_time = true;
 	/// GETTERS ///
 	
 	public Ship getProgramShip(){
@@ -39,7 +45,7 @@ public class Program {
 		return constants;
 	}
 	
-	protected Map<String,Function<List<MyExpression>,?>> getProgramFunctions(){
+	protected List<MyFunction> getProgramFunctions(){
 		return functions;
 	}
 	protected double getTimeLeft(){
@@ -56,8 +62,8 @@ public class Program {
 	protected void addVariable(String string, MyExpression expression){
 		variables.put(string, expression);
 	}
-	protected void addFunction(String string, Function<List<MyExpression>,?> function){
-		functions.put(string, function);
+	protected void addFunction(MyFunction function){
+		functions.add(function);
 	}
 	protected void addConstant(String string, double constant){
 		constants.put(string, constant);
@@ -71,7 +77,7 @@ public class Program {
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	
 	private Ship ship = null;
-	private Map<String, Function<List<MyExpression>,?>> functions = new HashMap<String, Function<List<MyExpression>,?>>();
+	private List<MyFunction> functions = new ArrayList<MyFunction>();
 	private Map<String, MyExpression> variables = new HashMap<String, MyExpression>();
 	private Map<String, Double> constants = new HashMap<String, Double>();
 	
