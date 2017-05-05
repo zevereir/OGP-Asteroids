@@ -1,7 +1,7 @@
 package asteroids.program;
 
 class MultiplicationExpression extends BinaryArithmeticExpression {
-	protected MultiplicationExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
+	protected MultiplicationExpression(MyExpression leftExpression, MyExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}
