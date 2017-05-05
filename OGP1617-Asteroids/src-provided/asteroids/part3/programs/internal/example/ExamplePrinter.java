@@ -18,6 +18,9 @@ public class ExamplePrinter {
 		//ParseOutcome<PrintingProgram> outcome = parser.parseString("def foo { return 1.0; }\nprint getx self;\nprint foo(3.0, self);");
 		System.out.println(outcome);
 		
+		
+	
+		
 	}
 
 }

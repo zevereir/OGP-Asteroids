@@ -25,8 +25,11 @@ public class MyFunction {
 		parameters.put(parameterName, parameter);
 	}
 	
+<<<<<<< HEAD
 	/// SETTERS ///
 	
+=======
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 	protected void setBody(MyStatement body){
 		this.body = body;
 	}

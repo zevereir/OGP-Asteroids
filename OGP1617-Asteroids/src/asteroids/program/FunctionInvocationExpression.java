@@ -20,7 +20,7 @@ class FunctionExpression extends MyExpression {
 	
 	/// GETTERS ///
 	
-	protected Function<List<MyExpression>,?>  getFunction(String functionName){
+	protected MyFunction  getFunction(String functionName){
 		return this.getExpressionProgram().getProgramFunctions().get(functionName);
 	}
 
@@ -29,7 +29,7 @@ class FunctionExpression extends MyExpression {
 	//Als MyFunction is opgelost//
 	@Override
 	protected Object getExpressionResult() {
-		return getFunction(functionName);
+		return getFunction(functionName).execute();
 	}
 	
 	

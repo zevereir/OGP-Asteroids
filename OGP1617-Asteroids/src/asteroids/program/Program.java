@@ -41,10 +41,6 @@ public class Program {
 		return variables;
 	}
 	
-	protected Map<String,Double> getProgramConstants(){
-		return constants;
-	}
-	
 	protected List<MyFunction> getProgramFunctions(){
 		return functions;
 	}
@@ -65,9 +61,6 @@ public class Program {
 	protected void addFunction(MyFunction function){
 		functions.add(function);
 	}
-	protected void addConstant(String string, double constant){
-		constants.put(string, constant);
-	}
 	
 	protected void addTime(double dt){
 		time_left =+ dt;
@@ -79,6 +72,6 @@ public class Program {
 	private Ship ship = null;
 	private List<MyFunction> functions = new ArrayList<MyFunction>();
 	private Map<String, MyExpression> variables = new HashMap<String, MyExpression>();
-	private Map<String, Double> constants = new HashMap<String, Double>();
+	
 	
 }

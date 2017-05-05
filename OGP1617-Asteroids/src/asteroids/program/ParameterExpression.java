@@ -13,20 +13,17 @@ class ParameterExpression extends MyExpression {
 
 	/// PROPERTIES ///
 	private String ParameterName;
-	private MyFunction function;
-	/// GETTERS ///
-	protected MyFunction getFunction(){
-		return function;
-	}
 	
-	protected Object getParameter(String ParameterName){
-		return getFunction().getFunctionParameters().get(ParameterName);
+	/// GETTERS ///
+
+	protected String getParameter(){
+		return this.ParameterName;
 	}
 
 	// ----> BEKIJKEN NA MYFUNCTION <----- //
 	@Override
 	protected Object getExpressionResult() {
-		return getParameter(ParameterName);
+		return getParameter();
 	}
 	
 	
@@ -34,7 +31,6 @@ class ParameterExpression extends MyExpression {
 
 	protected void setParameter(String ParameterName) throws IllegalArgumentException{
 		this.ParameterName = ParameterName;
-		getFunction().addParameter(ParameterName,Double.NaN);
 	}
 
 }
