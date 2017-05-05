@@ -66,16 +66,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-	@Test
-	public void testLessThan_TrueCase() throws ModelException {
-		max_score += 3;
-		String code = "print 4.0 < 6.0;";
-		Program program = ProgramParser.parseProgramFromString(code, programFactory);
-		facade.loadProgramOnShip(ship1, program);
-		List<Object> results = facade.executeProgram(ship1, 1.0);
-		Object[] expecteds = { true };
-		assertArrayEquals(expecteds, results.toArray());
-		score += 3;
+
 	}
 	
 }
