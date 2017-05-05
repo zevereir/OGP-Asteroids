@@ -19,7 +19,7 @@ abstract class EntityExpression extends MyExpression {
 	@Override
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
-		return  getOperand();
+		return getOperand();
 	}
 	
 	protected Entity getClosestEntity(Set<? extends Object> entities){
