@@ -2,7 +2,7 @@ package asteroids.program;
 
 class NegationExpression extends UnaryArithmeticExpression {
 
-	protected NegationExpression(ArithmeticExpression operand) throws IllegalArgumentException {
+	protected NegationExpression(MyExpression operand) throws IllegalArgumentException {
 		super(operand);
 	}
 

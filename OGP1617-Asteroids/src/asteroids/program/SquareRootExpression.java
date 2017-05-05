@@ -2,7 +2,7 @@ package asteroids.program;
 
 class SquareRootExpression extends UnaryArithmeticExpression{
 	
-	protected SquareRootExpression(ArithmeticExpression operand) throws IllegalArgumentException {
+	protected SquareRootExpression(MyExpression operand) throws IllegalArgumentException {
 		super(operand);
 	}
 
