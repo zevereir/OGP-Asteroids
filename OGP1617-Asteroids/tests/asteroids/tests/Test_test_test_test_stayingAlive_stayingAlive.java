@@ -66,7 +66,36 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
+	
+	
+	
 
+	@Test
+	public void testAny_SeveralEntitiesInWorld() throws ModelException {
+		max_score += 10;
+		String code = "print any; ";
+		Program program = ProgramParser.parseProgramFromString(code, programFactory);
+		World world = facade.createWorld(2000, 2000);
+		Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
+		for (int i = 1; i < 10; i++) {
+			Bullet bulletToLoad = facade.createBullet(100, 100, 0, 0, 10);
+			facade.loadBulletOnShip(ship1, bulletToLoad);
+		}
+		facade.fireBullet(ship1);
+		facade.fireBullet(ship1);
+		facade.addShipToWorld(world, ship1);
+		Asteroid asteroid1 = facade.createAsteroid(200, 200, 0, 0, 20);
+		facade.addAsteroidToWorld(world, asteroid1);
+		Planetoid planetoid1 = facade.createPlanetoid(250, 250, 0, 0, 20, 0);
+		facade.addPlanetoidToWorld(world, planetoid1);
+		Set<? extends Object> allEntities = facade.getEntities(world);
+		facade.loadProgramOnShip(ship1, program);
+		List<Object> results = facade.executeProgram(ship1, 1.0);
+		assertEquals(1, results.size());
+		assertTrue(allEntities.contains(results.get(0)));
+		score += 10;
 	}
+	
+	
 	
 }
