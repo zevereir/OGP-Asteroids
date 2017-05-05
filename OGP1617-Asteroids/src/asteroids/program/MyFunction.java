@@ -19,9 +19,11 @@ public class MyFunction {
 	protected void addParameter(String parameterName,Object parameter){
 		parameters.put(parameterName, parameter);
 	}
+	
 	protected void setBody(MyStatement body){
 		this.body = body;
 	}
+	
 	protected void setFunctionName(String functionName){
 		this.functionName = functionName;
 	}

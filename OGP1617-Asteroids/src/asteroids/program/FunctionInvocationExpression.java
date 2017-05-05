@@ -17,7 +17,7 @@ class FunctionExpression extends MyExpression {
 	/// GETTERS ///
 	
 	
-	protected Function<List<MyExpression>,?>  getFunction(String functionName){
+	protected MyFunction  getFunction(String functionName){
 		return this.getExpressionProgram().getProgramFunctions().get(functionName);
 	}
 
@@ -26,7 +26,7 @@ class FunctionExpression extends MyExpression {
 	//Als MyFunction is opgelost//
 	@Override
 	protected Object getExpressionResult() {
-		return getFunction(functionName);
+		return getFunction(functionName).execute();
 	}
 	
 	
@@ -34,7 +34,7 @@ class FunctionExpression extends MyExpression {
 
 	protected void setFunction(String functionName,List<MyExpression> actualArgs) throws IllegalArgumentException{
 		this.functionName = functionName;
-		getExpressionProgram().addFunction(functionName,null);
+		this.actualArgs = actualArgs;
 	}
 
 }
