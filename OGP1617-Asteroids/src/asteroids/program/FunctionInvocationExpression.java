@@ -36,6 +36,9 @@ class FunctionExpression extends MyExpression {
 		return getFunction().getFunctionBody().evaluateBody();
 	}
 	
+	protected void setArguments(List<MyExpression> actualArgs){
+		this.actualArgs = actualArgs;
+	}
 	
 	/// SETTERS ///
 
