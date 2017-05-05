@@ -19,7 +19,7 @@ class AnyEntity extends EntityExpression {
 		setExpressionProgram(program);
 		
 		Object operand = null;
-		
+		String random = (fruits[new Random().nextInt(fruits.length)]);
 		do {Set<? extends Object> entities = getExpressionShip().getEntityWorld().getWorldEntities();
 			operand = entities.stream().skip((int)(entities.size() * Math.random())).findFirst();
 		}while (operand == getExpressionShip());
