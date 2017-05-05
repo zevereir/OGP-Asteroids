@@ -27,7 +27,7 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 	
 	/// SETTERS ///
 	
-	protected void setOperand(ArithmeticExpression operand) {
+	protected void setOperand(MyExpression operand) {
 		this.operand = operand;
 	}
 	
@@ -45,6 +45,6 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 	
 	/// PROPERTIES ///
 	
-	private ArithmeticExpression operand;
+	private MyExpression operand;
 
 }

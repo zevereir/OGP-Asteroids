@@ -6,7 +6,7 @@ class LogicalNegationExpression extends MyExpression {
 	
 	/// CONSTRUCTOR ///
 	public LogicalNegationExpression(MyExpression operand) {
-		setLogicalNegationOperand(operand);
+		setOperand(operand);
 	}
 	
 	/// GETTERS ///
@@ -20,7 +20,7 @@ class LogicalNegationExpression extends MyExpression {
 	}
 	/// SETTERS ///
 	
-	protected void setLogicalNegationOperand(MyExpression operand) throws IllegalArgumentException{
+	protected void setOperand(MyExpression operand) throws IllegalArgumentException{
 		if (!canHaveAsLogicalNegationOperand(operand))
 			throw new IllegalArgumentException();
 		this.operand = operand;
