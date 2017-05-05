@@ -33,7 +33,7 @@ class FunctionExpression extends MyExpression {
 	//Als MyFunction is opgelost//
 	@Override
 	protected Object getExpressionResult() {
-		return getFunction().getFunctionBody().evaluateBody();
+		return getFunction().evaluateBody(actualArgs);
 	}
 	
 	protected void setArguments(List<MyExpression> actualArgs){

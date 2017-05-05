@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
@@ -18,7 +20,7 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		return 1;
 	}
 	
-	public ArithmeticExpression getOperand() {
+	public MyExpression getOperand() {
 		return operand;
 	}
 	
@@ -36,14 +38,10 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		return number == 1;
 	}
 	
-//	@Override
-//	public boolean hasAsSubExpression(ArithmeticExpression expression){
-//		if (this == expression)
-//			return true;
-//		else
-//			return (getOperand().hasAsSubExpression(expression));				
-//	}
-	
+	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
+		if (getOperand() instanceof ParameterExpression)
+			setOperand(actualArgs.get(((ParameterExpression)getOperand()).getParameterNumber()-1));
+	}
 	
 	/// PROPERTIES ///
 	

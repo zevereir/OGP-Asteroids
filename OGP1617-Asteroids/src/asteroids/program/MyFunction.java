@@ -1,6 +1,7 @@
 package asteroids.program;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,15 +27,16 @@ public class MyFunction {
 	}
 	
 	/// EVALUATE ///
-	protected Object evaluateBody(){
+	protected Object evaluateBody(List<MyExpression> actualArgs){
 		if (getFunctionBody() instanceof ReturnStatement)
 			return ((ReturnStatement)getFunctionBody()).evaluateInFunction();
+		
 		else if (getFunctionBody() instanceof IfElseStatement)
 			return ((IfElseStatement)getFunctionBody()).evaluateInFunction();
-		else 
-			///IN ONZE VISIE IS DIT NIET MOGELIJK///
-			return null;
 		
+		// NOT POSSIBLE
+		else 
+			return null;
 	}
 	
 	/// ADDERS ///

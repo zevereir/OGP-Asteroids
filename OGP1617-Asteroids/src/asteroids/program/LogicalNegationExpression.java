@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class LogicalNegationExpression extends MyExpression {
 	/// CONSTRUCTOR ///
 	public LogicalNegationExpression(MyExpression operand) {
@@ -27,6 +29,16 @@ class LogicalNegationExpression extends MyExpression {
 		return (operand.getExpressionResult() instanceof Boolean);
 		
 	}
+	
+	
+	
+	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
+		if (getOperand() instanceof ParameterExpression)
+			setOperand(actualArgs.get(((ParameterExpression)getOperand()).getParameterNumber()-1));
+	}
+	
+	
+	
 	
 	/// PROPERTIES ///
 	private MyExpression operand;

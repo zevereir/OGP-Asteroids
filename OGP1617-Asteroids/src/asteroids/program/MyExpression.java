@@ -26,5 +26,14 @@ public abstract class MyExpression {
 	}
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	private Program program = null;
+	
+	
+	
+	
+	
+	
+	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
+		//
+	}
 
 }
