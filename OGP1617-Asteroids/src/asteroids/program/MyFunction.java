@@ -14,9 +14,9 @@ public class MyFunction {
 		setBody(body);
 	}
 	
-	protected Map<String,Object> getFunctionParameters(){
-		return parameters;
-	}
+//	protected Map<String,Object> getFunctionParameters(){
+//		return parameters;
+//	}
 	
 	/// GETTERS ///
 	protected String getFunctionName(){
@@ -29,9 +29,9 @@ public class MyFunction {
 	
 	/// ADDERS ///
 	
-	protected void addParameter(String parameterName,Object parameter){
-		parameters.put(parameterName, parameter);
-	}
+//	protected void addParameter(String parameterName,Object parameter){
+//		parameters.put(parameterName, parameter);
+//	}
 	
 
 	protected void setBody(MyStatement body){
@@ -47,6 +47,6 @@ public class MyFunction {
 	
 	private String functionName;
 	private MyStatement body;
-	private Map<String,Object> parameters = new HashMap<String,Object>();
+//	private Map<String,Object> parameters = new HashMap<String,Object>();
 	
 }

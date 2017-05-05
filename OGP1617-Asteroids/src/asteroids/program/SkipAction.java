@@ -5,7 +5,7 @@ class SkipAction extends ActionStatement {
 	}
 
 	@Override
-	protected void execute() {
+	protected void execute(Program program) {
 		//nothing has to be done//
 	}
 

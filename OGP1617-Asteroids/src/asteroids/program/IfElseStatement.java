@@ -13,11 +13,13 @@ package asteroids.program;
 	}
 	
 	@Override
-	public void evaluate() {
+	public void evaluate(Program program) {
+		setStatementProgram(program);
+		
 		if ((boolean)condition.getExpressionResult())
-			ifBody.evaluate();
+			ifBody.evaluate(program);
 		else if (elseBody != null)
-			elseBody.evaluate();
+			elseBody.evaluate(program);
 	}
 	
 	public Object evaluateInFunction(){

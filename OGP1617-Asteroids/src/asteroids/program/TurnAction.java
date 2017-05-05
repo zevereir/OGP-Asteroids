@@ -16,7 +16,7 @@ class TurnAction extends ActionStatement {
 		this.angle = angle;
 	}
 	
-	public void execute() {
+	public void execute(Program program) {
 		
 		this.getStatementShip().turn((double)getAngle().getExpressionResult());
 	}

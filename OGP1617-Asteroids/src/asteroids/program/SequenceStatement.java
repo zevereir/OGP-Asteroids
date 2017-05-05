@@ -10,12 +10,12 @@ class SequenceStatement extends MyStatement {
 		
 	}
 	@Override
-	public void evaluate() {
+	public void evaluate(Program program) {
 		boolean containsBreak = false;
 		
 		for (MyStatement statement : statements) {
 			if(! (statement instanceof BreakStatement) && !containsBreak)
-				statement.evaluate();				
+				statement.evaluate(program);				
 			else
 				containsBreak = true;
 		}

@@ -20,8 +20,8 @@ package asteroids.program;
 	 }
 
 	@Override
-	protected void evaluate() {
-				
+	protected void evaluate(Program program) {
+		setStatementProgram(program);
 	}
 
 }

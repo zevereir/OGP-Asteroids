@@ -21,16 +21,16 @@ class WhileStatement extends MyStatement {
 	}
 	
 	@Override
-	public void evaluate() {
+	public void evaluate(Program program) {
 		while ((boolean) condition.getExpressionResult() && !isBroken)
 			if (body instanceof BreakStatement)
 				setBrokenTrue();
 			else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {
-				body.evaluate();
+				body.evaluate(program);
 				setBrokenTrue();
 			}
 			else
-				body.evaluate();
+				body.evaluate(program);
 	}
 
 

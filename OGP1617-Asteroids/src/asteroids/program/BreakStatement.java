@@ -5,8 +5,8 @@ class BreakStatement extends MyStatement {
 		
 	}
 	
-	public void evaluate() {
-		
+	public void evaluate(Program program) {
+		setStatementProgram(program);
 	}
 
 	

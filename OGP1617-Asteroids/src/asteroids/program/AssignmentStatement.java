@@ -8,9 +8,9 @@ class AssignmentStatement extends MyStatement {
 	}
 
 	@Override
-	public void evaluate() {
+	public void evaluate(Program program) {
 		getStatementProgram().addVariable(variableName,expression);
-		
+		setStatementProgram(program);		
 	}
 	
 	protected void setVariableName(String variableName){

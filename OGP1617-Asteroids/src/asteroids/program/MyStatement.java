@@ -10,6 +10,7 @@ import asteroids.model.Ship;
 public abstract class MyStatement {
 	
 	/// GETTERS ///
+	
 	protected Program getStatementProgram(){
 		return this.program;
 	}
@@ -17,7 +18,10 @@ public abstract class MyStatement {
 	protected Ship getStatementShip(){
 		return this.getStatementProgram().getProgramShip();
 	}
+	
+	
 	/// SETTERS ///
+	
 	protected void setStatementProgram(Program program){
 		this.program = program;
 	}
@@ -26,7 +30,7 @@ public abstract class MyStatement {
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	private Program program = null;
 
-	protected abstract void evaluate();	
+	protected abstract void evaluate(Program getStatementProgram);	
 	
 	protected Object evaluateInFunction(){
 		return null;

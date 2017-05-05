@@ -17,15 +17,16 @@ public class Program {
 	protected Program(List<MyFunction> functions, MyStatement main) {
 		setFunctions(functions);
 		setMain(main);
+		main.setStatementProgram(this);
 	}
 
-	public List<Object> execute( double dt) {
+	public List<Object> execute(double dt) {
 		addTime(dt);
 		if (first_time){
-			main.evaluate();
-			first_time = false;}
+			main.evaluate(this);
+			first_time = false;
+		}
 		return null;
-		
 	}
 	
 	private MyStatement main;
@@ -68,7 +69,6 @@ public class Program {
 		for (MyFunction function:functions){
 			this.functions.put(function.getFunctionName(), function);
 		}
-		
 	}
 	
 	protected void setMain(MyStatement main){

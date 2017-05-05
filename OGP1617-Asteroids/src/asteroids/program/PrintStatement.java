@@ -13,7 +13,8 @@ class PrintStatement extends MyStatement {
 	private MyExpression expression;
 	
 	@Override
-	public void evaluate() {
+	public void evaluate(Program program){
+		setStatementProgram(program);
 		System.out.println(expression.getExpressionResult());
 	}
 
