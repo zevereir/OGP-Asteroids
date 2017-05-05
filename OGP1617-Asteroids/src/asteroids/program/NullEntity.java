@@ -5,7 +5,12 @@ class NullEntity extends EntityExpression {
 	
 	
 	protected NullEntity() throws IllegalArgumentException {
-		setOperand(null);
+		
 	}
 
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
+		return null;
+	}
+	
 }

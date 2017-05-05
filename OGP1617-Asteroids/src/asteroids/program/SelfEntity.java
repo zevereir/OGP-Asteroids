@@ -3,7 +3,12 @@ package asteroids.program;
 class SelfEntity extends EntityExpression {
 
 	protected SelfEntity() throws IllegalArgumentException {
-		setOperand(getExpressionShip());
+		
 	}
 
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
+		return getExpressionShip();
+	}
+	
 }

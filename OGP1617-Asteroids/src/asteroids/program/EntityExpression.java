@@ -12,15 +12,15 @@ abstract class EntityExpression extends MyExpression {
 
 	/// GETTERS ///
 
-	public String getOperand() {
-		return operand;
-	}
-	
-	@Override
-	protected Object getExpressionResult(Program program) {
-		setExpressionProgram(program);
-		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities(getOperand()));
-	}
+//	public Entity getOperand() {
+//		return operand;
+//	}
+//	
+//	@Override
+//	protected Object getExpressionResult(Program program) {
+//		setExpressionProgram(program);
+//		return getOperand();
+//	}
 	
 	protected Entity getClosestEntity(Set<? extends Object> entities){
 		Ship ship = getExpressionShip();
@@ -40,13 +40,13 @@ abstract class EntityExpression extends MyExpression {
 
 	/// SETTERS ///
 
-	protected void setOperand(String operand) {
-		this.operand = operand;
-	}
-
-	/// PROPERTIES ///
-
-	private String operand = null;
+//	protected void setOperand(Entity operand) {
+//		this.operand = operand;
+//	}
+//
+//	/// PROPERTIES ///
+//
+//	private Entity operand = null;
 
 
 }
