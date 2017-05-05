@@ -61,34 +61,6 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		bullet1 = facade.createBullet(300, 320, 10, 5, 50);
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
-<<<<<<< HEAD
-	
-	
-	
-	
-	
-	
-	
-	@Test
-	  public void testPlanet_NoPlanetsInWorld() throws ModelException {
-	    if (nbStudentsInTeam > 1) {
-	      max_score += 2;
-	      String code = "print planet;";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      World world = facade.createWorld(2000, 2000);
-	      Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
-	      facade.addShipToWorld(world, ship1);
-	      System.out.println("given program: "+program);
-	      facade.loadProgramOnShip(ship1, program);
-	      System.out.println("ships program ="+ facade.getShipProgram(ship1));
-	      List<Object> results = facade.executeProgram(ship1, 1.0);
-	      Object[] expecteds = { null };
-	      assertArrayEquals(expecteds, results.toArray());
-	      score += 2;
-	    }
-	  }
-=======
->>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
-		
+
 
 }
