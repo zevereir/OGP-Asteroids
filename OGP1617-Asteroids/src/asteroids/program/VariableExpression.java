@@ -11,10 +11,10 @@ class VariableExpression extends MyExpression {
 
 	/// PROPERTIES ///
 	private String variableName;
+	
 	/// GETTERS ///
 	
-	
-	protected MyExpression getVariable(String variableName){
+	protected Object getVariable(String variableName){
 		return this.getExpressionProgram().getProgramVariables().get(variableName);
 	}
 
