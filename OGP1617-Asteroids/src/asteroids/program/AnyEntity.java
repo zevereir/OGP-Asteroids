@@ -18,10 +18,11 @@ class AnyEntity extends EntityExpression {
 		entities.remove(getExpressionShip());
 
 		int sizeSet = entities.size();
-		int randomNumber = new Random().nextInt(sizeSet);
-		int i = 0;
 
 		if (sizeSet != 0) {
+			int randomNumber = new Random().nextInt(sizeSet);
+			int i = 0;
+			
 			for (Object entity : entities) {
 				if (i == randomNumber) {
 					return entity;
