@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.util.Random;
 import java.util.Set;
 
 import asteroids.model.Bullet;
@@ -9,36 +10,36 @@ import asteroids.model.Ship;
 class BulletEntity extends EntityExpression {
 
 	protected BulletEntity() throws IllegalArgumentException {
-//		Ship source = getExpressionShip();
-//		Set<? extends Object> entities = source.getEntityWorld().getWorldEntities();
-//		@SuppressWarnings("unchecked")
-//		Set<Bullet> bulletsFromSource = (Set<Bullet>) entities.stream().filter(e -> e instanceof Bullet && (isFiredFromShip((Bullet)e)));
-//		Object operand = bulletsFromSource.stream().skip((int)(bulletsFromSource.size() * Math.random())).findFirst();
-//		setOperand((Entity)operand);
+
 	}
-	
-	private boolean isFiredFromShip(Bullet bullet){
+
+	private boolean isFiredFromShip(Bullet bullet) {
 		return (getExpressionShip() == bullet.getBulletSource());
 	}
-	
-	
+
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
-		
+
 		Ship source = getExpressionShip();
-		Set<? extends Object> entities = source.getEntityWorld().getWorldEntities();
-		
-		@SuppressWarnings("unchecked")
-		Set<Bullet> bulletsFromSource = (Set<Bullet>) entities.stream().filter(e -> e instanceof Bullet && (isFiredFromShip((Bullet)e)));
-		
-		Object operand = bulletsFromSource.stream().skip((int)(bulletsFromSource.size() * Math.random())).findFirst();
+		Set<? extends Object> bullets = source.getEntityWorld().getWorldSpecificEntities("Bullet");
 
-		return operand;
+		// Filter out all the bullets that do not belong to the ship
+		bullets.removeIf(bullet -> !isFiredFromShip((Bullet) bullet));
+
+		int sizeSet = bullets.size();
+		int randomNumber = new Random().nextInt(sizeSet);
+		int i = 0;
+
+		if (sizeSet != 0) {
+			for (Object bullet : bullets) {
+				if (i == randomNumber) {
+					return bullet;
+				}
+				i++;
+			}
+		}
+
+		return null;
 	}
-
-	
-	
-	
-
 
 }

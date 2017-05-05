@@ -68,22 +68,18 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 
 	
 	
-	
+
 	@Test
-	  public void testBullet_FiredBulletsInWorld() throws ModelException {
-	    max_score += 12;
-	    String code = "print bullet; ";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    Set<? extends Bullet> bulletsOnShip1 = facade.getBulletsOnShip(ship1);
-	    facade.fireBullet(ship1);
-	    facade.fireBullet(ship1);
-	    facade.fireBullet(ship1);
-	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 1.0);
-	    assertEquals(1, results.size());
-	    assertTrue(bulletsOnShip1.contains(results.get(0)));
-	    score += 12;
-	  }
+	public void testBullet_NoFiredBulletsInWorld() throws ModelException {
+		max_score += 7;
+		String code = "print bullet; ";
+		Program program = ProgramParser.parseProgramFromString(code, programFactory);
+		facade.loadProgramOnShip(ship1, program);
+		List<Object> results = facade.executeProgram(ship1, 1.0);
+		Object[] expecteds = { null };
+		assertArrayEquals(expecteds, results.toArray());
+		score += 7;
+	}
 	
 	
 }
