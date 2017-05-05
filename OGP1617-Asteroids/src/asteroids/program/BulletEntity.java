@@ -22,7 +22,7 @@ class BulletEntity extends EntityExpression {
 
 		Ship source = getExpressionShip();
 		Set<? extends Object> bullets = source.getEntityWorld().getWorldSpecificEntities("Bullet");
-
+		
 		// Filter out all the bullets that do not belong to the ship
 		bullets.removeIf(bullet -> !isFiredFromShip((Bullet) bullet));
 
@@ -38,7 +38,7 @@ class BulletEntity extends EntityExpression {
 				i++;
 			}
 		}
-
+		
 		return null;
 	}
 
