@@ -16,7 +16,7 @@ class PrintStatement extends MyStatement {
 	public void evaluate(Program program){
 		setStatementProgram(program);
 		Object result = expression.getExpressionResult(program);
-		System.out.println(result);
+		System.out.println("PrintStatement's fault (please don't hit me): "+result);
 		getStatementProgram().addPrintOut(result);
 	}
 
