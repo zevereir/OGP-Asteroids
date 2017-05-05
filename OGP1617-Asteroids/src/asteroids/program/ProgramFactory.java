@@ -83,7 +83,7 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation)  {
 		
-			MyExpression result = new NegationExpression((ArithmeticExpression)expression);
+			MyExpression result = new NegationExpression(expression);
 			return result;
 	}
 
@@ -179,12 +179,12 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createMultiplicationExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new MultiplicationExpression((ArithmeticExpression)e1,(ArithmeticExpression)e2);
+		MyExpression result = new MultiplicationExpression(e1,e2);
 		return result;
 	}
 
 	public MyExpression createSqrtExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new SquareRootExpression((ArithmeticExpression)e);
+		MyExpression result = new SquareRootExpression(e);
 		return result;
 	}
 
