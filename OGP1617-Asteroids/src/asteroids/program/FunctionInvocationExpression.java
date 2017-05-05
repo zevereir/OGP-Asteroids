@@ -1,7 +1,7 @@
 package asteroids.program;
 
 import java.util.List;
-import java.util.function.Function;
+
 
 class FunctionExpression extends MyExpression {
 	
@@ -15,7 +15,6 @@ class FunctionExpression extends MyExpression {
 	
 	/// PROPERTIES ///
 	private MyFunction function;
-	
 	private List<MyExpression> actualArgs;
 	
 	
@@ -33,13 +32,33 @@ class FunctionExpression extends MyExpression {
 	//Als MyFunction is opgelost//
 	@Override
 	protected Object getExpressionResult() {
-		return getFunction().getFunctionBody().evaluateBody();
+		
+		return evaluateFunctionBody(getFunction().getFunctionBody(),actualArgs);
 	}
 	
 	protected void setArguments(List<MyExpression> actualArgs){
 		this.actualArgs = actualArgs;
 	}
 	
+	/// EVALUATE ///
+	protected static Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs){
+
+		body.assignParameters(actualArgs);
+
+		if (body instanceof ReturnStatement)
+			return ((ReturnStatement)body).evaluateInFunction();
+
+		else if (body instanceof IfElseStatement)
+			return ((IfElseStatement)body).evaluateInFunction();
+
+		else 
+			///IN ONZE VISIE IS DIT NIET MOGELIJK///
+			return null;
+
+	}
+	
+	
+		
 	/// SETTERS ///
 
 	protected void setFunction(String functionName){

@@ -1,6 +1,7 @@
 package asteroids.program;
 
 class LogicalNegationExpression extends MyExpression {
+	
 	/// CONSTRUCTOR ///
 	public LogicalNegationExpression(MyExpression operand) {
 		setLogicalNegationOperand(operand);

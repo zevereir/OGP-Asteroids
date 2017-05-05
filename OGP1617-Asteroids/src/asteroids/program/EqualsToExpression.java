@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class EqualsToExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
@@ -54,6 +56,14 @@ class EqualsToExpression extends MyExpression {
 		return false;
 	}
 
+	protected void assignExpressionToParameter(List<MyExpression> actualArgs){
+		if (getLeftOperand() instanceof ParameterExpression)
+			setLeftOperand(actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1));
+			
+		if (getRightOperand() instanceof ParameterExpression)
+			setRightOperand(actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1));
+		
+	}
 
 	/// PROPERTIES ///
 	

@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 
@@ -47,6 +49,15 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	
 	protected boolean canHaveAsNbOperands(double number){
 		return number == 2;
+	}
+	
+	protected void assignExpressionToParameter(List<MyExpression> actualArgs){
+		if (getLeftOperand() instanceof ParameterExpression)
+			setLeftOperand(actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1));
+			
+		if (getRightOperand() instanceof ParameterExpression)
+			setRightOperand(actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1));
+		
 	}
 	
 //	@Override

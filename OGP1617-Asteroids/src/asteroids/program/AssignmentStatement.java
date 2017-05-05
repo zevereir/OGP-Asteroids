@@ -22,6 +22,10 @@ class AssignmentStatement extends MyStatement {
 		
 	}
 	
+	protected MyExpression getAssignmentExpression(){
+		return this.expression;
+	}
+	
 	private MyExpression expression;
 	private String variableName;
 	

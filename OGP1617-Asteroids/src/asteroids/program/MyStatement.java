@@ -1,5 +1,9 @@
 package asteroids.program;
 
+import java.util.List;
+
+import javax.management.RuntimeErrorException;
+
 import asteroids.model.Ship;
 
 
@@ -23,4 +27,23 @@ public abstract class MyStatement {
 	private Program program = null;
 
 	protected abstract void evaluate();	
+	
+	protected Object evaluateInFunction(){
+		return null;
+	}
+	
+	protected void assignParameters(List<MyExpression> actualArgs){
+		
+		try {
+			if (this instanceof IfElseStatement)
+				((IfElseStatement)this).getCondition().assignExpressionToParameter(actualArgs);
+			else if (this instanceof ReturnStatement)
+				((ReturnStatement)this).getReturnExpression().assignExpressionToParameter(actualArgs);
+			else if (this instanceof AssignmentStatement)
+				((AssignmentStatement)this).getAssignmentExpression().assignExpressionToParameter(actualArgs);
+		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+			throw new RuntimeErrorException(new IllegalAccessError() );
+		}
+			
+	}
 }
