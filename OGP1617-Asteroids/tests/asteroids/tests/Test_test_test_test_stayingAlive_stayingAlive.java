@@ -65,16 +65,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 	
 	
-	@Test
-	  public void testLoadProgram() throws ModelException {
-	    max_score += 2;
-	    Ship ship = facade.createShip(100, 120, 10, 5, 50, 0, 1.0E20);
-	    String code = "print 4.0;";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    facade.loadProgramOnShip(ship, program);
-	    assertEquals(program, facade.getShipProgram(ship));
-	    score += 2;
-	  }
+	
 	
 	
 	@Test
@@ -88,6 +79,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	      facade.addShipToWorld(world, ship1);
 	      System.out.println("given program: "+program);
 	      facade.loadProgramOnShip(ship1, program);
+	      System.out.println("ships program ="+ facade.getShipProgram(ship1));
 	      List<Object> results = facade.executeProgram(ship1, 1.0);
 	      Object[] expecteds = { null };
 	      assertArrayEquals(expecteds, results.toArray());
