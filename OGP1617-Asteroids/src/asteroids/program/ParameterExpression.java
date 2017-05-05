@@ -20,7 +20,6 @@ class ParameterExpression extends MyExpression {
 		return this.ParameterName;
 	}
 
-	// ----> BEKIJKEN NA MYFUNCTION <----- //
 	@Override
 	protected Object getExpressionResult() {
 		return getParameter();

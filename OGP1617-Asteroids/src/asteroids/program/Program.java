@@ -15,8 +15,8 @@ public class Program {
 	/// CONSTRUCTOR ///
 	
 	protected Program(List<MyFunction> functions, MyStatement main) {
-		this.functions = functions;
-		this.main = main;
+		setFunctions(functions);
+		setMain(main);
 	}
 
 	public List<Object> execute( double dt) {
@@ -31,6 +31,7 @@ public class Program {
 	private MyStatement main;
 	private double time_left = 0;
 	private boolean first_time = true;
+	
 	/// GETTERS ///
 	
 	public Ship getProgramShip(){
@@ -41,7 +42,7 @@ public class Program {
 		return variables;
 	}
 	
-	protected List<MyFunction> getProgramFunctions(){
+	protected Map<String,MyFunction> getProgramFunctions(){
 		return functions;
 	}
 	protected double getTimeLeft(){
@@ -58,19 +59,25 @@ public class Program {
 	protected void addVariable(String string, MyExpression expression){
 		variables.put(string, expression);
 	}
-	protected void addFunction(MyFunction function){
-		functions.add(function);
-	}
 	
 	protected void addTime(double dt){
 		time_left =+ dt;
 	}
 	
+	protected void setFunctions(List<MyFunction> functions){
+		for (MyFunction function:functions){
+			this.functions.put(function.getFunctionName(), function);
+		}
+		
+	}
 	
+	protected void setMain(MyStatement main){
+		this.main = main;
+	}
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	
 	private Ship ship = null;
-	private List<MyFunction> functions = new ArrayList<MyFunction>();
+	private Map<String,MyFunction> functions = new HashMap<String,MyFunction>();
 	private Map<String, MyExpression> variables = new HashMap<String, MyExpression>();
 	
 	

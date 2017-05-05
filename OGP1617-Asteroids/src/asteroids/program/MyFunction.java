@@ -3,7 +3,6 @@ package asteroids.program;
 import java.util.HashMap;
 import java.util.Map;
 
-import asteroids.part3.programs.SourceLocation;
 
 public class MyFunction {
 	
@@ -16,6 +15,14 @@ public class MyFunction {
 	
 	protected Map<String,Object> getFunctionParameters(){
 		return parameters;
+	}
+	
+	/// GETTERS ///
+	protected String getFunctionName(){
+		return functionName;
+	}
+	protected MyStatement getFunctionBody(){
+		return body;
 	}
 	
 	
