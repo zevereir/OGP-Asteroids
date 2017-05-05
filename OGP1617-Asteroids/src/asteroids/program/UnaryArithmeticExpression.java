@@ -6,10 +6,7 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
 	
-	protected UnaryArithmeticExpression(MyExpression operand) throws IllegalArgumentException {
-		if (! canHaveAsArithmeticOperand(operand))
-			throw new IllegalArgumentException();
-		
+	protected UnaryArithmeticExpression(MyExpression operand) {
 		setOperand(operand);
 	}
 	
