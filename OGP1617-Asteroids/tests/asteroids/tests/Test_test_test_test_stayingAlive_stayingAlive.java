@@ -65,17 +65,28 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 	
 	
+	@Test
+	  public void testLoadProgram() throws ModelException {
+	    max_score += 2;
+	    Ship ship = facade.createShip(100, 120, 10, 5, 50, 0, 1.0E20);
+	    String code = "print 4.0;";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship, program);
+	    assertEquals(program, facade.getShipProgram(ship));
+	    score += 2;
+	  }
 	
 	
 	@Test
 	  public void testPlanet_NoPlanetsInWorld() throws ModelException {
 	    if (nbStudentsInTeam > 1) {
 	      max_score += 2;
-	      String code = "print planet; ";
+	      String code = "print planet;";
 	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	      World world = facade.createWorld(2000, 2000);
 	      Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
 	      facade.addShipToWorld(world, ship1);
+	      System.out.println("given program: "+program);
 	      facade.loadProgramOnShip(ship1, program);
 	      List<Object> results = facade.executeProgram(ship1, 1.0);
 	      Object[] expecteds = { null };
