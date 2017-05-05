@@ -22,7 +22,6 @@ public abstract class MyStatement {
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	private Program program = null;
 
-	
 	protected abstract void evaluate();	
 	
 }
