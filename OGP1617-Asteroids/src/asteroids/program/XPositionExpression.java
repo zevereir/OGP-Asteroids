@@ -3,14 +3,15 @@ package asteroids.program;
 import asteroids.model.Entity;
 
 class XPositionExpression extends OnEntityExpression {
-	protected XPositionExpression(Entity operand) throws IllegalArgumentException {
+	protected XPositionExpression(MyExpression operand) throws IllegalArgumentException {
 		super(operand);
 		
 	}
 
 	@Override
-	protected Object getExpressionResult() {
-		return getOperand().getEntityPositionX();
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
+		return ((Entity)getOperand().getExpressionResult(program)).getEntityPositionX();
 	}
 
 }

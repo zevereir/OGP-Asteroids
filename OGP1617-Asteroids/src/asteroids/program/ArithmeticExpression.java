@@ -10,9 +10,6 @@ abstract class ArithmeticExpression extends MyExpression {
 	
 	public boolean canHaveAsArithmeticOperand(MyExpression expression) {
 		return (expression != null) ;
-	}
-	
-//	public abstract boolean hasAsSubExpression(MyExpression expression);
-	
+	}	
 	
 }

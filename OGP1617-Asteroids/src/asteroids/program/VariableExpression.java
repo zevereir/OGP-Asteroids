@@ -19,7 +19,8 @@ class VariableExpression extends MyExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult() {
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
 		return getVariable(variableName);
 	}
 	

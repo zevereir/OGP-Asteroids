@@ -16,14 +16,15 @@ package asteroids.program;
 	public void evaluate(Program program) {
 		setStatementProgram(program);
 		
-		if ((boolean)condition.getExpressionResult())
+		if ((boolean)condition.getExpressionResult(program))
 			ifBody.evaluate(program);
 		else if (elseBody != null)
 			elseBody.evaluate(program);
 	}
 	
-	public Object evaluateInFunction(){
-		if ((boolean)getCondition().getExpressionResult())
+	public Object evaluateInFunction(Program program){
+		setStatementProgram(program);
+		if ((boolean)getCondition().getExpressionResult(program))
 			return ifBody.evaluateInFunction();
 		else if (elseBody != null)
 			return elseBody.evaluateInFunction();

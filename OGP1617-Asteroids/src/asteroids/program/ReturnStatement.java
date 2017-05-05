@@ -15,8 +15,8 @@ package asteroids.program;
 	 
 	 private MyExpression expression;
 	 
-	 public Object evaluateInFunction(){	
-		 return expression.getExpressionResult();
+	 public Object evaluateInFunction(Program program){	
+		 return expression.getExpressionResult(program);
 	 }
 
 	@Override

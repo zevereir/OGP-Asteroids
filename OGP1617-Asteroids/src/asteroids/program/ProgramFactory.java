@@ -139,27 +139,27 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createGetXExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new XPositionExpression((Entity)(e.getExpressionResult()));
+		MyExpression result = new XPositionExpression(e);
 		return result;
 	}
 
 	public MyExpression createGetYExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new YPositionExpression((Entity)(e.getExpressionResult()));
+		MyExpression result = new YPositionExpression(e);
 		return result;
 	}
 
 	public MyExpression createGetVXExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new XVelocityExpression((Entity)(e.getExpressionResult()));
+		MyExpression result = new XVelocityExpression(e);
 		return result;
 	}
 
 	public MyExpression createGetVYExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new YVelocityExpression((Entity)(e.getExpressionResult()));
+		MyExpression result = new YVelocityExpression(e);
 		return result;
 	}
 
 	public MyExpression createGetRadiusExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new RadiusExpression((Entity)(e.getExpressionResult()));
+		MyExpression result = new RadiusExpression(e);
 		return result;
 	}
 
