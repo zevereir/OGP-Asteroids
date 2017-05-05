@@ -8,10 +8,11 @@ import asteroids.util.ModelException;
 
 public abstract class MyExpression {
 	
+	
+	
+	
 	protected abstract Object getExpressionResult();
-	
-	
-	
+		
 	/// GETTERS ///
 	protected Program getExpressionProgram(){
 		return this.program;

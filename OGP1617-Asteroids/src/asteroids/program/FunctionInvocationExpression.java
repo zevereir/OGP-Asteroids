@@ -56,7 +56,6 @@ class FunctionExpression extends MyExpression {
 
 	}
 	
-	
 		
 	/// SETTERS ///
 
