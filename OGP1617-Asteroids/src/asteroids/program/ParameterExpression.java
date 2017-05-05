@@ -25,6 +25,9 @@ class ParameterExpression extends MyExpression {
 		return getParameter();
 	}
 	
+	protected int getParameterNumber(){
+		return getParameter().charAt(getParameter().length()-1);
+	}
 	
 	/// SETTERS ///
 

@@ -8,6 +8,10 @@ package asteroids.program;
 		setElseBody(elseBody);
 	}
 	
+	protected MyExpression getCondition(){
+		return this.condition;
+	}
+	
 	@Override
 	public void evaluate() {
 		if ((boolean)condition.getExpressionResult())
@@ -17,7 +21,7 @@ package asteroids.program;
 	}
 	
 	public Object evaluateInFunction(){
-		if ((boolean)condition.getExpressionResult())
+		if ((boolean)getCondition().getExpressionResult())
 			return ifBody.evaluateInFunction();
 		else if (elseBody != null)
 			return elseBody.evaluateInFunction();

@@ -26,18 +26,6 @@ public class MyFunction {
 		return body;
 	}
 	
-	/// EVALUATE ///
-	protected Object evaluateBody(List<MyExpression> actualArgs){
-		if (getFunctionBody() instanceof ReturnStatement)
-			return ((ReturnStatement)getFunctionBody()).evaluateInFunction();
-		
-		else if (getFunctionBody() instanceof IfElseStatement)
-			return ((IfElseStatement)getFunctionBody()).evaluateInFunction();
-		
-		// NOT POSSIBLE
-		else 
-			return null;
-	}
 	
 	/// ADDERS ///
 	

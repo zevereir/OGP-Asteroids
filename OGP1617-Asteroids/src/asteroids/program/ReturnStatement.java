@@ -5,6 +5,10 @@ package asteroids.program;
 		 setExpression(expression);
 	 }
 
+	 protected MyExpression getReturnExpression(){
+		 return this.expression;
+	 }
+	 
 	 protected void setExpression(MyExpression expression){
 	 this.expression = expression;
 	 }

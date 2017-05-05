@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.Test;
+
 import asteroids.part2.CollisionListener;
 import asteroids.program.Program;
 import be.kuleuven.cs.som.annotate.*;

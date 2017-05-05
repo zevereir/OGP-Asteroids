@@ -34,6 +34,14 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade = new Facade();
 	}
 	
+	@Test
+	public void Test() throws ModelException{
+		Ship ship = createShips()[0];
+		assert(15 == ship.test6565());
+	}
+		
+	
+	
 	
 	
 
