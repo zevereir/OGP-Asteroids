@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.util.Random;
 import java.util.Set;
 
 import asteroids.model.Entity;
@@ -7,23 +8,28 @@ import asteroids.model.Entity;
 class AnyEntity extends EntityExpression {
 
 	protected AnyEntity() throws IllegalArgumentException {
-//		Object operand = null;
 		
-//		do {Set<? extends Object> entities = getExpressionShip().getEntityWorld().getWorldEntities();
-//			operand = entities.stream().skip((int)(entities.size() * Math.random())).findFirst();
-//			setOperand((Entity)operand);
-//		}while (getOperand() == getExpressionShip());
 	}
 	
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
 		
-		Object operand = null;
+		Set<? extends Object> entities = getExpressionShip().getEntityWorld().getWorldEntities();
+		entities.remove(getExpressionShip());
 		
-		do {Set<? extends Object> entities = getExpressionShip().getEntityWorld().getWorldEntities();
-			operand = entities.stream().skip((int)(entities.size() * Math.random())).findFirst();
-		}while (operand == getExpressionShip());
+		int sizeSet = entities.size();
+		int randomNumber = new Random().nextInt(sizeSet);
+		int i = 0;
 		
-		return ((Entity)operand);
+		if (sizeSet != 0) {		
+			for (Object entity : entities) {
+				if (i == randomNumber) {
+					return entity;
+				}
+				i++;
+			}
+		} 
+		
+		return null;
 	}
 }
