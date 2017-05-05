@@ -65,17 +65,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-	  @Test
-	  public void testAssignment_NameAlreadyUsedForFunction() throws ModelException {
-	    try {
-	      max_score += 4;
-	      String code = "def f { " + "  return 1.0; " + "}" + "f := 10.0;";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      facade.executeProgram(ship1, 1.0);
-	      fail();
-	    } catch (ModelException exc) {
-	      score += 4;
-	    }
-	  }
+	
+	
+	@Test
+	public void testLessThan_TrueCase() throws ModelException {
+		max_score += 3;
+		String code = "print 4.0 < 6.0;";
+		Program program = ProgramParser.parseProgramFromString(code, programFactory);
+		facade.loadProgramOnShip(ship1, program);
+		List<Object> results = facade.executeProgram(ship1, 1.0);
+		Object[] expecteds = { true };
+		assertArrayEquals(expecteds, results.toArray());
+		score += 3;
+	}
 }
