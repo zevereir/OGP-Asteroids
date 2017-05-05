@@ -164,7 +164,7 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createLessThanExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new LessThanExpression((ArithmeticExpression)e1,(ArithmeticExpression)e2);
+		MyExpression result = new LessThanExpression(e1, e2);
 		return result;
 	}
 
