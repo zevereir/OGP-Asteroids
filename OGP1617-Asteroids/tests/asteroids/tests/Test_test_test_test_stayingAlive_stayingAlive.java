@@ -6,6 +6,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,30 +65,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// Penisheufd
-	@Test
-	public void testEquality_FalseCase() throws ModelException {
-		max_score += 3;
-		String code = "print self == 4.0;";
-		Program program = ProgramParser.parseProgramFromString(code, programFactory);
-		facade.loadProgramOnShip(ship1, program);
-		List<Object> results = facade.executeProgram(ship1, 1.0);
-		Object[] expecteds = { false };
-		assertArrayEquals(expecteds, results.toArray());
-		score += 3;
-	}
+	  @Test
+	  public void testAssignment_NameAlreadyUsedForFunction() throws ModelException {
+	    try {
+	      max_score += 4;
+	      String code = "def f { " + "  return 1.0; " + "}" + "f := 10.0;";
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      facade.loadProgramOnShip(ship1, program);
+	      facade.executeProgram(ship1, 1.0);
+	      fail();
+	    } catch (ModelException exc) {
+	      score += 4;
+	    }
+	  }
 }

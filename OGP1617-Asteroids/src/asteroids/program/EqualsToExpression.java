@@ -31,18 +31,12 @@ class EqualsToExpression extends MyExpression {
 	
 	/// SETTERS ///
 	
-	protected void setLeftOperand(MyExpression expression) throws IllegalArgumentException{
-		if (canHaveAsOperand(expression))
+	protected void setLeftOperand(MyExpression expression){
 			left_operand = expression;
-		else
-			throw new IllegalArgumentException();
 	}
 
-	protected void setRightOperand(MyExpression expression) throws IllegalArgumentException{
-		if (canHaveAsOperand(expression))
+	protected void setRightOperand(MyExpression expression) {
 			right_operand = expression;
-		else
-			throw new IllegalArgumentException();
 	}
 
 	
@@ -52,9 +46,6 @@ class EqualsToExpression extends MyExpression {
 		return number == 2;
 	}
 	
-	protected boolean canHaveAsOperand(MyExpression operand) throws IllegalArgumentException {
-		return false;
-	}
 
 	protected void assignExpressionToParameter(List<MyExpression> actualArgs){
 		if (getLeftOperand() instanceof ParameterExpression)
