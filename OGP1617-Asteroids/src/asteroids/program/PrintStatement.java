@@ -15,7 +15,9 @@ class PrintStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program){
 		setStatementProgram(program);
-		System.out.println(expression.getExpressionResult(program));
+		Object result = expression.getExpressionResult(program);
+		System.out.println(result);
+		getStatementProgram().addPrintOut(result);
 	}
 
 	
