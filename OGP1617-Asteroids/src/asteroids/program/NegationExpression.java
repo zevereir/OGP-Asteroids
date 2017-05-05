@@ -7,8 +7,9 @@ class NegationExpression extends UnaryArithmeticExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult() {
-		return -(double)getOperand().getExpressionResult();
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
+		return -(double)getOperand().getExpressionResult(program);
 	}
 	
 	public String getOperatorSymbol() {

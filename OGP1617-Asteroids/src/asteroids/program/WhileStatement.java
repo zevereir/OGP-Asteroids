@@ -22,7 +22,7 @@ class WhileStatement extends MyStatement {
 	
 	@Override
 	public void evaluate(Program program) {
-		while ((boolean) condition.getExpressionResult() && !isBroken)
+		while ((boolean) condition.getExpressionResult(program) && !isBroken)
 			if (body instanceof BreakStatement)
 				setBrokenTrue();
 			else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {

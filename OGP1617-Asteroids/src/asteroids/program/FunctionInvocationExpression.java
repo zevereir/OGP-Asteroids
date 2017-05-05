@@ -31,7 +31,8 @@ class FunctionExpression extends MyExpression {
 	// ----> BEKIJKEN <---- //
 	//Als MyFunction is opgelost//
 	@Override
-	protected Object getExpressionResult() {		
+	protected Object getExpressionResult(Program program) {	
+		setExpressionProgram(program);
 		return evaluateFunctionBody(getFunction().getFunctionBody(),actualArgs);
 	}
 	

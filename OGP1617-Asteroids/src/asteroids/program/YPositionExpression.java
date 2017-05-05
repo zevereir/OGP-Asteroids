@@ -3,12 +3,13 @@ package asteroids.program;
 import asteroids.model.Entity;
 
 class YPositionExpression extends OnEntityExpression {
-	protected YPositionExpression(Entity operand) throws IllegalArgumentException {
+	protected YPositionExpression(MyExpression operand) throws IllegalArgumentException {
 		super(operand);
 	}
 
 	@Override
-	protected Object getExpressionResult() {
-		return getOperand().getEntityPositionY();
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
+		return ((Entity)getOperand().getExpressionResult(program)).getEntityPositionY();
 	}
 }

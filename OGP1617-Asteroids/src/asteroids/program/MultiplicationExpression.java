@@ -7,8 +7,8 @@ class MultiplicationExpression extends BinaryArithmeticExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult() {
-		return (double)getLeftOperand().getExpressionResult() * (double)getRightOperand().getExpressionResult();
+	protected Object getExpressionResult(Program program) {
+		return (double)getLeftOperand().getExpressionResult(program) * (double)getRightOperand().getExpressionResult(program);
 	}
 	
 

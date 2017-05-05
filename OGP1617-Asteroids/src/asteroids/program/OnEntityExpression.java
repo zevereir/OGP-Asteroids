@@ -6,42 +6,38 @@ abstract class OnEntityExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected OnEntityExpression(Entity operand) throws IllegalArgumentException {
+	protected OnEntityExpression(MyExpression operand) throws IllegalArgumentException {
 		setOperand(operand);
 	}
 
 
 	/// GETTERS ///
 
-	public Entity getOperand() {
+	public MyExpression getOperand() {
 		return operand;
 	}
 	
 	
 	/// SETTERS ///
 
-	protected void setOperand(Entity operand) {
-		if (! canHaveAsOnEntityExpressionOperand(operand))
-			throw new IllegalArgumentException();
+	protected void setOperand(MyExpression operand) {
+//		if (! canHaveAsOnEntityExpressionOperand(operand))
+//			throw new IllegalArgumentException();
 		this.operand = operand;
 	}
 	
 
 
 	/// CHECKERS ///
-
-	public boolean canHaveAsOnEntityExpressionOperand(Entity expression){
-		return ((expression != null) && (expression instanceof Entity));			
-	}
+//
+//	public boolean canHaveAsOnEntityExpressionOperand(Entity expression){
+//		return ((expression != null) && (expression instanceof Entity));			
+//	}
 
 
 	/// PROPERTIES ///
 
-	private Entity operand;
-
-
-	
-
+	private MyExpression operand;
 
 }
 

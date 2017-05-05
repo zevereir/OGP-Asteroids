@@ -17,7 +17,8 @@ abstract class EntityExpression extends MyExpression {
 	}
 	
 	@Override
-	protected Object getExpressionResult() {
+	protected Object getExpressionResult(Program program) {
+		setExpressionProgram(program);
 		return  getOperand();
 	}
 	
@@ -30,8 +31,9 @@ abstract class EntityExpression extends MyExpression {
 			if (((Entity)entity != ship)&& ship.getDistanceBetween((Entity)entity) < min_distance )
 				min_distance = ship.getDistanceBetween((Entity)entity); 
 				result = (Entity)entity;
-				}			
-			}
+			}			
+		}
+		
 		return result;
 	}
 	
