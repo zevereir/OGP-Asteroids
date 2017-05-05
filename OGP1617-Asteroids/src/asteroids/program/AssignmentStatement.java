@@ -16,6 +16,11 @@ class AssignmentStatement extends MyStatement {
 			throw new IllegalArgumentException();
 	}
 	
+	/// GETTERS ///
+	protected MyExpression getAssignmentExpression(){
+		return this.expression;
+	}
+	
 	/// SETTERS ///
 	protected void setVariableName(String variableName){
 		this.variableName = variableName;
@@ -25,6 +30,7 @@ class AssignmentStatement extends MyStatement {
 		this.expression = expression;
 		
 	}
+	
 	
 	/// CHECKERS ///
 	protected boolean isValidVariableName(String variableName){
