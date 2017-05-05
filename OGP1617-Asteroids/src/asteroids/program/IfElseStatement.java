@@ -16,6 +16,14 @@ package asteroids.program;
 			elseBody.evaluate();
 	}
 	
+	public Object evaluateInFunction(){
+		if ((boolean)condition.getExpressionResult())
+			return ifBody.evaluateInFunction();
+		else if (elseBody != null)
+			return elseBody.evaluateInFunction();
+		return null;
+	}
+	
 	private void setCondition(MyExpression condition){
 		this.condition = condition;
 	}

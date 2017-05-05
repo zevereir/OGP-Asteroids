@@ -8,36 +8,39 @@ class FunctionExpression extends MyExpression {
 	/// CONSTRUCTOR ///
 	
 	public FunctionExpression(String functionName,List<MyExpression> actualArgs) {	
-		setFunction(functionName, actualArgs);
+		setFunction(functionName);
+		setArguments(actualArgs);
 	}
 
 	
 	/// PROPERTIES ///
+	private MyFunction function;
 	
-	private String functionName;
 	private List<MyExpression> actualArgs;
 	
 	
 	/// GETTERS ///
 	
-	protected MyFunction  getFunction(String functionName){
+	protected MyFunction getFunctionFromProgram(String functionName){
 		return this.getExpressionProgram().getProgramFunctions().get(functionName);
 	}
 
+	protected MyFunction getFunction(){
+		return function;
+	}
 	
 	// ----> BEKIJKEN <---- //
 	//Als MyFunction is opgelost//
 	@Override
 	protected Object getExpressionResult() {
-		return getFunction(functionName).execute();
+		return getFunction().getFunctionBody().evaluateBody();
 	}
 	
 	
 	/// SETTERS ///
 
-	protected void setFunction(String functionName,List<MyExpression> actualArgs) throws IllegalArgumentException{
-		this.functionName = functionName;
-		getExpressionProgram().addFunction(functionName);
+	protected void setFunction(String functionName){
+		this.function = getFunctionFromProgram(functionName);
 	}
 
 }

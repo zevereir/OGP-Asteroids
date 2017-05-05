@@ -23,5 +23,4 @@ public abstract class MyStatement {
 	private Program program = null;
 
 	protected abstract void evaluate();	
-	
 }
