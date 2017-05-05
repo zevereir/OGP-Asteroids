@@ -65,6 +65,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 
+<<<<<<< HEAD
 	@Test
 	public void testBullet_NoFiredBulletsInWorld() throws ModelException {
 		max_score += 7;
@@ -76,6 +77,25 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		assertArrayEquals(expecteds, results.toArray());
 		score += 7;
 	}
+=======
+
+	
+	
+	
+	
+	  @Test
+	  public void testGetDirection_LegalCase() throws ModelException {
+	    max_score += 3;
+	    String code = "print getdir ; ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.turn(ship1, 0.33);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { facade.getShipOrientation(ship1) };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 3;
+	  }
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 	
 	
 }
