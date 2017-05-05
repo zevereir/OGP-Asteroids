@@ -30,18 +30,14 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	
 	/// SETTERS ///
 	
-	protected void setLeftOperand(MyExpression expression) throws IllegalArgumentException{
-		if (canHaveAsArithmeticOperand(expression))
+	protected void setLeftOperand(MyExpression expression) {
+		
 			left_operand = expression;
-		else
-			throw new IllegalArgumentException();
+		
 	}
 	
-	protected void setRightOperand(MyExpression expression) throws IllegalArgumentException{
-		if (canHaveAsArithmeticOperand(expression))
+	protected void setRightOperand(MyExpression expression){
 			right_operand = expression;
-		else
-			throw new IllegalArgumentException();
 	}
 	
 	

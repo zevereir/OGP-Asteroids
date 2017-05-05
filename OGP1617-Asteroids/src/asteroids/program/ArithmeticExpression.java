@@ -8,8 +8,5 @@ abstract class ArithmeticExpression extends MyExpression {
 		return nbOperands > 0;
 	}
 	
-	public boolean canHaveAsArithmeticOperand(MyExpression expression) {
-		return (expression != null) ;
-	}	
 	
 }
