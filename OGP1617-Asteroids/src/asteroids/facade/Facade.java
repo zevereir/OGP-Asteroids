@@ -1122,7 +1122,6 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	@Override
 	public void loadProgramOnShip(Ship ship, Program program) throws ModelException {
 		try {
-			System.out.println("aaaa "+program);
 			ship.addProgramToShip(program);		
 		} catch (IllegalArgumentException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #77");

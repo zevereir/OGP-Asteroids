@@ -61,6 +61,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		bullet1 = facade.createBullet(300, 320, 10, 5, 50);
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
+<<<<<<< HEAD
 	
 	
 	
@@ -86,10 +87,8 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	      score += 2;
 	    }
 	  }
+=======
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 		
-	
-	
-	
-	
 
 }
