@@ -39,7 +39,7 @@ public class Program {
 		return ship;
 	}
 	
-	protected Map<String,MyExpression> getProgramVariables(){
+	protected Map<String,Object> getProgramVariables(){
 		return variables;
 	}
 	
@@ -57,8 +57,8 @@ public class Program {
 	}
 	
 	/// ADDERS ///
-	protected void addVariable(String string, MyExpression expression){
-		variables.put(string, expression);
+	protected void addVariable(String string, Object object){
+		variables.put(string, object);
 	}
 	
 	protected void addTime(double dt){
@@ -78,7 +78,7 @@ public class Program {
 	
 	private Ship ship = null;
 	private Map<String,MyFunction> functions = new HashMap<String,MyFunction>();
-	private Map<String, MyExpression> variables = new HashMap<String, MyExpression>();
+	private Map<String, Object> variables = new HashMap<String, Object>();
 	
 	
 }

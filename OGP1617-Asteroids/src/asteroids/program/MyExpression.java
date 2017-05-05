@@ -7,13 +7,8 @@ import asteroids.part3.programs.SourceLocation;
 import asteroids.util.ModelException;
 
 public abstract class MyExpression {
-	
 
 	
-	
-	
-	protected abstract Object getExpressionResult();
-		
 
 	protected abstract Object getExpressionResult(Program program);
 	
