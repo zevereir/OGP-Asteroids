@@ -34,4 +34,5 @@ class SequenceStatement extends MyStatement {
 	}
 
 	private List<MyStatement> statements = new ArrayList<MyStatement>();
+	
 }

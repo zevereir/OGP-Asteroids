@@ -8,7 +8,7 @@ class FunctionExpression extends MyExpression {
 	/// CONSTRUCTOR ///
 	
 	public FunctionExpression(String functionName,List<MyExpression> actualArgs) {	
-		setFunction(functionName,actualArgs);
+		setFunction(functionName, actualArgs);
 	}
 
 	
