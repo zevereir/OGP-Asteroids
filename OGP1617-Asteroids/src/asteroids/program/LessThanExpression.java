@@ -1,7 +1,7 @@
 package asteroids.program;
 
 class LessThanExpression extends BinaryArithmeticExpression {
-	protected LessThanExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
+	protected LessThanExpression(MyExpression leftExpression, MyExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}
