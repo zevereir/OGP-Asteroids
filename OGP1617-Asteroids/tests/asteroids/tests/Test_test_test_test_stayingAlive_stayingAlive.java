@@ -74,20 +74,18 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 	
 	@Test
-	  public void testShip_NoOtherShipsInWorld() throws ModelException {
-	    if (nbStudentsInTeam > 1) {
-	      max_score += 8;
-	      String code = "print ship; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      World world = facade.createWorld(2000, 2000);
-	      Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
-	      facade.addShipToWorld(world, ship1);
-	      facade.loadProgramOnShip(ship1, program);
-	      List<Object> results = facade.executeProgram(ship1, 1.0);
-	      Object[] expecteds = { null };
-	      assertArrayEquals(expecteds, results.toArray());
-	      score += 8;
-	    }
+	  public void testPlanet_NoOtherEntitiesInWorld() throws ModelException {
+	    max_score += 6;
+	    String code = "print any; ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    World world = facade.createWorld(2000, 2000);
+	    Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
+	    facade.addShipToWorld(world, ship1);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { ship1 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 6;
 	  }
 
 	
