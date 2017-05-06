@@ -72,16 +72,18 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 	
-	@Test
-	  public void testFunctionCall_UndefinedFunction() throws ModelException {
+
+
+	 @Test
+	  public void testFunctionCall_AccessLocalVariableOutsideBody() throws ModelException {
 	    try {
-	      max_score += 4;
-	      String code = "print f(); ";
+	      max_score += 9;
+	      String code = "def f { " + "  x := 10; " + "  return x; " + "} " + "print f()+x; ";
 	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	      facade.loadProgramOnShip(ship1, program);
 	      facade.executeProgram(ship1, 0.3);
 	    } catch (ModelException exc) {
-	      score += 4;
+	      score += 9;
 	    }
 	  }
 

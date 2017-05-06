@@ -24,24 +24,24 @@ class WhileStatement extends MyStatement {
 	public void evaluate(Program program) {
 		setStatementProgram(program);
 		if (canHaveAsCondition(condition)){
-		while ((boolean) condition.getExpressionResult(program) && !isBroken){
-			if (body instanceof BreakStatement)
-				setBrokenTrue();
-			else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {
-				body.evaluate(program);
-				setBrokenTrue();
-			}
-			else
-				body.evaluate(program);
+			while ((boolean) condition.getExpressionResult(program) && !isBroken){
+				if (body instanceof BreakStatement)
+					setBrokenTrue();
+				else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {
+					body.evaluate(program);
+					setBrokenTrue();
+				}
+				else
+					body.evaluate(program);
 			}
 		}
 		else
 			throw new IllegalArgumentException();
 	}
 	
-	protected boolean canHaveAsCondition(MyExpression condition){
-		return (condition.getExpressionResult(getStatementProgram()) instanceof Boolean);
-	}
+//	protected boolean canHaveAsCondition(MyExpression condition){
+//		return (condition.getExpressionResult(getStatementProgram()) instanceof Boolean);
+//	}
 
 	private MyExpression condition;
 	private MyStatement body;

@@ -22,6 +22,7 @@ public class Program {
 
 	public List<Object> execute(double dt) {
 		addTime(dt);
+		
 		if (first_time){
 			main.evaluate(this);
 			first_time = false;
@@ -37,6 +38,10 @@ public class Program {
 	
 	public Ship getProgramShip(){
 		return ship;
+	}
+	
+	public MyStatement getMain() {
+		return main;
 	}
 	
 	protected Map<String,Object> getProgramVariables(){

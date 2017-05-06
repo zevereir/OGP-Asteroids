@@ -15,11 +15,15 @@ package asteroids.program;
 	@Override
 	public void evaluate(Program program) {
 		setStatementProgram(program);
-		
-		if ((boolean)condition.getExpressionResult(program))
-			ifBody.evaluate(program);
-		else if (elseBody != null)
-			elseBody.evaluate(program);
+	
+		if (canHaveAsCondition(condition)){		
+			if ((boolean)condition.getExpressionResult(program))
+				ifBody.evaluate(program);
+			else if (elseBody != null)
+				elseBody.evaluate(program);
+		}
+		else 
+			throw new IllegalArgumentException();
 	}
 	
 	public Object evaluateInFunction(Program program){

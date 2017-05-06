@@ -36,7 +36,9 @@ public abstract class MyStatement {
 		return null;
 	}
 	
-	
+	protected boolean canHaveAsCondition(MyExpression condition){
+		return (condition.getExpressionResult(getStatementProgram()) instanceof Boolean);
+	}
 	
 	protected void assignParameters(List<MyExpression> actualArgs){
 		try {

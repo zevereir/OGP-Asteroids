@@ -23,18 +23,20 @@ class FunctionExpression extends MyExpression {
 	/// GETTERS ///
 	
 	protected MyFunction getFunction() {
-		return this.getExpressionProgram().getProgramFunctions().get(getFunctionName());
+		if (getExpressionProgram().getProgramFunctions().containsKey(functionName))
+			return getExpressionProgram().getProgramFunctions().get(getFunctionName());
+		
+		throw new IllegalArgumentException();
 	}
 
 	protected String getFunctionName(){
 		return functionName;
 	}
 	
-	// ----> BEKIJKEN <---- //
-	//Als MyFunction is opgelost//
 	@Override
 	protected Object getExpressionResult(Program program) {	
 		setExpressionProgram(program);
+		
 		return evaluateFunctionBody(getFunction().getFunctionBody(),actualArgs);
 	}
 	
