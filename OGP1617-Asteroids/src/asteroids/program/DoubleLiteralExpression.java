@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class DoubleLiteralExpression extends MyExpression {
 	/// CONSTRUCTOR ///
 	
@@ -28,5 +30,11 @@ class DoubleLiteralExpression extends MyExpression {
 		protected void setValue(double value) throws IllegalArgumentException{
 			this.value = value;
 		}
+		
+		
+//		protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
+//			if (getValue() instanceof ParameterExpression)
+//				setValue(actualArgs.get(((ParameterExpression)getValue()).getParameterNumber()-1));
+//		}
 
 	}

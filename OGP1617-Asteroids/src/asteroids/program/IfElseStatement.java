@@ -25,9 +25,9 @@ package asteroids.program;
 	public Object evaluateInFunction(Program program){
 		setStatementProgram(program);
 		if ((boolean)getCondition().getExpressionResult(program))
-			return ifBody.evaluateInFunction();
+			return ifBody.evaluateInFunction(getStatementProgram());
 		else if (elseBody != null)
-			return elseBody.evaluateInFunction();
+			return elseBody.evaluateInFunction(getStatementProgram());
 		return null;
 	}
 	
