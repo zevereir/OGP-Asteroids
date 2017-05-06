@@ -16,7 +16,6 @@ package asteroids.program;
 	 private MyExpression expression;
 	 
 	 public Object evaluateInFunction(Program program){	
-		 System.out.println("ReturnStatement, "+expression.getExpressionResult(program));
 		 return expression.getExpressionResult(program);
 	 }
 
