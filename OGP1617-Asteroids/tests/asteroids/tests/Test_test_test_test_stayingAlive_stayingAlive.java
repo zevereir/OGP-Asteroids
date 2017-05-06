@@ -70,21 +70,24 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		bullet1 = facade.createBullet(300, 320, 10, 5, 50);
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
-
-
-	 @Test
-	  public void testEquality_TrueCase() throws ModelException {
-	    max_score += 3;
-	    String code = "print self == self;";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 1.0);
-	    Object[] expecteds = { true };
-	    assertArrayEquals(expecteds, results.toArray());
-	    score += 3;
-	  }
-
-
+	 
 	
+	
+	
+	
+	
+	@Test
+	public void testLessThan_IllegalCase() throws ModelException {
+		try {
+			max_score += 5;
+			String code = "print 4.0 < self;";
+			Program program = ProgramParser.parseProgramFromString(code, programFactory);
+			facade.loadProgramOnShip(ship1, program);
+			facade.executeProgram(ship1, 1.0);
+		} catch (ModelException exc) {
+			score += 5;
+		}
+	}
+
 	
 }
