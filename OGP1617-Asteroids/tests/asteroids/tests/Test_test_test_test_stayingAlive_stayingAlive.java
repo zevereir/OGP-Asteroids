@@ -72,19 +72,16 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 	
-	 
-	 
-	 @Test
-	  public void testAssignment_ImproperType() throws ModelException {
+	@Test
+	  public void testWhileStatement_NonBooleanControllingExpression() throws ModelException {
 	    try {
-	      max_score += 4;
-	      String code = "varname := 7.0; " + "varname := self; ";
+	      max_score += 5;
+	      String code = "while self { " + "  print 4.0; " + "}";
 	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	      facade.loadProgramOnShip(ship1, program);
 	      facade.executeProgram(ship1, 1.0);
-	      fail();
 	    } catch (ModelException exc) {
-	      score += 4;
+	      score += 5;
 	    }
 	  }
 }
