@@ -14,7 +14,7 @@ class EqualsToExpression extends MyExpression {
 	@Override
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
-		return getLeftOperand().equals(getRightOperand());
+		return getLeftOperand().getExpressionResult(program).equals(getRightOperand().getExpressionResult(program));
 	}
 
 	
