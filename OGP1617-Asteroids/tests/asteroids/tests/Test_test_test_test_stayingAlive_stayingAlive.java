@@ -24,6 +24,7 @@ import asteroids.program.Program;
 import asteroids.program.ProgramFactory;
 import asteroids.util.ModelException;
 
+
 /**
  * DO NOT COMMIT THIS TEST-FILE
  * 
@@ -32,7 +33,12 @@ import asteroids.util.ModelException;
  *
  */
 public class Test_test_test_test_stayingAlive_stayingAlive {
+
 	
+	private static final double EPSILON = 0.0001;
+	private static final double BIG_EPSILON = 1.0E14;
+	private static final double VERY_BIG_EPSILON = 1.0E34;
+		
 	static int nbStudentsInTeam;
 	IFacade facade;
 	IProgramFactory<?, ?, ?, Program> programFactory = new ProgramFactory();
@@ -66,16 +72,27 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
+
+
+	
 	@Test
-	  public void testGetRadius_LegalCase() throws ModelException {
-	    max_score += 3;
-	    String code = "print getradius self ; ";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 1.0);
-	    Object[] expecteds = { facade.getShipRadius(ship1) };
-	    assertArrayEquals(expecteds, results.toArray());
-	    score += 3;
+	  public void testTurnStatement_InvalidAngle() throws ModelException {
+	    max_score += 5;
+	    try {
+	      String code = "turn 10.0; " + "print 0.4; ";
+	      facade.turn(ship1, 1.5);
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      facade.loadProgramOnShip(ship1, program);
+	      List<Object> results = facade.executeProgram(ship1, 0.45);
+	      // It is allowed to do nothing in case of an illegal angle.
+	      assertEquals(1.5, facade.getShipOrientation(ship1), EPSILON);
+	      Object[] expecteds = { 0.4 };
+	      assertArrayEquals(expecteds, results.toArray());
+	      score += 3;
+	    } catch (ModelException exc) {
+	      assertEquals(1.5, facade.getShipOrientation(ship1), EPSILON);
+	      score += 5;
+	    }
 	  }
 
 
