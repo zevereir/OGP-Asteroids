@@ -38,7 +38,7 @@ public abstract class MyExpression {
 	
 	
 	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
-		System.out.println("MyExpression, actualArgs: "+actualArgs);
+		//
 	}
 
 }
