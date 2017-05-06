@@ -19,7 +19,5 @@ class PrintStatement extends MyStatement {
 		System.out.println("PrintStatement's fault (please don't hit me): "+result);
 		getStatementProgram().addPrintOut(result);
 	}
-
 	
-
 }
