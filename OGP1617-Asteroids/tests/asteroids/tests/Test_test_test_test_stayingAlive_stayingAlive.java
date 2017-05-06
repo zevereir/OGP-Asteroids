@@ -73,25 +73,16 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 
 
 
-
-	
 	@Test
-	  public void testTurnStatement_InvalidAngle() throws ModelException {
-	    max_score += 5;
+	  public void testGetRadius_IllegalCase() throws ModelException {
 	    try {
-	      String code = "turn 10.0; " + "print 0.4; ";
-	      facade.turn(ship1, 1.5);
+	      max_score += 2;
+	      String code = "print getradius 4.0; ";
 	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	      facade.loadProgramOnShip(ship1, program);
-	      List<Object> results = facade.executeProgram(ship1, 0.45);
-	      // It is allowed to do nothing in case of an illegal angle.
-	      assertEquals(1.5, facade.getShipOrientation(ship1), EPSILON);
-	      Object[] expecteds = { 0.4 };
-	      assertArrayEquals(expecteds, results.toArray());
-	      score += 3;
+	      facade.executeProgram(ship1, 1.0);
 	    } catch (ModelException exc) {
-	      assertEquals(1.5, facade.getShipOrientation(ship1), EPSILON);
-	      score += 5;
+	      score += 2;
 	    }
 	  }
 
