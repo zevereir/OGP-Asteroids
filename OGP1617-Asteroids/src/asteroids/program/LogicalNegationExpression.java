@@ -17,6 +17,7 @@ class LogicalNegationExpression extends MyExpression {
 	@Override
 	protected Object getExpressionResult(Program program) throws IllegalArgumentException {
 		setExpressionProgram(program);
+		
 		if (canHaveAsLogicalNegationOperand(operand))
 			return !(Boolean)operand.getExpressionResult(program);
 		else

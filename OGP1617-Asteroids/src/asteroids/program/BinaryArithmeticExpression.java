@@ -29,7 +29,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	protected MyExpression getRightOperand(){
 		if (canHaveAsArithmeticOperand(getExpressionProgram(), right_operand))
 			return right_operand;
-		else
+		else 
 			throw new IllegalArgumentException();
 	}
 	

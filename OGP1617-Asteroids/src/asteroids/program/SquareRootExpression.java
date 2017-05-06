@@ -8,6 +8,8 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 
 	@Override
 	protected Object getExpressionResult(Program program) throws IllegalArgumentException{
+		setExpressionProgram(program);
+		
 		if ((double)getOperand().getExpressionResult(program) < 0)
 			throw new IllegalArgumentException();
 		

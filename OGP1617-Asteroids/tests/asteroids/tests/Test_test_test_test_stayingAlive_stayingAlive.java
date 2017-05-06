@@ -71,21 +71,20 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 
+	
+	@Test
+	  public void testFunctionCall_UndefinedFunction() throws ModelException {
+	    try {
+	      max_score += 4;
+	      String code = "print f(); ";
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      facade.loadProgramOnShip(ship1, program);
+	      facade.executeProgram(ship1, 0.3);
+	    } catch (ModelException exc) {
+	      score += 4;
+	    }
+	  }
 
 	
 
-	@Test
-	  public void testMultiplication_IllegalCase() throws ModelException {
-	    if (nbStudentsInTeam > 1) {
-	      try {
-	        max_score += 5;
-	        String code = "print 4.0 * self; ";
-	        Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	        facade.loadProgramOnShip(ship1, program);
-	        facade.executeProgram(ship1, 1.0);
-	      } catch (ModelException exc) {
-	        score += 5;
-	      }
-	    }
-	  }
 }

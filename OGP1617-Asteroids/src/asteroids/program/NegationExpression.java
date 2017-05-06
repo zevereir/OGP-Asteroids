@@ -9,6 +9,7 @@ class NegationExpression extends UnaryArithmeticExpression {
 	@Override
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
+		
 		return -(double)getOperand().getExpressionResult(program);
 	}
 	
