@@ -15,26 +15,27 @@ class LogicalNegationExpression extends MyExpression {
 	}
 	
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program) throws IllegalArgumentException {
 		setExpressionProgram(program);
-		return !(Boolean)operand.getExpressionResult(program);
+		if (canHaveAsLogicalNegationOperand(operand))
+			return !(Boolean)operand.getExpressionResult(program);
+		else
+			throw new IllegalArgumentException();
 	}
 	/// SETTERS ///
 	
 	protected void setOperand(MyExpression operand) throws IllegalArgumentException{
-//		if (!canHaveAsLogicalNegationOperand(operand))
-//			throw new IllegalArgumentException();
 		this.operand = operand;
 	}
 	
 	
 	/// CHECKERS ///
 	
-//	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand){
-//		return (operand.getExpressionResult() instanceof Boolean);
-//		
-//	}
-//	
+	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand){
+		return (operand.getExpressionResult(getExpressionProgram()) instanceof Boolean);
+		
+	}
+	
 	
 	
 	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
