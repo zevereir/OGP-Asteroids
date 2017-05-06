@@ -5,7 +5,6 @@ import asteroids.model.Entity;
 class XPositionExpression extends OnEntityExpression {
 	protected XPositionExpression(MyExpression operand) throws IllegalArgumentException {
 		super(operand);
-		
 	}
 
 	@Override
