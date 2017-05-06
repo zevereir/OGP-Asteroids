@@ -29,12 +29,12 @@ abstract class EntityExpression extends MyExpression {
 		if (!entities.isEmpty()){
 			double min_distance = Double.POSITIVE_INFINITY;
 			for (Object entity: entities){
-			if (((Entity)entity != ship)&& ship.getDistanceBetween((Entity)entity) < min_distance )
-				min_distance = ship.getDistanceBetween((Entity)entity); 
-				result = (Entity)entity;
+				if (ship.getDistanceBetween((Entity)entity) < min_distance) {
+					min_distance = ship.getDistanceBetween((Entity)entity); 
+					result = (Entity)entity;
+				}
 			}			
 		}
-		
 		return result;
 	}
 	
