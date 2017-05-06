@@ -39,12 +39,8 @@ public abstract class MyStatement {
 	
 	
 	protected void assignParameters(List<MyExpression> actualArgs){
-		
 		try {
 			if (this instanceof IfElseStatement){
-
-				System.out.println("MyStatement - assignParameters if statement");
-
 				((IfElseStatement)this).getCondition().assignExpressionToParameter(actualArgs);
 			}
 			else if (this instanceof ReturnStatement){

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
+
 import asteroids.model.Bullet;
 import asteroids.model.Entity;
 import asteroids.model.Ship;
@@ -1133,7 +1135,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	public List<Object> executeProgram(Ship ship, double dt) throws ModelException {
 		try {
 			return ship.executeProgram(dt);	
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | RuntimeErrorException illegalArgumentException) {
 			throw new ModelException("these are not valid arguments #78");
 		}
 	}

@@ -2,6 +2,8 @@ package asteroids.program;
 
 import java.util.List;
 
+import asteroids.util.ModelException;
+
 
 class FunctionExpression extends MyExpression {
 	
