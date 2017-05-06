@@ -11,14 +11,12 @@ class AdditionExpression extends BinaryArithmeticExpression {
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
 		
-		if (canHaveAsOperands(program, getLeftOperand(), getRightOperand()))
-			return (double)getLeftOperand().getExpressionResult(program) + (double)getRightOperand().getExpressionResult(program);
+		Object leftOperand = getLeftOperand().getExpressionResult(program);
+		Object rightOperand = getRightOperand().getExpressionResult(program);
 		
-		throw new IllegalArgumentException();
+		return (double)leftOperand + (double)rightOperand;
 	}
 
-	private boolean canHaveAsOperands(Program program, MyExpression leftOperand, MyExpression rightOperand) {
-		return (canHaveAsArithmeticOperand(program, leftOperand) && canHaveAsArithmeticOperand(program, rightOperand));
-	}
+
 
 }
