@@ -72,18 +72,16 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-
-	@Test
-	  public void testGetRadius_IllegalCase() throws ModelException {
-	    try {
-	      max_score += 2;
-	      String code = "print getradius 4.0; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      facade.executeProgram(ship1, 1.0);
-	    } catch (ModelException exc) {
-	      score += 2;
-	    }
+	 @Test
+	  public void testEquality_TrueCase() throws ModelException {
+	    max_score += 3;
+	    String code = "print self == self;";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { true };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 3;
 	  }
 
 
