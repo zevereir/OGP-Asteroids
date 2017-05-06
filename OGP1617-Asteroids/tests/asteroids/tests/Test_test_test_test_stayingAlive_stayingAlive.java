@@ -72,15 +72,5 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-	@Test
-	  public void testReadParameter_LegalCase() throws ModelException {
-	    max_score += 8;
-	    String code = "def f {" + "  return $1; " + "}" + "print f(22.0); ";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 1.0);
-	    Object[] expecteds = { 22.0 };
-	    assertArrayEquals(expecteds, results.toArray());
-	    score += 8;
-	  }
+	
 }
