@@ -14,9 +14,11 @@ public class ExamplePrinter {
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/syntax_test.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_simple.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program.txt");
-		ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_assignment.txt");
+		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_assignment.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseString("def foo { return 1.0; }\nprint getx self;\nprint foo(3.0, self);");
-		System.out.println(outcome);
+		ParseOutcome<PrintingProgram> outcome = parser.parseString("def f { " + "  return $1; " + "}" + "print f(22.0); ");
+
+		System.out.println(outcome);	
 		
 		
 	

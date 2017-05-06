@@ -26,6 +26,9 @@ public class MyFunction {
 		return body;
 	}
 	
+	protected Program getFunctionProgram(){
+		return this.program;
+	}
 	
 	/// ADDERS ///
 	
@@ -42,9 +45,12 @@ public class MyFunction {
 		this.functionName = functionName;
 	}
 	
+	protected void setFunctionProgram(Program program){
+		this.program = program;
+	}
 	
 	/// CONNECTIONS WITH OTHER CLASSES ///
-	
+	private Program program;
 	private String functionName;
 	private MyStatement body;
 //	private Map<String,Object> parameters = new HashMap<String,Object>();
