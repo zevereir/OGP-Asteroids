@@ -71,12 +71,6 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 
-
-
-	
-
-
-	
 	
 	@Test
 	public void testLessThan_IllegalCase() throws ModelException {
