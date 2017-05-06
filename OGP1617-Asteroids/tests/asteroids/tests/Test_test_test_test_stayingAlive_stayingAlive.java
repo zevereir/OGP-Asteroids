@@ -67,17 +67,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 
 
 	@Test
-	  public void testGetX_NullEntity() throws ModelException {
-	    try {
-	      max_score += 3;
-	      String code = "print getx null; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      facade.executeProgram(ship1, 1.0);
-	    } catch (ModelException exc) {
-	      score += 3;
-	    }
+	  public void testGetRadius_LegalCase() throws ModelException {
+	    max_score += 3;
+	    String code = "print getradius self ; ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { facade.getShipRadius(ship1) };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 3;
 	  }
+
 
 	
 	
