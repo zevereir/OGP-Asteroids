@@ -15,8 +15,7 @@ class AnyEntity extends EntityExpression {
 		setExpressionProgram(program);
 
 		Set<? extends Object> entities = getExpressionShip().getEntityWorld().getWorldEntities();
-		entities.remove(getExpressionShip());
-
+		
 		int sizeSet = entities.size();
 
 		if (sizeSet != 0) {
