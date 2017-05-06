@@ -74,17 +74,20 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 	 
 	 
+	
+	 
+	 
+	 
 	 @Test
-	  public void testAssignment_ImproperType() throws ModelException {
+	  public void testNot_IllegalCase() throws ModelException {
 	    try {
-	      max_score += 4;
-	      String code = "varname := 7.0; " + "varname := self; ";
+	      max_score += 5;
+	      String code = "print ! self; ";
 	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	      facade.loadProgramOnShip(ship1, program);
 	      facade.executeProgram(ship1, 1.0);
-	      fail();
 	    } catch (ModelException exc) {
-	      score += 4;
+	      score += 5;
 	    }
 	  }
 }
