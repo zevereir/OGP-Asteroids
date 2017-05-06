@@ -41,7 +41,7 @@ class FunctionExpression extends MyExpression {
 	}
 	
 	/// EVALUATE ///
-	protected static Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs){
+	protected static Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs) throws IllegalArgumentException{
 
 		body.assignParameters(actualArgs);
 
@@ -51,10 +51,9 @@ class FunctionExpression extends MyExpression {
 		else if (body instanceof IfElseStatement)
 			return ((IfElseStatement)body).evaluateInFunction();
 
-		else 
-			///IN ONZE VISIE IS DIT NIET MOGELIJK///
-			return null;
-
+		else {
+			return new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
+		}
 	}
 	
 		
