@@ -73,4 +73,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 
 
 	
+
+	@Test
+	  public void testFunctionCall_NotEnoughActualArguments() throws ModelException {
+	    try {
+	      max_score += 6;
+	      String code = "def f { " + "  return $1 + $2; " + "}" + "print f(3.0); ";
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      facade.loadProgramOnShip(ship1, program);
+	      facade.executeProgram(ship1, 0.3);
+	    } catch (ModelException exc) {
+	      score += 6;
+	    }
+	  }
 }
