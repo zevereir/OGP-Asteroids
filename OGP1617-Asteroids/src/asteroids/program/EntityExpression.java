@@ -25,6 +25,7 @@ abstract class EntityExpression extends MyExpression {
 	protected Entity getClosestEntity(Set<? extends Object> entities){
 		Ship ship = getExpressionShip();
 		Entity result = null;
+		entities.remove(getExpressionShip());
 		if (!entities.isEmpty()){
 			double min_distance = Double.POSITIVE_INFINITY;
 			for (Object entity: entities){
