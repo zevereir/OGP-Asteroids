@@ -36,10 +36,12 @@ public abstract class MyStatement {
 		return null;
 	}
 	
+	
+	
 	protected void assignParameters(List<MyExpression> actualArgs){
 		
 		try {
-			if (this instanceof IfElseStatement)
+			if (this instanceof IfElseStatement)	
 				((IfElseStatement)this).getCondition().assignExpressionToParameter(actualArgs);
 			else if (this instanceof ReturnStatement)
 				((ReturnStatement)this).getReturnExpression().assignExpressionToParameter(actualArgs);
