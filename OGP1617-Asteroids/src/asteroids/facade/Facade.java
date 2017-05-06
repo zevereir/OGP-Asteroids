@@ -167,7 +167,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	public void turn(Ship ship, double angle) throws ModelException {
 		try {
 			ship.turn(angle);
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | AssertionError Error) {
 			throw new ModelException("these are not valid arguments #7");
 		}
 	}

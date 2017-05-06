@@ -41,6 +41,7 @@ public class Part3TestFull {
 //		System.out.println(program.execute(1));
 //	}
   
+
   static int nbStudentsInTeam;
   IFacade facade;
   IProgramFactory<?, ?, ?, Program> programFactory = new ProgramFactory();
@@ -52,7 +53,7 @@ public class Part3TestFull {
 
   @AfterClass
   public static void tearDownAfterClass() {
-    System.out.println("Score: " + score + "/" + max_score);
+	  System.out.println("Score: " + score + "/" + max_score);
   }
 
   @Before
@@ -2136,6 +2137,7 @@ public class Part3TestFull {
       facade.addAsteroidToWorld(world, asteroid2);
       facade.loadProgramOnShip(ship1, program);
       List<Object> results = facade.executeProgram(ship1, 1.0);
+      
       Object[] expecteds = { asteroid1 };
       assertArrayEquals(expecteds, results.toArray());
       score += 4;
