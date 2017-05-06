@@ -72,28 +72,24 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-	@Test
-	  public void testAsteroid_AsteroidsInWorld() throws ModelException {
-	    if (nbStudentsInTeam > 1) {
-	      max_score += 4;
-	      String code = "print asteroid; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      World world = facade.createWorld(2000, 2000);
-	      Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
-	      facade.addShipToWorld(world, ship1);
-	      Asteroid asteroid1 = facade.createAsteroid(200, 200, 0, 0, 20);
-	      facade.addAsteroidToWorld(world, asteroid1);
-	      Asteroid asteroid2 = facade.createAsteroid(250, 250, 0, 0, 20);
-	      facade.addAsteroidToWorld(world, asteroid2);
-	      facade.loadProgramOnShip(ship1, program);
-	      List<Object> results = facade.executeProgram(ship1, 1.0);
-	      
-	      Object[] expecteds = { asteroid1 };
-	      assertArrayEquals(expecteds, results.toArray());
-	      score += 4;
-	    }
-	  }
 
 	
+
+
+	
+	
+	@Test
+	public void testLessThan_IllegalCase() throws ModelException {
+		try {
+			max_score += 5;
+			String code = "print 4.0 < self;";
+			Program program = ProgramParser.parseProgramFromString(code, programFactory);
+			facade.loadProgramOnShip(ship1, program);
+			facade.executeProgram(ship1, 1.0);
+		} catch (ModelException exc) {
+			score += 5;
+		}
+	}
+
 	
 }
