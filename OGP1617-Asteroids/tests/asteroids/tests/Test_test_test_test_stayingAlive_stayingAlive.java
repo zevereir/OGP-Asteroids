@@ -76,18 +76,23 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 	
 	
+	
 	@Test
-	public void testLessThan_IllegalCase() throws ModelException {
-		try {
-			max_score += 5;
-			String code = "print 4.0 < self;";
-			Program program = ProgramParser.parseProgramFromString(code, programFactory);
-			facade.loadProgramOnShip(ship1, program);
-			facade.executeProgram(ship1, 1.0);
-		} catch (ModelException exc) {
-			score += 5;
-		}
-	}
+	  public void testShip_NoOtherShipsInWorld() throws ModelException {
+	    if (nbStudentsInTeam > 1) {
+	      max_score += 8;
+	      String code = "print ship; ";
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      World world = facade.createWorld(2000, 2000);
+	      Ship ship1 = facade.createShip(100, 100, 0, 0, 20, 0, 1.0E20);
+	      facade.addShipToWorld(world, ship1);
+	      facade.loadProgramOnShip(ship1, program);
+	      List<Object> results = facade.executeProgram(ship1, 1.0);
+	      Object[] expecteds = { null };
+	      assertArrayEquals(expecteds, results.toArray());
+	      score += 8;
+	    }
+	  }
 
 	
 }
