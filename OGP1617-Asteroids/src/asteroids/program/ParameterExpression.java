@@ -36,4 +36,8 @@ class ParameterExpression extends MyExpression {
 		this.ParameterName = ParameterName;
 	}
 
+//	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
+//		setParameter(actualArgs.get(getParameter()).getParameterNumber()-1);
+//	}
+	
 }

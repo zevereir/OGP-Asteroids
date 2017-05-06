@@ -41,15 +41,15 @@ class FunctionExpression extends MyExpression {
 	}
 	
 	/// EVALUATE ///
-	protected static Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs) throws IllegalArgumentException{
+	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs) throws IllegalArgumentException{
 		body.assignParameters(actualArgs);
-
-		if (body instanceof ReturnStatement)
-			return ((ReturnStatement)body).evaluateInFunction();
-
-		else if (body instanceof IfElseStatement)
-			return ((IfElseStatement)body).evaluateInFunction();
-
+		
+		if (body instanceof ReturnStatement) {
+			return ((ReturnStatement)body).evaluateInFunction(getExpressionProgram());
+		}
+		else if (body instanceof IfElseStatement) {
+			return ((IfElseStatement)body).evaluateInFunction(getExpressionProgram());
+		}
 		else {
 			return new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 		}
