@@ -74,17 +74,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 
 
-	 @Test
-	  public void testFunctionCall_AccessLocalVariableOutsideBody() throws ModelException {
-	    try {
-	      max_score += 9;
-	      String code = "def f { " + "  x := 10; " + "  return x; " + "} " + "print f()+x; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      facade.executeProgram(ship1, 0.3);
-	    } catch (ModelException exc) {
-	      score += 9;
-	    }
+	@Test
+	  public void testFunctionCall_RecursiveFunction() throws ModelException {
+	    max_score += 20;
+	    String code = "def fac { " + "  if $1 < 1.5 { " + "    return 1.0; " + "  }" + "  else { "
+	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 0.3);
+	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 20;
 	  }
 
 	
