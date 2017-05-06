@@ -10,7 +10,7 @@ class AssignmentStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program) {
 		setStatementProgram(program);
-		if (isValidVariableName(variableName))
+		if (isValidVariable(getAssignmentVariableName(),getAssignmentExpression()))
 			getStatementProgram().addVariable(variableName,expression.getExpressionResult(program));
 		else
 			throw new IllegalArgumentException();
@@ -19,6 +19,10 @@ class AssignmentStatement extends MyStatement {
 	/// GETTERS ///
 	protected MyExpression getAssignmentExpression(){
 		return this.expression;
+	}
+	
+	protected String getAssignmentVariableName(){
+		return this.variableName;
 	}
 	
 	/// SETTERS ///
@@ -33,8 +37,8 @@ class AssignmentStatement extends MyStatement {
 	
 	
 	/// CHECKERS ///
-	protected boolean isValidVariableName(String variableName){
-		return (!getStatementProgram().getProgramFunctions().containsKey(variableName));
+	protected boolean isValidVariable(String variableName,MyExpression expression){
+		return ((!getStatementProgram().getProgramFunctions().containsKey(variableName)) &&(expression.getExpressionResult(getStatementProgram()) instanceof Double));
 	}
 	/// PROPERTIES ///
 	

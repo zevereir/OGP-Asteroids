@@ -72,17 +72,11 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 	
-	 
-	 
-	
-	 
-	 
-	 
-	 @Test
-	  public void testNot_IllegalCase() throws ModelException {
+	@Test
+	  public void testWhileStatement_NonBooleanControllingExpression() throws ModelException {
 	    try {
 	      max_score += 5;
-	      String code = "print ! self; ";
+	      String code = "while self { " + "  print 4.0; " + "}";
 	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	      facade.loadProgramOnShip(ship1, program);
 	      facade.executeProgram(ship1, 1.0);
