@@ -72,12 +72,6 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-	
-	
-	
-	
-	
-	
 	@Test
 	  public void testReadParameter_LegalCase() throws ModelException {
 	    max_score += 8;

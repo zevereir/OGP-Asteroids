@@ -74,6 +74,7 @@ public class Program {
 	protected void setFunctions(List<MyFunction> functions){
 		for (MyFunction function:functions){
 			this.functions.put(function.getFunctionName(), function);
+			function.setFunctionProgram(this);
 		}
 	}
 	
