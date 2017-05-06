@@ -89,6 +89,8 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	      facade.loadProgramOnShip(ship1, program);
 	      List<Object> results = facade.executeProgram(ship1, 1.0);
 	      Object[] expecteds = { ship2 };
+	      System.out.println(expecteds[0]);
+	      System.out.println(results.toArray()[0]);
 	      assertArrayEquals(expecteds, results.toArray());
 	      score += 14;
 	    }

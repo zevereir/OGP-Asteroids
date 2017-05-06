@@ -1,6 +1,6 @@
 package asteroids.program;
 
-
+import asteroids.model.Ship;
 
 class ShipEntity extends EntityExpression {
 
@@ -10,6 +10,6 @@ class ShipEntity extends EntityExpression {
 	
 	protected Object getExpressionResult(Program program) {
 		setExpressionProgram(program);
-		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("Ship"));
+		return (Ship)getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("Ship"));
 	}
 }

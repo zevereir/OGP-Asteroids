@@ -2098,6 +2098,7 @@ public class Part3TestFull {
       facade.loadProgramOnShip(ship1, program);
       List<Object> results = facade.executeProgram(ship1, 1.0);
       Object[] expecteds = { ship2 };
+      System.out.println("result: "+results.toArray());
       assertArrayEquals(expecteds, results.toArray());
       score += 14;
     }
