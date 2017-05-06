@@ -8,24 +8,24 @@ class FunctionExpression extends MyExpression {
 	/// CONSTRUCTOR ///
 	
 	public FunctionExpression(String functionName,List<MyExpression> actualArgs) {	
-		setFunction(functionName);
+		setFunctionName(functionName);
 		setArguments(actualArgs);
 	}
 
 	
 	/// PROPERTIES ///
-	private MyFunction function;
+	private String functionName;
 	private List<MyExpression> actualArgs;
 	
 	
 	/// GETTERS ///
 	
-	protected MyFunction getFunctionFromProgram(String functionName){
-		return this.getExpressionProgram().getProgramFunctions().get(functionName);
+	protected MyFunction getFunction() {
+		return this.getExpressionProgram().getProgramFunctions().get(getFunctionName());
 	}
 
-	protected MyFunction getFunction(){
-		return function;
+	protected String getFunctionName(){
+		return functionName;
 	}
 	
 	// ----> BEKIJKEN <---- //
@@ -42,7 +42,6 @@ class FunctionExpression extends MyExpression {
 	
 	/// EVALUATE ///
 	protected static Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs) throws IllegalArgumentException{
-
 		body.assignParameters(actualArgs);
 
 		if (body instanceof ReturnStatement)
@@ -59,8 +58,8 @@ class FunctionExpression extends MyExpression {
 		
 	/// SETTERS ///
 
-	protected void setFunction(String functionName){
-		this.function = getFunctionFromProgram(functionName);
+	protected void setFunctionName(String functionName){
+		this.functionName = functionName;
 	}
 
 }
