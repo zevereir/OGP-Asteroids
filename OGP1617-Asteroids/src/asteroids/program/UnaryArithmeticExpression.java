@@ -18,7 +18,10 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 	}
 	
 	public MyExpression getOperand() {
-		return operand;
+		if (canHaveAsArithmeticOperand(getExpressionProgram(), operand))
+			return operand;
+		else
+			throw new IllegalArgumentException();
 	}
 	
 	

@@ -70,11 +70,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		bullet1 = facade.createBullet(300, 320, 10, 5, 50);
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
-	 
-	
-	
-	
-	
+
 	
 	
 	@Test

@@ -20,11 +20,17 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	}
 	
 	protected MyExpression getLeftOperand(){
-		return left_operand;
+		if (canHaveAsArithmeticOperand(getExpressionProgram(), left_operand))
+			return left_operand;
+		else
+			throw new IllegalArgumentException();
 	}
 	
 	protected MyExpression getRightOperand(){
-		return right_operand;
+		if (canHaveAsArithmeticOperand(getExpressionProgram(), right_operand))
+			return right_operand;
+		else
+			throw new IllegalArgumentException();
 	}
 	
 	
