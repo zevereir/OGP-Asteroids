@@ -22,7 +22,9 @@ class WhileStatement extends MyStatement {
 	
 	@Override
 	public void evaluate(Program program) {
-		while ((boolean) condition.getExpressionResult(program) && !isBroken)
+		setStatementProgram(program);
+		if (canHaveAsCondition(condition)){
+		while ((boolean) condition.getExpressionResult(program) && !isBroken){
 			if (body instanceof BreakStatement)
 				setBrokenTrue();
 			else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {
@@ -31,8 +33,15 @@ class WhileStatement extends MyStatement {
 			}
 			else
 				body.evaluate(program);
+			}
+		}
+		else
+			throw new IllegalArgumentException();
 	}
-
+	
+	protected boolean canHaveAsCondition(MyExpression condition){
+		return (condition.getExpressionResult(getStatementProgram()) instanceof Boolean);
+	}
 
 	private MyExpression condition;
 	private MyStatement body;
