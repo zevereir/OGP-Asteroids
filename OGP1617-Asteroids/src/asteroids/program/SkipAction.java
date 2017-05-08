@@ -8,7 +8,7 @@ class SkipAction extends ActionStatement {
 
 	@Override
 	protected void execute(Program program) {
-		//nothing has to be done//
+		//nothing has to be done//	YOU WRONG MOTHERFUCKER
 	}
 
 }
