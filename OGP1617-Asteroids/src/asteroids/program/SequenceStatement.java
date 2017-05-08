@@ -11,13 +11,8 @@ class SequenceStatement extends MyStatement {
 	}
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
-		boolean containsBreak = false;
-		
 		for (MyStatement statement : statements) {
-			if(! (statement instanceof BreakStatement) && !containsBreak)
 				statement.evaluate(program, actualArgs);				
-			else
-				containsBreak = true;
 		}
 	}
 	
@@ -29,13 +24,7 @@ class SequenceStatement extends MyStatement {
 		return statements;
 	}
 	
-	public boolean containsBreak() {
-		boolean containsBreak = false;
-		for (MyStatement statement : statements)
-			if(statement instanceof BreakStatement)
-				containsBreak = true;
-		return containsBreak;
-	}
+	
 	
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setStatementProgram(program);
