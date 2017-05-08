@@ -72,32 +72,28 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 	
  
+
 	
 	@Test
-	  public void testBreakStatement_InFunctionBody() throws ModelException {
-	    if (nbStudentsInTeam > 1) {
-	      max_score += 16;
-	      String code = "def f { " + 
-	    		  		"  break; " + 
-	    		  		"  return 0.0;" + 
-	    		  		"}" + 
-	    		  		"a := 10; " + 
-	    		  		"while a < 20.5 { " + 
-	    		  		"  print a; " + 
-	    		  		"  if 14.5 < a { " + 
-	    		  		"    b := f(); " + 
-	    		  		"  }" + 
-	    		  		"  a := a + 2.0; " + 
-	    		  		"}" + 
-	    		  		"print 0.0; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      List<Object> results = facade.executeProgram(ship1, 1.0);
-	      Object[] expecteds = { 10.0, 12.0, 14.0, 16.0, 0.0 };
-	      assertArrayEquals(expecteds, results.toArray());
-	      score += 16;
-	    }
+	  public void testWhileStatement_InsideRecursiveFunction() throws ModelException {
+	    max_score += 20;
+	    String code = 	"def sumfac { " + 
+	    				"  a := $1; " + 
+	    				"  t := 1.0; " + 
+	    				"  while 1.5 < a { " + 
+	    				"    t := t + (a*sumfac(a + -1.0));" + 
+	    				"    a := a + -1.0; " + 
+	    				"  }" + 
+	    				"  return t; " + 
+	    				"} " + 
+	    				"print sumfac(4.0); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 0.3);
+	    Object[] expecteds = { 60.0 };
+	    System.out.println(results);
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 20;
 	  }
-
 
 }
