@@ -71,22 +71,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 
-	
-
-
 	@Test
-	  public void testFunctionCall_NotEnoughActualArguments() throws ModelException {
-	    try {
-	      max_score += 6;
-	      String code = "def f { " + "  return $1 + $2; " + "}" + "print f(3.0); ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      facade.executeProgram(ship1, 0.3);
-	    } catch (ModelException exc) {
-	      score += 6;
-	    }
+	  public void testAssignmentStatement_LocalVariableSameNameFunction() throws ModelException {
+	    max_score += 12;
+	    String code = "def g { " + "   return 1.0; " + "} " + "def f { " + "  g := 10.0; " + "  return g; " + "} "
+	        + "print f(); " + "print g(); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { 10.0, 1.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 12;
 	  }
-
-	
 
 }

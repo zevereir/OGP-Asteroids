@@ -25,8 +25,9 @@ class ParameterExpression extends MyExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		return getParameter();
+		return actualArgs.get(getParameterNumber()-1).getExpressionResult(program, actualArgs);
 	}
+	
 	
 	protected int getParameterNumber(){
 		String parameter = getParameter();

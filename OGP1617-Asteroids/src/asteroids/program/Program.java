@@ -73,7 +73,7 @@ public class Program {
 		print_outs.add(object);
 	}
 	protected void addTime(double dt){
-		time_left =+ dt;
+		time_left += dt;
 	}
 	
 	protected void setFunctions(List<MyFunction> functions){

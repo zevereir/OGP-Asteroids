@@ -28,16 +28,20 @@ class IfElseStatement extends MyStatement {
 			throw new IllegalArgumentException();
 	}
 	
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs){
+	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		setStatementProgram(program);
 		
 		if ((boolean)getCondition().getExpressionResult(program, actualArgs)) {
-			System.out.println("IfElseStatement if");
-			return ifBody.evaluateInFunction(getStatementProgram(), actualArgs);
+			if (ifBody instanceof AssignmentStatement)
+				((AssignmentStatement)ifBody).assignLocalVariable(getStatementProgram(),actualArgs,function);
+			else
+				return ifBody.evaluateInFunction(getStatementProgram(), actualArgs,null);
 		}
 		else if (elseBody != null) {
-			System.out.println("IfElseStatement else");
-			return elseBody.evaluateInFunction(getStatementProgram(), actualArgs);
+			if (elseBody instanceof AssignmentStatement)
+				((AssignmentStatement)elseBody).assignLocalVariable(getStatementProgram(),actualArgs,function);
+			else
+				return elseBody.evaluateInFunction(getStatementProgram(), actualArgs,null);
 		}
 		return null;
 	}

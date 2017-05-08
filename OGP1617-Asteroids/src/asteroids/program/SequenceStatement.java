@@ -37,18 +37,17 @@ class SequenceStatement extends MyStatement {
 		return containsBreak;
 	}
 	
-//	protected Object evaluateInFunction(Program program) {
-//		setStatementProgram(program);
-//		
-//		for (MyStatement statement : getStatements()) {
-//			if (statement instanceof PrintStatement){
-//				return statement.evaluate(program);
-//			}
-//			else {
-//				return statement.evaluateInFunction(program);
-//			}
-//		}
-//	}
+	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function) {
+		setStatementProgram(program);
+		
+		for (MyStatement statement : getStatements()) {
+			if (statement instanceof AssignmentStatement)
+				((AssignmentStatement)statement).assignLocalVariable(program,actualArgs,function);
+			else
+				return statement.evaluateInFunction(program,actualArgs,function);
+		}
+		return null;
+	}
 
 	private List<MyStatement> statements = new ArrayList<MyStatement>();
 	

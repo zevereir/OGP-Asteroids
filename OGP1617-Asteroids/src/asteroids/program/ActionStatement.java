@@ -7,8 +7,8 @@ abstract class ActionStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
-		if (getStatementProgram().getTimeLeft() >= decrement_time){
-			getStatementProgram().addTime(-decrement_time);
+		if (getStatementProgram().getTimeLeft() >= getDecrementTime()){
+			getStatementProgram().addTime(-getDecrementTime());
 			this.execute(program);
 		}
 		else{
@@ -17,6 +17,11 @@ abstract class ActionStatement extends MyStatement {
 	}
 	
 	protected abstract void execute(Program program);
+	
+	protected double getDecrementTime(){
+		return decrement_time;
+	}
+	
 	private double decrement_time = 0.2;
 
 }

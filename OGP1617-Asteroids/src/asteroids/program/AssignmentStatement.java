@@ -18,6 +18,10 @@ class AssignmentStatement extends MyStatement {
 			throw new IllegalArgumentException();
 	}
 	
+	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function){
+		setStatementProgram(program);
+		function.addLocalVariable(variableName,expression.getExpressionResult(program, actualArgs));
+	}
 	/// GETTERS ///
 	protected MyExpression getAssignmentExpression(){
 		return this.expression;

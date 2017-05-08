@@ -14,9 +14,7 @@ public class MyFunction {
 		setBody(body);
 	}
 	
-//	protected Map<String,Object> getFunctionParameters(){
-//		return parameters;
-//	}
+
 	
 	/// GETTERS ///
 	protected String getFunctionName(){
@@ -30,12 +28,16 @@ public class MyFunction {
 		return this.program;
 	}
 	
+	protected Map<String,Object> getFunctionLocalVariables(){
+		return local_variables;
+	}
+	
 	/// ADDERS ///
 	
-//	protected void addParameter(String parameterName,Object parameter){
-//		parameters.put(parameterName, parameter);
-//	}
-	
+	protected void addLocalVariable(String localVariableName,Object localVariable){
+		local_variables.put(localVariableName, localVariable);
+	}
+
 
 	protected void setBody(MyStatement body){
 		this.body = body;
@@ -53,6 +55,6 @@ public class MyFunction {
 	private Program program;
 	private String functionName;
 	private MyStatement body;
-//	private Map<String,Object> parameters = new HashMap<String,Object>();
+	private Map<String,Object> local_variables = new HashMap<String,Object>();
 	
 }

@@ -17,7 +17,9 @@ class PrintStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
-		Object result = expression.getExpressionResult(program, actualArgs);
+		if (expression instanceof ParameterExpression)
+			throw new IllegalArgumentException();
+		Object result = expression.getExpressionResult(program, null);
 		System.out.println("PrintStatement's fault (please don't hit me): "+result);
 		getStatementProgram().addPrintOut(result);
 	}

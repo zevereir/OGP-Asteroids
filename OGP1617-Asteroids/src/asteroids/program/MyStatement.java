@@ -32,7 +32,7 @@ public abstract class MyStatement {
 
 	protected abstract void evaluate(Program getStatementProgram, List<MyExpression> actualArgs);	
 	
-	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs){
+	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		return null;
 	}
 	

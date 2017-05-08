@@ -16,7 +16,20 @@ class VariableExpression extends MyExpression {
 	/// GETTERS ///
 	
 	protected Object getVariable(String variableName){
-		return this.getExpressionProgram().getProgramVariables().get(variableName);
+		Object result = this.getExpressionProgram().getProgramVariables().get(variableName);
+		if (result == null)
+			throw new IllegalArgumentException();
+		else
+			return result;
+	}
+	
+	protected Object getFunctionVariable(Program program, List<MyExpression> actualArgs,MyFunction function){	
+		setExpressionProgram(program);
+		Object result = function.getFunctionLocalVariables().get(variableName);
+		if (result == null)
+			return getVariable(variableName);
+		else
+			return result;
 	}
 
 	@Override
