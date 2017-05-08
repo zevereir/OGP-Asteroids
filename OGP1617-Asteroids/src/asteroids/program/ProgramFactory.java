@@ -195,31 +195,31 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	@Override
 	public MyStatement createThrustOnStatement(SourceLocation location) {
-		MyStatement result = new ThrustOnAction();
+		MyStatement result = new ThrustOnAction(location);
 		return result;
 	}
 
 	@Override
 	public MyStatement createThrustOffStatement(SourceLocation location) {
-		MyStatement result = new ThrustOffAction();
+		MyStatement result = new ThrustOffAction(location);
 		return result;
 	}
 
 	@Override
 	public MyStatement createFireStatement(SourceLocation location) {
-		MyStatement result = new FireAction();
+		MyStatement result = new FireAction(location);
 		return result;
 	}
 
 	@Override
 	public MyStatement createTurnStatement(MyExpression angle, SourceLocation location) {
-		MyStatement result = new TurnAction(angle);
+		MyStatement result = new TurnAction(angle,location);
 		return result;
 	}
 
 	@Override
 	public MyStatement createSkipStatement(SourceLocation location) {
-		MyStatement result = new SkipAction();
+		MyStatement result = new SkipAction(location);
 		return result;
 	}
 
