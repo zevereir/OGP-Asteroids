@@ -72,12 +72,15 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 	
  
-	@Test
-	  public void testSkipStatement_NotEnoughTimeLeft() throws ModelException {
-	    max_score += 3;
-	    String code = "skip; " + "print 0.4;";
+
+	 @Test
+	  public void testFunctionCall_RecursiveFunction() throws ModelException {
+	    max_score += 20;
+	    String code = "def fac { " + "  if $1 < 1.5 { " + "    return 1.0; " + "  }" + "  else { "
+	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
+<<<<<<< HEAD
 	    List<Object> results = facade.executeProgram(ship1, 0.1);
 	    //assertEquals(0, results.size());
 	    assertNull(results);
@@ -118,5 +121,12 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 //	      score += 3;
 //	    }
 //	  }
+=======
+	    List<Object> results = facade.executeProgram(ship1, 0.3);
+	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 20;
+	  }
+>>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
 
 }
