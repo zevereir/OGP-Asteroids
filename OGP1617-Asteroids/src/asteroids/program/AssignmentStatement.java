@@ -12,6 +12,7 @@ class AssignmentStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
+		
 		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs))
 			getStatementProgram().addVariable(variableName,expression.getExpressionResult(program, actualArgs));
 		else
@@ -20,6 +21,7 @@ class AssignmentStatement extends MyStatement {
 	
 	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function){
 		setStatementProgram(program);
+		
 		function.addLocalVariable(variableName,expression.getExpressionResult(program, actualArgs));
 	}
 	/// GETTERS ///
@@ -38,7 +40,6 @@ class AssignmentStatement extends MyStatement {
 	}
 	protected void setExpression(MyExpression expression){
 		this.expression = expression;
-		
 	}
 	
 	

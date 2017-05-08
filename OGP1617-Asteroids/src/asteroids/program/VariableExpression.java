@@ -10,8 +10,11 @@ class VariableExpression extends MyExpression {
 		setVariable(variableName);
 	}
 
+	
 	/// PROPERTIES ///
+	
 	private String variableName;
+	
 	
 	/// GETTERS ///
 	
@@ -25,7 +28,9 @@ class VariableExpression extends MyExpression {
 	
 	protected Object getFunctionVariable(Program program, List<MyExpression> actualArgs,MyFunction function){	
 		setExpressionProgram(program);
+		
 		Object result = function.getFunctionLocalVariables().get(variableName);
+		
 		if (result == null)
 			return getVariable(variableName);
 		else
