@@ -71,20 +71,6 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 	
-	
-	@Test
-	  public void testBreak_OutsideWhile() throws ModelException {
-	    try {
-	      max_score += 9;
-	      String code = "break; ";
-	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	      facade.loadProgramOnShip(ship1, program);
-	      facade.executeProgram(ship1, 1.0);
-	      fail();
-	    } catch (ModelException exc) {
-	      score += 9;
-	    }
-	  }
  
 	
 	@Test
