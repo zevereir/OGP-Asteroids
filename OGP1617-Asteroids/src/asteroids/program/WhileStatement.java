@@ -18,22 +18,23 @@ class WhileStatement extends MyStatement {
 	}
 	
 	public void setBrokenTrue(){
-		this.isBroken = true;
+		this.broken = true;
+	}
+	
+	protected boolean isBroken(){
+		return this.broken;
 	}
 	
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		if (canHaveAsCondition(condition, actualArgs)){
-			while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken){
-				if (body instanceof BreakStatement)
-					setBrokenTrue();
-				else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {
+			while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken()){
+				try {
 					body.evaluate(program, actualArgs);
+				} catch (IllegalAccessError error) {
 					setBrokenTrue();
 				}
-				else
-					body.evaluate(program, actualArgs);
 			}
 		}
 		else
@@ -46,7 +47,7 @@ class WhileStatement extends MyStatement {
 
 	private MyExpression condition;
 	private MyStatement body;
-	private boolean isBroken = false;
+	private boolean broken = false;
 
 	
 }
