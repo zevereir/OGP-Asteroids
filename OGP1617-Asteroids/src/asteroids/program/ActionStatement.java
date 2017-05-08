@@ -1,6 +1,9 @@
 package asteroids.program;
 
 import java.util.List;
+import java.util.Scanner;
+
+import org.antlr.v4.parse.ANTLRParser.sync_return;
 
 import asteroids.part3.programs.SourceLocation;
 
@@ -10,11 +13,13 @@ abstract class ActionStatement extends MyStatement {
 	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
 		
-		while (getStatementProgram().getTimeLeft() >= getDecrementTime()){	
+		if (getStatementProgram().getTimeLeft() >= getDecrementTime()){	
 			getStatementProgram().addTime(-getDecrementTime());
-			this.execute(program);
+			execute(program);
 		}
-		
+		else { 
+			// WHAT ELSE? HOW DO WE PAUSE A PROGRAM?
+		}
 		
 		
 		
