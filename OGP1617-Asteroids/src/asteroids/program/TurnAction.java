@@ -1,11 +1,14 @@
 package asteroids.program;
 
+import asteroids.part3.programs.SourceLocation;
 import asteroids.program.ActionStatement;
 
 class TurnAction extends ActionStatement {
 	
-	public TurnAction(MyExpression angle) {	
+	public TurnAction(MyExpression angle,SourceLocation location) {	
 		setAngle(angle);
+		setSourceLocation(location);
+		
 	}
 
 	private MyExpression getAngle() {

@@ -24,8 +24,8 @@ public class Program {
 		addTime(dt);
 		
 		if (first_time){
-			main.evaluate(this, null);
 			first_time = false;
+			main.evaluate(this, null);
 		}
 		return getPrintOuts();
 	}
