@@ -11,5 +11,4 @@ class BreakStatement extends MyStatement {
 		setStatementProgram(program);
 		throw new IllegalAccessError();
 	}
-	
 }
