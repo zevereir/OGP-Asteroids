@@ -72,6 +72,17 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
+	 @Test
+	  public void testWhileStatement_ZeroIterations() throws ModelException {
+	    max_score += 5;
+	    String code = "while 3.0 < 1.0 { " + "  print 4.0; " + "}";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    assertEquals(0, results.size());
+	    score += 5;
+	  }
+	
 	
 	@Test
 	  public void testBreakStatement_NonNestedCase() throws ModelException {
