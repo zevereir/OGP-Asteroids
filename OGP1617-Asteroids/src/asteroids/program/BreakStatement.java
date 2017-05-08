@@ -8,7 +8,10 @@ class BreakStatement extends MyStatement {
 	}
 	
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
-		setStatementProgram(program);
+		throw new IllegalAccessError();
+	}
+	
+	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		throw new IllegalAccessError();
 	}
 }
