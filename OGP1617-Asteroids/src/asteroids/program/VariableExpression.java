@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.util.List;
 
 class VariableExpression extends MyExpression {
 	
@@ -19,8 +20,9 @@ class VariableExpression extends MyExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
+		
 		return getVariable(variableName);
 	}
 	

@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class SkipAction extends ActionStatement {
 	public SkipAction(){
 	}

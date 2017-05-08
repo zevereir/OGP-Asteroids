@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class NullEntity extends EntityExpression {
 
 	
@@ -8,7 +10,7 @@ class NullEntity extends EntityExpression {
 		
 	}
 
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		return null;
 	}

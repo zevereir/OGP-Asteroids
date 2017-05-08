@@ -8,6 +8,7 @@ class ParameterExpression extends MyExpression {
 	/// CONSTRUCTOR ///
 	
 	public ParameterExpression(String ParameterName) {	
+		System.out.println("ParameterExpression: parameterName: "+ParameterName);
 		setParameter(ParameterName);
 	}
 
@@ -21,13 +22,14 @@ class ParameterExpression extends MyExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
+		
 		return getParameter();
 	}
 	
 	protected int getParameterNumber(){
-		String parameter = getParameter();		
+		String parameter = getParameter();
 		return Integer.parseInt(parameter.substring(1));
 	}
 	

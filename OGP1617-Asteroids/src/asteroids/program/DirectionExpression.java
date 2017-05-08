@@ -1,6 +1,6 @@
 package asteroids.program;
 
-
+import java.util.List;
 
 class DirectionExpression extends MyExpression {
 	/// CONSTRUCTOR ///
@@ -8,7 +8,7 @@ class DirectionExpression extends MyExpression {
 		}
 
 		@Override
-		protected Object getExpressionResult(Program program) {
+		protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 			setExpressionProgram(program);
 			
 			return getExpressionShip().getEntityOrientation();

@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class PlanetEntity extends EntityExpression {
 
 	protected PlanetEntity() throws IllegalArgumentException {
@@ -7,7 +9,7 @@ class PlanetEntity extends EntityExpression {
 //		setOperand(getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet")));
 	}
 	
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet"));
 	}

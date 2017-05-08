@@ -1,6 +1,8 @@
 package asteroids.program;
 
- class IfElseStatement extends MyStatement {
+import java.util.List;
+
+class IfElseStatement extends MyStatement {
 
 	public IfElseStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody){
 		setCondition(condition);
@@ -13,25 +15,30 @@ package asteroids.program;
 	}
 	
 	@Override
-	public void evaluate(Program program) {
+	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 	
-		if (canHaveAsCondition(condition)){		
-			if ((boolean)condition.getExpressionResult(program))
-				ifBody.evaluate(program);
+		if (canHaveAsCondition(condition, actualArgs)){		
+			if ((boolean)condition.getExpressionResult(program, actualArgs))
+				ifBody.evaluate(program, actualArgs);
 			else if (elseBody != null)
-				elseBody.evaluate(program);
+				elseBody.evaluate(program, actualArgs);
 		}
 		else 
 			throw new IllegalArgumentException();
 	}
 	
-	public Object evaluateInFunction(Program program){
+	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
-		if ((boolean)getCondition().getExpressionResult(program))
-			return ifBody.evaluateInFunction(getStatementProgram());
-		else if (elseBody != null)
-			return elseBody.evaluateInFunction(getStatementProgram());
+		
+		if ((boolean)getCondition().getExpressionResult(program, actualArgs)) {
+			System.out.println("IfElseStatement if");
+			return ifBody.evaluateInFunction(getStatementProgram(), actualArgs);
+		}
+		else if (elseBody != null) {
+			System.out.println("IfElseStatement else");
+			return elseBody.evaluateInFunction(getStatementProgram(), actualArgs);
+		}
 		return null;
 	}
 	

@@ -18,7 +18,7 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 	}
 	
 	public MyExpression getOperand() {
-		if (canHaveAsArithmeticOperand(getExpressionProgram(), operand))
+		if (canHaveAsArithmeticOperand(getExpressionProgram(), null, operand))
 			return operand;
 		else
 			throw new IllegalArgumentException();
@@ -38,10 +38,10 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 		return number == 1;
 	}
 	
-	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
-		if (getOperand() instanceof ParameterExpression)
-			setOperand(actualArgs.get(((ParameterExpression)getOperand()).getParameterNumber()-1));
-	}
+//	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
+//		if (getOperand() instanceof ParameterExpression)
+//			setOperand(actualArgs.get(((ParameterExpression)getOperand()).getParameterNumber()-1));
+//	}
 	
 	/// PROPERTIES ///
 	

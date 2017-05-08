@@ -18,7 +18,7 @@ class TurnAction extends ActionStatement {
 	
 	public void execute(Program program) {
 		try {
-			this.getStatementShip().turn((double)getAngle().getExpressionResult(program));
+			this.getStatementShip().turn((double)getAngle().getExpressionResult(program, null));
 		} catch (AssertionError error) {
 			throw new IllegalArgumentException();
 		}

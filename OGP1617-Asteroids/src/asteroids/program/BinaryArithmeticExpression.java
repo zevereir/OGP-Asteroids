@@ -8,8 +8,8 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	/// CONSTRUCTOR ///
 	
 	protected BinaryArithmeticExpression(MyExpression leftExpression, MyExpression rightExpression) throws IllegalArgumentException{
-			setLeftOperand(leftExpression);
-			setRightOperand(rightExpression);			
+		setLeftOperand(leftExpression);
+		setRightOperand(rightExpression);			
 	}
 	
 	
@@ -20,14 +20,14 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	}
 	
 	protected MyExpression getLeftOperand(){
-		if (canHaveAsArithmeticOperand(getExpressionProgram(), left_operand))
+		if (canHaveAsArithmeticOperand(getExpressionProgram(), null, left_operand))
 			return left_operand;
 		else
 			throw new IllegalArgumentException();
 	}
 	
 	protected MyExpression getRightOperand(){
-		if (canHaveAsArithmeticOperand(getExpressionProgram(), right_operand))
+		if (canHaveAsArithmeticOperand(getExpressionProgram(), null, right_operand))
 			return right_operand;
 		else 
 			throw new IllegalArgumentException();
@@ -37,13 +37,11 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	/// SETTERS ///
 	
 	protected void setLeftOperand(MyExpression expression) {
-		
-			left_operand = expression;
-		
+		left_operand = expression;
 	}
 	
 	protected void setRightOperand(MyExpression expression){
-			right_operand = expression;
+		right_operand = expression;
 	}
 	
 	
@@ -53,14 +51,27 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 		return number == 2;
 	}
 	
-	protected void assignExpressionToParameter(List<MyExpression> actualArgs){
-		if (getLeftOperand() instanceof ParameterExpression)
-			setLeftOperand(actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1));
-			
-		if (getRightOperand() instanceof ParameterExpression)
-			setRightOperand(actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1));
-		
-	}
+//	protected MyExpression[] getExpressionParameter(List<MyExpression> actualArgs){
+//		
+//		MyExpression expressionLeftParameter = null;
+//		MyExpression expressionRightParameter = null;
+//		
+//		if (getLeftOperand() instanceof ParameterExpression) {
+//			expressionLeftParameter = (actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1));
+//		}
+//		if (getRightOperand() instanceof ParameterExpression) {
+//			expressionRightParameter = (ParameterExpression) (actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1));
+//		}		
+//		System.out.println("BinaryArithmeticExpression: leftOperand: "+getLeftOperand().getExpressionResult(getExpressionProgram()));
+//		System.out.println("BinaryArithmeticExpression: rightOperand: "+getRightOperand().getExpressionResult(getExpressionProgram()));
+//
+//		System.out.println("BinaryArithmeticExpression: expressionLeftParameter"+expressionLeftParameter);
+//		System.out.println("BinaryArithmeticExpression: expressionRightParameter"+expressionRightParameter);
+//		
+//		MyExpression[] parameterArray = {expressionLeftParameter, expressionRightParameter};
+//		
+//		return parameterArray;
+//	}
 	
 //	@Override
 //	public boolean hasAsSubExpression(MyExpression expression){

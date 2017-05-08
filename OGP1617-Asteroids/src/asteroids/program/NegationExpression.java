@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class NegationExpression extends UnaryArithmeticExpression {
 
 	protected NegationExpression(MyExpression operand) throws IllegalArgumentException {
@@ -7,18 +9,21 @@ class NegationExpression extends UnaryArithmeticExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		return -(double)getOperand().getExpressionResult(program);
-	}
-	
-	public String getOperatorSymbol() {
-		return "-";
-	}
+		MyExpression[] parameterArray = getExpressionParameter(actualArgs);
 
-	
-	
-	
+		MyExpression Parameter = parameterArray[0];
+		
+		MyExpression Operand = null;
+		
+		if (Parameter != null)
+			Operand = Parameter;
+		else
+			Operand = getOperand();
+
+		return -(double) Operand.getExpressionResult(program, actualArgs);
+	}
 
 }

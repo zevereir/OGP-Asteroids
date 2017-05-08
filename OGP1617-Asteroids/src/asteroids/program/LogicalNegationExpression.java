@@ -5,24 +5,30 @@ import java.util.List;
 class LogicalNegationExpression extends MyExpression {
 	
 	/// CONSTRUCTOR ///
+	
 	public LogicalNegationExpression(MyExpression operand) {
 		setOperand(operand);
 	}
 	
+	
 	/// GETTERS ///
+	
 	protected MyExpression getOperand(){
 		return operand;
 	}
 	
 	@Override
-	protected Object getExpressionResult(Program program) throws IllegalArgumentException {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) throws IllegalArgumentException {
 		setExpressionProgram(program);
 		
-		if (canHaveAsLogicalNegationOperand(operand))
-			return !(Boolean)operand.getExpressionResult(program);
+		if (canHaveAsLogicalNegationOperand(operand, actualArgs)) {
+			return !(Boolean)operand.getExpressionResult(program, actualArgs);
+		}
 		else
 			throw new IllegalArgumentException();
 	}
+	
+	
 	/// SETTERS ///
 	
 	protected void setOperand(MyExpression operand) throws IllegalArgumentException{
@@ -32,12 +38,10 @@ class LogicalNegationExpression extends MyExpression {
 	
 	/// CHECKERS ///
 	
-	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand){
-		return (operand.getExpressionResult(getExpressionProgram()) instanceof Boolean);
+	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand, List<MyExpression> actualArgs){
+		return (operand.getExpressionResult(getExpressionProgram(), actualArgs) instanceof Boolean);
 		
 	}
-	
-	
 	
 	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
 		if (getOperand() instanceof ParameterExpression)

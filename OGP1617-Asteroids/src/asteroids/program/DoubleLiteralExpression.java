@@ -19,8 +19,9 @@ class DoubleLiteralExpression extends MyExpression {
 		}
 
 		@Override
-		protected Object getExpressionResult(Program program) {
+		protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 			setExpressionProgram(program);
+			
 			return getValue();
 		}
 		

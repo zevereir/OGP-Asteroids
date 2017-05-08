@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class PrintStatement extends MyStatement {
 
 	public PrintStatement(MyExpression expression) {
@@ -13,9 +15,9 @@ class PrintStatement extends MyStatement {
 	private MyExpression expression;
 	
 	@Override
-	public void evaluate(Program program){
+	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
-		Object result = expression.getExpressionResult(program);
+		Object result = expression.getExpressionResult(program, actualArgs);
 		System.out.println("PrintStatement's fault (please don't hit me): "+result);
 		getStatementProgram().addPrintOut(result);
 	}

@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class SquareRootExpression extends UnaryArithmeticExpression{
 	
 	protected SquareRootExpression(MyExpression operand) throws IllegalArgumentException {
@@ -7,13 +9,21 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) throws IllegalArgumentException{
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		if ((double)getOperand().getExpressionResult(program) < 0)
-			throw new IllegalArgumentException();
+		MyExpression[] parameterArray = getExpressionParameter(actualArgs);
+
+		MyExpression Parameter = parameterArray[0];
 		
-		return Math.sqrt((double)getOperand().getExpressionResult(program));
+		MyExpression Operand = null;
+		
+		if (Parameter != null)
+			Operand = Parameter;
+		else
+			Operand = getOperand();
+
+		return Math.sqrt((double) Operand.getExpressionResult(program, actualArgs));
 	}
 	
 }

@@ -1,9 +1,11 @@
 package asteroids.program;
 
+import java.util.List;
+
 abstract class ActionStatement extends MyStatement {
 
 	@Override
-	public void evaluate(Program program){
+	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
 		if (getStatementProgram().getTimeLeft() >= decrement_time){
 			getStatementProgram().addTime(-decrement_time);

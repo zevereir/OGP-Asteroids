@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 import asteroids.model.Entity;
 
 abstract class ArithmeticExpression extends MyExpression {
@@ -10,8 +12,12 @@ abstract class ArithmeticExpression extends MyExpression {
 		return nbOperands > 0;
 	}
 	
-	public boolean canHaveAsArithmeticOperand(Program program, MyExpression expression){
-		return (expression.getExpressionResult(program) != null && !(expression.getExpressionResult(program) instanceof Entity));			
+	public boolean canHaveAsArithmeticOperand(Program program, List<MyExpression> actualArgs, MyExpression expression){
+		if (expression instanceof ParameterExpression)
+			return true;
+		
+		return (expression.getExpressionResult(program, actualArgs) != null && 
+				!(expression.getExpressionResult(program, actualArgs) instanceof Entity));			
 	}
 	
 }

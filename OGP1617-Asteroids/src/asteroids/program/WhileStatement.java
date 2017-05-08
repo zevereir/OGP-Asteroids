@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.util.List;
 
 class WhileStatement extends MyStatement {
 	 
@@ -21,18 +22,18 @@ class WhileStatement extends MyStatement {
 	}
 	
 	@Override
-	public void evaluate(Program program) {
+	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
-		if (canHaveAsCondition(condition)){
-			while ((boolean) condition.getExpressionResult(program) && !isBroken){
+		if (canHaveAsCondition(condition, actualArgs)){
+			while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken){
 				if (body instanceof BreakStatement)
 					setBrokenTrue();
 				else if (body instanceof SequenceStatement && ((SequenceStatement)body).containsBreak()) {
-					body.evaluate(program);
+					body.evaluate(program, actualArgs);
 					setBrokenTrue();
 				}
 				else
-					body.evaluate(program);
+					body.evaluate(program, actualArgs);
 			}
 		}
 		else

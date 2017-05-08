@@ -1,6 +1,8 @@
 package asteroids.program;
 
- class ReturnStatement extends MyStatement {
+import java.util.List;
+
+class ReturnStatement extends MyStatement {
 	 public ReturnStatement(MyExpression expression){
 		 setReturnExpression(expression);
 	 }
@@ -15,12 +17,12 @@ package asteroids.program;
 	 
 	 private MyExpression expression;
 	 
-	 public Object evaluateInFunction(Program program){	
-		 return expression.getExpressionResult(program);
+	 public Object evaluateInFunction(Program program, List<MyExpression> actualArgs){	
+		 return expression.getExpressionResult(program, actualArgs);
 	 }
 
 	@Override
-	protected void evaluate(Program program) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 	}
 

@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 import asteroids.model.Entity;
 
 class YPositionExpression extends OnEntityExpression {
@@ -8,9 +10,9 @@ class YPositionExpression extends OnEntityExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		return ((Entity)getOperand().getExpressionResult(program)).getEntityPositionY();
+		return ((Entity)getOperand().getExpressionResult(program, null)).getEntityPositionY();
 	}
 }

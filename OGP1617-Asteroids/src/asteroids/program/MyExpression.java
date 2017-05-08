@@ -2,16 +2,15 @@ package asteroids.program;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.util.ModelException;
 
 public abstract class MyExpression {
 
-	
-
-	protected abstract Object getExpressionResult(Program program);
-	
+	protected abstract Object getExpressionResult(Program program, List<MyExpression> actualArgs);
 	
 
 	/// GETTERS ///
@@ -37,8 +36,43 @@ public abstract class MyExpression {
 	private Program program = null;
 	
 	
-	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
-		//
-	}
+//	protected MyExpression[] getExpressionParameter(List<MyExpression> actualArgs) {
+//		MyExpression[] nullArray = {null, null};
+//		
+//		return nullArray;
+//	}
 
+	protected MyExpression[] getExpressionParameter(List<MyExpression> actualArgs){
+		
+		MyExpression expressionLeftParameter = null;
+		MyExpression expressionRightParameter = null;
+		
+		try {
+			// UNARY
+			if (this instanceof UnaryArithmeticExpression) {
+				if (((UnaryArithmeticExpression)this).getOperand() instanceof ParameterExpression)
+					expressionLeftParameter = (actualArgs.get(((ParameterExpression)((UnaryArithmeticExpression)this).
+							getOperand()).getParameterNumber()-1));
+			}
+			
+			// BINARY
+			if (this instanceof BinaryArithmeticExpression) {
+				if (((BinaryArithmeticExpression)this).getLeftOperand() instanceof ParameterExpression) {
+					expressionLeftParameter = (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
+							getLeftOperand()).getParameterNumber()-1));
+				}
+				if (((BinaryArithmeticExpression)this).getRightOperand() instanceof ParameterExpression) {
+					expressionRightParameter = (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
+							getRightOperand()).getParameterNumber()-1));
+				}	
+			}
+			
+			MyExpression[] parameterArray = {expressionLeftParameter, expressionRightParameter};
+			
+			return parameterArray;
+		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+			throw new RuntimeErrorException(new IllegalAccessError() );
+		}
+	}
+	
 }

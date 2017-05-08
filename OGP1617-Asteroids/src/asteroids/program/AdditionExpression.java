@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 class AdditionExpression extends BinaryArithmeticExpression {
 	
 	protected AdditionExpression(MyExpression leftExpression, MyExpression rightExpression)
@@ -8,15 +10,28 @@ class AdditionExpression extends BinaryArithmeticExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		Object leftOperand = getLeftOperand().getExpressionResult(program);
-		Object rightOperand = getRightOperand().getExpressionResult(program);
+		MyExpression[] parameterArray = getExpressionParameter(actualArgs);
+
+		MyExpression leftParameter = parameterArray[0];
+		MyExpression rightParameter = parameterArray[1];
 		
-		return (double)leftOperand + (double)rightOperand;
+		MyExpression leftOperand = null;
+		MyExpression rightOperand = null;
+		
+		if (leftParameter != null)
+			leftOperand = leftParameter;
+		else
+			leftOperand = getLeftOperand();
+		
+		if (rightParameter != null)
+			rightOperand = rightParameter;
+		else
+			rightOperand = getRightOperand();
+		
+		return (double)leftOperand.getExpressionResult(program, actualArgs) + (double)rightOperand.getExpressionResult(program, actualArgs);
 	}
-
-
 
 }

@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 import asteroids.model.Entity;
 
 class XVelocityExpression extends OnEntityExpression {
@@ -8,10 +10,10 @@ class XVelocityExpression extends OnEntityExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		return ((Entity)getOperand().getExpressionResult(program)).getEntityVelocityX();
+		return ((Entity)getOperand().getExpressionResult(program, null)).getEntityVelocityX();
 	}
 
 }

@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ class BulletEntity extends EntityExpression {
 		return (getExpressionShip() == bullet.getBulletSource());
 	}
 
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 
 		Ship source = getExpressionShip();

@@ -75,15 +75,16 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 
 
 	@Test
-	  public void testFunctionCall_WithParameters() throws ModelException {
-	    max_score += 10;
-	    String code = "def f { " + "  return $1 + $2; " + "}" + "print f(3.0,7.0); "+ "print f();";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 0.3);
-	    Object[] expecteds = { 10.0 };
-	    assertArrayEquals(expecteds, results.toArray());
-	    score += 10;
+	  public void testFunctionCall_NotEnoughActualArguments() throws ModelException {
+	    try {
+	      max_score += 6;
+	      String code = "def f { " + "  return $1 + $2; " + "}" + "print f(3.0); ";
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      facade.loadProgramOnShip(ship1, program);
+	      facade.executeProgram(ship1, 0.3);
+	    } catch (ModelException exc) {
+	      score += 6;
+	    }
 	  }
 
 	

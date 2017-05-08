@@ -12,9 +12,25 @@ class EqualsToExpression extends MyExpression {
 	}
 	
 	@Override
-	protected Object getExpressionResult(Program program) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
-		return getLeftOperand().getExpressionResult(program).equals(getRightOperand().getExpressionResult(program));
+		
+		MyExpression leftExpression;
+		MyExpression rightExpression;
+		
+		if (getLeftOperand() instanceof ParameterExpression) {
+			leftExpression = (actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1));
+		}
+		else 
+			leftExpression = getLeftOperand();
+			
+		if (getRightOperand() instanceof ParameterExpression) {
+			rightExpression = (actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1));
+		}	
+		else
+			rightExpression = getRightOperand();
+			
+		return leftExpression.getExpressionResult(program, actualArgs).equals(rightExpression.getExpressionResult(program, actualArgs));
 	}
 
 	
