@@ -80,53 +80,11 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
-<<<<<<< HEAD
-	    List<Object> results = facade.executeProgram(ship1, 0.1);
-	    //assertEquals(0, results.size());
-	    assertNull(results);
-	    score += 3;
-	  }
-	
-//	@Test
-//	  public void testThrusterOffStatement_EnoughTimeLeft() throws ModelException {
-//	    if (nbStudentsInTeam > 1) {
-//	      max_score += 3;
-//	      String code = "thrust; " + "print 0.4; " + "thrust_off; " + "print 0.8; ";
-//	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-//	      facade.loadProgramOnShip(ship1, program);
-//	      facade.executeProgram(ship1, 0.3);
-//	      assertTrue(facade.isShipThrusterActive(ship1));
-//	      List<Object> results = facade.executeProgram(ship1, 0.35);
-//	      assertFalse(facade.isShipThrusterActive(ship1));
-//	      Object[] expecteds = { 0.4, 0.8 };
-//	      System.out.println("A: "+results);
-//	      assertArrayEquals(expecteds, results.toArray());
-//	      score += 3;
-//	    }
-//	  }
-//
-//	  @Test
-//	  public void testThrusterOffStatement_NotEnoughTimeLeft() throws ModelException {
-//	    if (nbStudentsInTeam > 1) {
-//	      max_score += 3;
-//	      String code = "thrust; " + "print 0.4; " + "thrust_off; " + "print 0.8;";
-//	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
-//	      facade.loadProgramOnShip(ship1, program);
-//	      facade.executeProgram(ship1, 0.2);
-//	      assertTrue(facade.isShipThrusterActive(ship1));
-//	      List<Object> results = facade.executeProgram(ship1, 0.15);
-//	      assertTrue(facade.isShipThrusterActive(ship1));
-//	      System.out.println(results);
-//	      assertNull("B: "+results);
-//	      score += 3;
-//	    }
-//	  }
-=======
 	    List<Object> results = facade.executeProgram(ship1, 0.3);
 	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
 	    assertArrayEquals(expecteds, results.toArray());
 	    score += 20;
 	  }
->>>>>>> branch 'master' of https://github.com/zevereir/ZevereirsProject.git
+
 
 }
