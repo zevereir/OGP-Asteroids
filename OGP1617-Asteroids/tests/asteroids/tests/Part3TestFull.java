@@ -1978,7 +1978,7 @@ public class Part3TestFull {
       List<Object> results = facade.executeProgram(ship1, 1.0);
       Object[] expecteds = { 10.0 };
       assertArrayEquals(expecteds, results.toArray());
-      score += 1000;
+      score += 10;
     }
   }
 
