@@ -86,6 +86,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	      List<Object> results = facade.executeProgram(ship1, 0.35);
 	      assertFalse(facade.isShipThrusterActive(ship1));
 	      Object[] expecteds = { 0.4, 0.8 };
+	      System.out.println("A: "+results);
 	      assertArrayEquals(expecteds, results.toArray());
 	      score += 3;
 	    }
@@ -102,7 +103,8 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	      assertTrue(facade.isShipThrusterActive(ship1));
 	      List<Object> results = facade.executeProgram(ship1, 0.15);
 	      assertTrue(facade.isShipThrusterActive(ship1));
-	      assertNull(results);
+	      System.out.println(results);
+	      assertNull("B: "+results);
 	      score += 3;
 	    }
 	  }

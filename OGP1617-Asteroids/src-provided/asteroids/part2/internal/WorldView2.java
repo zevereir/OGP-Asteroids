@@ -175,8 +175,8 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 			g2d.setFont(g2d.getFont().deriveFont(40f));
 			drawCenteredString(g2d, msg);
 			g2d.setFont(g2d.getFont().deriveFont(20f));
-			drawCenteredString(g2d, "Press ESC to continue ...", getHeight() / 3 * 2);
-			//drawCenteredString(g2d, "AAAAAAAAAAAAAAAAAAAA ...", getHeight() / 3 * 2 + 10);
+			drawCenteredString(g2d, "Press ESC to go quit the game", getHeight() / 3 * 2);
+			drawCenteredString(g2d, "Press ENTER to go back to the homescreen", getHeight() / 3 * 2 + 36);
 		}
 	}
 
@@ -241,8 +241,8 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		case KeyEvent.VK_ESCAPE:
 			System.out.println("exiting...");
 			timer.stop();
-			game.showMenu();
-			// System.exit(0);
+			// game.showMenu();
+			System.exit(0);
 			break;
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_KP_LEFT:
@@ -258,6 +258,8 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		case KeyEvent.VK_SPACE:
 			fire = true;
 			break;
+		case KeyEvent.VK_ENTER:
+			game.showMenu();
 		}
 	}
 

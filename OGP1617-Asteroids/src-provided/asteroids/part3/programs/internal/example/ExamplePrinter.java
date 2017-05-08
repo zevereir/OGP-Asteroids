@@ -13,17 +13,10 @@ public class ExamplePrinter {
 
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/syntax_test.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_simple.txt");
-		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program.txt");
+		ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_assignment.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseString("def foo { return 1.0; }\nprint getx self;\nprint foo(3.0, self);");
-		ParseOutcome<PrintingProgram> outcome = parser.parseString("a := 10; " + 
-		  		"while a < 20.5 { " + 
-		  		"  print a; " + 
-		  		"  if 14.5 < a { " + 
-		  		"    break; " + "  }" + 
-		  		"  a := a + 2.0; " + 
-		  		"}" + 
-		  		"print 0.0; ");
+		//ParseOutcome<PrintingProgram> outcome = parser.parseString("print 4.0; " + "skip; " + "skip; " + "print 3.0; " + "print 7.0; " + "skip; " + "print 5.0; ");
 
 		System.out.println(outcome);	
 		
