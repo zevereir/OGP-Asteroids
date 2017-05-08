@@ -7,8 +7,7 @@ class ParameterExpression extends MyExpression {
 	
 	/// CONSTRUCTOR ///
 	
-	public ParameterExpression(String ParameterName) {	
-		System.out.println("ParameterExpression: parameterName: "+ParameterName);
+	public ParameterExpression(String ParameterName) {
 		setParameter(ParameterName);
 	}
 

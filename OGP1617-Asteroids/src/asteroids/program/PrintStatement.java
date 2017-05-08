@@ -20,7 +20,7 @@ class PrintStatement extends MyStatement {
 		if (expression instanceof ParameterExpression)
 			throw new IllegalArgumentException();
 		Object result = expression.getExpressionResult(program, null);
-		System.out.println("PrintStatement's fault (please don't hit me): "+result);
+		System.out.println("------------> PrintStatement: "+result);
 		getStatementProgram().addPrintOut(result);
 	}
 	
