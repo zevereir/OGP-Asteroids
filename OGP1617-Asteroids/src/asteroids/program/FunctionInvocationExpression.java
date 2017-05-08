@@ -52,6 +52,9 @@ class FunctionExpression extends MyExpression {
 	/// EVALUATE ///
 	
 	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs,MyFunction function) throws IllegalArgumentException{		
+
+		System.out.println("Argument: "+actualArgs.get(0).getExpressionResult(getExpressionProgram(), actualArgs));
+		
 //		for (MyExpression argument : actualArgs)
 //			System.out.println(argument.getExpressionResult(getExpressionProgram(), actualArgs));
 //		
