@@ -48,6 +48,5 @@ class WhileStatement extends MyStatement {
 	private MyExpression condition;
 	private MyStatement body;
 	private boolean broken = false;
-
 	
 }
