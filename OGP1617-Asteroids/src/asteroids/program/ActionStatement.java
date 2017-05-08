@@ -2,6 +2,8 @@ package asteroids.program;
 
 import java.util.List;
 
+
+
 import asteroids.part3.programs.SourceLocation;
 
 abstract class ActionStatement extends MyStatement {
@@ -9,16 +11,20 @@ abstract class ActionStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
-		
-		while (getStatementProgram().getTimeLeft() >= getDecrementTime()){	
+		if (getStatementProgram().getTimeLeft() >= getDecrementTime()){
 			getStatementProgram().addTime(-getDecrementTime());
 			this.execute(program);
 		}
-		
-		
-		
-		
+		else{
+	
+		}
 	}
+		
+		
+		
+		
+		
+	
 	
 	protected abstract void execute(Program program);
 	

@@ -79,6 +79,7 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
 	    List<Object> results = facade.executeProgram(ship1, 0.1);
+	    //assertEquals(0, results.size());
 	    assertNull(results);
 	    score += 3;
 	  }

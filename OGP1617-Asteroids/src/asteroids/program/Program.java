@@ -22,13 +22,13 @@ public class Program {
 
 	public List<Object> execute(double dt) {
 		addTime(dt);
-		
 		if (first_time){
 			first_time = false;
 			main.evaluate(this, null);
 		}
 		return getPrintOuts();
 	}
+	
 	
 	private MyStatement main;
 	private double time_left = 0;
