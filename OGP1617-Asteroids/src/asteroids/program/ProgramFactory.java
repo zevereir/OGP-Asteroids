@@ -183,8 +183,8 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 		return result;
 	}
 
-	public MyExpression createSqrtExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new SquareRootExpression(e);
+	public MyExpression createSqrtExpression(MyExpression expression, SourceLocation location) {
+		MyExpression result = new SquareRootExpression(expression);
 		return result;
 	}
 
@@ -213,7 +213,7 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	@Override
 	public MyStatement createTurnStatement(MyExpression angle, SourceLocation location) {
-		MyStatement result = new TurnAction(angle,location);
+		MyStatement result = new TurnAction(angle, location);
 		return result;
 	}
 
