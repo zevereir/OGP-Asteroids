@@ -71,51 +71,32 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 	
-
 	 @Test
-	  public void testIfStatement_ElsePartIterruptable() throws ModelException {
-	    max_score += 12;
-	    String code = 	"print 2.0; " + 
-	    				"if self == 22.22  " + 
-	    				"  { print 33.33; } " + 
-	    				"else " + 
-	    				"  { print 4.0; skip; skip; print 8.0; } " + 
-	    				"skip; " + 
-	    				"print 16.0; ";
+	  public void testWhileStatement_InsideRecursiveFunction() throws ModelException {
+	    max_score += 20;
+	    String code = "def sumfac { " + "  a := $1; " + "  t := 1.0; " + "  while 1.5 < a { "
+	        + "    t := t + (a*sumfac(a + -1.0));" + "    a := a + -1.0; " + "  }" + "  return t; " + "} "
+	        + "print sumfac(4.0); ";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
-	    facade.executeProgram(ship1, 0.25);
-	    System.out.println("After execution 1");
-	    System.out.println("Has to be null: "+facade.executeProgram(ship1, 0.25));
-	    System.out.println("After execution 2");
-	    score += 2;
-	    System.out.println("Has to be null: "+facade.executeProgram(ship1, 0.25));
-	    System.out.println("After execution 3");
-	    System.out.println("Has to be null: "+facade.executeProgram(ship1, 0.10));
-	    System.out.println("After execution 4");
-	    score += 2;
-	    List<Object> results = facade.executeProgram(ship1, 0.25);
-	    System.out.println("After execution 5");
-	    System.out.println("Size has to be 4: "+results.size());
-	    score += 2;
-	    Object[] expecteds = { 2.0, 4.0, 8.0, 16.0 };
-	    System.out.println("We expect: "+expecteds+", and got: "+results.toArray());
-	    score += 6;
+	    List<Object> results = facade.executeProgram(ship1, 0.3);
+	    Object[] expecteds = { 60.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 20;
 	  }
 
-
-//	 @Test
-//	  public void testFunctionCall_RecursiveFunction() throws ModelException {
-//	    max_score += 20;
-//	    String code = "def fac { " + "  if $1 < 1.5 { " + "    return 1.0; " + "  }" + "  else { "
-//	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
-//	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-//	    facade.loadProgramOnShip(ship1, program);
-//	    List<Object> results = facade.executeProgram(ship1, 0.3);
-//	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
-//	    assertArrayEquals(expecteds, results.toArray());
-//	    score += 20;
-//	  }
+	 @Test
+	  public void testFunctionCall_RecursiveFunction() throws ModelException {
+	    max_score += 20;
+	    String code = "def fac { " + "  if $1 < 1.5 { " + "    return 1.0; " + "  }" + "  else { "
+	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 0.3);
+	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 20;
+	  }
 
 
 }
