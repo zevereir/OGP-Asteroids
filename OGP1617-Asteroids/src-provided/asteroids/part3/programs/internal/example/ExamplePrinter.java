@@ -15,7 +15,13 @@ public class ExamplePrinter {
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_simple.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_assignment.txt");
-		ParseOutcome<PrintingProgram> outcome = parser.parseString("turn 0.0001; "+ "print getdir;" + " turn 0.001; " + "print getdir; " + "turn 0.01;" + "print getdir;");
+		ParseOutcome<PrintingProgram> outcome = parser.parseString("print 2.0; " + 
+				"if self == 22.22  " + 
+				"  { print 33.33; } " + 
+				"else " + 
+				"  { print 4.0; skip; skip; print 8.0; } " + 
+				"skip; " + 
+				"print 16.0; ");
 
 		System.out.println(outcome);	
 		

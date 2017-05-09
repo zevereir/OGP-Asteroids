@@ -72,28 +72,32 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 	
 
-	
 	  @Test
-	  public void testSequenceStatement_NonNestedIterruptable() throws ModelException {
-	    max_score += 10;
-	    String code = "print 4.0; " + "skip; " + "skip; " + "print 3.0; " + "print 7.0; " + "skip; " + "print 5.0; ";
+	  public void testIfStatement_ElsePartIterruptable() throws ModelException {
+	    max_score += 12;
+	    String code = 	"print 2.0; " + 
+	    				"if self == 22.22  " + 
+	    				"  { print 33.33; } " + 
+	    				"else " + 
+	    				"  { print 4.0; skip; skip; print 8.0; } " + 
+	    				"skip; " + 
+	    				"print 16.0; ";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 0.05);
-	    assertNull(results);
-	    results = facade.executeProgram(ship1, 0.25);
-	    assertNull(results);
+	    facade.executeProgram(ship1, 0.25);
+	    assertNull(facade.executeProgram(ship1, 0.25));
 	    score += 2;
-	    results = facade.executeProgram(ship1, 0.25);
-	    assertNull(results);
-	    results = facade.executeProgram(ship1, 0.03);
-	    assertNull(results);
-	    results = facade.executeProgram(ship1, 0.23);
-	    Object[] expecteds = { 4.0, 3.0, 7.0, 5.0 };
+	    assertNull(facade.executeProgram(ship1, 0.25));
+	    assertNull(facade.executeProgram(ship1, 0.10));
+	    score += 2;
+	    List<Object> results = facade.executeProgram(ship1, 0.25);
+	    assertEquals(4, results.size());
+	    score += 2;
+	    Object[] expecteds = { 2.0, 4.0, 8.0, 16.0 };
 	    assertArrayEquals(expecteds, results.toArray());
-	    score += 8;
+	    score += 6;
 	  }
-	
+
 
 //	 @Test
 //	  public void testFunctionCall_RecursiveFunction() throws ModelException {

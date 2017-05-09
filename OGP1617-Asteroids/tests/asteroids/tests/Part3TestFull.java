@@ -1515,7 +1515,7 @@ public class Part3TestFull {
     				"print 16.0; ";
     Program program = ProgramParser.parseProgramFromString(code, programFactory);
     facade.loadProgramOnShip(ship1, program);
-    List<Object> result = facade.executeProgram(ship1, 0.25);
+    facade.executeProgram(ship1, 0.25);
     assertNull(facade.executeProgram(ship1, 0.25));
     score += 2;
     assertNull(facade.executeProgram(ship1, 0.25));
