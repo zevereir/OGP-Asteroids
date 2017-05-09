@@ -75,13 +75,11 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	 @Test
 	  public void testFunctionCall_RecursiveFunction() throws ModelException {
 	    max_score += 20;
-	    String code = "def fac { "+ "    return $1; " + "  }" + " a:=1; " + "print fac((a+1)); ";
+	    String code = "turn 0.0001; "+ "print getdir;" + " turn 0.001; " + "print getdir; " + "turn 0.01;" + "print getdir;";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 0.3);
-	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
-	    assertArrayEquals(expecteds, results.toArray());
-	    score += 20;
+	    List<Object> results1 = facade.executeProgram(ship1, 0.25);
+	    List<Object> results2 = facade.executeProgram(ship1, 0.2);
 	  }
 	
 

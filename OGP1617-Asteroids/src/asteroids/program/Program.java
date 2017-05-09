@@ -33,8 +33,9 @@ public class Program {
 		}
 		else{
 			try {
-				main.ignoreUntil(this, getSourceLocation());
+				//main.ignoreUntil(this, getSourceLocation());
 			} catch (IllegalPathStateException e) {
+				System.out.println("Stop everything");
 			}		
 			
 		}
