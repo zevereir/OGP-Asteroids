@@ -80,6 +80,8 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	    facade.loadProgramOnShip(ship1, program);
 	    List<Object> results1 = facade.executeProgram(ship1, 0.25);
 	    List<Object> results2 = facade.executeProgram(ship1, 0.2);
+	    assert ((double)results2.get(0) == 0.0011);
+	    score += 20;
 	  }
 	
 
