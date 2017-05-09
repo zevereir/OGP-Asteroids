@@ -67,6 +67,9 @@ public abstract class MyExpression {
 				}	
 			}
 			
+//			System.out.println("MyExpression leftParameter: "+expressionLeftParameter.getExpressionResult(getExpressionProgram(), actualArgs));
+//			System.out.println("MyExpression rightParameter: "+expressionRightParameter.getExpressionResult(getExpressionProgram(), actualArgs));
+
 			MyExpression[] parameterArray = {expressionLeftParameter, expressionRightParameter};
 			
 			return parameterArray;

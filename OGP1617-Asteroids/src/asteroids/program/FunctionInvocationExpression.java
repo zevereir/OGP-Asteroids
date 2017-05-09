@@ -62,11 +62,7 @@ class FunctionExpression extends MyExpression {
 			return new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 		}
 		
-//		for (MyExpression argument : actualArgs)
-//		System.out.println(argument.getExpressionResult(getExpressionProgram(), actualArgs));
-//	
-//	body.assignParameters(actualArgs, getExpressionProgram());
-//	
+
 		
 		
 		
