@@ -28,15 +28,13 @@ public class Program {
 			first_time = false;
 			try {
 				main.evaluate(this, null);
-			} catch (IllegalPathStateException e) {
-				System.out.println("SourceLocation= "+ getSourceLocation().toString());
+			} catch (IllegalPathStateException illegalPathStateException) {
 			}		
 		}
 		else{
 			try {
 				main.ignoreUntil(this, null, getSourceLocation());
 			} catch (IllegalPathStateException e) {
-				System.out.println("Stop everything");
 			}		
 			
 		}
