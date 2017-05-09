@@ -1,11 +1,12 @@
 package asteroids.program;
 
+import java.awt.geom.IllegalPathStateException;
 import java.util.List;
 import java.util.Scanner;
 
 import org.antlr.v4.parse.ANTLRParser.sync_return;
 
-
+import com.sun.xml.internal.bind.v2.model.core.MaybeElement;
 
 import asteroids.part3.programs.SourceLocation;
 
@@ -20,7 +21,10 @@ abstract class ActionStatement extends MyStatement {
 			execute(program);
 		}
 
-		else { 
+		else {
+			getStatementProgram().setSourceLocation(getSourceLocation());
+			getStatementProgram().setMayExecute();
+			throw new IllegalPathStateException();
 			// WHAT ELSE? HOW DO WE PAUSE A PROGRAM?
 		}
 	}

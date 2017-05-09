@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.awt.geom.IllegalPathStateException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 
 import asteroids.model.Ship;
+import asteroids.part3.programs.SourceLocation;
 
 
 
@@ -24,8 +26,19 @@ public class Program {
 		addTime(dt);
 		if (first_time){
 			first_time = false;
-			main.evaluate(this, null);
+			try {
+				main.evaluate(this, null);
+			} catch (IllegalPathStateException e) {
+			}		
 		}
+		else{
+			try {
+				main.ignoreUntil(this, getSourceLocation());
+			} catch (IllegalPathStateException e) {
+			}		
+			
+		}
+	
 		return getPrintOuts();
 	}
 	
@@ -33,7 +46,8 @@ public class Program {
 	private MyStatement main;
 	private double time_left = 0;
 	private boolean first_time = true;
-	
+	private SourceLocation location;
+	private boolean mayExecute = false;
 	/// GETTERS ///
 	
 	public Ship getProgramShip(){
@@ -59,6 +73,13 @@ public class Program {
 		return time_left;
 	}
 	
+	protected SourceLocation getSourceLocation(){
+		return this.location;
+	}
+	
+	protected boolean getMayExecute(){
+		return mayExecute;
+	}
 	/// SETTERS ///
 	
 	public void setProgramShip(Ship ship){
@@ -81,6 +102,13 @@ public class Program {
 			this.functions.put(function.getFunctionName(), function);
 			function.setFunctionProgram(this);
 		}
+	}
+	
+	protected void setSourceLocation(SourceLocation location){
+		this.location = location;
+	}
+	protected void setMayExecute(){
+		mayExecute = true;
 	}
 	
 	protected void setMain(MyStatement main){

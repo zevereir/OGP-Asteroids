@@ -52,21 +52,29 @@ class FunctionExpression extends MyExpression {
 	/// EVALUATE ///
 	
 	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs,MyFunction function) throws IllegalArgumentException{		
-//		for (MyExpression argument : actualArgs)
-//			System.out.println(argument.getExpressionResult(getExpressionProgram(), actualArgs));
-//		
-//		body.assignParameters(actualArgs, getExpressionProgram());
-//		
+
 		if ((body instanceof ReturnStatement) || (body instanceof SequenceStatement) || (body instanceof IfElseStatement)) {
 			return body.evaluateInFunction(getExpressionProgram(), actualArgs,function);
 		}
 		
-//		else if (body instanceof SequenceStatement) {
-//			return ((SequenceStatement)body).evaluateInFunction(getExpressionProgram());
-//		}
+
 		else {
 			return new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 		}
+		
+//		for (MyExpression argument : actualArgs)
+//		System.out.println(argument.getExpressionResult(getExpressionProgram(), actualArgs));
+//	
+//	body.assignParameters(actualArgs, getExpressionProgram());
+//	
+		
+		
+		
+//		for (MyExpression argument : actualArgs)
+//		System.out.println(argument.getExpressionResult(getExpressionProgram(), actualArgs));
+//	
+//	body.assignParameters(actualArgs, getExpressionProgram());
+//	
 	}
 	
 		
