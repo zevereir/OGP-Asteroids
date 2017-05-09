@@ -29,6 +29,7 @@ public class Program {
 			try {
 				main.evaluate(this, null);
 			} catch (IllegalPathStateException e) {
+				System.out.println("catched this one");
 			}		
 		}
 		else{
