@@ -42,35 +42,32 @@ public abstract class MyExpression {
 //		return nullArray;
 //	}
 
-	protected MyExpression[] getExpressionParameter(List<MyExpression> actualArgs){
-		
-		MyExpression expressionLeftParameter = null;
-		MyExpression expressionRightParameter = null;
+	protected Double[] getExpressionParameter(List<MyExpression> actualArgs){
+		System.out.println(actualArgs);
+		Double expressionLeftParameter = null;
+		Double expressionRightParameter = null;
 		
 		try {
 			// UNARY
 			if (this instanceof UnaryArithmeticExpression) {
 				if (((UnaryArithmeticExpression)this).getOperand() instanceof ParameterExpression)
-					expressionLeftParameter = (actualArgs.get(((ParameterExpression)((UnaryArithmeticExpression)this).
-							getOperand()).getParameterNumber()-1));
+					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression)((UnaryArithmeticExpression)this).
+							getOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs);
 			}
 			
 			// BINARY
 			if (this instanceof BinaryArithmeticExpression) {
 				if (((BinaryArithmeticExpression)this).getLeftOperand() instanceof ParameterExpression) {
-					expressionLeftParameter = (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
-							getLeftOperand()).getParameterNumber()-1));
+					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
+						getLeftOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs);
 				}
 				if (((BinaryArithmeticExpression)this).getRightOperand() instanceof ParameterExpression) {
-					expressionRightParameter = (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
-							getRightOperand()).getParameterNumber()-1));
+					expressionRightParameter = (Double) (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
+						getRightOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs);
 				}	
 			}
 			
-//			System.out.println("MyExpression leftParameter: "+expressionLeftParameter.getExpressionResult(getExpressionProgram(), actualArgs));
-//			System.out.println("MyExpression rightParameter: "+expressionRightParameter.getExpressionResult(getExpressionProgram(), actualArgs));
-
-			MyExpression[] parameterArray = {expressionLeftParameter, expressionRightParameter};
+			Double[] parameterArray = {expressionLeftParameter, expressionRightParameter};
 			
 			return parameterArray;
 		} catch (IndexOutOfBoundsException indexOutOfBoundsException) {

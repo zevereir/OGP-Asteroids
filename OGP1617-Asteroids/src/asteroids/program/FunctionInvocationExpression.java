@@ -1,5 +1,6 @@
 package asteroids.program;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import asteroids.util.ModelException;
@@ -33,15 +34,39 @@ class FunctionExpression extends MyExpression {
 		return functionName;
 	}
 	
-	protected List<MyExpression> getActualArgs() {
+	protected List<MyExpression> getActualArgs() {		
 		return actualArgs;
 	}
+	
+	protected List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs) {
+		List<MyExpression> newActualArgs = new ArrayList<MyExpression>();
+
+		for (MyExpression actualArg : actualArgs)
+			newActualArgs.add(actualArg);
+			
+		for (int i=0; i < newActualArgs.size(); i++) {
+			MyExpression actualArg = newActualArgs.get(i);
+			
+			if (!(actualArg instanceof DoubleLiteralExpression)) {
+				System.out.println("FunctionInvocation, oldActualArgs: "+oldActualArgs);	
+				Double value = (Double) actualArg.getExpressionResult(program, oldActualArgs);
+				MyExpression newArg = new DoubleLiteralExpression(value);
+				newActualArgs.set(i, newArg);
+			}
+		}
+		
+		return newActualArgs;
+	}
+	
 	
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {	
 		setExpressionProgram(program);
+
+		System.out.println("FunctionInvocation2, actualArgs: "+actualArgs);
+		List<MyExpression> newActualArgs = updateArgs(program, actualArgs);
 		
-		return evaluateFunctionBody(getFunction().getFunctionBody(),getActualArgs(),getFunction());
+		return evaluateFunctionBody(getFunction().getFunctionBody(),newActualArgs,getFunction());
 	}
 	
 	protected void setArguments(List<MyExpression> actualArgs){
@@ -52,12 +77,11 @@ class FunctionExpression extends MyExpression {
 	/// EVALUATE ///
 	
 	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs,MyFunction function) throws IllegalArgumentException{		
-
+		
 		if ((body instanceof ReturnStatement) || (body instanceof SequenceStatement) || (body instanceof IfElseStatement)) {
 			return body.evaluateInFunction(getExpressionProgram(), actualArgs,function);
 		}
 		
-
 		else {
 			return new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 		}

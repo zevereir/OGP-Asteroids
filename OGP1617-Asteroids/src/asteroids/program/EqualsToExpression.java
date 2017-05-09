@@ -10,29 +10,35 @@ class EqualsToExpression extends MyExpression {
 		setLeftOperand(leftExpression);
 		setRightOperand(rightExpression);			
 	}
-	
+
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		MyExpression leftExpression;
-		MyExpression rightExpression;
+		Double leftParameter = null;
+		Double rightParameter = null;
+		Object leftOperand = null;
+		Object rightOperand = null;
 		
 		if (getLeftOperand() instanceof ParameterExpression) {
-			leftExpression = (actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1));
+			leftParameter = (Double) (actualArgs.get(((ParameterExpression)getLeftOperand()).getParameterNumber()-1)).getExpressionResult(program, actualArgs);
 		}
-		else 
-			leftExpression = getLeftOperand();
-			
 		if (getRightOperand() instanceof ParameterExpression) {
-			rightExpression = (actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1));
-		}	
+			rightParameter = (Double) (actualArgs.get(((ParameterExpression)getRightOperand()).getParameterNumber()-1)).getExpressionResult(program, actualArgs);
+		}
+		
+		if (leftParameter != null)
+			leftOperand = leftParameter;
 		else
-			rightExpression = getRightOperand();
-			
-		return leftExpression.getExpressionResult(program, actualArgs).equals(rightExpression.getExpressionResult(program, actualArgs));
+			leftOperand = getLeftOperand().getExpressionResult(program, actualArgs);
+		
+		if (rightParameter != null)
+			rightOperand = rightParameter;
+		else
+			rightOperand = getRightOperand().getExpressionResult(program, actualArgs);
+		
+		return leftOperand.equals(rightOperand);
 	}
-
 	
 	/// GETTERS ///
 	

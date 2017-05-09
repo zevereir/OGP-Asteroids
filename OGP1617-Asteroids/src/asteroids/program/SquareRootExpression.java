@@ -12,18 +12,25 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		MyExpression[] parameterArray = getExpressionParameter(actualArgs);
+		Double[] parameterArray = getExpressionParameter(actualArgs);
 
-		MyExpression Parameter = parameterArray[0];
+		Double Parameter = parameterArray[0];
 		
-		MyExpression Operand = null;
+		Double Operand = null;
 		
 		if (Parameter != null)
 			Operand = Parameter;
+		else{
+			if (canHaveAsArithmeticOperand(program, actualArgs, getOperand()))
+				Operand = (double)getOperand().getExpressionResult(program, actualArgs);
+			else
+				throw new IllegalArgumentException();
+		}
+		
+		if (Operand >= 0)
+			return Math.sqrt(Operand);
 		else
-			Operand = getOperand();
-
-		return Math.sqrt((double) Operand.getExpressionResult(program, actualArgs));
+			throw new IllegalArgumentException();
 	}
 	
 }

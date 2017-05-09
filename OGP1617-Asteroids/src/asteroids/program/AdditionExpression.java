@@ -2,6 +2,8 @@ package asteroids.program;
 
 import java.util.List;
 
+import asteroids.model.Entity;
+
 class AdditionExpression extends BinaryArithmeticExpression {
 	
 	protected AdditionExpression(MyExpression leftExpression, MyExpression rightExpression)
@@ -12,26 +14,34 @@ class AdditionExpression extends BinaryArithmeticExpression {
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
+		System.out.println("addition, actualArgs: "+actualArgs);
+		Double[] parameterArray = getExpressionParameter(actualArgs);
 		
-		MyExpression[] parameterArray = getExpressionParameter(actualArgs);
-
-		MyExpression leftParameter = parameterArray[0];
-		MyExpression rightParameter = parameterArray[1];
+		Double leftParameter = parameterArray[0];
+		Double rightParameter = parameterArray[1];
 		
-		MyExpression leftOperand = null;
-		MyExpression rightOperand = null;
+		Double leftOperand = null;
+		Double rightOperand = null;
 		
 		if (leftParameter != null)
 			leftOperand = leftParameter;
-		else
-			leftOperand = getLeftOperand();
+		else{
+			if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand()))
+				leftOperand = (double)getLeftOperand().getExpressionResult(program, actualArgs);
+			else
+				throw new IllegalArgumentException();
+		}
 		
 		if (rightParameter != null)
 			rightOperand = rightParameter;
-		else
-			rightOperand = getRightOperand();
+		else {
+			if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand()))
+				rightOperand = (double)getRightOperand().getExpressionResult(program, actualArgs);
+			else
+				throw new IllegalArgumentException();
+		}
 		
-		return (double)leftOperand.getExpressionResult(program, actualArgs) + (double)rightOperand.getExpressionResult(program, actualArgs);
+		return leftOperand + rightOperand;
 	}
 
 }

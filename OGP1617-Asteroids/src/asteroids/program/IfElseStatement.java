@@ -19,12 +19,16 @@ class IfElseStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
-	
+		
 		if (canHaveAsCondition(condition, actualArgs)){		
-			if ((boolean)condition.getExpressionResult(program, actualArgs))
+			if ((boolean)condition.getExpressionResult(program, actualArgs)){
+				System.out.println("ifelse statement: if");
 				ifBody.evaluate(program, actualArgs);
-			else if (elseBody != null)
+			}
+			else if (elseBody != null){
+				System.out.println("ifelse statement: else");
 				elseBody.evaluate(program, actualArgs);
+			}
 		}
 		else 
 			throw new IllegalArgumentException();
@@ -40,7 +44,7 @@ class IfElseStatement extends MyStatement {
 	
 	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		setStatementProgram(program);
-		
+
 		if ((boolean)getCondition().getExpressionResult(program, actualArgs)) {
 			if (ifBody instanceof AssignmentStatement)
 				((AssignmentStatement)ifBody).assignLocalVariable(getStatementProgram(),actualArgs,function);

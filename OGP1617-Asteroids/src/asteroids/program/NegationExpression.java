@@ -12,18 +12,22 @@ class NegationExpression extends UnaryArithmeticExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
 		setExpressionProgram(program);
 		
-		MyExpression[] parameterArray = getExpressionParameter(actualArgs);
+		Double[] parameterArray = getExpressionParameter(actualArgs);
 
-		MyExpression Parameter = parameterArray[0];
+		Double Parameter = parameterArray[0];
 		
-		MyExpression Operand = null;
+		Double Operand = null;
 		
 		if (Parameter != null)
 			Operand = Parameter;
-		else
-			Operand = getOperand();
-
-		return -(double) Operand.getExpressionResult(program, actualArgs);
+		else{
+			if (canHaveAsArithmeticOperand(program, actualArgs, getOperand()))
+				Operand = (double)getOperand().getExpressionResult(program, actualArgs);
+			else
+				throw new IllegalArgumentException();
+		}
+		
+		return -Operand;
 	}
 
 }
