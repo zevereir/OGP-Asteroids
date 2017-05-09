@@ -17,15 +17,26 @@ abstract class ActionStatement extends MyStatement {
 		setStatementProgram(program);
 		
 		if (getStatementProgram().getTimeLeft() >= getDecrementTime()){	
+			getStatementProgram().setMayExecute();
 			getStatementProgram().addTime(-getDecrementTime());
 			execute(program);
 		}
 
 		else {
 			getStatementProgram().setSourceLocation(getSourceLocation());
-			getStatementProgram().setMayExecute();
+			getStatementProgram().setMayNotExecute();
+			
 			throw new IllegalPathStateException();
-			// WHAT ELSE? HOW DO WE PAUSE A PROGRAM?
+		}
+	}
+	
+	@Override
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+		if (getSourceLocation().equals(location)) {
+			evaluate(program, actualArgs);
+		}
+		else {
+			// nothing
 		}
 	}
 	

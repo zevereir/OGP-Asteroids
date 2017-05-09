@@ -2,6 +2,8 @@ package asteroids.program;
 
 import java.util.List;
 
+import asteroids.part3.programs.SourceLocation;
+
 class IfElseStatement extends MyStatement {
 
 	public IfElseStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody){
@@ -26,6 +28,14 @@ class IfElseStatement extends MyStatement {
 		}
 		else 
 			throw new IllegalArgumentException();
+	}
+	
+	@Override
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs , SourceLocation location) {
+		if ((boolean)condition.getExpressionResult(program, actualArgs))
+			ifBody.ignoreUntil(program, actualArgs, location);
+		else if (elseBody != null)
+			elseBody.ignoreUntil(program, actualArgs, location);
 	}
 	
 	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){

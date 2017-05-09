@@ -33,11 +33,13 @@ public abstract class MyStatement {
 
 	protected abstract void evaluate(Program program, List<MyExpression> actualArgs);
 	
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+		// Nothing
+	}
+	
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		return null;
 	}
-	
-	protected abstract void ignoreUntil(Program program, SourceLocation location);
 	
 	protected boolean canHaveAsCondition(MyExpression condition, List<MyExpression> actualArgs){
 		return (condition.getExpressionResult(getStatementProgram(), actualArgs) instanceof Boolean);

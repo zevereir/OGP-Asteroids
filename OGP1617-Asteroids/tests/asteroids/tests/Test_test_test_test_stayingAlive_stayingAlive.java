@@ -72,16 +72,21 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 	
 
-	 @Test
-	  public void testFunctionCall_RecursiveFunction() throws ModelException {
-	    max_score += 20;
-	    String code = "turn 0.0001; "+ "print getdir;" + " turn 0.001; " + "print getdir; " + "turn 0.01;" + "print getdir;";
-	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
-	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results1 = facade.executeProgram(ship1, 0.25);
-	    List<Object> results2 = facade.executeProgram(ship1, 0.2);
-	    assert ((double)results2.get(0) == 0.0011);
-	    score += 20;
+	  @Test
+	  public void testThrusterOffStatement_EnoughTimeLeft() throws ModelException {
+	    if (nbStudentsInTeam > 1) {
+	      max_score += 3;
+	      String code = "thrust; " + "print 0.4; " + "thrust_off; " + "print 0.8; ";
+	      Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	      facade.loadProgramOnShip(ship1, program);
+	      facade.executeProgram(ship1, 0.3);
+	      assertTrue(facade.isShipThrusterActive(ship1));
+	      List<Object> results = facade.executeProgram(ship1, 0.35);
+	      assertFalse(facade.isShipThrusterActive(ship1));
+	      Object[] expecteds = { 0.4, 0.8 };
+	      assertArrayEquals(expecteds, results.toArray());
+	      score += 3;
+	    }
 	  }
 	
 

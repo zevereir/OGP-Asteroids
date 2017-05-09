@@ -713,6 +713,7 @@ public class Part3TestFull {
         fail();
       } catch (ModelException exc) {
       }
+      System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: "+facade.getNbBulletsOnShip(ship));
       assertEquals(0, facade.getNbBulletsOnShip(ship));
       score += 7;
     }

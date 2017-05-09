@@ -34,22 +34,29 @@ public class Program {
 		}
 		else{
 			try {
-				main.ignoreUntil(this, getSourceLocation());
+				main.ignoreUntil(this, null, getSourceLocation());
 			} catch (IllegalPathStateException e) {
 				System.out.println("Stop everything");
 			}		
 			
 		}
-	
-		return getPrintOuts();
+		
+		List<Object> result = getPrintOuts();
+		this.print_outs = null;
+		
+		return result;
 	}
 	
+	
+	/// DEFAULT VALUES ///
 	
 	private MyStatement main;
 	private double time_left = 0;
 	private boolean first_time = true;
 	private SourceLocation location;
 	private boolean mayExecute = false;
+	
+	
 	/// GETTERS ///
 	
 	public Ship getProgramShip(){
@@ -93,6 +100,9 @@ public class Program {
 		variables.put(string, object);
 	}
 	protected void addPrintOut(Object object){
+		if (print_outs == null)
+			print_outs = new ArrayList<Object>();
+		
 		print_outs.add(object);
 	}
 	protected void addTime(double dt){
@@ -113,14 +123,20 @@ public class Program {
 		mayExecute = true;
 	}
 	
+	protected void setMayNotExecute() {
+		mayExecute = false;
+	}
+	
 	protected void setMain(MyStatement main){
 		this.main = main;
 	}
+	
+	
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	
-	private Ship ship = null;
+	private Ship ship;
 	private Map<String,MyFunction> functions = new HashMap<String,MyFunction>();
 	private Map<String, Object> variables = new HashMap<String, Object>();
-	private List<Object> print_outs = new ArrayList<Object>();
+	private List<Object> print_outs;
 	
 }

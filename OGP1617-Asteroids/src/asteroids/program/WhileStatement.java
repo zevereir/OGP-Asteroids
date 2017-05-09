@@ -2,6 +2,8 @@ package asteroids.program;
 
 import java.util.List;
 
+import asteroids.part3.programs.SourceLocation;
+
 class WhileStatement extends MyStatement {
 	 
 	public WhileStatement(MyExpression condition, MyStatement body) {
@@ -39,6 +41,17 @@ class WhileStatement extends MyStatement {
 		}
 		else
 			throw new IllegalArgumentException();
+	}
+	
+	@Override
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs , SourceLocation location) {
+		while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken()){
+			try {
+				body.ignoreUntil(program, actualArgs, location);
+			} catch (IllegalAccessError error) {
+				setBrokenTrue();
+			}
+		}
 	}
 	
 //	protected boolean canHaveAsCondition(MyExpression condition){

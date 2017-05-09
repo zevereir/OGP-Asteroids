@@ -3,6 +3,8 @@ package asteroids.program;
 import java.util.ArrayList;
 import java.util.List;
 
+import asteroids.part3.programs.SourceLocation;
+
 class SequenceStatement extends MyStatement {
 	
 	public SequenceStatement(List<MyStatement> statements) {
@@ -13,6 +15,16 @@ class SequenceStatement extends MyStatement {
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		for (MyStatement statement : statements) {
 				statement.evaluate(program, actualArgs);				
+		}
+	}
+	
+	@Override
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+		for (MyStatement statement : statements) {
+			if (program.getMayExecute())
+				statement.evaluate(program, actualArgs);
+			else	
+				statement.ignoreUntil(program, actualArgs, location);
 		}
 	}
 	
