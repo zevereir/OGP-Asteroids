@@ -713,7 +713,6 @@ public class Part3TestFull {
         fail();
       } catch (ModelException exc) {
       }
-      System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA: "+facade.getNbBulletsOnShip(ship));
       assertEquals(0, facade.getNbBulletsOnShip(ship));
       score += 7;
     }
@@ -1507,10 +1506,16 @@ public class Part3TestFull {
   @Test
   public void testIfStatement_ElsePartIterruptable() throws ModelException {
     max_score += 12;
-    String code = "print 2.0; " + "if self == 22.22  " + "  { print 33.33; } " + "else "
-        + "  { print 4.0; skip; skip; print 8.0; } " + "skip; " + "print 16.0; ";
+    String code = 	"print 2.0; " + 
+    				"if self == 22.22  " + 
+    				"  { print 33.33; } " + 
+    				"else " + 
+    				"  { print 4.0; skip; skip; print 8.0; } " + 
+    				"skip; " + 
+    				"print 16.0; ";
     Program program = ProgramParser.parseProgramFromString(code, programFactory);
     facade.loadProgramOnShip(ship1, program);
+    List<Object> result = facade.executeProgram(ship1, 0.25);
     assertNull(facade.executeProgram(ship1, 0.25));
     score += 2;
     assertNull(facade.executeProgram(ship1, 0.25));
@@ -2099,7 +2104,6 @@ public class Part3TestFull {
       facade.loadProgramOnShip(ship1, program);
       List<Object> results = facade.executeProgram(ship1, 1.0);
       Object[] expecteds = { ship2 };
-      System.out.println("result: "+results.toArray());
       assertArrayEquals(expecteds, results.toArray());
       score += 14;
     }
