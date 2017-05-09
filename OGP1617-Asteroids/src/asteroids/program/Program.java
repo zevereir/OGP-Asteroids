@@ -27,16 +27,20 @@ public class Program {
 			first_time = false;
 			try {
 				main.evaluate(this, null);
+				System.out.println("return 1");
 				return getPrintOuts();
 			} catch (IllegalPathStateException illegalPathStateException) {
+				System.out.println("return 2");
 				return null;
 			}		
 		}
 		else{
 			try {
 				main.ignoreUntil(this, null, getSourceLocation());
+				System.out.println("return 3");
 				return getPrintOuts();
 			} catch (IllegalPathStateException e) {
+				System.out.println("return 4");
 				return null;
 			}		
 			
