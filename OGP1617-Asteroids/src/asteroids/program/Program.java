@@ -29,12 +29,12 @@ public class Program {
 			try {
 				main.evaluate(this, null);
 			} catch (IllegalPathStateException e) {
-				System.out.println("catched this one");
+				System.out.println("SourceLocation= "+ getSourceLocation().toString());
 			}		
 		}
 		else{
 			try {
-				//main.ignoreUntil(this, getSourceLocation());
+				main.ignoreUntil(this, getSourceLocation());
 			} catch (IllegalPathStateException e) {
 				System.out.println("Stop everything");
 			}		
