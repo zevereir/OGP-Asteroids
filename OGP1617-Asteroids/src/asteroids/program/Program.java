@@ -11,7 +11,6 @@ import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
 
 
-
 public class Program {
 	
 	/// CONSTRUCTOR ///
