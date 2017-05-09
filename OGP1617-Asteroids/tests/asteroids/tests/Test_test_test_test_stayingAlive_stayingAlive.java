@@ -73,19 +73,40 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	
 
 	
-
-	 @Test
-	  public void testFunctionCall_RecursiveFunction() throws ModelException {
-	    max_score += 20;
-	    String code = "def fac { " + "  if $1 < 1.5 { " + "    return 1.0; " + "  }" + "  else { "
-	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
+	  @Test
+	  public void testSequenceStatement_NonNestedIterruptable() throws ModelException {
+	    max_score += 10;
+	    String code = "print 4.0; " + "skip; " + "skip; " + "print 3.0; " + "print 7.0; " + "skip; " + "print 5.0; ";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
-	    List<Object> results = facade.executeProgram(ship1, 0.3);
-	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
+	    List<Object> results = facade.executeProgram(ship1, 0.05);
+	    assertNull(results);
+	    results = facade.executeProgram(ship1, 0.25);
+	    assertNull(results);
+	    score += 2;
+	    results = facade.executeProgram(ship1, 0.25);
+	    assertNull(results);
+	    results = facade.executeProgram(ship1, 0.03);
+	    assertNull(results);
+	    results = facade.executeProgram(ship1, 0.23);
+	    Object[] expecteds = { 4.0, 3.0, 7.0, 5.0 };
 	    assertArrayEquals(expecteds, results.toArray());
-	    score += 20;
+	    score += 8;
 	  }
+	
+
+//	 @Test
+//	  public void testFunctionCall_RecursiveFunction() throws ModelException {
+//	    max_score += 20;
+//	    String code = "def fac { " + "  if $1 < 1.5 { " + "    return 1.0; " + "  }" + "  else { "
+//	        + "    return $1 * fac($1+-1.0); " + "  }" + "}" + "print fac(4.0); ";
+//	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+//	    facade.loadProgramOnShip(ship1, program);
+//	    List<Object> results = facade.executeProgram(ship1, 0.3);
+//	    Object[] expecteds = { 1.0 * 2.0 * 3.0 * 4.0 };
+//	    assertArrayEquals(expecteds, results.toArray());
+//	    score += 20;
+//	  }
 
 
 }

@@ -27,21 +27,21 @@ public class Program {
 			first_time = false;
 			try {
 				main.evaluate(this, null);
+				return getPrintOuts();
 			} catch (IllegalPathStateException illegalPathStateException) {
+				return null;
 			}		
 		}
 		else{
 			try {
 				main.ignoreUntil(this, null, getSourceLocation());
+				return getPrintOuts();
 			} catch (IllegalPathStateException e) {
+				return null;
 			}		
 			
 		}
-		
-		List<Object> result = getPrintOuts();
-		this.print_outs = null;
-		
-		return result;
+
 	}
 	
 	
@@ -96,10 +96,7 @@ public class Program {
 	protected void addVariable(String string, Object object){
 		variables.put(string, object);
 	}
-	protected void addPrintOut(Object object){
-		if (print_outs == null)
-			print_outs = new ArrayList<Object>();
-		
+	protected void addPrintOut(Object object){		
 		print_outs.add(object);
 	}
 	protected void addTime(double dt){
@@ -134,6 +131,6 @@ public class Program {
 	private Ship ship;
 	private Map<String,MyFunction> functions = new HashMap<String,MyFunction>();
 	private Map<String, Object> variables = new HashMap<String, Object>();
-	private List<Object> print_outs;
+	private List<Object> print_outs = new ArrayList<>();
 	
 }
