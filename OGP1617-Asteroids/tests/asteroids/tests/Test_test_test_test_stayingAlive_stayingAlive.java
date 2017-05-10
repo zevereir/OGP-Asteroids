@@ -53,7 +53,6 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		System.out.println("Score: " + score + "/" + max_score);
 	}
 	
-
 	@Before
 	public void setUp() throws ModelException {
 		facade = new asteroids.facade.Facade();
@@ -71,18 +70,84 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 		facade.addBulletToWorld(filledWorld, bullet1);
 	}
 	
+	
+	
+	
+	
+	
 	 @Test
 	  public void testWhileStatement_InsideRecursiveFunction() throws ModelException {
-	    max_score += 20;
-	    String code = "def sumfac { " + "  a := $1; " + "  t := 1.0; " + "  while 1.5 < a { "
-	        + "    t := t + (a*sumfac(a + -1.0));" + "    a := a + -1.0; " + "  }" + "  return t; " + "} "
-	        + "print sumfac(4.0); ";
+	    max_score += 1;
+	    String code = 	" def sumfac { " + 
+	    				"  a := $1; " + 
+	    				"  t := 1.0; " + 
+	    				"  while 1.5 < a { " + 
+	    				"    t := t + (a*sumfac(a + -1.0));" + 
+	    				"    a := a + -1.0; " + 
+	    				"  }" + 
+	    				"  return t; " + 
+	    				"} " + 
+	    				"print sumfac(4.0); ";
 	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
 	    facade.loadProgramOnShip(ship1, program);
 	    List<Object> results = facade.executeProgram(ship1, 0.3);
 	    Object[] expecteds = { 60.0 };
 	    assertArrayEquals(expecteds, results.toArray());
-	    score += 20;
+	    score += 1;
 	  }	
+	 
+	 @Test
+	  public void testLocalVariableAddition() throws ModelException {
+	    max_score += 1;
+	    String code = 	" def f { " + 
+	    				"  a := $1; " +
+	    				"  return 2 + a; " + 
+	    				"} " + 
+	    				"print f(4.0); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 0.3);
+	    Object[] expecteds = { 6.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 1;
+	  }	
+	 
+	 @Test
+	  public void testSimpleWhileStatement() throws ModelException {
+	    max_score += 1;
+	    String code = 	" def f { " + 
+	    				"  a := $1; " +  
+	    				"  while 1.5 < a { " + 
+	    				"    a := a + -1.0; " + 
+	    				"  }" + 
+	    				"  return 60; " + 
+	    				"} " + 
+	    				"print f(2.0); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { 60.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 1;
+	  }
+	 
+	 @Test
+	  public void testWhileBreak() throws ModelException {
+	    max_score += 1;
+	    String code = 	" def f { " + 
+	    				"  a := $1; " +  
+	    				"  while 1.5 < a { " + 
+	    				"    break; " + 
+	    				"  }" + 
+	    				"  return 60; " + 
+	    				"} " + 
+	    				"print f(2.0); ";
+	    Program program = ProgramParser.parseProgramFromString(code, programFactory);
+	    facade.loadProgramOnShip(ship1, program);
+	    List<Object> results = facade.executeProgram(ship1, 1.0);
+	    Object[] expecteds = { 60.0 };
+	    assertArrayEquals(expecteds, results.toArray());
+	    score += 1;
+	  }
 
 }
