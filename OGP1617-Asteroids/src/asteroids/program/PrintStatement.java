@@ -21,7 +21,7 @@ class PrintStatement extends MyStatement {
 		if (expression instanceof ParameterExpression)
 			throw new IllegalArgumentException();
 		
-		Object result = expression.getExpressionResult(program, actualArgs);
+		Object result = expression.getExpressionResult(program, actualArgs,null);
 		
 		System.out.println("------------> PrintStatement: "+result);
 		

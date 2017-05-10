@@ -8,7 +8,7 @@ class SelfEntity extends EntityExpression {
 		
 	}
 
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		return getExpressionShip();
 	}

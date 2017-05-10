@@ -18,11 +18,11 @@ class LogicalNegationExpression extends MyExpression {
 	}
 	
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) throws IllegalArgumentException {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) throws IllegalArgumentException {
 		setExpressionProgram(program);
 		
-		if (canHaveAsLogicalNegationOperand(operand, actualArgs)) {
-			return !(Boolean)operand.getExpressionResult(program, actualArgs);
+		if (canHaveAsLogicalNegationOperand(operand, actualArgs,function)) {
+			return !(Boolean)operand.getExpressionResult(program, actualArgs,function);
 		}
 		else
 			throw new IllegalArgumentException();
@@ -38,8 +38,8 @@ class LogicalNegationExpression extends MyExpression {
 	
 	/// CHECKERS ///
 	
-	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand, List<MyExpression> actualArgs){
-		return (operand.getExpressionResult(getExpressionProgram(), actualArgs) instanceof Boolean);
+	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand, List<MyExpression> actualArgs,MyFunction function){
+		return (operand.getExpressionResult(getExpressionProgram(), actualArgs,function) instanceof Boolean);
 		
 	}
 	

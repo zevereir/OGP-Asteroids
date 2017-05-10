@@ -15,7 +15,7 @@ class AdditionExpression extends BinaryArithmeticExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		System.out.println("addition, actualArgs: "+actualArgs);
-		Double[] parameterArray = getExpressionParameter(actualArgs);
+		Double[] parameterArray = getExpressionParameter(actualArgs,function);
 		
 		Double leftParameter = parameterArray[0];
 		Double rightParameter = parameterArray[1];
@@ -26,8 +26,8 @@ class AdditionExpression extends BinaryArithmeticExpression {
 		if (leftParameter != null)
 			leftOperand = leftParameter;
 		else{
-			if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand()))
-				leftOperand = (double)getLeftOperand().getExpressionResult(program, actualArgs,funtion);
+			if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand(),function))
+				leftOperand = (double)getLeftOperand().getExpressionResult(program, actualArgs,function);
 			else
 				throw new IllegalArgumentException();
 		}
@@ -35,7 +35,7 @@ class AdditionExpression extends BinaryArithmeticExpression {
 		if (rightParameter != null)
 			rightOperand = rightParameter;
 		else {
-			if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand()))
+			if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand(),function))
 				rightOperand = (double)getRightOperand().getExpressionResult(program, actualArgs,function);
 			else
 				throw new IllegalArgumentException();

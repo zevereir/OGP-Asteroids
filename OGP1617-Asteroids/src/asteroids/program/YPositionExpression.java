@@ -10,9 +10,9 @@ class YPositionExpression extends OnEntityExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		
-		return ((Entity)getOperand().getExpressionResult(program, null)).getEntityPositionY();
+		return ((Entity)getOperand().getExpressionResult(program, null,null)).getEntityPositionY();
 	}
 }

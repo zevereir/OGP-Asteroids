@@ -9,7 +9,7 @@ class PlanetEntity extends EntityExpression {
 //		setOperand(getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet")));
 	}
 	
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet"));
 	}

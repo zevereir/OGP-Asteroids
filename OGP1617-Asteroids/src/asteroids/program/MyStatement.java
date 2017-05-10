@@ -41,8 +41,8 @@ public abstract class MyStatement {
 		return null;
 	}
 	
-	protected boolean canHaveAsCondition(MyExpression condition, List<MyExpression> actualArgs){
-		return (condition.getExpressionResult(getStatementProgram(), actualArgs,null) instanceof Boolean);
+	protected boolean canHaveAsCondition(MyExpression condition, List<MyExpression> actualArgs,MyFunction function){
+		return (condition.getExpressionResult(getStatementProgram(), actualArgs,function) instanceof Boolean);
 	}
 	
 	

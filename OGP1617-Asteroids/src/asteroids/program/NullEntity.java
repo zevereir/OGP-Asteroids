@@ -10,8 +10,7 @@ class NullEntity extends EntityExpression {
 		
 	}
 
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
-		setExpressionProgram(program);
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		return null;
 	}
 	

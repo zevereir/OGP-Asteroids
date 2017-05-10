@@ -17,8 +17,11 @@ class VariableExpression extends MyExpression {
 	
 	
 	/// GETTERS ///
-	
-	protected Object getVariable(String variableName,List<MyExpression> actualArgs,MyFunction function){
+		
+
+	@Override
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
+		setExpressionProgram(program);
 		Object result = null;
 		if (function != null)		
 			result = function.getFunctionLocalVariables().get(variableName);
@@ -30,14 +33,7 @@ class VariableExpression extends MyExpression {
 			throw new IllegalArgumentException();
 		else
 			return result;
-	}
 	
-
-	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
-		setExpressionProgram(program);
-		
-		return getVariable(variableName,actualArgs,function);
 	}
 	
 	

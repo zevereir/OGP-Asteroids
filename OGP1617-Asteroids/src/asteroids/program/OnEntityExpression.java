@@ -14,7 +14,7 @@ abstract class OnEntityExpression extends MyExpression {
 	/// GETTERS ///
 
 	public MyExpression getOperand() {
-		if (canHaveAsOnEntityExpressionOperand(this.getExpressionProgram(), operand))
+		if (canHaveAsOnEntityExpressionOperand(this.getExpressionProgram(), operand,null))
 			return operand;
 		else
 			throw new IllegalArgumentException();
@@ -33,8 +33,8 @@ abstract class OnEntityExpression extends MyExpression {
 
 	/// CHECKERS ///
 //
-	public boolean canHaveAsOnEntityExpressionOperand(Program program,MyExpression expression){
-		return (expression.getExpressionResult(program, null) != null && expression.getExpressionResult(program, null) instanceof Entity);			
+	public boolean canHaveAsOnEntityExpressionOperand(Program program,MyExpression expression,MyFunction function){
+		return (expression.getExpressionResult(program, null,null) != null && expression.getExpressionResult(program, null,null) instanceof Entity);			
 	}
 
 

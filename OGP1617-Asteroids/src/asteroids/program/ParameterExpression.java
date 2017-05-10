@@ -21,10 +21,10 @@ class ParameterExpression extends MyExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		
-		return actualArgs.get(getParameterNumber()-1).getExpressionResult(program, actualArgs);
+		return actualArgs.get(getParameterNumber()-1).getExpressionResult(program, actualArgs,function);
 	}
 	
 	

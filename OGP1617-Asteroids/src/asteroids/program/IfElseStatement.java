@@ -20,8 +20,8 @@ class IfElseStatement extends MyStatement {
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		
-		if (canHaveAsCondition(condition, actualArgs)){		
-			if ((boolean)condition.getExpressionResult(program, actualArgs)){
+		if (canHaveAsCondition(condition, actualArgs,null)){		
+			if ((boolean)condition.getExpressionResult(program, actualArgs,null)){
 				System.out.println("ifelse statement: if");
 				ifBody.evaluate(program, actualArgs);
 			}
@@ -36,7 +36,7 @@ class IfElseStatement extends MyStatement {
 	
 	@Override
 	public void ignoreUntil(Program program, List<MyExpression> actualArgs , SourceLocation location) {
-		if ((boolean)condition.getExpressionResult(program, actualArgs))
+		if ((boolean)condition.getExpressionResult(program, actualArgs,null))
 			ifBody.ignoreUntil(program, actualArgs, location);
 		else if (elseBody != null)
 			elseBody.ignoreUntil(program, actualArgs, location);

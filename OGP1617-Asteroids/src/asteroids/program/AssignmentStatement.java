@@ -13,16 +13,18 @@ class AssignmentStatement extends MyStatement {
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		
-		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs))
-			getStatementProgram().addVariable(variableName,expression.getExpressionResult(program, actualArgs));
+		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs,null))
+			getStatementProgram().addVariable(variableName,expression.getExpressionResult(program, actualArgs,null));
 		else
 			throw new IllegalArgumentException();
 	}
 	
 	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function){
 		setStatementProgram(program);
-		
-		function.addLocalVariable(variableName,expression.getExpressionResult(program, actualArgs,function));
+		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs,function))
+			function.addLocalVariable(variableName,expression.getExpressionResult(program, actualArgs,function));
+		else
+			throw new IllegalArgumentException();
 	}
 	/// GETTERS ///
 	protected MyExpression getAssignmentExpression(){
@@ -44,9 +46,9 @@ class AssignmentStatement extends MyStatement {
 	
 	
 	/// CHECKERS ///
-	protected boolean isValidVariable(String variableName, MyExpression expression, List<MyExpression> actualArgs){
+	protected boolean isValidVariable(String variableName, MyExpression expression, List<MyExpression> actualArgs,MyFunction function){
 		return ((!getStatementProgram().getProgramFunctions().containsKey(variableName)) && 
-				(expression.getExpressionResult(getStatementProgram(), actualArgs) instanceof Double));
+				(expression.getExpressionResult(getStatementProgram(), actualArgs,function) instanceof Double));
 	}
 	/// PROPERTIES ///
 	

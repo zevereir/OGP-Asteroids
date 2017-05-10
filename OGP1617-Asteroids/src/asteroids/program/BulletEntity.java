@@ -18,7 +18,7 @@ class BulletEntity extends EntityExpression {
 		return (getExpressionShip() == bullet.getBulletSource());
 	}
 
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 
 		Ship source = getExpressionShip();

@@ -9,10 +9,10 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		
-		Double[] parameterArray = getExpressionParameter(actualArgs);
+		Double[] parameterArray = getExpressionParameter(actualArgs,function);
 
 		Double Parameter = parameterArray[0];
 		
@@ -21,8 +21,8 @@ class SquareRootExpression extends UnaryArithmeticExpression{
 		if (Parameter != null)
 			Operand = Parameter;
 		else{
-			if (canHaveAsArithmeticOperand(program, actualArgs, getOperand()))
-				Operand = (double)getOperand().getExpressionResult(program, actualArgs);
+			if (canHaveAsArithmeticOperand(program, actualArgs, getOperand(),function))
+				Operand = (double)getOperand().getExpressionResult(program, actualArgs,function);
 			else
 				throw new IllegalArgumentException();
 		}

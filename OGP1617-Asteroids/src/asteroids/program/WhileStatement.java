@@ -30,8 +30,8 @@ class WhileStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
-		if (canHaveAsCondition(condition, actualArgs)){
-			while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken()){
+		if (canHaveAsCondition(condition, actualArgs,null)){
+			while ((boolean) condition.getExpressionResult(program, actualArgs,null) && !isBroken()){
 				try {
 					body.evaluate(program, actualArgs);
 				} catch (IllegalAccessError error) {
@@ -45,7 +45,7 @@ class WhileStatement extends MyStatement {
 	
 	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		setStatementProgram(program);
-		if (canHaveAsCondition(condition, actualArgs)){
+		if (canHaveAsCondition(condition, actualArgs,function)){
 			while ((boolean) condition.getExpressionResult(program, actualArgs,function) && !isBroken()){
 				try {
 					return body.evaluateInFunction(program, actualArgs,function);
@@ -61,10 +61,10 @@ class WhileStatement extends MyStatement {
 	}
 	
 	@Override
-	public void ignoreUntil(Program program, List<MyExpression> actualArgs , SourceLocation location) {
-		while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken()){
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs ,MyFunction function SourceLocation location) {
+		while ((boolean) condition.getExpressionResult(program, actualArgs,function) && !isBroken()){
 			try {
-				body.ignoreUntil(program, actualArgs, location);
+				body.ignoreUntil(program, actualArgs,function ,location);
 			} catch (IllegalAccessError error) {
 				setBrokenTrue();
 			}

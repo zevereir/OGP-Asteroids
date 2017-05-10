@@ -12,7 +12,7 @@ class AnyEntity extends EntityExpression {
 
 	}
 
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 
 		Set<? extends Object> entities = getExpressionShip().getEntityWorld().getWorldEntities();

@@ -19,8 +19,8 @@ class ReturnStatement extends MyStatement {
 	 
 	 public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		 if (expression instanceof VariableExpression)
-			 return ((VariableExpression)expression).getFunctionVariable(program, actualArgs,function);
-		 return expression.getExpressionResult(program, actualArgs);
+			 return ((VariableExpression)expression).getExpressionResult(program, actualArgs,function);
+		 return expression.getExpressionResult(program, actualArgs,function);
 	 }
 
 	@Override

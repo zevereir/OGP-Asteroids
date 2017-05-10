@@ -9,10 +9,10 @@ class LessThanExpression extends BinaryArithmeticExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		
-		Double[] parameterArray = getExpressionParameter(actualArgs);
+		Double[] parameterArray = getExpressionParameter(actualArgs,function);
 
 		Double leftParameter = parameterArray[0];
 		Double rightParameter = parameterArray[1];
@@ -23,8 +23,8 @@ class LessThanExpression extends BinaryArithmeticExpression {
 		if (leftParameter != null)
 			leftOperand = leftParameter;
 		else{
-			if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand()))
-				leftOperand = (double)getLeftOperand().getExpressionResult(program, actualArgs);
+			if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand(),function))
+				leftOperand = (double)getLeftOperand().getExpressionResult(program, actualArgs,function);
 			else
 				throw new IllegalArgumentException();
 		}
@@ -32,8 +32,8 @@ class LessThanExpression extends BinaryArithmeticExpression {
 		if (rightParameter != null)
 			rightOperand = rightParameter;
 		else {
-			if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand()))
-				rightOperand = (double)getRightOperand().getExpressionResult(program, actualArgs);
+			if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand(),function))
+				rightOperand = (double)getRightOperand().getExpressionResult(program, actualArgs,function);
 			else
 				throw new IllegalArgumentException();
 		}

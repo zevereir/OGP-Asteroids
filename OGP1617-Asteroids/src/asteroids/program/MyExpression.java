@@ -10,7 +10,7 @@ import asteroids.util.ModelException;
 
 public abstract class MyExpression {
 
-	protected abstract Object getExpressionResult(Program program, List<MyExpression> actualArgs);
+	protected abstract Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function);
 	
 
 	/// GETTERS ///
@@ -42,7 +42,7 @@ public abstract class MyExpression {
 //		return nullArray;
 //	}
 
-	protected Double[] getExpressionParameter(List<MyExpression> actualArgs){
+	protected Double[] getExpressionParameter(List<MyExpression> actualArgs,MyFunction function){
 		System.out.println(actualArgs);
 		Double expressionLeftParameter = null;
 		Double expressionRightParameter = null;
@@ -52,18 +52,18 @@ public abstract class MyExpression {
 			if (this instanceof UnaryArithmeticExpression) {
 				if (((UnaryArithmeticExpression)this).getOperand() instanceof ParameterExpression)
 					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression)((UnaryArithmeticExpression)this).
-							getOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs);
+							getOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs,function);
 			}
 			
 			// BINARY
 			if (this instanceof BinaryArithmeticExpression) {
 				if (((BinaryArithmeticExpression)this).getLeftOperand() instanceof ParameterExpression) {
 					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
-						getLeftOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs);
+						getLeftOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs,function);
 				}
 				if (((BinaryArithmeticExpression)this).getRightOperand() instanceof ParameterExpression) {
 					expressionRightParameter = (Double) (actualArgs.get(((ParameterExpression) ((BinaryArithmeticExpression)this).
-						getRightOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs);
+						getRightOperand()).getParameterNumber()-1)).getExpressionResult(getExpressionProgram(), actualArgs,function);
 				}	
 			}
 			

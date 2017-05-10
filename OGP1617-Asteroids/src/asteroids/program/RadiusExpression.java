@@ -10,10 +10,10 @@ class RadiusExpression extends OnEntityExpression {
 	}
 
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
 		
-		return ((Entity)getOperand().getExpressionResult(program, null)).getEntityRadius();
+		return ((Entity)getOperand().getExpressionResult(program, null,null)).getEntityRadius();
 	}
 
 }
