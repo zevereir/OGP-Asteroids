@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,6 +53,8 @@ public class Tests_Part3 {
 
 	private final static double SPEED_OF_LIGHT = 300000;
 	private static final double EPSILON = 0.0001;
+	  private static final double BIG_EPSILON = 1.0E14;
+	  private static final double VERY_BIG_EPSILON = 1.0E34;
 
 	/// CREATION ENITITIES AND WORLD ///
 
@@ -238,6 +241,10 @@ public class Tests_Part3 {
 		assert (facade.getPlanetoidWorld(planetoid) == world);
 		
 		assert (facade.isTerminatedWorld(world));
+		assert (facade.isTerminatedShip(Ship));
+		assert (facade.isTerminatedBullet(Bullet));
+		assert (facade.isTerminatedAsteroid(Asteroid));
+		assert (facade.isTerminatedPlanetoid(planetoid));
 		score += 1;
 	}
 

@@ -515,9 +515,15 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		bullets.forEach(bullet->{
-			addOneBulletToShip(bullet);
-		});
+		System.out.println(this.getNbBulletsOnShip());
+		try {
+			bullets.forEach(bullet->{
+				addOneBulletToShip(bullet);
+			});
+		} catch(IllegalArgumentException exception) {
+			throw new IllegalArgumentException();
+		}
+		
 	}
 
 	public void addProgramToShip(Program program){
