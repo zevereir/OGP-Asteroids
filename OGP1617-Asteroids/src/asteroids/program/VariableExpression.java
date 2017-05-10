@@ -31,9 +31,10 @@ class VariableExpression extends MyExpression {
 	
 		if (result == null)
 			throw new IllegalArgumentException();
-		else
+		else {
+			System.out.println("VariableExpression, variable: "+result);
 			return result;
-	
+		}
 	}
 	
 	

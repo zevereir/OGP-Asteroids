@@ -107,11 +107,11 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 						"  }" + 
 						"  return a; " + 
 						"} " + 
-						"print sumfac(5.0); ";
+						"print sumfac(156.0); ";
 		Program program = ProgramParser.parseProgramFromString(code, programFactory);
 		facade.loadProgramOnShip(ship1, program);
 		List<Object> results = facade.executeProgram(ship1, 0.3);
-		Object[] expecteds = { 60.0 };
+		Object[] expecteds = { 1.0 };
 		assertArrayEquals(expecteds, results.toArray());
 		score += 1;
 	}	
