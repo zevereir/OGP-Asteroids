@@ -26,6 +26,7 @@ import asteroids.model.Ship;
 import asteroids.model.World;
 import asteroids.part2.CollisionListener;
 import asteroids.part2.facade.IFacade;
+import asteroids.part3.internal.AsteroidsMenu3;
 import asteroids.util.ModelException;
 import asteroids.util.internal.InternalUtils;
 import asteroids.util.internal.ResourceUtils;
