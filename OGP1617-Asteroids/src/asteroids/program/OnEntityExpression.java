@@ -10,37 +10,34 @@ abstract class OnEntityExpression extends MyExpression {
 		setOperand(operand);
 	}
 
+	
+	/// BASIC PROPERTIES ///
+
+	private MyExpression operand;
+	
 
 	/// GETTERS ///
 
 	public MyExpression getOperand() {
-		if (canHaveAsOnEntityExpressionOperand(this.getExpressionProgram(), operand,null))
+		if (canHaveAsOnEntityExpressionOperand(this.getExpressionProgram(), operand, null))
 			return operand;
 		else
 			throw new IllegalArgumentException();
 	}
-	
+
 	
 	/// SETTERS ///
 
 	protected void setOperand(MyExpression operand) {
-//		if (! canHaveAsOnEntityExpressionOperand(operand))
-//			throw new IllegalArgumentException();
 		this.operand = operand;
 	}
+
 	
-
-
 	/// CHECKERS ///
-//
-	public boolean canHaveAsOnEntityExpressionOperand(Program program,MyExpression expression,MyFunction function){
-		return (expression.getExpressionResult(program, null,null) != null && expression.getExpressionResult(program, null,null) instanceof Entity);			
+	
+	public boolean canHaveAsOnEntityExpressionOperand(Program program, MyExpression expression, MyFunction function) {
+		return (expression.getExpressionResult(program, null, null) != null
+				&& expression.getExpressionResult(program, null, null) instanceof Entity);
 	}
 
-
-	/// PROPERTIES ///
-
-	private MyExpression operand;
-
 }
-

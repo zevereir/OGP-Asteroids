@@ -4,14 +4,17 @@ import java.util.List;
 
 class NullEntity extends EntityExpression {
 
-	
+	/// CONSTRUCTOR ///
 	
 	protected NullEntity() throws IllegalArgumentException {
-		
+		//
 	}
 
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
+	
+	/// GETTERS ///
+	
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		return null;
 	}
-	
+
 }
