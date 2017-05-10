@@ -15,13 +15,16 @@ public class ExamplePrinter {
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_simple.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program.txt");
 		//ParseOutcome<PrintingProgram> outcome = parser.parseFile("src-provided/asteroids/resources/programs/program_assignment.txt");
-		ParseOutcome<PrintingProgram> outcome = parser.parseString("print 2.0; " + 
-				"if self == 22.22  " + 
-				"  { print 33.33; } " + 
-				"else " + 
-				"  { print 4.0; skip; skip; print 8.0; } " + 
-				"skip; " + 
-				"print 16.0; ");
+		ParseOutcome<PrintingProgram> outcome = parser.parseString("def sumfac { " + 
+		"  a := $1; " + 
+		"  t := 1.0; " + 
+		"  while 1.5 < a { "
+	        + "    t := t + (a*sumfac(a + -1.0));" +
+		"    a := a + -1.0; " + "  }" + 
+	        
+		"  return t; " + "} "
+	        + 
+		"print sumfac(4.0); ");
 
 		System.out.println(outcome);	
 		
