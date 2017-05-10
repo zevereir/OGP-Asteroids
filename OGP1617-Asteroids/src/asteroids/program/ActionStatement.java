@@ -31,6 +31,11 @@ abstract class ActionStatement extends MyStatement {
 	}
 	
 	@Override
+	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
+		throw new IllegalArgumentException();
+	}
+	
+	@Override
 	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		if (getSourceLocation().equals(location)) {
 			evaluate(program, actualArgs);
