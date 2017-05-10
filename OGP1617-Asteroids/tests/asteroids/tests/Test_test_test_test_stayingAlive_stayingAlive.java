@@ -1,3 +1,4 @@
+
 package asteroids.tests;
 
 import static org.junit.Assert.assertArrayEquals;
