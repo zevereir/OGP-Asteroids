@@ -2,6 +2,7 @@ package asteroids.program;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import asteroids.util.ModelException;
 
@@ -61,10 +62,19 @@ class FunctionExpression extends MyExpression {
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {	
 		setExpressionProgram(program);
-
-		List<MyExpression> newActualArgs = updateArgs(program, actualArgs,function);
 		
-		return evaluateFunctionBody(getFunction().getFunctionBody(),newActualArgs,getFunction());
+		Map<String,Object> old_local_variables = getFunction().getFunctionLocalVariables();
+		
+		
+		List<MyExpression> newActualArgs = updateArgs(program, actualArgs,function);
+	
+		getFunction().resetLocalVariables();
+		
+		Object result= evaluateFunctionBody(getFunction().getFunctionBody(),newActualArgs,getFunction());
+		
+		getFunction().setLocalVariables(old_local_variables);
+		
+		return result;
 	}
 	
 	protected void setArguments(List<MyExpression> actualArgs){

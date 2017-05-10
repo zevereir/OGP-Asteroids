@@ -23,7 +23,7 @@ class ReturnStatement extends MyStatement {
 			 result= ((VariableExpression)expression).getExpressionResult(program, actualArgs,function);
 		 else
 			 result= expression.getExpressionResult(program, actualArgs,function);
-		 System.out.println("RETURN STATEMENT =" + result);
+		 
 		 return result;
 	 }
 

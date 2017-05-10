@@ -23,7 +23,8 @@ class PrintStatement extends MyStatement {
 		
 		Object result = expression.getExpressionResult(program, actualArgs,null);
 		
-		System.out.println("------------> PrintStatement: "+result);
+		System.out.println(
+				result);
 		
 		getStatementProgram().addPrintOut(result);
 	}

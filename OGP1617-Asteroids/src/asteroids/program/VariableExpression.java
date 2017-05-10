@@ -31,9 +31,9 @@ class VariableExpression extends MyExpression {
 	
 		if (result == null)
 			throw new IllegalArgumentException();
-		else
+		else{
 			return result;
-	
+		}
 	}
 	
 	

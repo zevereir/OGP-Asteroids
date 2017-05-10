@@ -51,6 +51,14 @@ public class MyFunction {
 		this.program = program;
 	}
 	
+	protected void resetLocalVariables(){
+		this.local_variables = new HashMap<String,Object>();
+	}
+	
+	protected void setLocalVariables(Map<String,Object> local_variables){
+		this.local_variables = local_variables;
+	}
+	
 	/// CONNECTIONS WITH OTHER CLASSES ///
 	private Program program;
 	private String functionName;
