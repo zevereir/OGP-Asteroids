@@ -45,7 +45,7 @@ class IfElseStatement extends MyStatement {
 	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		setStatementProgram(program);
 
-		if ((boolean)getCondition().getExpressionResult(program, actualArgs)) {
+		if ((boolean)getCondition().getExpressionResult(program, actualArgs,function)) {
 			if (ifBody instanceof AssignmentStatement)
 				((AssignmentStatement)ifBody).assignLocalVariable(getStatementProgram(),actualArgs,function);
 			else

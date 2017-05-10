@@ -12,12 +12,12 @@ abstract class ArithmeticExpression extends MyExpression {
 		return nbOperands > 0;
 	}
 	
-	public boolean canHaveAsArithmeticOperand(Program program, List<MyExpression> actualArgs, MyExpression expression){
+	public boolean canHaveAsArithmeticOperand(Program program, List<MyExpression> actualArgs, MyExpression expression,MyFunction function){
 		if (expression instanceof ParameterExpression)
 			return true;
 		
-		return (expression.getExpressionResult(program, actualArgs) != null && 
-				!(expression.getExpressionResult(program, actualArgs) instanceof Entity));			
+		return (expression.getExpressionResult(program, actualArgs,function) != null && 
+				!(expression.getExpressionResult(program, actualArgs,function) instanceof Entity));			
 	}
 	
 }

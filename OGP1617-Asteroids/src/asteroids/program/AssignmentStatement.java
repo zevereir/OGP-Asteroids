@@ -22,7 +22,7 @@ class AssignmentStatement extends MyStatement {
 	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function){
 		setStatementProgram(program);
 		
-		function.addLocalVariable(variableName,expression.getExpressionResult(program, actualArgs));
+		function.addLocalVariable(variableName,expression.getExpressionResult(program, actualArgs,function));
 	}
 	/// GETTERS ///
 	protected MyExpression getAssignmentExpression(){

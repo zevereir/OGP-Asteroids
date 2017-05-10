@@ -46,7 +46,7 @@ class WhileStatement extends MyStatement {
 	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		setStatementProgram(program);
 		if (canHaveAsCondition(condition, actualArgs)){
-			while ((boolean) condition.getExpressionResult(program, actualArgs) && !isBroken()){
+			while ((boolean) condition.getExpressionResult(program, actualArgs,function) && !isBroken()){
 				try {
 					return body.evaluateInFunction(program, actualArgs,function);
 				} catch (IllegalAccessError error) {

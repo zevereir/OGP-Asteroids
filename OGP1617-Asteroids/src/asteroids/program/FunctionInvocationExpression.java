@@ -38,7 +38,7 @@ class FunctionExpression extends MyExpression {
 		return actualArgs;
 	}
 	
-	protected List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs) {
+	protected List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs,MyFunction function) {
 		List<MyExpression> newActualArgs = new ArrayList<MyExpression>();
 
 		for (MyExpression actualArg : actualArgs)
@@ -48,8 +48,7 @@ class FunctionExpression extends MyExpression {
 			MyExpression actualArg = newActualArgs.get(i);
 			
 			if (!(actualArg instanceof DoubleLiteralExpression)) {
-				System.out.println("FunctionInvocation, oldActualArgs: "+oldActualArgs);	
-				Double value = (Double) actualArg.getExpressionResult(program, oldActualArgs);
+				Double value = (Double) actualArg.getExpressionResult(program, oldActualArgs,function);
 				MyExpression newArg = new DoubleLiteralExpression(value);
 				newActualArgs.set(i, newArg);
 			}
@@ -60,11 +59,10 @@ class FunctionExpression extends MyExpression {
 	
 	
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {	
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {	
 		setExpressionProgram(program);
 
-		System.out.println("FunctionInvocation2, actualArgs: "+actualArgs);
-		List<MyExpression> newActualArgs = updateArgs(program, actualArgs);
+		List<MyExpression> newActualArgs = updateArgs(program, actualArgs,function);
 		
 		return evaluateFunctionBody(getFunction().getFunctionBody(),newActualArgs,getFunction());
 	}

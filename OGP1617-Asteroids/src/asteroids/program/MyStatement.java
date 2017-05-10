@@ -42,7 +42,7 @@ public abstract class MyStatement {
 	}
 	
 	protected boolean canHaveAsCondition(MyExpression condition, List<MyExpression> actualArgs){
-		return (condition.getExpressionResult(getStatementProgram(), actualArgs) instanceof Boolean);
+		return (condition.getExpressionResult(getStatementProgram(), actualArgs,null) instanceof Boolean);
 	}
 	
 	
