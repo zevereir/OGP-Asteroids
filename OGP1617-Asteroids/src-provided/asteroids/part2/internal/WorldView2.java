@@ -241,7 +241,6 @@ public class WorldView2<F extends IFacade> extends JPanel implements KeyListener
 		case KeyEvent.VK_ESCAPE:
 			System.out.println("exiting...");
 			timer.stop();
-			// game.showMenu();
 			System.exit(0);
 			break;
 		case KeyEvent.VK_LEFT:
