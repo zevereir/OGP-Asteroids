@@ -4,43 +4,43 @@ import java.util.List;
 import java.util.function.Function;
 
 class ParameterExpression extends MyExpression {
-	
+
 	/// CONSTRUCTOR ///
-	
+
 	public ParameterExpression(String ParameterName) {
 		setParameter(ParameterName);
 	}
+	
 
-	/// PROPERTIES ///
+	/// BASIC PROPERTIES ///
+	
 	private String ParameterName;
+
 	
 	/// GETTERS ///
 
-	protected String getParameter(){
+	@Override
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
+		setExpressionProgram(program);
+
+		return actualArgs.get(getParameterNumber() - 1).getExpressionResult(program, actualArgs, function);
+	}
+
+	protected String getParameter() {
 		return this.ParameterName;
 	}
 
-	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
-		setExpressionProgram(program);
-		
-		return actualArgs.get(getParameterNumber()-1).getExpressionResult(program, actualArgs,function);
-	}
-	
-	
-	protected int getParameterNumber(){
+	protected int getParameterNumber() {
 		String parameter = getParameter();
+		
 		return Integer.parseInt(parameter.substring(1));
 	}
+
 	
 	/// SETTERS ///
 
-	protected void setParameter(String ParameterName) throws IllegalArgumentException{
+	protected void setParameter(String ParameterName) throws IllegalArgumentException {
 		this.ParameterName = ParameterName;
 	}
 
-//	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
-//		setParameter(actualArgs.get(getParameter()).getParameterNumber()-1);
-//	}
-	
 }

@@ -4,13 +4,18 @@ import java.util.List;
 
 class PlanetEntity extends EntityExpression {
 
+	/// CONSTRUCTOR ///
+	
 	protected PlanetEntity() throws IllegalArgumentException {
-
-//		setOperand(getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet")));
+		//
 	}
 	
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
+	
+	/// GETTERS ///
+
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
+		
 		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet"));
 	}
 }

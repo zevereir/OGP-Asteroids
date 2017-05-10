@@ -6,14 +6,33 @@ import java.util.List;
 import asteroids.part3.programs.SourceLocation;
 
 class SequenceStatement extends MyStatement {
-	
+
 	/// CONSTRUCTOR ///
 
 	public SequenceStatement(List<MyStatement> statements) {
 		setStatements(statements);
+	}
 
+	
+	/// BASIC PROPERTIES ///
+	
+	private List<MyStatement> statements = new ArrayList<MyStatement>();
+
+	
+	
+	/// GETTERS ///
+
+	private List<MyStatement> getStatements() {
+		return statements;
 	}
 	
+
+	/// SETTERS ///
+
+	private void setStatements(List<MyStatement> statements) {
+		this.statements = statements;
+	}
+
 	
 	/// EVALUATE ///
 
@@ -23,15 +42,17 @@ class SequenceStatement extends MyStatement {
 			statement.evaluate(program, actualArgs);
 		}
 	}
-	
+
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 
 		for (MyStatement statement : getStatements()) {
 			if (statement instanceof AssignmentStatement)
 				((AssignmentStatement) statement).assignLocalVariable(program, actualArgs, function);
+	
 			else if (statement instanceof WhileStatement)
 				((WhileStatement) statement).evaluateWhileInFunction(program, actualArgs, function);
+			
 			else
 				return statement.evaluateInFunction(program, actualArgs, function);
 		}
@@ -47,17 +68,5 @@ class SequenceStatement extends MyStatement {
 				statement.skipEvaluationUntilLocation(program, actualArgs, location);
 		}
 	}
-
-	private void setStatements(List<MyStatement> statements) {
-		this.statements = statements;
-	}
-
-	private List<MyStatement> getStatements() {
-		return statements;
-	}
-
 	
-
-	private List<MyStatement> statements = new ArrayList<MyStatement>();
-
 }

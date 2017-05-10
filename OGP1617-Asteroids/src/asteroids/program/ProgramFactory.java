@@ -2,16 +2,15 @@ package asteroids.program;
 
 import java.util.List;
 
-import asteroids.model.Entity;
 import asteroids.part3.programs.SourceLocation;
 
+public class ProgramFactory
+		implements asteroids.part3.programs.IProgramFactory<MyExpression, MyStatement, MyFunction, Program> {
 
-public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<MyExpression, MyStatement, MyFunction, Program>{
+	public ProgramFactory() {
 
-	public ProgramFactory(){
-	
 	}
-	
+
 	@Override
 	public Program createProgram(List<MyFunction> functions, MyStatement main) {
 		return new Program(functions, main);
@@ -19,19 +18,20 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 
 	@Override
 	public MyFunction createFunctionDefinition(String functionName, MyStatement body, SourceLocation sourceLocation) {
-		MyFunction result = new MyFunction(functionName,body);
+		MyFunction result = new MyFunction(functionName, body);
 		return result;
 	}
 
 	@Override
-	public MyStatement createAssignmentStatement(String variableName, MyExpression expression, SourceLocation sourceLocation) {
-		MyStatement result = new AssignmentStatement(variableName,expression);
+	public MyStatement createAssignmentStatement(String variableName, MyExpression expression,
+			SourceLocation sourceLocation) {
+		MyStatement result = new AssignmentStatement(variableName, expression);
 		return result;
 	}
 
 	@Override
 	public MyStatement createWhileStatement(MyExpression condition, MyStatement body, SourceLocation sourceLocation) {
-		MyStatement result = new WhileStatement(condition,body);
+		MyStatement result = new WhileStatement(condition, body);
 		return result;
 	}
 
@@ -48,8 +48,9 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	@Override
-	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,SourceLocation sourceLocation) {
-		MyStatement result = new IfElseStatement(condition,ifBody,elseBody);
+	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,
+			SourceLocation sourceLocation) {
+		MyStatement result = new IfElseStatement(condition, ifBody, elseBody);
 		return result;
 	}
 
@@ -81,16 +82,16 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 		return result;
 	}
 
-	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation)  {
-		
-			MyExpression result = new NegationExpression(expression);
-			return result;
+	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation) {
+
+		MyExpression result = new NegationExpression(expression);
+		return result;
 	}
 
-	public MyExpression createNotExpression(MyExpression expression, SourceLocation sourceLocation)   {
-			MyExpression result = new LogicalNegationExpression(expression);
-			return result;
-		
+	public MyExpression createNotExpression(MyExpression expression, SourceLocation sourceLocation) {
+		MyExpression result = new LogicalNegationExpression(expression);
+		return result;
+
 	}
 
 	public MyExpression createDoubleLiteralExpression(double value, SourceLocation location) {
@@ -169,17 +170,17 @@ public class ProgramFactory implements asteroids.part3.programs.IProgramFactory<
 	}
 
 	public MyExpression createEqualityExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new EqualsToExpression(e1,e2);
+		MyExpression result = new EqualsToExpression(e1, e2);
 		return result;
 	}
 
 	public MyExpression createAdditionExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new AdditionExpression(e1,e2);
+		MyExpression result = new AdditionExpression(e1, e2);
 		return result;
 	}
 
 	public MyExpression createMultiplicationExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new MultiplicationExpression(e1,e2);
+		MyExpression result = new MultiplicationExpression(e1, e2);
 		return result;
 	}
 
