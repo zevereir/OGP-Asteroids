@@ -1,60 +1,44 @@
 package asteroids.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.HashSet;
-import java.util.Set;
+import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import asteroids.facade.Facade;
 import asteroids.model.*;
 import asteroids.part3.facade.IFacade;
-import asteroids.part3.programs.IProgramFactory;
-import asteroids.program.Program;
-import asteroids.program.ProgramFactory;
 import asteroids.util.ModelException;
 
 /**
- * A test class for the class Ship.
+ * A test file to evaluate the methods on minorPlanets. All the other tests are found in Tests_Part2.
  * 
- * @version 10th of march
+ * @version 10th of may.
  * @authors Sieben Bocklandt and Ruben Broekx
  *
  */
 public class Tests_Part3 {
 
-	static int nbStudentsInTeam;
+	
 	IFacade facade;
-	IProgramFactory<?, ?, ?, Program> programFactory = new ProgramFactory();
-	World filledWorld;
-	Bullet bullet1;
 	static int score = 0;
 	static int max_score = 0;
+	
+	@Before
+	public void setUp() {
+		facade = new Facade();
+	}
 
 	@AfterClass
 	public static void tearDownAfterClass() {
 		System.out.println("Score: " + score + "/" + max_score);
 	}
-
-	@Before
-	public void setUp() throws ModelException {
-		facade = new asteroids.facade.Facade();
-		nbStudentsInTeam = facade.getNbStudentsInTeam();
-	}
-
 	/// CONSTANTS ///
 
 	private final static double SPEED_OF_LIGHT = 300000;
 	private static final double EPSILON = 0.0001;
-	  private static final double BIG_EPSILON = 1.0E14;
-	  private static final double VERY_BIG_EPSILON = 1.0E34;
+
 
 	/// CREATION ENITITIES AND WORLD ///
 
@@ -136,7 +120,7 @@ public class Tests_Part3 {
 		Planetoid planetoid10 = facade.createPlanetoid(29000.0, 10000.0, 200, 0, 200, 0);
 		Planetoid planetoid11 = facade.createPlanetoid(10000, 29000, 0, 200, 200, 0);
 		Planetoid planetoid12 = facade.createPlanetoid(10000, 10000, 1000, 1500, 1000, 0);
-		Planetoid planetoid13 = facade.createPlanetoid(10000, 12050, 0, 0, 1000, 0);
+		Planetoid planetoid13 = facade.createPlanetoid(10000, 12050, 10, 0, 5.0001, 0);
 
 		Planetoid[] Total = { planetoid1, planetoid2, planetoid3, planetoid4, planetoid5, planetoid6, planetoid7,
 				planetoid8, planetoid9, planetoid10, planetoid11, planetoid12, planetoid13 };
@@ -153,38 +137,6 @@ public class Tests_Part3 {
 
 	
 	/// TERMINATION ///
-	
-	// SHIP
-	@Test
-	public final void terminateShip() throws ModelException {
-		max_score += 1;
-		World world = createWorlds()[0];
-		
-		Ship Ship = createShips()[0];
-		facade.addShipToWorld(world, Ship);
-		assert (facade.getShipWorld(Ship) == world);
-		
-		facade.terminateShip(Ship);
-		assert (facade.isTerminatedShip(Ship));
-		assertEquals(0, facade.getEntities(world).size(), EPSILON);
-		score += 1;
-	}
-
-	// BULLET
-	@Test
-	public final void terminateBullet() throws ModelException {
-		max_score += 1;
-		World world = createWorlds()[0];
-		
-		Bullet Bullet = createBullets()[0];
-		facade.addBulletToWorld(world, Bullet);
-		assert (facade.getBulletWorld(Bullet) == world);
-		
-		facade.terminateBullet(Bullet);
-		assert (facade.isTerminatedBullet(Bullet));
-		assertEquals(0, facade.getEntities(world).size(), EPSILON);
-		score += 1;
-	}
 
 	// ASTEROID
 	@Test
@@ -208,13 +160,13 @@ public class Tests_Part3 {
 		max_score += 1;
 		World world = createWorlds()[0];
 		
-		Planetoid planetoid = createPlanetoids()[0];
+		Planetoid planetoid = createPlanetoids()[9];
 		facade.addPlanetoidToWorld(world, planetoid);
 		assert (facade.getPlanetoidWorld(planetoid) == world);
 		
 		facade.terminatePlanetoid(planetoid);
 		assert (facade.isTerminatedPlanetoid(planetoid));
-		assertEquals(0, facade.getEntities(world).size(), EPSILON);
+		assertEquals(2, facade.getEntities(world).size(), EPSILON);
 		score += 1;
 	}
 
@@ -228,7 +180,7 @@ public class Tests_Part3 {
 		facade.addShipToWorld(world, Ship);
 		assert (facade.getShipWorld(Ship) == world);
 		
-		Bullet Bullet = createBullets()[0];
+		Bullet Bullet = createBullets()[8];
 		facade.addBulletToWorld(world, Bullet);
 		assert (facade.getBulletWorld(Bullet) == world);
 		
@@ -236,27 +188,146 @@ public class Tests_Part3 {
 		facade.addAsteroidToWorld(world, Asteroid);
 		assert (facade.getAsteroidWorld(Asteroid) == world);
 	
-		Planetoid planetoid = createPlanetoids()[3];
-		facade.addPlanetoidToWorld(world, planetoid);
-		assert (facade.getPlanetoidWorld(planetoid) == world);
+		Planetoid Planetoid = createPlanetoids()[3];
+		facade.addPlanetoidToWorld(world, Planetoid);
+		assert (facade.getPlanetoidWorld(Planetoid) == world);
 		
+		facade.terminateWorld(world);
 		assert (facade.isTerminatedWorld(world));
-		assert (facade.isTerminatedShip(Ship));
-		assert (facade.isTerminatedBullet(Bullet));
-		assert (facade.isTerminatedAsteroid(Asteroid));
-		assert (facade.isTerminatedPlanetoid(planetoid));
+		assertNull(facade.getBulletWorld(Bullet));
+		assertNull(facade.getShipWorld(Ship));
+		assertNull(facade.getAsteroidWorld(Asteroid));
+		assertNull(facade.getPlanetoidWorld(Planetoid));
 		score += 1;
 	}
 
 	/// GET MINOR PLANETS ///
 	@Test
-	public final void getPlanets() throws ModelException {
+	public final void getMinorPlanets() throws ModelException {
+		max_score += 1;
 		World world = createWorlds()[0];
 		Planetoid planetoid = facade.createPlanetoid(10000, 10000, 10, 10, 100, 0);
 		Asteroid asteroid = facade.createAsteroid(20000, 20000, 0, 0, 50);
 		facade.addPlanetoidToWorld(world, planetoid);
 		facade.addAsteroidToWorld(world, asteroid);
 		assert (2 == world.getWorldSpecificEntities("MinorPlanet").size());
+		score += 1;
 	}
+	
+	/// MOVE A PLANETOID ///
+	@Test
+	public final void moveAPlanetoid() throws ModelException{
+		max_score+=1;
+		World world = createWorlds()[0];
+		Planetoid planetoid = createPlanetoids()[4];
+		facade.addPlanetoidToWorld(world, planetoid);
+		double radius = facade.getPlanetoidRadius(planetoid);
+		assertEquals(10,radius,EPSILON);
+		facade.evolve(world, 10, null);
+		assertEquals(9.9999, facade.getPlanetoidRadius(planetoid),EPSILON);
+		score +=1;
+	}
+
+	@Test
+	public final void terminatePlanetoidByMoving() throws ModelException{
+		max_score+=1;
+		World world = createWorlds()[0];
+		Planetoid planetoid = createPlanetoids()[12];
+		facade.addPlanetoidToWorld(world, planetoid);
+		facade.evolve(world, 20, null);
+		assertTrue(facade.isTerminatedPlanetoid(planetoid));
+		score +=1;
+	}
+	
+	/// COLLISION BETWEEN SHIP AND ASTEROID ///
+	
+	@Test 
+	public final void shipAndAsteroidCollide() throws ModelException{
+		max_score +=1;
+		World world = createWorlds()[0];
+		Ship ship = createShips()[0];
+		Asteroid asteroid = createAsteroids()[3];
+		facade.addAsteroidToWorld(world, asteroid);
+		facade.addShipToWorld(world, ship);
+		facade.evolve(world, 10, null);
+		assertFalse(facade.isTerminatedAsteroid(asteroid));
+		assertTrue(facade.isTerminatedShip(ship));
+		score +=1;
+	}
+	
+	// COLLISION BETWEEN TWO MINOR PLANETS
+	@Test
+	public final void evolveCollisionPlanetoidPlanetoid() throws ModelException{
+		max_score +=1;
+		Planetoid planetoid1 = createPlanetoids()[0];
+		Planetoid planetoid2 = createPlanetoids()[4];
+		World world = createWorlds()[0];
+		facade.addPlanetoidToWorld(world, planetoid1);
+		facade.addPlanetoidToWorld(world, planetoid2);
+		assertEquals(2,facade.getEntities(world).size(),EPSILON);
+		facade.evolve(world, 9,null);
+		assertFalse(facade.isTerminatedPlanetoid(planetoid1));
+		assertFalse(facade.isTerminatedPlanetoid(planetoid2));
+		score += 1;
+	}
+	
+	@Test
+	public final void evolveCollisionPlanetoidAsteroid() throws ModelException{
+		max_score +=1;
+		Planetoid planetoid = createPlanetoids()[0];
+		Asteroid asteroid = createAsteroids()[4];
+		World world = createWorlds()[0];
+		facade.addPlanetoidToWorld(world, planetoid);
+		facade.addAsteroidToWorld(world, asteroid);
+		assertEquals(2,facade.getEntities(world).size(),EPSILON);
+		facade.evolve(world, 9,null);
+		assertFalse(facade.isTerminatedPlanetoid(planetoid));
+		assertFalse(facade.isTerminatedAsteroid(asteroid));
+		score += 1;
+	}
+	
+	@Test
+	public final void evolveCollisionAsteroidAsteroid() throws ModelException{
+		max_score +=1;
+		Asteroid asteroid1 = createAsteroids()[0];
+		Asteroid asteroid2 = createAsteroids()[4];
+		World world = createWorlds()[0];
+		facade.addAsteroidToWorld(world, asteroid1);
+		facade.addAsteroidToWorld(world, asteroid2);
+		assertEquals(2,facade.getEntities(world).size(),EPSILON);
+		facade.evolve(world, 9,null);
+		assertFalse(facade.isTerminatedAsteroid(asteroid1));
+		assertFalse(facade.isTerminatedAsteroid(asteroid2));
+		score += 1;
+	}
+	
+	
+	/// 
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
