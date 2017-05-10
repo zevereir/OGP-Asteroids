@@ -15,15 +15,11 @@ import org.junit.Test;
 import asteroids.model.*;
 import asteroids.facade.Facade;
 import asteroids.part3.facade.IFacade;
-import asteroids.part3.programs.IProgramFactory;
-import asteroids.part3.programs.internal.ProgramParser;
-import asteroids.program.Program;
-import asteroids.program.ProgramFactory;
 import asteroids.util.ModelException;
 /**
- * A test class for the class Ship.
+ * A test file to evaluate the methods on Ships, Bullets and Worlds.
  * 
- * @version 10th of march
+ * @version 10th of may.
  * @authors Sieben Bocklandt and Ruben Broekx
  *
  */
@@ -476,7 +472,7 @@ public class Tests_Part2 {
 		assertEquals(30000,position[0],EPSILON);
 		assertEquals(1000,position[1],EPSILON);
 	}
-
+	
 	public void collisionFromAbove() throws ModelException {
 		Ship ship1 = createShips()[0];
 		Ship ship2 = createShips()[1];
@@ -694,6 +690,20 @@ public class Tests_Part2 {
 		assertEquals(0,facade.getEntities(world).size(),EPSILON);
 	}
 
+	// COLLISION BETWEEN TWO SHIPS
+	@Test
+	public final void evolveCollisionShipShip() throws ModelException{
+		Ship ship1 = createShips()[0];
+		Ship ship2 = createShips()[4];
+		World world = createWorlds()[0];
+		facade.addShipToWorld(world, ship1);
+		facade.addShipToWorld(world, ship2);
+		assertEquals(2,facade.getEntities(world).size(),EPSILON);
+		facade.evolve(world, 9,null);
+		assertFalse(facade.isTerminatedShip(ship1));
+		assertFalse(facade.isTerminatedShip(ship2));
+	}
+
 	
 	/// GETTERS ///
 	
@@ -711,29 +721,6 @@ public class Tests_Part2 {
 		assertEquals(null,facade.getEntityAt(world, 10000, 10000));
 	}
 	
-	///PLANETOIDS///
-	@Test
-	public final void terminatePlanetoids() throws ModelException{
-		World world = createWorlds()[0];
-		Planetoid planetoid = facade.createPlanetoid(10000, 10000,10, 10, 100, 0);
-		facade.addPlanetoidToWorld(world, planetoid);
-		assert(facade.getPlanetoidWorld(planetoid) == world);
-		facade.terminatePlanetoid(planetoid);
-		assert(facade.isTerminatedPlanetoid(planetoid));
-		assertEquals(2,facade.getEntities(world).size(),EPSILON);
-		
-	}
-	
-	/// GET MINOR PLANETS ///
-	@Test
-	public final void getPlanets() throws ModelException{
-		World world = createWorlds()[0];
-		Planetoid planetoid = facade.createPlanetoid(10000, 10000,10, 10, 100, 0);
-		Asteroid asteroid = facade.createAsteroid(20000, 20000, 0, 0, 50);
-		facade.addPlanetoidToWorld(world, planetoid);
-		facade.addAsteroidToWorld(world, asteroid);
-		assert(2 == world.getWorldSpecificEntities("MinorPlanet").size());
-	}
 	
 		
 }

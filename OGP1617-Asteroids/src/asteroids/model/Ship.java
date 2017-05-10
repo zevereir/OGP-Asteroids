@@ -295,12 +295,8 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	private double getTotalBulletsWeight() {
-		double weight = 0;
-
-		for (Bullet bullet : getShipBullets())
-			weight += bullet.getEntityMass();
-
-		return weight;
+		return getShipBullets().stream().mapToDouble(x -> x.getEntityMass()).sum();
+			
 	}
 	
 	
