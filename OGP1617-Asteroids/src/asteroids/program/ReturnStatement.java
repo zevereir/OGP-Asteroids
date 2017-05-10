@@ -25,7 +25,7 @@ class ReturnStatement extends MyStatement {
 
 	@Override
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
-		setStatementProgram(program);
+		throw new IllegalArgumentException();
 	}
 
 }
