@@ -71,23 +71,43 @@ public class Test_test_test_test_stayingAlive_stayingAlive {
 	}
 
 
-//
-//
-//
-//
+	
+	
+	
+	
+//	@Test
+//	public void testWhileStatement_InsideRecursiveFunction() throws ModelException {
+//		max_score += 1;
+//		String code = 	" def sumfac { " + 
+//				"  a := $1; " + 
+//				"  t := 1.0; " + 
+//				"  while 1.5 < a { " + 
+//				"    t := t + (a*sumfac(a + -1.0));" + 
+//				"    a := a + -1.0; " + 
+//				"  }" + 
+//				"  return t; " + 
+//				"} " + 
+//				"print sumfac(2.0); ";
+//		Program program = ProgramParser.parseProgramFromString(code, programFactory);
+//		facade.loadProgramOnShip(ship1, program);
+//		List<Object> results = facade.executeProgram(ship1, 0.3);
+//		Object[] expecteds = { 60.0 };
+//		assertArrayEquals(expecteds, results.toArray());
+//		score += 1;
+//	}	
+	
 	@Test
-	public void testWhileStatement_InsideRecursiveFunction() throws ModelException {
+	public void testWhileRecursiveLocaleVariable() throws ModelException {
 		max_score += 1;
 		String code = 	" def sumfac { " + 
-				"  a := $1; " + 
-				"  t := 1.0; " + 
-				"  while 1.5 < a { " + 
-				"    t := t + (a*sumfac(a + -1.0));" + 
-				"    a := a + -1.0; " + 
-				"  }" + 
-				"  return t; " + 
-				"} " + 
-				"print sumfac(2.0); ";
+						"  a := $1; " +  
+						"  while 1.5 < a { " + 
+						"    t := (sumfac(a + -1.0));" + 
+						"    a := a + -1.0; " +
+						"  }" + 
+						"  return a; " + 
+						"} " + 
+						"print sumfac(5.0); ";
 		Program program = ProgramParser.parseProgramFromString(code, programFactory);
 		facade.loadProgramOnShip(ship1, program);
 		List<Object> results = facade.executeProgram(ship1, 0.3);
