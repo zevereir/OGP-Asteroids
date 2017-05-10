@@ -33,7 +33,7 @@ public abstract class MyStatement {
 
 	protected abstract void evaluate(Program program, List<MyExpression> actualArgs);
 	
-	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs,SourceLocation location) {
 		// Nothing
 	}
 	

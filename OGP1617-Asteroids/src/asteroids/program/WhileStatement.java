@@ -43,28 +43,30 @@ class WhileStatement extends MyStatement {
 			throw new IllegalArgumentException();
 	}
 	
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
+	public void evaluateWhileInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
 		setStatementProgram(program);
 		if (canHaveAsCondition(condition, actualArgs,function)){
 			while ((boolean) condition.getExpressionResult(program, actualArgs,function) && !isBroken()){
+				if(body instanceof AssignmentStatement )
+					((AssignmentStatement)body).assignLocalVariable(program, actualArgs, function);
+				else{
 				try {
-					return body.evaluateInFunction(program, actualArgs,function);
+					body.evaluateInFunction(program, actualArgs,function);
 				} catch (IllegalAccessError error) {
 					setBrokenTrue();
-					return null;
+				}
 				}
 			}
-			return null;
 		}
 		else
 			throw new IllegalArgumentException();
 	}
 	
 	@Override
-	public void ignoreUntil(Program program, List<MyExpression> actualArgs ,MyFunction function SourceLocation location) {
-		while ((boolean) condition.getExpressionResult(program, actualArgs,function) && !isBroken()){
+	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+		while ((boolean) condition.getExpressionResult(program, actualArgs,null) && !isBroken()){
 			try {
-				body.ignoreUntil(program, actualArgs,function ,location);
+				body.ignoreUntil(program, actualArgs,location);
 			} catch (IllegalAccessError error) {
 				setBrokenTrue();
 			}

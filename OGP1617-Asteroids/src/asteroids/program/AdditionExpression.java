@@ -14,7 +14,6 @@ class AdditionExpression extends BinaryArithmeticExpression {
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
 		setExpressionProgram(program);
-		System.out.println("addition, actualArgs: "+actualArgs);
 		Double[] parameterArray = getExpressionParameter(actualArgs,function);
 		
 		Double leftParameter = parameterArray[0];

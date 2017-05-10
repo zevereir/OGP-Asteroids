@@ -43,7 +43,6 @@ public abstract class MyExpression {
 //	}
 
 	protected Double[] getExpressionParameter(List<MyExpression> actualArgs,MyFunction function){
-		System.out.println(actualArgs);
 		Double expressionLeftParameter = null;
 		Double expressionRightParameter = null;
 		

@@ -18,9 +18,13 @@ class ReturnStatement extends MyStatement {
 	 private MyExpression expression;
 	 
 	 public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
+		 Object result;
 		 if (expression instanceof VariableExpression)
-			 return ((VariableExpression)expression).getExpressionResult(program, actualArgs,function);
-		 return expression.getExpressionResult(program, actualArgs,function);
+			 result= ((VariableExpression)expression).getExpressionResult(program, actualArgs,function);
+		 else
+			 result= expression.getExpressionResult(program, actualArgs,function);
+		 System.out.println("RETURN STATEMENT =" + result);
+		 return result;
 	 }
 
 	@Override

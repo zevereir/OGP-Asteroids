@@ -22,11 +22,9 @@ class IfElseStatement extends MyStatement {
 		
 		if (canHaveAsCondition(condition, actualArgs,null)){		
 			if ((boolean)condition.getExpressionResult(program, actualArgs,null)){
-				System.out.println("ifelse statement: if");
 				ifBody.evaluate(program, actualArgs);
 			}
 			else if (elseBody != null){
-				System.out.println("ifelse statement: else");
 				elseBody.evaluate(program, actualArgs);
 			}
 		}

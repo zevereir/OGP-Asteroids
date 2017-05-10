@@ -44,6 +44,8 @@ class SequenceStatement extends MyStatement {
 		for (MyStatement statement : getStatements()) {
 			if (statement instanceof AssignmentStatement)
 				((AssignmentStatement)statement).assignLocalVariable(program,actualArgs,function);
+			else if (statement instanceof WhileStatement)
+				((WhileStatement)statement).evaluateWhileInFunction(program,actualArgs,function);
 			else
 				return statement.evaluateInFunction(program,actualArgs,function);
 		}

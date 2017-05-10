@@ -28,7 +28,7 @@ class VariableExpression extends MyExpression {
 		
 		if (result == null)
 			result = this.getExpressionProgram().getProgramVariables().get(variableName);
-		
+	
 		if (result == null)
 			throw new IllegalArgumentException();
 		else
