@@ -3,45 +3,43 @@ package asteroids.program;
 import java.util.List;
 
 class VariableExpression extends MyExpression {
-	
+
 	/// CONSTRUCTOR ///
-	
-	public VariableExpression(String variableName) {	
+
+	public VariableExpression(String variableName) {
 		setVariable(variableName);
 	}
 
 	
-	/// PROPERTIES ///
-	
+	/// BASIC PROPERTIES ///
+
 	private String variableName;
-	
+
 	
 	/// GETTERS ///
-		
 
 	@Override
-	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs,MyFunction function) {
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 		Object result = null;
-		if (function != null)		
-			result = function.getFunctionLocalVariables().get(variableName);
 		
+		if (function != null)
+			result = function.getFunctionLocalVariables().get(variableName);
 		if (result == null)
 			result = this.getExpressionProgram().getProgramVariables().get(variableName);
-	
+
 		if (result == null)
 			throw new IllegalArgumentException();
 		else {
 			return result;
 		}
 	}
-	
-	
+
+
 	/// SETTERS ///
 
-	protected void setVariable(String variableName) throws IllegalArgumentException{
+	protected void setVariable(String variableName) throws IllegalArgumentException {
 		this.variableName = variableName;
 	}
 
 }
-
