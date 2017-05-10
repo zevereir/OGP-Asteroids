@@ -78,12 +78,12 @@ class FunctionExpression extends MyExpression {
 	
 	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs,MyFunction function) throws IllegalArgumentException{		
 		
-		if ((body instanceof ReturnStatement) || (body instanceof SequenceStatement) || (body instanceof IfElseStatement)) {
+		if ((body instanceof ReturnStatement) || (body instanceof SequenceStatement) || (body instanceof IfElseStatement) || (body instanceof WhileStatement)) {
 			return body.evaluateInFunction(getExpressionProgram(), actualArgs,function);
 		}
 		
 		else {
-			return new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
+			throw new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 		}
 		
 

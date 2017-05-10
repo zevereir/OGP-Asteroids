@@ -17,11 +17,20 @@ class PrintStatement extends MyStatement {
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
+		
 		if (expression instanceof ParameterExpression)
 			throw new IllegalArgumentException();
+		
 		Object result = expression.getExpressionResult(program, actualArgs);
+		
 		System.out.println("------------> PrintStatement: "+result);
+		
 		getStatementProgram().addPrintOut(result);
+	}
+	
+	@Override
+	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
+		throw new IllegalArgumentException();
 	}
 	
 }
