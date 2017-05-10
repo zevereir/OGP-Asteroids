@@ -11,6 +11,32 @@ import com.sun.xml.internal.bind.v2.model.core.MaybeElement;
 import asteroids.part3.programs.SourceLocation;
 
 abstract class ActionStatement extends MyStatement {
+	
+	/// BASIC PROPERTIES ///
+	
+	private double decrement_time = 0.2;
+	private SourceLocation sourcelocation;
+	
+	
+	/// GETTERS ///
+	
+	protected double getDecrementTime(){
+		return decrement_time;
+	}
+	
+	protected SourceLocation getSourceLocation(){
+		return sourcelocation;
+	}
+	
+	
+	/// SETTERS ///
+	
+	protected void setSourceLocation(SourceLocation location){
+		sourcelocation = location;
+	}
+	
+	
+	/// EVALUATION ///
 
 	@Override
 	public void evaluate(Program program, List<MyExpression> actualArgs){
@@ -36,7 +62,7 @@ abstract class ActionStatement extends MyStatement {
 	}
 	
 	@Override
-	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		if (getSourceLocation().equals(location)) {
 			evaluate(program, actualArgs);
 		}
@@ -45,21 +71,9 @@ abstract class ActionStatement extends MyStatement {
 		}
 	}
 	
+	
+	/// EXECUTION ///
+	
 	protected abstract void execute(Program program);
 	
-	protected double getDecrementTime(){
-		return decrement_time;
-	}
-	
-	private double decrement_time = 0.2;
-	
-	private SourceLocation sourcelocation;
-	
-	protected void setSourceLocation(SourceLocation location){
-		sourcelocation = location;
-	}
-	
-	protected SourceLocation getSourceLocation(){
-		return sourcelocation;
-	}
 }

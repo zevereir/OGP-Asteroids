@@ -63,10 +63,10 @@ class WhileStatement extends MyStatement {
 	}
 	
 	@Override
-	public void ignoreUntil(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		while ((boolean) condition.getExpressionResult(program, actualArgs,null) && !isBroken()){
 			try {
-				body.ignoreUntil(program, actualArgs,location);
+				body.skipEvaluationUntilLocation(program, actualArgs,location);
 			} catch (IllegalAccessError error) {
 				setBrokenTrue();
 			}

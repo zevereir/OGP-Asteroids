@@ -1,17 +1,21 @@
 package asteroids.program;
 
-import java.util.List;
-
 import asteroids.part3.programs.SourceLocation;
 
 class SkipAction extends ActionStatement {
-	public SkipAction(SourceLocation location){
+
+	/// CONSTRUCTOR ///
+	
+	public SkipAction(SourceLocation location) {
 		setSourceLocation(location);
 	}
 
+	
+	/// EXECUTE ///
+	
 	@Override
 	protected void execute(Program program) {
-		//nothing has to be done//	YOU WRONG MOTHERFUCKER
+		//
 	}
 
 }
