@@ -16,31 +16,46 @@ class EqualsToExpression extends BinaryExpression {
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-
-		Double leftParameter = null;
-		Double rightParameter = null;
-		Object leftOperand = null;
-		Object rightOperand = null;
-
-		if (getLeftOperand() instanceof ParameterExpression) {
-			leftParameter = (Double) (actualArgs.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1))
-					.getExpressionResult(program, actualArgs, function);
-		}
-		if (getRightOperand() instanceof ParameterExpression) {
-			rightParameter = (Double) (actualArgs
-					.get(((ParameterExpression) getRightOperand()).getParameterNumber() - 1))
+		//ANONYMOUS CLASS
+		BinaryParameterSolver solver = new BinaryParameterSolver() {
+			
+			@Override
+			public Object solveLeftParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+				Double leftParameter = null;
+				Object leftOperand = null;
+				if (getLeftOperand() instanceof ParameterExpression) {
+					leftParameter = (Double) (actualArgs.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1))
 							.getExpressionResult(program, actualArgs, function);
-		}
+				}
+				if (leftParameter != null)
+					leftOperand = leftParameter;
+				else
+					leftOperand = getLeftOperandResult(program, actualArgs, function);
+				return leftOperand;
+			}
+			
+			@Override
+			public	Object solveRightParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+				Double rightParameter = null;
+				Object rightOperand = null;
+				if (getRightOperand() instanceof ParameterExpression) {
+					rightParameter = (Double) (actualArgs.get(((ParameterExpression) getRightOperand()).getParameterNumber() - 1))
+							.getExpressionResult(program, actualArgs, function);
+				}
+				if (rightParameter != null)
+					rightOperand = rightParameter;
+				else
+					rightOperand = getRightOperandResult(program, actualArgs, function);
+				return rightOperand;
+			}
+			
+		
+		};
+		
+		Object leftOperand = solver.solveLeftParameter(program, actualArgs, function);
+		Object rightOperand = solver.solveRightParameter(program, actualArgs, function);
 
-		if (leftParameter != null)
-			leftOperand = leftParameter;
-		else
-			leftOperand = getLeftOperandResult(program, actualArgs, function);
-
-		if (rightParameter != null)
-			rightOperand = rightParameter;
-		else
-			rightOperand = getRightOperandResult(program, actualArgs, function);
+		
 
 		return leftOperand.equals(rightOperand);
 	}

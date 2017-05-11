@@ -59,4 +59,54 @@ public abstract class BinaryExpression extends MyExpression {
 		return number == 2;
 	}
 	
+	/// LOCAL INTERFACE ///
+	interface BinaryParameterSolver{
+		public Object solveLeftParameter(Program program, List<MyExpression> actualArgs, MyFunction function);
+		public Object solveRightParameter(Program program, List<MyExpression> actualArgs, MyFunction function);
+		
+	
+	}
+	/// LOCAL CLASS ///
+	class BinaryArithmeticExpression implements BinaryParameterSolver, ArithmeticExpression{
+
+		@Override
+		public Object solveRightParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+			Double[] parameterArray = getExpressionParameter(actualArgs, function);
+			Double rightParameter = parameterArray[1];
+			Double rightOperand = null;	
+			if (rightParameter != null)
+				rightOperand = rightParameter;
+			else {
+				if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand(), function))
+					rightOperand = (double) getRightOperandResult(program, actualArgs, function);
+				else
+					throw new IllegalArgumentException();
+			}
+			return rightOperand;
+		}
+		
+
+		@Override
+		public Object solveLeftParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+			Double[] parameterArray = getExpressionParameter(actualArgs, function);
+			Double leftParameter = parameterArray[0];
+			Double leftOperand = null;	
+			if (leftParameter != null)
+				leftOperand = leftParameter;
+			else {
+				if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand(), function))
+					leftOperand = (double) getLeftOperandResult(program, actualArgs, function);
+				else
+					throw new IllegalArgumentException();
+			}
+			return leftOperand;
+		}
+		
+
+		
+		
+	}
 }
+	
+	
+
