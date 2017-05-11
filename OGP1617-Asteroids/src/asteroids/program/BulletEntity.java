@@ -22,8 +22,7 @@ class BulletEntity extends EntityExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 
-		Ship source = getExpressionShip();
-		Set<? extends Object> bullets = source.getEntityWorld().getWorldSpecificEntities("Bullet");
+		Set<? extends Entity> bullets = getWorldEntity("Bullet");
 
 		bullets.removeIf(bullet -> !isFiredFromShip((Bullet) bullet));
 

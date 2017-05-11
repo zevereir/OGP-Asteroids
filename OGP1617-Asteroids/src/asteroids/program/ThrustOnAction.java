@@ -11,11 +11,11 @@ class ThrustOnAction extends ActionStatement {
 	}
 
 	
-	/// EXECUTE ///
+	/// EXECUTION ///
 	
 	@Override
 	public void execute(Program program) {
-		this.getStatementShip().setThrusterActive(true);
+		getStatementShip().setThrusterActive(true);
 	}
 
 }

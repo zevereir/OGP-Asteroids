@@ -8,15 +8,14 @@ class ThrustOffAction extends ActionStatement {
 	
 	public ThrustOffAction(SourceLocation location) {
 		setSourceLocation(location);
-
 	}
 	
 	
-	/// EXECUTE ///
+	/// EXECUTION ///
 
 	@Override
 	public void execute(Program program) {
-		this.getStatementShip().setThrusterActive(false);
+		getStatementShip().setThrusterActive(false);
 	}
 
 }

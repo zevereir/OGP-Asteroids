@@ -11,7 +11,7 @@ class SkipAction extends ActionStatement {
 	}
 
 	
-	/// EXECUTE ///
+	/// EXECUTION ///
 	
 	@Override
 	protected void execute(Program program) {

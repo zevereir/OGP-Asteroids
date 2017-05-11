@@ -16,6 +16,6 @@ class PlanetEntity extends EntityExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 		
-		return getClosestEntity(getExpressionShip().getEntityWorld().getWorldSpecificEntities("MinorPlanet"));
+		return getClosestEntity(getWorldEntity("MinorPlanet"));
 	}
 }

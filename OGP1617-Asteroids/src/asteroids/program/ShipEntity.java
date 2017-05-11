@@ -19,9 +19,12 @@ class ShipEntity extends EntityExpression {
 	
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-		Set<? extends Entity> ships = getExpressionShip().getEntityWorld().getWorldSpecificEntities("Ship");
+		
+		Set<? extends Entity> ships = getWorldEntity("Ship");
+		
 		//for this method, the "own" ship can't be used.
 		ships.remove(getExpressionShip());
+		
 		return (Ship) getClosestEntity(ships);
 	}
 }

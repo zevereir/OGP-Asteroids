@@ -20,7 +20,7 @@ class AnyEntity extends EntityExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 
-		Set<Entity> entities = getExpressionShip().getEntityWorld().getWorldEntities();
+		Set<Entity> entities = getWorldEntities();
 		
 		int sizeSet = entities.size();
 

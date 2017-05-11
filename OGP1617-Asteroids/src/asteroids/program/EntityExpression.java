@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import asteroids.model.Entity;
 import asteroids.model.Ship;
+import asteroids.model.World;
 
 abstract class EntityExpression extends MyExpression {
 
@@ -25,5 +26,17 @@ abstract class EntityExpression extends MyExpression {
 			result = (ordered_map.get(key)).get(0);
 		}
 		return result;
+	}
+	
+	protected World getWorld() {
+		return getExpressionShip().getEntityWorld();
+	}
+	
+	protected Set<Entity> getWorldEntities() {
+		return getWorld().getWorldEntities();
+	}
+	
+	protected Set<? extends Entity> getWorldEntity(String entity) {
+		return getWorld().getWorldSpecificEntities(entity);
 	}
 }
