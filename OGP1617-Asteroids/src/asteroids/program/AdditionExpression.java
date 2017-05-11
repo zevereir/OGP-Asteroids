@@ -2,8 +2,6 @@ package asteroids.program;
 
 import java.util.List;
 
-import asteroids.model.Entity;
-
 class AdditionExpression extends BinaryExpression implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///

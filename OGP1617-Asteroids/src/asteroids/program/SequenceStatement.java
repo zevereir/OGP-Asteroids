@@ -19,7 +19,6 @@ class SequenceStatement extends MyStatement {
 	private List<MyStatement> statements = new ArrayList<MyStatement>();
 
 	
-	
 	/// GETTERS ///
 
 	private List<MyStatement> getStatements() {
@@ -33,17 +32,21 @@ class SequenceStatement extends MyStatement {
 		this.statements = statements;
 	}
 
+	
 	/// CHECKERS ///
 	
 	protected boolean containsStatement(String name){
 		boolean contains = false;
+		
 		for (MyStatement statement: statements)
-			if (statement.getClass().getSimpleName().equals(name) || statement.containsStatement(name))
+			if (statement.containsStatement(name))
 				contains = true;
+		
 		return contains;
 	}
 	
-	/// EVALUATE ///
+	
+	/// EVALUATION ///
 
 	@Override
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
@@ -58,10 +61,10 @@ class SequenceStatement extends MyStatement {
 		for (MyStatement statement : getStatements()) {
 			if (statement instanceof AssignmentStatement)
 				((AssignmentStatement) statement).assignLocalVariable(program, actualArgs, function);
-	
+
 			else if (statement instanceof WhileStatement)
 				((WhileStatement) statement).evaluateWhileInFunction(program, actualArgs, function);
-			
+
 			else
 				return statement.evaluateInFunction(program, actualArgs, function);
 		}

@@ -15,7 +15,7 @@ class FireAction extends ActionStatement {
 	
 	@Override
 	public void execute(Program program) {
-		this.getStatementShip().fireBullet();
+		getStatementShip().fireBullet();
 		setStatementProgram(program);
 	}
 

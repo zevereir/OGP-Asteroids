@@ -29,11 +29,6 @@ class ReturnStatement extends MyStatement {
 		this.expression = expression;
 	}
 	
-	/// CHECKERS ///
-	
-	protected boolean containsStatement(String name){
-		return getClass().getSimpleName().equals(name);
-	}
 	
 	/// EVALUATION ///
 
@@ -43,13 +38,10 @@ class ReturnStatement extends MyStatement {
 	}
 
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		Object result;
 		if (expression instanceof VariableExpression)
-			result = ((VariableExpression) expression).getExpressionResult(program, actualArgs, function);
+			return ((VariableExpression) expression).getExpressionResult(program, actualArgs, function);
 		else
-			result = expression.getExpressionResult(program, actualArgs, function);
-
-		return result;
+			return expression.getExpressionResult(program, actualArgs, function);
 	}
 
 }

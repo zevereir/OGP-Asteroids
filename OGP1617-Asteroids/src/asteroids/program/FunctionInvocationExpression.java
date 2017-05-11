@@ -60,7 +60,9 @@ class FunctionExpression extends MyExpression {
 		this.functionName = functionName;
 	}
 	
+	
 	/// CHECKERS ///
+	
 	protected static boolean isValidFunctionBody(MyStatement body){
 		return (body.containsStatement("ReturnStatement") && ((body instanceof ReturnStatement) || (body instanceof SequenceStatement)
 				|| (body instanceof IfElseStatement) || (body instanceof WhileStatement)));
@@ -94,7 +96,7 @@ class FunctionExpression extends MyExpression {
 	}
 
 	
-	/// EVALUATE ///
+	/// EVALUATION ///
 
 	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs, MyFunction function)
 			throws IllegalArgumentException {
@@ -103,8 +105,7 @@ class FunctionExpression extends MyExpression {
 		}
 
 		else {
-			throw new IllegalArgumentException(
-					"FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
+			throw new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 		}
 	}
 

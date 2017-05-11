@@ -119,7 +119,6 @@ public class Program {
 			
 			try {
 				main.evaluate(this, null);
-				
 				return getPrintOuts();
 			} catch (IllegalPathStateException illegalPathStateException) {
 				return null;
@@ -128,7 +127,6 @@ public class Program {
 		else {
 			try {
 				main.skipEvaluationUntilLocation(this, null, getSourceLocation());
-				
 				return getPrintOuts();
 			} catch (IllegalPathStateException e) {
 				return null;

@@ -32,7 +32,7 @@ public abstract class MyStatement {
 	}
 	
 	protected boolean containsStatement(String name){
-		return false;
+		return getClass().getSimpleName().equals(name);
 	}
 
 	
@@ -45,7 +45,7 @@ public abstract class MyStatement {
 	}
 
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		// Nothing
+		//
 	}
 
 	

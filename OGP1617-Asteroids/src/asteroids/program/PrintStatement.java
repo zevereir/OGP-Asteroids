@@ -34,9 +34,9 @@ class PrintStatement extends MyStatement {
 
 		Object result = expression.getExpressionResult(program, actualArgs, null);
 
-		System.out.println(result);
-
 		getStatementProgram().addPrintOut(result);
+
+		System.out.println(result);
 	}
 
 }

@@ -43,12 +43,22 @@ class IfElseStatement extends MyStatement {
 		this.ifBody = ifBody;
 	}
 	
+	
 	/// CHECKERS ///
 	
 	protected boolean containsStatement(String name){
-		return (ifBody.getClass().getSimpleName().equals(name) && ifBody.containsStatement(name));
-			
+		boolean contains = false;
+		if (ifBody.getClass().getSimpleName().equals(name) && ifBody.containsStatement(name))
+			contains = true;
+		
+		if (elseBody != null && contains == false)
+			if (elseBody.getClass().getSimpleName().equals(name) && elseBody.containsStatement(name))
+				contains = true;
+	
+		return contains;
 	}
+	
+	
 	/// EVALUATION ///
 
 	@Override
@@ -56,11 +66,10 @@ class IfElseStatement extends MyStatement {
 		setStatementProgram(program);
 
 		if (canHaveAsCondition(condition, actualArgs, null)) {
-			if ((boolean) condition.getExpressionResult(program, actualArgs, null)) {
+			if ((boolean) condition.getExpressionResult(program, actualArgs, null))
 				ifBody.evaluate(program, actualArgs);
-			} else if (elseBody != null) {
+			else if (elseBody != null)
 				elseBody.evaluate(program, actualArgs);
-			}
 		} else
 			throw new IllegalArgumentException();
 	}
