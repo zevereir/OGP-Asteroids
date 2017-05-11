@@ -3,7 +3,7 @@ package asteroids.program;
 import java.util.List;
 import java.util.function.Function;
 
-class ParameterExpression extends Name {
+class ParameterExpression extends NameExpression {
 
 	/// CONSTRUCTOR ///
 

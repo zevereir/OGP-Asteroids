@@ -1,10 +1,10 @@
 package asteroids.program;
 
-public abstract class Name extends MyExpression {
+public abstract class NameExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	public Name(String name) {
+	public NameExpression(String name) {
 		setName(name);
 	}
 	

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
 
 import asteroids.part2.CollisionListener;
 import asteroids.program.Program;
@@ -507,17 +506,17 @@ public class Ship extends Entity {
 	 * @param 	bullets
 	 *          The collection of bullets that have to be loaded.
 	 *          
-	 * @effect 	The bullets will be added one at a time.
+	 * @effect 	The bullets will be checked by a stream. If the ship can have all the bullets, they will be added one at a time.
+	 * 			@see implementation
+	 * @throws  IllegalArgumentExeption
+	 * 			If one of the bullets is not valid.
 	 * 			@see implementation
 	 */
-	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		try {
-			bullets.forEach(bullet->
-				addOneBulletToShip(bullet));
-		} catch(IllegalArgumentException exception) {
+	public void addMultipleBulletsToShip(Collection<Bullet> bullets) throws IllegalArgumentException {
+		if(bullets.stream().allMatch(bullet ->canHaveAsBullet(bullet)))
+			bullets.forEach(bullet -> addOneBulletToShip(bullet));
+		else
 			throw new IllegalArgumentException();
-		}
-		
 	}
 
 	public void addProgramToShip(Program program){

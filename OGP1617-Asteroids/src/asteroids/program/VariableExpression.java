@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class VariableExpression extends Name {
+class VariableExpression extends NameExpression {
 
 	/// CONSTRUCTOR ///
 
