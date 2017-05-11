@@ -18,23 +18,23 @@ public abstract class MyExpression {
 
 		try {
 			// UNARY
-			if (this instanceof UnaryArithmeticExpression) {
-				if (((UnaryArithmeticExpression) this).getOperand() instanceof ParameterExpression)
+			if (this instanceof UnaryExpression) {
+				if (((UnaryExpression) this).getOperand() instanceof ParameterExpression)
 					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression) 
-							((UnaryArithmeticExpression) this).getOperand()).getParameterNumber() - 1)).
+							((UnaryExpression) this).getOperand()).getParameterNumber() - 1)).
 							getExpressionResult(getExpressionProgram(), actualArgs, function);
 			}
 
 			// BINARY
-			if (this instanceof BinaryArithmeticExpression) {
-				if (((BinaryArithmeticExpression) this).getLeftOperand() instanceof ParameterExpression) {
+			if (this instanceof BinaryExpression) {
+				if (((BinaryExpression) this).getLeftOperand() instanceof ParameterExpression) {
 					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression) 
-							((BinaryArithmeticExpression) this).getLeftOperand()).getParameterNumber() - 1))
+							((BinaryExpression) this).getLeftOperand()).getParameterNumber() - 1))
 							.getExpressionResult(getExpressionProgram(), actualArgs, function);
 				}
-				if (((BinaryArithmeticExpression) this).getRightOperand() instanceof ParameterExpression) {
+				if (((BinaryExpression) this).getRightOperand() instanceof ParameterExpression) {
 					expressionRightParameter = (Double) (actualArgs.get(((ParameterExpression) 
-							((BinaryArithmeticExpression) this).getRightOperand()).getParameterNumber() - 1))
+							((BinaryExpression) this).getRightOperand()).getParameterNumber() - 1))
 							.getExpressionResult(getExpressionProgram(), actualArgs, function);
 				}
 			}

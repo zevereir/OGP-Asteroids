@@ -2,11 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-abstract class UnaryArithmeticExpression extends ArithmeticExpression {
+public abstract class UnaryExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected UnaryArithmeticExpression(MyExpression operand) {
+	protected UnaryExpression(MyExpression operand) {
 		setOperand(operand);
 	}
 
@@ -43,5 +43,5 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 	public final boolean canHaveAsNbOperands(int number) {
 		return number == 1;
 	}
-
+	
 }

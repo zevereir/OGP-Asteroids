@@ -2,14 +2,12 @@ package asteroids.program;
 
 import java.util.List;
 
-class EqualsToExpression extends MyExpression {
+class EqualsToExpression extends BinaryExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected EqualsToExpression(MyExpression leftExpression, MyExpression rightExpression)
-			throws IllegalArgumentException {
-		setLeftOperand(leftExpression);
-		setRightOperand(rightExpression);
+	protected EqualsToExpression(MyExpression leftExpression, MyExpression rightExpression) throws IllegalArgumentException {
+		super(leftExpression, rightExpression);
 	}
 
 	
@@ -37,33 +35,14 @@ class EqualsToExpression extends MyExpression {
 		if (leftParameter != null)
 			leftOperand = leftParameter;
 		else
-			leftOperand = getLeftOperand().getExpressionResult(program, actualArgs, function);
+			leftOperand = getLeftOperandResult(program, actualArgs, function);
 
 		if (rightParameter != null)
 			rightOperand = rightParameter;
 		else
-			rightOperand = getRightOperand().getExpressionResult(program, actualArgs, function);
+			rightOperand = getRightOperandResult(program, actualArgs, function);
 
 		return leftOperand.equals(rightOperand);
-	}
-
-	protected MyExpression getLeftOperand() {
-		return left_operand;
-	}
-
-	protected MyExpression getRightOperand() {
-		return right_operand;
-	}
-
-	
-	/// SETTERS ///
-
-	protected void setLeftOperand(MyExpression expression) {
-		left_operand = expression;
-	}
-
-	protected void setRightOperand(MyExpression expression) {
-		right_operand = expression;
 	}
 
 	

@@ -2,18 +2,13 @@ package asteroids.program;
 
 import java.util.List;
 
-class LogicalNegationExpression extends MyExpression {
+class LogicalNegationExpression extends UnaryExpression {
 
 	/// CONSTRUCTOR ///
 
 	public LogicalNegationExpression(MyExpression operand) {
-		setOperand(operand);
+		super(operand);
 	}
-
-
-	/// BASIC PROPERTIES ///
-	
-	private MyExpression operand;
 	
 
 	/// GETTERS ///
@@ -24,27 +19,15 @@ class LogicalNegationExpression extends MyExpression {
 		setExpressionProgram(program);
 
 		if (canHaveAsLogicalNegationOperand(getOperand(), actualArgs, function)) {
-			return !(Boolean) getOperand().getExpressionResult(program, actualArgs, function);
+			return !(Boolean) getOperandResult(program, actualArgs, function);
 		} else
 			throw new IllegalArgumentException();
-	}
-
-	protected MyExpression getOperand() {
-		return operand;
-	}
-
-	
-	/// SETTERS ///
-
-	protected void setOperand(MyExpression operand) throws IllegalArgumentException {
-		this.operand = operand;
 	}
 
 	
 	/// CHECKERS ///
 
-	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand, List<MyExpression> actualArgs,
-			MyFunction function) {
+	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand, List<MyExpression> actualArgs, MyFunction function) {
 		return (operand.getExpressionResult(getExpressionProgram(), actualArgs, function) instanceof Boolean);
 
 	}

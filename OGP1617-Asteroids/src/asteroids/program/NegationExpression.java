@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class NegationExpression extends UnaryArithmeticExpression {
+class NegationExpression extends UnaryExpression implements ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
 	

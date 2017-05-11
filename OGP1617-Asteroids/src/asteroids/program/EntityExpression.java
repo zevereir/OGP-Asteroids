@@ -12,11 +12,11 @@ import asteroids.model.Ship;
 abstract class EntityExpression extends MyExpression {
 
 	/// GETTERS ///
-
 	
 	protected Entity getClosestEntity(Set<? extends Entity> set){
 		Ship ship = getExpressionShip();
 		Entity result = null;
+		
 		if (!set.isEmpty()){
 			//Makes a map with the distances as keys and the entities that have these distances in a list as values.
 			Map<Double, List<Entity>> ordered_map = set.stream().collect(Collectors.groupingBy(e -> ship.getDistanceBetween((Entity) e)));
