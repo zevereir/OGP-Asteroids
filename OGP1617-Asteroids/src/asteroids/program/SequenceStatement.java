@@ -33,6 +33,15 @@ class SequenceStatement extends MyStatement {
 		this.statements = statements;
 	}
 
+	/// CHECKERS ///
+	
+	protected boolean containsStatement(String name){
+		boolean contains = false;
+		for (MyStatement statement: statements)
+			if (statement.getClass().getSimpleName().equals(name) || statement.containsStatement(name))
+				contains = true;
+		return contains;
+	}
 	
 	/// EVALUATE ///
 

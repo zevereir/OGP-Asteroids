@@ -29,6 +29,11 @@ class ReturnStatement extends MyStatement {
 		this.expression = expression;
 	}
 	
+	/// CHECKERS ///
+	
+	protected boolean containsStatement(String name){
+		return getClass().getSimpleName().equals(name);
+	}
 	
 	/// EVALUATION ///
 

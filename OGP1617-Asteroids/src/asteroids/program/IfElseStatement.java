@@ -43,7 +43,12 @@ class IfElseStatement extends MyStatement {
 		this.ifBody = ifBody;
 	}
 	
+	/// CHECKERS ///
 	
+	protected boolean containsStatement(String name){
+		return (ifBody.getClass().getSimpleName().equals(name) && ifBody.containsStatement(name));
+			
+	}
 	/// EVALUATION ///
 
 	@Override
