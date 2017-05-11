@@ -13,11 +13,11 @@ class BreakStatement extends MyStatement {
 	
 	/// EVALUATION ///
 
-	public void evaluate(Program program, List<MyExpression> actualArgs) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		throw new IllegalAccessError();
 	}
 
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
+	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		throw new IllegalAccessError();
 	}
 }

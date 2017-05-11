@@ -47,7 +47,7 @@ class IfElseStatement extends MyStatement {
 	/// EVALUATION ///
 
 	@Override
-	public void evaluate(Program program, List<MyExpression> actualArgs) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 
 		if (canHaveAsCondition(condition, actualArgs, null)) {
@@ -60,7 +60,7 @@ class IfElseStatement extends MyStatement {
 			throw new IllegalArgumentException();
 	}
 
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
+	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 
 		if ((boolean) getCondition().getExpressionResult(program, actualArgs, function)) {
@@ -78,7 +78,7 @@ class IfElseStatement extends MyStatement {
 	}
 
 	@Override
-	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		if ((boolean) condition.getExpressionResult(program, actualArgs, null))
 			ifBody.skipEvaluationUntilLocation(program, actualArgs, location);
 		else if (elseBody != null)

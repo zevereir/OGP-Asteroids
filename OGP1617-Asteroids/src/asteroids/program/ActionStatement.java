@@ -39,7 +39,7 @@ abstract class ActionStatement extends MyStatement {
 	/// EVALUATION ///
 
 	@Override
-	public void evaluate(Program program, List<MyExpression> actualArgs){
+	protected void evaluate(Program program, List<MyExpression> actualArgs){
 		setStatementProgram(program);
 		
 		if (getStatementProgram().getTimeLeft() >= getDecrementTime()){	
@@ -57,12 +57,7 @@ abstract class ActionStatement extends MyStatement {
 	}
 	
 	@Override
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs,MyFunction function){
-		throw new IllegalArgumentException();
-	}
-	
-	@Override
-	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		if (getSourceLocation().equals(location)) {
 			evaluate(program, actualArgs);
 		}

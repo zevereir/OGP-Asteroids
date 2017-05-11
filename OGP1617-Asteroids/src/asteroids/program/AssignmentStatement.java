@@ -60,7 +60,7 @@ class AssignmentStatement extends MyStatement {
 	/// EVALUATION ///
 
 	@Override
-	public void evaluate(Program program, List<MyExpression> actualArgs) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 
 		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs))

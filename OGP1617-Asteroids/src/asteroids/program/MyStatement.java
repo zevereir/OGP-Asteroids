@@ -37,10 +37,10 @@ public abstract class MyStatement {
 	protected abstract void evaluate(Program program, List<MyExpression> actualArgs);
 
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		return null;
+		throw new IllegalArgumentException();
 	}
 
-	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		// Nothing
 	}
 

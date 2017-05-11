@@ -26,7 +26,7 @@ class PrintStatement extends MyStatement {
 	/// EVALUATION ///
 	
 	@Override
-	public void evaluate(Program program, List<MyExpression> actualArgs) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 
 		if (expression instanceof ParameterExpression)
@@ -37,11 +37,6 @@ class PrintStatement extends MyStatement {
 		System.out.println(result);
 
 		getStatementProgram().addPrintOut(result);
-	}
-
-	@Override
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		throw new IllegalArgumentException();
 	}
 
 }

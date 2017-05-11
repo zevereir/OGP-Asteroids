@@ -37,7 +37,7 @@ class SequenceStatement extends MyStatement {
 	/// EVALUATE ///
 
 	@Override
-	public void evaluate(Program program, List<MyExpression> actualArgs) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		for (MyStatement statement : statements) {
 			statement.evaluate(program, actualArgs);
 		}
@@ -60,7 +60,7 @@ class SequenceStatement extends MyStatement {
 	}
 
 	@Override
-	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		for (MyStatement statement : statements) {
 			if (program.getMayExecute())
 				statement.evaluate(program, actualArgs);

@@ -37,7 +37,7 @@ class ReturnStatement extends MyStatement {
 		throw new IllegalArgumentException();
 	}
 
-	public Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
+	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		Object result;
 		if (expression instanceof VariableExpression)
 			result = ((VariableExpression) expression).getExpressionResult(program, actualArgs, function);

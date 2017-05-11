@@ -46,7 +46,7 @@ class WhileStatement extends MyStatement {
 	/// EVALUATION ///
 
 	@Override
-	public void evaluate(Program program, List<MyExpression> actualArgs) {
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		
 		if (canHaveAsCondition(condition, actualArgs, null)) {
@@ -62,7 +62,7 @@ class WhileStatement extends MyStatement {
 			throw new IllegalArgumentException();
 	}
 
-	public void evaluateWhileInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
+	protected void evaluateWhileInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 		
 		if (canHaveAsCondition(condition, actualArgs, function)) {
@@ -77,13 +77,13 @@ class WhileStatement extends MyStatement {
 					}
 				}
 			}
-		} 
+		}
 		else
 			throw new IllegalArgumentException();
 	}
 
 	@Override
-	public void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
 		while ((boolean) condition.getExpressionResult(program, actualArgs, null) && !isBroken()) {
 			try {
 				body.skipEvaluationUntilLocation(program, actualArgs, location);
