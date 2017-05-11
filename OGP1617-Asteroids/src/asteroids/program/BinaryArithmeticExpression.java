@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
@@ -22,6 +24,10 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	protected MyExpression getLeftOperand() {
 		return left_operand;
 	}
+	
+	protected Object getLeftOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
+		return getLeftOperand().getExpressionResult(program, actualArgs, function);
+	}
 
 	protected int getNbOperands() {
 		return 2;
@@ -29,6 +35,10 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 
 	protected MyExpression getRightOperand() {
 		return right_operand;
+	}
+	
+	protected Object getRightOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
+		return getRightOperand().getExpressionResult(program, actualArgs, function);
 	}
 	
 

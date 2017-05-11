@@ -19,7 +19,7 @@ class XVelocityExpression extends OnEntityExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 
-		return ((Entity) getOperand().getExpressionResult(program, null, null)).getEntityVelocityX();
+		return ((Entity) getOperandResult(program)).getEntityVelocityX();
 	}
 
 }

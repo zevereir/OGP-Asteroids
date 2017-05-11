@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 import asteroids.model.Entity;
 
 abstract class OnEntityExpression extends MyExpression {
@@ -24,7 +26,11 @@ abstract class OnEntityExpression extends MyExpression {
 		else
 			throw new IllegalArgumentException();
 	}
-
+	
+	protected Object getOperandResult(Program program) {
+		return getOperand().getExpressionResult(program, null, null);
+	}
+	
 	
 	/// SETTERS ///
 

@@ -19,7 +19,7 @@ class RadiusExpression extends OnEntityExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 
-		return ((Entity) getOperand().getExpressionResult(program, null, null)).getEntityRadius();
+		return ((Entity) getOperandResult(program)).getEntityRadius();
 	}
 
 }

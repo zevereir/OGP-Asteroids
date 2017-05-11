@@ -23,8 +23,8 @@ class LogicalNegationExpression extends MyExpression {
 			throws IllegalArgumentException {
 		setExpressionProgram(program);
 
-		if (canHaveAsLogicalNegationOperand(operand, actualArgs, function)) {
-			return !(Boolean) operand.getExpressionResult(program, actualArgs, function);
+		if (canHaveAsLogicalNegationOperand(getOperand(), actualArgs, function)) {
+			return !(Boolean) getOperand().getExpressionResult(program, actualArgs, function);
 		} else
 			throw new IllegalArgumentException();
 	}

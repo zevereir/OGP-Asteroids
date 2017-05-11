@@ -25,7 +25,7 @@ class SquareRootExpression extends UnaryArithmeticExpression {
 			Operand = Parameter;
 		else {
 			if (canHaveAsArithmeticOperand(program, actualArgs, getOperand(), function))
-				Operand = (double) getOperand().getExpressionResult(program, actualArgs, function);
+				Operand = (double) getOperandResult(program, actualArgs, function);
 			else
 				throw new IllegalArgumentException();
 		}

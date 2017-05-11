@@ -1,5 +1,7 @@
 package asteroids.program;
 
+import java.util.List;
+
 abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
@@ -22,6 +24,10 @@ abstract class UnaryArithmeticExpression extends ArithmeticExpression {
 
 	public MyExpression getOperand() {
 		return operand;
+	}
+	
+	protected Object getOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
+		return getOperand().getExpressionResult(program, actualArgs, function);
 	}
 
 	

@@ -28,7 +28,7 @@ class LessThanExpression extends BinaryArithmeticExpression {
 			leftOperand = leftParameter;
 		else {
 			if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand(), function))
-				leftOperand = (double) getLeftOperand().getExpressionResult(program, actualArgs, function);
+				leftOperand = (double) getLeftOperandResult(program, actualArgs, function);
 			else
 				throw new IllegalArgumentException();
 		}
@@ -37,7 +37,7 @@ class LessThanExpression extends BinaryArithmeticExpression {
 			rightOperand = rightParameter;
 		else {
 			if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand(), function))
-				rightOperand = (double) getRightOperand().getExpressionResult(program, actualArgs, function);
+				rightOperand = (double) getRightOperandResult(program, actualArgs, function);
 			else
 				throw new IllegalArgumentException();
 		}
