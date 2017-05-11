@@ -3,18 +3,13 @@ package asteroids.program;
 import java.util.List;
 import java.util.function.Function;
 
-class ParameterExpression extends MyExpression {
+class ParameterExpression extends Name {
 
 	/// CONSTRUCTOR ///
 
 	public ParameterExpression(String ParameterName) {
-		setParameter(ParameterName);
+		super(ParameterName);
 	}
-	
-
-	/// BASIC PROPERTIES ///
-	
-	private String ParameterName;
 
 	
 	/// GETTERS ///
@@ -26,21 +21,10 @@ class ParameterExpression extends MyExpression {
 		return actualArgs.get(getParameterNumber() - 1).getExpressionResult(program, actualArgs, function);
 	}
 
-	protected String getParameter() {
-		return this.ParameterName;
-	}
-
 	protected int getParameterNumber() {
-		String parameter = getParameter();
+		String parameter = getName();
 		
 		return Integer.parseInt(parameter.substring(1));
-	}
-
-	
-	/// SETTERS ///
-
-	protected void setParameter(String ParameterName) throws IllegalArgumentException {
-		this.ParameterName = ParameterName;
 	}
 
 }

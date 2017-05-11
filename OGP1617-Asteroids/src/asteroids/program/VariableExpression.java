@@ -2,18 +2,13 @@ package asteroids.program;
 
 import java.util.List;
 
-class VariableExpression extends MyExpression {
+class VariableExpression extends Name {
 
 	/// CONSTRUCTOR ///
 
 	public VariableExpression(String variableName) {
-		setVariable(variableName);
+		super(variableName);
 	}
-
-	
-	/// BASIC PROPERTIES ///
-
-	private String variableName;
 
 	
 	/// GETTERS ///
@@ -24,22 +19,15 @@ class VariableExpression extends MyExpression {
 		Object result = null;
 		
 		if (function != null)
-			result = function.getFunctionLocalVariables().get(variableName);
+			result = function.getFunctionLocalVariables().get(getName());
 		if (result == null)
-			result = this.getExpressionProgram().getProgramVariables().get(variableName);
+			result = this.getExpressionProgram().getProgramVariables().get(getName());
 
 		if (result == null)
 			throw new IllegalArgumentException();
 		else {
 			return result;
 		}
-	}
-
-
-	/// SETTERS ///
-
-	protected void setVariable(String variableName) throws IllegalArgumentException {
-		this.variableName = variableName;
 	}
 
 }
