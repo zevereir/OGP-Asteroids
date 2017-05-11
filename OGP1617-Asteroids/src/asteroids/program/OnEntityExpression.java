@@ -25,8 +25,8 @@ abstract class OnEntityExpression extends MyExpression {
 			throw new IllegalArgumentException();
 	}
 	
-	protected Object getOperandResult(Program program) {
-		return getOperand().getExpressionResult(program, null, null);
+	protected Entity getOperandResult(Program program) {
+		return (Entity)getOperand().getExpressionResult(program, null, null);
 	}
 	
 	

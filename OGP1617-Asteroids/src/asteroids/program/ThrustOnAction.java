@@ -8,7 +8,6 @@ class ThrustOnAction extends ActionStatement {
 	
 	public ThrustOnAction(SourceLocation location) {
 		setSourceLocation(location);
-
 	}
 
 	

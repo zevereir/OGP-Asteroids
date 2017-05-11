@@ -19,7 +19,7 @@ class YVelocityExpression extends OnEntityExpression {
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 
-		return ((Entity) getOperandResult(program)).getEntityVelocityY();
+		return getOperandResult(program).getEntityVelocityY();
 	}
 
 }

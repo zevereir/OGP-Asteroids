@@ -28,7 +28,7 @@ class WhileStatement extends MyStatement {
 	}
 
 	public void setBrokenTrue() {
-		this.broken = true;
+		broken = true;
 	}
 
 	public void setCondition(MyExpression condition) {
@@ -38,8 +38,8 @@ class WhileStatement extends MyStatement {
 	
 	/// CHECKERS ///
 
-	protected boolean isBroken() {
-		return this.broken;
+	protected boolean isNotBroken() {
+		return !broken;
 	}
 	
 	
@@ -50,7 +50,7 @@ class WhileStatement extends MyStatement {
 		setStatementProgram(program);
 		
 		if (canHaveAsCondition(condition, actualArgs, null)) {
-			while ((boolean) condition.getExpressionResult(program, actualArgs, null) && !isBroken()) {
+			while ((boolean) condition.getExpressionResult(program, actualArgs, null) && isNotBroken()) {
 				try {
 					body.evaluate(program, actualArgs);
 				} catch (IllegalAccessError error) {
@@ -66,7 +66,7 @@ class WhileStatement extends MyStatement {
 		setStatementProgram(program);
 		
 		if (canHaveAsCondition(condition, actualArgs, function)) {
-			while ((boolean) condition.getExpressionResult(program, actualArgs, function) && !isBroken()) {
+			while ((boolean) condition.getExpressionResult(program, actualArgs, function) && isNotBroken()) {
 				if (body instanceof AssignmentStatement)
 					((AssignmentStatement) body).assignLocalVariable(program, actualArgs, function);
 				else {
@@ -84,7 +84,7 @@ class WhileStatement extends MyStatement {
 
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		while ((boolean) condition.getExpressionResult(program, actualArgs, null) && !isBroken()) {
+		while ((boolean) condition.getExpressionResult(program, actualArgs, null) && isNotBroken()) {
 			try {
 				body.skipEvaluationUntilLocation(program, actualArgs, location);
 			} catch (IllegalAccessError error) {

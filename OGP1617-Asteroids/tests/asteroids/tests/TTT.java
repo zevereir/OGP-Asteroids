@@ -68,7 +68,13 @@ public class TTT {
   @Test
   public void testEquality_FalseCase() throws ModelException {
     max_score += 3;
-    String code = "print self == 4.0;";
+    String code = "def f { "
+    			+ "   a := 1;"
+    			+ "   while a < 2 {"
+    		    + "     a := $1;"
+    		    + "   }"
+    			+ " } "
+    			+ "print f(3.0);";
     Program program = ProgramParser.parseProgramFromString(code, programFactory);
     facade.loadProgramOnShip(ship1, program);
     List<Object> results = facade.executeProgram(ship1, 1.0);
