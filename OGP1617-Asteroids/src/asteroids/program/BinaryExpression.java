@@ -26,7 +26,6 @@ public abstract class BinaryExpression extends MyExpression {
 	}
 	
 	protected Object getLeftOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		System.out.println(getLeftOperand());
 		return getLeftOperand().getExpressionResult(program, actualArgs, function);
 	}
 
@@ -46,7 +45,6 @@ public abstract class BinaryExpression extends MyExpression {
 	/// SETTERS ///
 
 	protected void setLeftOperand(MyExpression expression) {
-		System.out.println("setter: "+expression);
 		left_operand = expression;
 	}
 
