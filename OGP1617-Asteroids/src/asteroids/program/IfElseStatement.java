@@ -29,6 +29,21 @@ class IfElseStatement extends MyStatement {
 	}
 	
 	
+	/// SETTERS ///
+
+	private void setCondition(MyExpression condition) {
+		this.condition = condition;
+	}
+
+	private void setElseBody(MyStatement elseBody) {
+		this.elseBody = elseBody;
+	}
+
+	private void setIfBody(MyStatement ifBody) {
+		this.ifBody = ifBody;
+	}
+	
+	
 	/// EVALUATION ///
 
 	@Override
@@ -68,18 +83,6 @@ class IfElseStatement extends MyStatement {
 			ifBody.skipEvaluationUntilLocation(program, actualArgs, location);
 		else if (elseBody != null)
 			elseBody.skipEvaluationUntilLocation(program, actualArgs, location);
-	}
-
-	private void setCondition(MyExpression condition) {
-		this.condition = condition;
-	}
-
-	private void setIfBody(MyStatement ifBody) {
-		this.ifBody = ifBody;
-	}
-
-	private void setElseBody(MyStatement elseBody) {
-		this.elseBody = elseBody;
 	}
 
 }
