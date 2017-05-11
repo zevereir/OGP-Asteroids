@@ -274,13 +274,11 @@ public class World {
 	 * 			@see implementation
 	 * 
 	 */
-	public Set<?> getWorldSpecificEntities(String string){
-		Set<Object> result = new HashSet<Object>();
-		
+	public Set<? extends Entity> getWorldSpecificEntities(String string){
+		Set<Entity> result = new HashSet<Entity>();
 		for (Object entity : getWorldEntities()){
 			if (entity.getClass().getSimpleName().equals(string) || entity.getClass().getSuperclass().getSimpleName().equals(string))
-				result.add(entity);}
-		
+				result.add((Entity)entity);}	
 		return result;		
 	}
 	
