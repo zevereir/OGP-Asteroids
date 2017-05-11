@@ -2,11 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-abstract class BinaryArithmeticExpression extends ArithmeticExpression {
+public abstract class BinaryExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected BinaryArithmeticExpression(MyExpression leftExpression, MyExpression rightExpression)
+	protected BinaryExpression(MyExpression leftExpression, MyExpression rightExpression)
 			throws IllegalArgumentException {
 		setLeftOperand(leftExpression);
 		setRightOperand(rightExpression);
@@ -26,6 +26,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	}
 	
 	protected Object getLeftOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
+		System.out.println(getLeftOperand());
 		return getLeftOperand().getExpressionResult(program, actualArgs, function);
 	}
 
@@ -45,6 +46,7 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	/// SETTERS ///
 
 	protected void setLeftOperand(MyExpression expression) {
+		System.out.println("setter: "+expression);
 		left_operand = expression;
 	}
 
@@ -58,5 +60,5 @@ abstract class BinaryArithmeticExpression extends ArithmeticExpression {
 	protected boolean canHaveAsNbOperands(double number) {
 		return number == 2;
 	}
-
+	
 }

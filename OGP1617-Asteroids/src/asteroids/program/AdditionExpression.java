@@ -4,7 +4,7 @@ import java.util.List;
 
 import asteroids.model.Entity;
 
-class AdditionExpression extends BinaryArithmeticExpression {
+class AdditionExpression extends BinaryExpression implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 
@@ -25,7 +25,7 @@ class AdditionExpression extends BinaryArithmeticExpression {
 		Double rightParameter = parameterArray[1];
 		Double leftOperand = null;
 		Double rightOperand = null;
-
+		
 		if (leftParameter != null)
 			leftOperand = leftParameter;
 		else {
@@ -46,5 +46,5 @@ class AdditionExpression extends BinaryArithmeticExpression {
 
 		return leftOperand + rightOperand;
 	}
-
+	
 }

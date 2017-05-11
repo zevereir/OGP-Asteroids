@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class LessThanExpression extends BinaryArithmeticExpression {
+class LessThanExpression extends BinaryExpression implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 	

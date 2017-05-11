@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class MultiplicationExpression extends BinaryArithmeticExpression {
+class MultiplicationExpression extends BinaryExpression implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 	

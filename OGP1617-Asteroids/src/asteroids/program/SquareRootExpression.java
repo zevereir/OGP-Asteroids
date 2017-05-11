@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class SquareRootExpression extends UnaryArithmeticExpression {
+class SquareRootExpression extends UnaryExpression implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 

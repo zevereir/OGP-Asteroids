@@ -7,7 +7,7 @@ class SelfEntity extends EntityExpression {
 	/// CONSTRUCTOR ///
 
 	protected SelfEntity() throws IllegalArgumentException {
-
+		//
 	}
 	
 	

@@ -1,7 +1,5 @@
 package asteroids.program;
 
-import java.util.List;
-
 import asteroids.model.Entity;
 
 abstract class OnEntityExpression extends MyExpression {
