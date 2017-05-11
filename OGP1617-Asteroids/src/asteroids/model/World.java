@@ -187,24 +187,24 @@ public class World {
 		
 		resetCollisionEntities();
 
-		for (Object entity_1 : getWorldEntities()) {
-			double timeTillCollision = ((Entity) entity_1).getTimeCollisionBoundary();
+		for (Entity entity_1 : getWorldEntities()) {
+			double timeTillCollision = entity_1.getTimeCollisionBoundary();
 			
 			// Collision of the entity with the boundaries of the world.
 			if (timeTillCollision < minimumCollisionTime) {
 				minimumCollisionTime = timeTillCollision;
-				setCollisionEntity1((Entity) entity_1);
+				setCollisionEntity1( entity_1);
 				setCollisionEntity2(null);
 			}
 
 			// Collision of the entity with another entity in the world
-			for (Object entity_2 : getWorldEntities()) {
+			for (Entity entity_2 : getWorldEntities()) {
 				if (entity_2.hashCode() > entity_1.hashCode()) {
-					double delta_t = ((Entity) entity_1).getTimeToCollision((Entity) entity_2);
+					double delta_t = entity_1.getTimeToCollision( entity_2);
 					if (delta_t < minimumCollisionTime) {
 						minimumCollisionTime = delta_t;
-						setCollisionEntity1((Entity) entity_1);
-						setCollisionEntity2((Entity) entity_2);
+						setCollisionEntity1(entity_1);
+						setCollisionEntity2(entity_2);
 					}
 				}
 			}
@@ -218,8 +218,8 @@ public class World {
 	 * @return 	The set of entities in the world.
 	 * 			@see implementation
 	 */
-	public Set<? extends Object> getWorldEntities() {
-		Set<Object> result = new HashSet<>();
+	public Set<Entity> getWorldEntities() {
+		Set<Entity> result = new HashSet<>();
 		
 		result.addAll(entities.values());
 		
@@ -276,9 +276,9 @@ public class World {
 	 */
 	public Set<? extends Entity> getWorldSpecificEntities(String string){
 		Set<Entity> result = new HashSet<Entity>();
-		for (Object entity : getWorldEntities()){
+		for (Entity entity : getWorldEntities()){
 			if (entity.getClass().getSimpleName().equals(string) || entity.getClass().getSuperclass().getSimpleName().equals(string))
-				result.add((Entity)entity);}	
+				result.add(entity);}	
 		return result;		
 	}
 	
@@ -577,15 +577,15 @@ public class World {
 				entity_positions.clear();
 
 				// Update the positions of the entities, along with the 'entity_positions'-Map.
-				for (Object entity : getWorldEntities()) {
+				for (Entity entity : getWorldEntities()) {
 					// Move the entity over the predetermined time 'timeToCollision'
 					// The method 'move' will check if the given entity 'entity' is one of the 
 					// entities who will collide, these entities are: 'entity_1' and 'entity_2' 
 					// (entity_2 can be null when an entity, entity_1, collides with the world).
-					((Entity) entity).move(timeToCollision);
+					entity.move(timeToCollision);
 
 					// Update the Map 'entity_positions' for each entity with its new position.
-					entity_positions.put(arrayToString(((Entity) entity).getEntityPosition()), (Entity) entity);
+					entity_positions.put(arrayToString(entity.getEntityPosition()), entity);
 				}
 
 				// Check and execute the type of collision.
@@ -607,9 +607,9 @@ public class World {
 			// (with all its entities) over defaultEvolvingTime.
 			else {
 				entity_positions.clear();
-				for (Object entity : getWorldEntities()){
-					((Entity) entity).move(defaultEvolvingTime);
-					entity_positions.put(arrayToString(((Entity) entity).getEntityPosition()), (Entity) entity);
+				for (Entity entity : getWorldEntities()){
+					entity.move(defaultEvolvingTime);
+					entity_positions.put(arrayToString(entity.getEntityPosition()),entity);
 				}
 			}
 		}
@@ -711,8 +711,8 @@ public class World {
 		if (!isWorldTerminated()) {
 			setWorldState(State.TERMINATED);
 			
-			for (Object entity: getWorldEntities())
-				removeEntityFromWorld((Entity)entity);
+			for (Entity entity: getWorldEntities())
+				removeEntityFromWorld(entity);
 		}
 	}
 	

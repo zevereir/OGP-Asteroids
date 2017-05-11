@@ -652,7 +652,6 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 		try {
 			ship.addMultipleBulletsToShip(bullets);
 		} catch (IllegalArgumentException illegalArgumentException) {
-			System.out.println("Facade: Modelexception gethrowed");
 			throw new ModelException("these are not valid arguments #41");
 		}
 	}

@@ -511,11 +511,9 @@ public class Ship extends Entity {
 	 * 			@see implementation
 	 */
 	public void addMultipleBulletsToShip(Collection<Bullet> bullets) {
-		System.out.println(this.getNbBulletsOnShip());
 		try {
-			bullets.forEach(bullet->{
-				addOneBulletToShip(bullet);
-			});
+			bullets.forEach(bullet->
+				addOneBulletToShip(bullet));
 		} catch(IllegalArgumentException exception) {
 			throw new IllegalArgumentException();
 		}
@@ -732,10 +730,10 @@ public class Ship extends Entity {
 		}
 
 		if (Boolean == true) {
-			for (Object entityInWorld : world.getWorldEntities()) {
+			for (Entity entityInWorld : world.getWorldEntities()) {
 				// Two entities are overlapping when the distance between the centers is bigger than the sum of 
 				//  the radii of the two.
-				if (bullet.overlap((Entity) entityInWorld) && Boolean == true) {
+				if (bullet.overlap(entityInWorld) && Boolean == true) {
 					Boolean = false;
 
 					// If entityInWorld is a bullet:

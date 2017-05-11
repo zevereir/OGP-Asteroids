@@ -1176,9 +1176,9 @@ public abstract class Entity {
 	 * 			@see implementation
 	 */
 	protected Entity entityOverlappingInWorld(World world) {
-		for (Object entity : world.getWorldEntities())
-			if (this.overlap((Entity) entity) && !this.equals(entity))
-				return (Entity) entity;
+		for (Entity entity : world.getWorldEntities())
+			if (this.overlap( entity) && !this.equals(entity))
+				return entity;
 		
 		return null;
 	}
