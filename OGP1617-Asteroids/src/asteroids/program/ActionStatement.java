@@ -61,9 +61,6 @@ abstract class ActionStatement extends MyStatement {
 		if (getSourceLocation().equals(location)) {
 			evaluate(program, actualArgs);
 		}
-		else {
-			// nothing
-		}
 	}
 	
 	
