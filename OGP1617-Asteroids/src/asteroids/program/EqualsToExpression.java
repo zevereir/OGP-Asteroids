@@ -19,36 +19,23 @@ class EqualsToExpression extends BinaryExpression {
 		
 		//ANONYMOUS CLASS
 		BinaryOperandSolver solver = new BinaryOperandSolver() {
+			
 			@Override
 			public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
-				Double leftParameter = null;
-				
-				if (getLeftOperand() instanceof ParameterExpression) {
-					leftParameter = (Double) (actualArgs
-							.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1))
-									.getExpressionResult(program, actualArgs, function);
-				}
-				if (leftParameter != null)
-					return leftParameter;
+				if (getLeftOperand() instanceof ParameterExpression)
+					return (Double) getArgumentExpression(getLeftOperand(), actualArgs);
 				else
 					return getLeftOperandResult(program, actualArgs, function);
 			}
 
 			@Override
 			public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
-				Double rightParameter = null;
-				Object rightOperand = null;
-				if (getRightOperand() instanceof ParameterExpression) {
-					rightParameter = (Double) (actualArgs
-							.get(((ParameterExpression) getRightOperand()).getParameterNumber() - 1))
-									.getExpressionResult(program, actualArgs, function);
-				}
-				if (rightParameter != null)
-					rightOperand = rightParameter;
+				if (getRightOperand() instanceof ParameterExpression)
+					return (Double) getArgumentExpression(getRightOperand(), actualArgs);
 				else
-					rightOperand = getRightOperandResult(program, actualArgs, function);
-				return rightOperand;
+					return getRightOperandResult(program, actualArgs, function);
 			}
+			
 		};
 
 		Object leftOperand = solver.solveLeftOperand(program, actualArgs, function);

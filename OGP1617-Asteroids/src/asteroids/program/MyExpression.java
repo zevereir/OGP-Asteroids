@@ -9,6 +9,19 @@ import asteroids.model.Ship;
 public abstract class MyExpression {
 
 	/// GETTERS ///
+	
+	protected MyExpression getArgument(MyExpression operand, List<MyExpression> actualArgs) {
+		if (operand.equals(getOperand()))
+			return (actualArgs.get(((ParameterExpression) getOperand()).getParameterNumber() - 1));
+		else if (operand.equals(getLeftOperand()))
+			return (actualArgs.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1));
+		else // The operand equals the getRightOperand()
+			return (actualArgs.get(((ParameterExpression) getRightOperand()).getParameterNumber() - 1));
+	}
+	
+	protected Object getArgumentExpression(MyExpression operand, List<MyExpression> actualArgs) {
+		return getArgument(operand, actualArgs).getExpressionResult(getExpressionProgram(), actualArgs);
+	}
 
 	protected Double[] getExpressionParameter(List<MyExpression> actualArgs, MyFunction function) {
 		Double expressionLeftParameter = null;
@@ -18,23 +31,16 @@ public abstract class MyExpression {
 			// UNARY
 			if (this instanceof UnaryExpression) {
 				if (((UnaryExpression) this).getOperand() instanceof ParameterExpression)
-					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression) 
-							((UnaryExpression) this).getOperand()).getParameterNumber() - 1)).
-							getExpressionResult(getExpressionProgram(), actualArgs, function);
+					expressionLeftParameter = (Double) getArgumentExpression(getOperand(), actualArgs);
 			}
 
 			// BINARY
 			if (this instanceof BinaryExpression) {
-				if (((BinaryExpression) this).getLeftOperand() instanceof ParameterExpression) {
-					expressionLeftParameter = (Double) (actualArgs.get(((ParameterExpression) 
-							((BinaryExpression) this).getLeftOperand()).getParameterNumber() - 1))
-							.getExpressionResult(getExpressionProgram(), actualArgs, function);
-				}
-				if (((BinaryExpression) this).getRightOperand() instanceof ParameterExpression) {
-					expressionRightParameter = (Double) (actualArgs.get(((ParameterExpression) 
-							((BinaryExpression) this).getRightOperand()).getParameterNumber() - 1))
-							.getExpressionResult(getExpressionProgram(), actualArgs, function);
-				}
+				if (((BinaryExpression) this).getLeftOperand() instanceof ParameterExpression)
+					expressionLeftParameter = (Double) getArgumentExpression(getLeftOperand(), actualArgs);
+				
+				if (((BinaryExpression) this).getRightOperand() instanceof ParameterExpression)
+					expressionRightParameter = (Double) getArgumentExpression(getRightOperand(), actualArgs);
 			}
 
 			Double[] parameterArray = { expressionLeftParameter, expressionRightParameter };
@@ -44,6 +50,20 @@ public abstract class MyExpression {
 			throw new RuntimeErrorException(new IllegalAccessError());
 		}
 	}
+	
+	protected MyExpression getOperand() {
+		return null;
+	}
+	
+	protected MyExpression getLeftOperand() {
+		return null;
+	}
+	
+	protected MyExpression getRightOperand() {
+		return null;
+	}
+	
+	
 
 	protected Program getExpressionProgram() {
 		return this.program;
@@ -56,7 +76,7 @@ public abstract class MyExpression {
 	}
 	
 	protected Object getExpressionResult(Program program) {
-		return getExpressionResult(program, null, null);
+		return getExpressionResult(program, null);
 	}
 
 	protected Ship getExpressionShip() {
