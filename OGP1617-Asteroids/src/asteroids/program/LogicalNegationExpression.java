@@ -29,7 +29,6 @@ class LogicalNegationExpression extends UnaryExpression {
 
 	protected boolean canHaveAsLogicalNegationOperand(MyExpression operand, List<MyExpression> actualArgs, MyFunction function) {
 		return (operand.getExpressionResult(getExpressionProgram(), actualArgs, function) instanceof Boolean);
-
 	}
 
 	

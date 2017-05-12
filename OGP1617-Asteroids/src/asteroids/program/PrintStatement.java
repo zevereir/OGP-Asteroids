@@ -32,7 +32,7 @@ class PrintStatement extends MyStatement {
 		if (expression instanceof ParameterExpression)
 			throw new IllegalArgumentException();
 
-		Object result = expression.getExpressionResult(program, actualArgs, null);
+		Object result = expression.getExpressionResult(program, actualArgs);
 
 		getStatementProgram().addPrintOut(result);
 

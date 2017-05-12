@@ -21,8 +21,8 @@ class LessThanExpression extends BinaryExpression implements ArithmeticExpressio
 		
 		BinaryArithmeticExpression solved = new BinaryArithmeticExpression();
 		
-		Double leftOperand = (double)solved.solveLeftParameter(program, actualArgs, function);
-		Double rightOperand = (double)solved.solveRightParameter(program, actualArgs, function);
+		Double leftOperand = (double)solved.solveLeftOperand(program, actualArgs, function);
+		Double rightOperand = (double)solved.solveRightOperand(program, actualArgs, function);
 
 		return leftOperand < rightOperand;
 	}

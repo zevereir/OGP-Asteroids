@@ -18,7 +18,8 @@ class NegationExpression extends UnaryExpression implements ArithmeticExpression
 		setExpressionProgram(program);
 		
 		UnaryArithmeticExpression expression = new UnaryArithmeticExpression();
-		Double Operand = (double)expression.solveParameter(program, actualArgs, function);
+		Double Operand = (double)expression.solveOperand(program, actualArgs, function);
+		
 		return -Operand;
 	}
 

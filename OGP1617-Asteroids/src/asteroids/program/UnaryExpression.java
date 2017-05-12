@@ -45,32 +45,32 @@ public abstract class UnaryExpression extends MyExpression {
 		return number == 1;
 	}
 	
-	/// LOCAL INTERFACE ///
-	interface UnaryParameterSolver{
-		public Object solveParameter(Program program, List<MyExpression> actualArgs, MyFunction function);
-	
-	}
 	
 	/// LOCAL CLASS ///
-	class UnaryArithmeticExpression implements UnaryParameterSolver, ArithmeticExpression{
+	
+	class UnaryArithmeticExpression implements UnaryOperandSolver, ArithmeticExpression {
 
 		@Override
-		public Object solveParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+		public Object solveOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double parameter = parameterArray[0];
-			Double operand = null;	
+			
 			if (parameter != null)
-				operand = parameter;
+				return parameter;
 			else {
 				if (canHaveAsArithmeticOperand(program, actualArgs, getOperand(), function))
-					operand = (double) getOperandResult(program, actualArgs, function);
+					return (double) getOperandResult(program, actualArgs, function);
 				else
 					throw new IllegalArgumentException();
 			}
-			return operand;
 		}
-		
 	}
-		
 	
+	
+	/// LOCAL INTERFACE ///
+	
+	interface UnaryOperandSolver{
+		public Object solveOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
+	}
+
 }

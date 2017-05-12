@@ -1,7 +1,6 @@
 package asteroids.program;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import asteroids.model.Bullet;

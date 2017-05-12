@@ -16,31 +16,32 @@ class EqualsToExpression extends BinaryExpression {
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
+		
 		//ANONYMOUS CLASS
-		BinaryParameterSolver solver = new BinaryParameterSolver() {
-			
+		BinaryOperandSolver solver = new BinaryOperandSolver() {
 			@Override
-			public Object solveLeftParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+			public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 				Double leftParameter = null;
-				Object leftOperand = null;
+				
 				if (getLeftOperand() instanceof ParameterExpression) {
-					leftParameter = (Double) (actualArgs.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1))
-							.getExpressionResult(program, actualArgs, function);
+					leftParameter = (Double) (actualArgs
+							.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1))
+									.getExpressionResult(program, actualArgs, function);
 				}
 				if (leftParameter != null)
-					leftOperand = leftParameter;
+					return leftParameter;
 				else
-					leftOperand = getLeftOperandResult(program, actualArgs, function);
-				return leftOperand;
+					return getLeftOperandResult(program, actualArgs, function);
 			}
-			
+
 			@Override
-			public	Object solveRightParameter(Program program, List<MyExpression> actualArgs, MyFunction function) {
+			public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 				Double rightParameter = null;
 				Object rightOperand = null;
 				if (getRightOperand() instanceof ParameterExpression) {
-					rightParameter = (Double) (actualArgs.get(((ParameterExpression) getRightOperand()).getParameterNumber() - 1))
-							.getExpressionResult(program, actualArgs, function);
+					rightParameter = (Double) (actualArgs
+							.get(((ParameterExpression) getRightOperand()).getParameterNumber() - 1))
+									.getExpressionResult(program, actualArgs, function);
 				}
 				if (rightParameter != null)
 					rightOperand = rightParameter;
@@ -48,14 +49,10 @@ class EqualsToExpression extends BinaryExpression {
 					rightOperand = getRightOperandResult(program, actualArgs, function);
 				return rightOperand;
 			}
-			
-		
 		};
-		
-		Object leftOperand = solver.solveLeftParameter(program, actualArgs, function);
-		Object rightOperand = solver.solveRightParameter(program, actualArgs, function);
 
-		
+		Object leftOperand = solver.solveLeftOperand(program, actualArgs, function);
+		Object rightOperand = solver.solveRightOperand(program, actualArgs, function);
 
 		return leftOperand.equals(rightOperand);
 	}

@@ -22,7 +22,7 @@ class ShipEntity extends EntityExpression {
 		
 		Set<? extends Entity> ships = getWorldEntity("Ship");
 		
-		//for this method, the "own" ship can't be used.
+		// for this method, the ship the program runs on can't be used.
 		ships.remove(getExpressionShip());
 		
 		return (Ship) getClosestEntity(ships);

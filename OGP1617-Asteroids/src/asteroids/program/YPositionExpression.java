@@ -19,4 +19,5 @@ class YPositionExpression extends OnEntityExpression {
 
 		return getOperandResult(program).getEntityPositionY();
 	}
+	
 }

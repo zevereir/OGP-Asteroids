@@ -1,7 +1,6 @@
 package asteroids.program;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import asteroids.model.Entity;
@@ -21,6 +20,7 @@ class AnyEntity extends EntityExpression {
 		setExpressionProgram(program);
 
 		Set<Entity> entities = getWorldEntities();
+		
 		return entities.stream().findAny().orElse(null);
 	}
 }

@@ -34,9 +34,7 @@ class FunctionExpression extends MyExpression {
 		List<MyExpression> newActualArgs = updateArgs(program, actualArgs, function);
 
 		getFunction().resetLocalVariables();
-
 		Object result = evaluateFunctionBody(getFunction().getFunctionBody(), newActualArgs, getFunction());
-
 		getFunction().setLocalVariables(old_local_variables);
 
 		return result;
@@ -64,9 +62,9 @@ class FunctionExpression extends MyExpression {
 	/// CHECKERS ///
 	
 	protected static boolean isValidFunctionBody(MyStatement body){
-		return (body.containsStatement("ReturnStatement") && ((body instanceof ReturnStatement) || (body instanceof SequenceStatement)
-				|| (body instanceof IfElseStatement) || (body instanceof WhileStatement)));
-		
+		return (body.containsStatement("ReturnStatement") && 
+				((body instanceof ReturnStatement) || (body instanceof SequenceStatement) || 
+				 (body instanceof IfElseStatement) || (body instanceof WhileStatement)));
 	}
 
 	
@@ -87,7 +85,6 @@ class FunctionExpression extends MyExpression {
 				newActualArgs.set(i, newArg);
 			}
 		}
-
 		return newActualArgs;
 	}
 
@@ -100,13 +97,10 @@ class FunctionExpression extends MyExpression {
 
 	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs, MyFunction function)
 			throws IllegalArgumentException {
-		if (isValidFunctionBody(body)){
+		if (isValidFunctionBody(body))
 			return body.evaluateInFunction(getExpressionProgram(), actualArgs, function);
-		}
-
-		else {
+		else
 			throw new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
-		}
 	}
 
 }

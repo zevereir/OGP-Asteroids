@@ -50,7 +50,7 @@ class WhileStatement extends MyStatement {
 		setStatementProgram(program);
 		
 		if (canHaveAsCondition(condition, actualArgs, null)) {
-			while ((boolean) condition.getExpressionResult(program, actualArgs, null) && isNotBroken()) {
+			while ((boolean) condition.getExpressionResult(program, actualArgs) && isNotBroken()) {
 				try {
 					body.evaluate(program, actualArgs);
 				} catch (IllegalAccessError error) {
@@ -84,7 +84,7 @@ class WhileStatement extends MyStatement {
 
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		while ((boolean) condition.getExpressionResult(program, actualArgs, null) && isNotBroken()) {
+		while ((boolean) condition.getExpressionResult(program, actualArgs) && isNotBroken()) {
 			try {
 				body.skipEvaluationUntilLocation(program, actualArgs, location);
 			} catch (IllegalAccessError error) {

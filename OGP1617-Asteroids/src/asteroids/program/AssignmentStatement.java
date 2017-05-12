@@ -37,7 +37,6 @@ class AssignmentStatement extends MyStatement {
 	
 	protected void setVariableName(String variableName) {
 		this.variableName = variableName;
-
 	}
 
 	
@@ -45,7 +44,7 @@ class AssignmentStatement extends MyStatement {
 	
 	protected boolean isValidVariable(String variableName, MyExpression expression, List<MyExpression> actualArgs) {
 		return ((!getStatementProgram().getProgramFunctions().containsKey(variableName))
-				&& (expression.getExpressionResult(getStatementProgram(), actualArgs, null) instanceof Double));
+				&& (expression.getExpressionResult(getStatementProgram(), actualArgs) instanceof Double));
 	}
 	
 	
@@ -53,6 +52,7 @@ class AssignmentStatement extends MyStatement {
 
 	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
+		
 		function.addLocalVariable(variableName, expression.getExpressionResult(program, actualArgs, function));
 	}
 	
@@ -64,7 +64,7 @@ class AssignmentStatement extends MyStatement {
 		setStatementProgram(program);
 
 		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs))
-			getStatementProgram().addVariable(variableName, expression.getExpressionResult(program, actualArgs, null));
+			getStatementProgram().addVariable(variableName, expression.getExpressionResult(program, actualArgs));
 		else
 			throw new IllegalArgumentException();
 	}

@@ -26,7 +26,7 @@ abstract class OnEntityExpression extends MyExpression {
 	}
 	
 	protected Entity getOperandResult(Program program) {
-		return (Entity)getOperand().getExpressionResult(program, null, null);
+		return (Entity)getOperand().getExpressionResult(program);
 	}
 	
 	
@@ -40,8 +40,8 @@ abstract class OnEntityExpression extends MyExpression {
 	/// CHECKERS ///
 	
 	public boolean canHaveAsOnEntityExpressionOperand(Program program, MyExpression expression) {
-		return (expression.getExpressionResult(program, null, null) != null
-				&& expression.getExpressionResult(program, null, null) instanceof Entity);
+		return (expression.getExpressionResult(program) != null
+				&& expression.getExpressionResult(program) instanceof Entity);
 	}
 
 }

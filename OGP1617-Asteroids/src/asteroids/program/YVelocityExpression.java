@@ -2,7 +2,6 @@ package asteroids.program;
 
 import java.util.List;
 
-
 class YVelocityExpression extends OnEntityExpression {
 	
 	/// CONSTRUCTOR ///

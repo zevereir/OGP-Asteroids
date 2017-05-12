@@ -18,9 +18,10 @@ class MultiplicationExpression extends BinaryExpression implements ArithmeticExp
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
+		
 		BinaryArithmeticExpression solved = new BinaryArithmeticExpression();
-		Double leftOperand = (double)solved.solveLeftParameter(program, actualArgs, function);
-		Double rightOperand = (double)solved.solveRightParameter(program, actualArgs, function);
+		Double leftOperand = (double)solved.solveLeftOperand(program, actualArgs, function);
+		Double rightOperand = (double)solved.solveRightOperand(program, actualArgs, function);
 
 		return leftOperand * rightOperand;
 	}

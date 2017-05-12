@@ -50,6 +50,14 @@ public abstract class MyExpression {
 	}
 
 	protected abstract Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function);
+	
+	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs) {
+		return getExpressionResult(program, actualArgs, null);
+	}
+	
+	protected Object getExpressionResult(Program program) {
+		return getExpressionResult(program, null, null);
+	}
 
 	protected Ship getExpressionShip() {
 		return this.getExpressionProgram().getProgramShip();

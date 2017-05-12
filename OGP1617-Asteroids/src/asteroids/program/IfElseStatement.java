@@ -66,7 +66,7 @@ class IfElseStatement extends MyStatement {
 		setStatementProgram(program);
 
 		if (canHaveAsCondition(condition, actualArgs, null)) {
-			if ((boolean) condition.getExpressionResult(program, actualArgs, null))
+			if ((boolean) condition.getExpressionResult(program, actualArgs))
 				ifBody.evaluate(program, actualArgs);
 			else if (elseBody != null)
 				elseBody.evaluate(program, actualArgs);
@@ -81,19 +81,20 @@ class IfElseStatement extends MyStatement {
 			if (ifBody instanceof AssignmentStatement)
 				((AssignmentStatement) ifBody).assignLocalVariable(getStatementProgram(), actualArgs, function);
 			else
-				return ifBody.evaluateInFunction(getStatementProgram(), actualArgs, null);
-		} else if (elseBody != null) {
+				return ifBody.evaluateInFunction(getStatementProgram(), actualArgs, function);
+		} 
+		else if (elseBody != null) {
 			if (elseBody instanceof AssignmentStatement)
 				((AssignmentStatement) elseBody).assignLocalVariable(getStatementProgram(), actualArgs, function);
 			else
-				return elseBody.evaluateInFunction(getStatementProgram(), actualArgs, null);
+				return elseBody.evaluateInFunction(getStatementProgram(), actualArgs, function);
 		}
 		return null;
 	}
 
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		if ((boolean) condition.getExpressionResult(program, actualArgs, null))
+		if ((boolean) condition.getExpressionResult(program, actualArgs))
 			ifBody.skipEvaluationUntilLocation(program, actualArgs, location);
 		else if (elseBody != null)
 			elseBody.skipEvaluationUntilLocation(program, actualArgs, location);
