@@ -5,8 +5,6 @@ import java.util.List;
 import javax.management.RuntimeErrorException;
 
 import asteroids.model.Ship;
-import asteroids.part3.programs.SourceLocation;
-import asteroids.util.ModelException;
 
 public abstract class MyExpression {
 

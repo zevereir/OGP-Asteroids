@@ -6,7 +6,6 @@ import java.util.Set;
 
 import asteroids.model.Bullet;
 import asteroids.model.Entity;
-import asteroids.model.Ship;
 
 class BulletEntity extends EntityExpression {
 
@@ -25,22 +24,7 @@ class BulletEntity extends EntityExpression {
 		Set<? extends Entity> bullets = getWorldEntity("Bullet");
 
 		bullets.removeIf(bullet -> !isFiredFromShip((Bullet) bullet));
-
-		int sizeSet = bullets.size();
-
-		if (sizeSet != 0) {
-			int randomNumber = new Random().nextInt(sizeSet);
-			int i = 0;
-
-			for (Object bullet : bullets) {
-				if (i == randomNumber) {
-					return bullet;
-				}
-				i++;
-			}
-		}
-
-		return null;
+		return bullets.stream().findAny().orElse(null);
 	}
 
 	

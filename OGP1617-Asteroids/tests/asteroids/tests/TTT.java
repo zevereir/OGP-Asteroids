@@ -64,6 +64,5 @@ public class TTT {
     bullet1 = facade.createBullet(300, 320, 10, 5, 50);
     facade.addBulletToWorld(filledWorld, bullet1);
   }
-
   
 }
