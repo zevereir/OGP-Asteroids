@@ -63,8 +63,6 @@ public abstract class BinaryExpression extends MyExpression {
 	/// LOCAL CLASS ///
 	
 	class BinaryArithmeticExpression implements BinaryOperandSolver, ArithmeticExpression{
-
-		@Override
 		public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double rightParameter = parameterArray[1];
@@ -79,8 +77,6 @@ public abstract class BinaryExpression extends MyExpression {
 			}
 		}
 		
-
-		@Override
 		public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double leftParameter = parameterArray[0];
