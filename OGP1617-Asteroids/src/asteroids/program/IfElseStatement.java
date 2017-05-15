@@ -4,7 +4,7 @@ import java.util.List;
 
 import asteroids.part3.programs.SourceLocation;
 
-class IfElseStatement<BooleanExpression> extends MyStatement{
+class IfElseStatement extends MyStatement{
 
 	/// CONSTRUCTOR ///
 	

@@ -47,12 +47,10 @@ public class ProgramFactory
 		return result;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,
 			SourceLocation sourceLocation) {
-		@SuppressWarnings("unchecked")
-		MyStatement result = new IfElseStatement(condition, ifBody, elseBody);
+		MyStatement result = new IfElseStatement((BooleanExpression) condition, ifBody, elseBody);
 		return result;
 	}
 
