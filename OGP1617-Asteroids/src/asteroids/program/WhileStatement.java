@@ -4,11 +4,12 @@ import java.util.List;
 
 import asteroids.part3.programs.SourceLocation;
 
-class WhileStatement extends MyStatement {
+@SuppressWarnings("hiding")
+class WhileStatement<BooleanExpression> extends MyStatement {
 	
 	/// CONSTRUCTOR ///
 
-	public WhileStatement(MyExpression condition, MyStatement body) {
+	public WhileStatement(BooleanExpression condition, MyStatement body) {
 		setCondition(condition);
 		setBody(body);
 	}
@@ -16,7 +17,7 @@ class WhileStatement extends MyStatement {
 	
 	/// BASIC PROPERTIES ///
 
-	private MyExpression condition;
+	private BooleanExpression condition;
 	private MyStatement body;
 	private boolean broken = false;
 	
@@ -31,7 +32,7 @@ class WhileStatement extends MyStatement {
 		broken = true;
 	}
 
-	public void setCondition(MyExpression condition) {
+	public void setCondition(BooleanExpression condition) {
 		this.condition = condition;
 	}
 	
@@ -49,42 +50,38 @@ class WhileStatement extends MyStatement {
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		
-		if (canHaveAsCondition(condition, actualArgs, null)) {
-			while ((boolean) condition.getExpressionResult(program, actualArgs) && isNotBroken()) {
-				try {
-					body.evaluate(program, actualArgs);
-				} catch (IllegalAccessError error) {
-					setBrokenTrue();
-				}
+		
+		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs) && isNotBroken()) {
+			try {
+				body.evaluate(program, actualArgs);
+			} catch (IllegalAccessError error) {
+				setBrokenTrue();
 			}
-		} 
-		else
-			throw new IllegalArgumentException();
+		}
+		
 	}
 
 	protected void evaluateWhileInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
-		
-		if (canHaveAsCondition(condition, actualArgs, function)) {
-			while ((boolean) condition.getExpressionResult(program, actualArgs, function) && isNotBroken()) {
-				if (body instanceof AssignmentStatement)
-					((AssignmentStatement) body).assignLocalVariable(program, actualArgs, function);
-				else {
-					try {
-						body.evaluateInFunction(program, actualArgs, function);
-					} catch (IllegalAccessError error) {
-						setBrokenTrue();
-					}
+
+
+		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs, function) && isNotBroken()) {
+			if (body instanceof AssignmentStatement)
+				((AssignmentStatement) body).assignLocalVariable(program, actualArgs, function);
+			else {
+				try {
+					body.evaluateInFunction(program, actualArgs, function);
+				} catch (IllegalAccessError error) {
+					setBrokenTrue();
 				}
 			}
 		}
-		else
-			throw new IllegalArgumentException();
+
 	}
 
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		while ((boolean) condition.getExpressionResult(program, actualArgs) && isNotBroken()) {
+		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs) && isNotBroken()) {
 			try {
 				body.skipEvaluationUntilLocation(program, actualArgs, location);
 			} catch (IllegalAccessError error) {

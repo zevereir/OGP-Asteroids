@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class DoubleLiteralExpression extends MyExpression {
+class DoubleLiteralExpression extends MyExpression implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 

@@ -27,9 +27,7 @@ public abstract class MyStatement {
 	
 	/// CHECKERS ///
 
-	protected boolean canHaveAsCondition(MyExpression condition, List<MyExpression> actualArgs, MyFunction function) {
-		return (condition.getExpressionResult(getStatementProgram(), actualArgs, function) instanceof Boolean);
-	}
+	
 	
 	protected boolean containsStatement(String name){
 		return getClass().getSimpleName().equals(name);

@@ -2,7 +2,7 @@ package asteroids.program;
 
 import java.util.List;
 
-class EqualsToExpression extends BinaryExpression {
+class EqualsToExpression extends BinaryExpression implements BooleanExpression {
 
 	/// CONSTRUCTOR ///
 

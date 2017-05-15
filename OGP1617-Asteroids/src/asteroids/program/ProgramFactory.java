@@ -29,8 +29,10 @@ public class ProgramFactory
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public MyStatement createWhileStatement(MyExpression condition, MyStatement body, SourceLocation sourceLocation) {
+		@SuppressWarnings("unchecked")
 		MyStatement result = new WhileStatement(condition, body);
 		return result;
 	}
@@ -47,13 +49,16 @@ public class ProgramFactory
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,
 			SourceLocation sourceLocation) {
+		@SuppressWarnings("unchecked")
 		MyStatement result = new IfElseStatement(condition, ifBody, elseBody);
 		return result;
 	}
 
+	
 	@Override
 	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
 		MyStatement result = new PrintStatement(value);

@@ -4,11 +4,11 @@ import java.util.List;
 
 import asteroids.part3.programs.SourceLocation;
 
-class IfElseStatement extends MyStatement {
+class IfElseStatement<BooleanExpression> extends MyStatement{
 
 	/// CONSTRUCTOR ///
 	
-	public IfElseStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody) {
+	public IfElseStatement(BooleanExpression condition, MyStatement ifBody, MyStatement elseBody) {
 		setCondition(condition);
 		setIfBody(ifBody);
 		setElseBody(elseBody);
@@ -17,21 +17,21 @@ class IfElseStatement extends MyStatement {
 	
 	/// BASIC PROPERTIES ///
 
-	private MyExpression condition;
+	private BooleanExpression condition;
 	private MyStatement ifBody;
 	private MyStatement elseBody;
 	
 	
 	/// GETTERS ///
 
-	protected MyExpression getCondition() {
+	protected BooleanExpression getCondition() {
 		return this.condition;
 	}
 	
 	
 	/// SETTERS ///
 
-	private void setCondition(MyExpression condition) {
+	private void setCondition(BooleanExpression condition) {
 		this.condition = condition;
 	}
 
@@ -64,20 +64,16 @@ class IfElseStatement extends MyStatement {
 	@Override
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
-
-		if (canHaveAsCondition(condition, actualArgs, null)) {
-			if ((boolean) condition.getExpressionResult(program, actualArgs))
+			if ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs))
 				ifBody.evaluate(program, actualArgs);
 			else if (elseBody != null)
 				elseBody.evaluate(program, actualArgs);
-		} else
-			throw new IllegalArgumentException();
 	}
 
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 
-		if ((boolean) getCondition().getExpressionResult(program, actualArgs, function)) {
+		if ((boolean) ((MyExpression) getCondition()).getExpressionResult(program, actualArgs, function)) {
 			if (ifBody instanceof AssignmentStatement)
 				((AssignmentStatement) ifBody).assignLocalVariable(getStatementProgram(), actualArgs, function);
 			else
@@ -94,7 +90,7 @@ class IfElseStatement extends MyStatement {
 
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		if ((boolean) condition.getExpressionResult(program, actualArgs))
+		if ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs))
 			ifBody.skipEvaluationUntilLocation(program, actualArgs, location);
 		else if (elseBody != null)
 			elseBody.skipEvaluationUntilLocation(program, actualArgs, location);
