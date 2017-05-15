@@ -2,11 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-class SquareRootExpression extends UnaryExpression implements ArithmeticExpression {
+class SquareRootExpression extends UnaryExpression<ArithmeticExpression> implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 
-	protected SquareRootExpression(MyExpression operand) throws IllegalArgumentException {
+	protected SquareRootExpression(ArithmeticExpression operand) throws IllegalArgumentException {
 		super(operand);
 	}
 	

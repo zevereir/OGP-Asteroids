@@ -2,12 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-
-class MultiplicationExpression extends BinaryExpression implements ArithmeticExpression {
+class MultiplicationExpression extends BinaryExpression<ArithmeticExpression> implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
-	
-	protected MultiplicationExpression(MyExpression leftExpression, MyExpression rightExpression)
+
+	protected MultiplicationExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}
@@ -20,10 +19,11 @@ class MultiplicationExpression extends BinaryExpression implements ArithmeticExp
 		setExpressionProgram(program);
 		
 		BinaryArithmeticExpression solved = new BinaryArithmeticExpression();
+		
 		Double leftOperand = (double)solved.solveLeftOperand(program, actualArgs, function);
 		Double rightOperand = (double)solved.solveRightOperand(program, actualArgs, function);
 
 		return leftOperand * rightOperand;
 	}
-
+	
 }

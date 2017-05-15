@@ -29,11 +29,9 @@ public class ProgramFactory
 		return result;
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public MyStatement createWhileStatement(MyExpression condition, MyStatement body, SourceLocation sourceLocation) {
-		@SuppressWarnings("unchecked")
-		MyStatement result = new WhileStatement(condition, body);
+		MyStatement result = new WhileStatement((BooleanExpression) condition, body);
 		return result;
 	}
 
@@ -89,12 +87,13 @@ public class ProgramFactory
 
 	public MyExpression createChangeSignExpression(MyExpression expression, SourceLocation sourceLocation) {
 
-		MyExpression result = new NegationExpression(expression);
+		MyExpression result = new NegationExpression((ArithmeticExpression) expression);
 		return result;
 	}
 
+	
 	public MyExpression createNotExpression(MyExpression expression, SourceLocation sourceLocation) {
-		MyExpression result = new LogicalNegationExpression(expression);
+		MyExpression result = new LogicalNegationExpression((BooleanExpression) expression);
 		return result;
 
 	}
@@ -170,7 +169,7 @@ public class ProgramFactory
 	}
 
 	public MyExpression createLessThanExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new LessThanExpression(e1, e2);
+		MyExpression result = new LessThanExpression((ArithmeticExpression)e1, (ArithmeticExpression)e2);
 		return result;
 	}
 
@@ -180,17 +179,17 @@ public class ProgramFactory
 	}
 
 	public MyExpression createAdditionExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new AdditionExpression(e1, e2);
+		MyExpression result = new AdditionExpression((ArithmeticExpression)e1, (ArithmeticExpression)e2);
 		return result;
 	}
 
 	public MyExpression createMultiplicationExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
-		MyExpression result = new MultiplicationExpression(e1, e2);
+		MyExpression result = new MultiplicationExpression((ArithmeticExpression)e1, (ArithmeticExpression)e2);
 		return result;
 	}
 
 	public MyExpression createSqrtExpression(MyExpression expression, SourceLocation location) {
-		MyExpression result = new SquareRootExpression(expression);
+		MyExpression result = new SquareRootExpression((ArithmeticExpression) expression);
 		return result;
 	}
 

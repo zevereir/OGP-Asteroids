@@ -1125,7 +1125,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	public void loadProgramOnShip(Ship ship, Program program) throws ModelException {
 		try {
 			ship.addProgramToShip(program);		
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | NullPointerException error) {
 			throw new ModelException("these are not valid arguments #77");
 		}
 	}
@@ -1135,7 +1135,7 @@ public class Facade implements asteroids.part3.facade.IFacade  {
 	public List<Object> executeProgram(Ship ship, double dt) throws ModelException {
 		try {
 			return ship.executeProgram(dt);	
-		} catch (IllegalArgumentException | RuntimeErrorException | IllegalAccessError | ClassCastException illegalArgumentException) {
+		} catch (IllegalArgumentException | RuntimeErrorException | IllegalAccessError| ClassCastException error) {
 			throw new ModelException("these are not valid arguments #78");
 		}
 	}

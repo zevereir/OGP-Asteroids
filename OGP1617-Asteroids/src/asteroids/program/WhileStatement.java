@@ -4,8 +4,7 @@ import java.util.List;
 
 import asteroids.part3.programs.SourceLocation;
 
-@SuppressWarnings("hiding")
-class WhileStatement<BooleanExpression> extends MyStatement {
+class WhileStatement extends MyStatement {
 	
 	/// CONSTRUCTOR ///
 
@@ -50,7 +49,6 @@ class WhileStatement<BooleanExpression> extends MyStatement {
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		
-		
 		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs) && isNotBroken()) {
 			try {
 				body.evaluate(program, actualArgs);
@@ -63,7 +61,6 @@ class WhileStatement<BooleanExpression> extends MyStatement {
 
 	protected void evaluateWhileInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
-
 
 		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs, function) && isNotBroken()) {
 			if (body instanceof AssignmentStatement)

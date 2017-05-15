@@ -1,7 +1,7 @@
 package asteroids.program;
 
 import java.util.List;
-class ParameterExpression extends NameExpression {
+class ParameterExpression extends NameExpression implements ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
 

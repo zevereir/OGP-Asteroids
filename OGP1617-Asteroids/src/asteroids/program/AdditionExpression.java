@@ -2,11 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-class AdditionExpression extends BinaryExpression implements ArithmeticExpression {
+class AdditionExpression extends BinaryExpression<ArithmeticExpression> implements ArithmeticExpression {
 	
 	/// CONSTRUCTOR ///
 
-	protected AdditionExpression(MyExpression leftExpression, MyExpression rightExpression)
+	protected AdditionExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}

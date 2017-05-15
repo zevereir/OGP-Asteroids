@@ -1,8 +1,5 @@
 package asteroids.program;
 
-
-interface BooleanExpression {
-	
-	
+public interface BooleanExpression {
 
 }

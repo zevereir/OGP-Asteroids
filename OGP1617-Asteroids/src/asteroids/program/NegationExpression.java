@@ -2,11 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-class NegationExpression extends UnaryExpression implements ArithmeticExpression {
+class NegationExpression extends UnaryExpression<ArithmeticExpression> implements ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
 	
-	protected NegationExpression(MyExpression operand) throws IllegalArgumentException {
+	protected NegationExpression(ArithmeticExpression operand) throws IllegalArgumentException {
 		super(operand);
 	}
 	

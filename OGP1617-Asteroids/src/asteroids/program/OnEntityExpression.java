@@ -2,7 +2,7 @@ package asteroids.program;
 
 import asteroids.model.Entity;
 
-abstract class OnEntityExpression extends MyExpression {
+abstract class OnEntityExpression extends MyExpression implements ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
 

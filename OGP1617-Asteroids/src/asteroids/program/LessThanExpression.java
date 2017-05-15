@@ -2,18 +2,17 @@ package asteroids.program;
 
 import java.util.List;
 
-
-class LessThanExpression extends BinaryExpression implements ArithmeticExpression, BooleanExpression {
+class LessThanExpression extends BinaryExpression<ArithmeticExpression> implements ArithmeticExpression, BooleanExpression {
 	
 	/// CONSTRUCTOR ///
-	
-	protected LessThanExpression(MyExpression leftExpression, MyExpression rightExpression)
+
+	protected LessThanExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
 			throws IllegalArgumentException {
 		super(leftExpression, rightExpression);
 	}
 	
 	
-	/// GETTERS ////
+	/// GETTERS ///
 
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
@@ -26,4 +25,5 @@ class LessThanExpression extends BinaryExpression implements ArithmeticExpressio
 
 		return leftOperand < rightOperand;
 	}
+	
 }

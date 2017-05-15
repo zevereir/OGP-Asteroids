@@ -3,18 +3,18 @@ package asteroids.program;
 import java.util.List;
 
 
-public abstract class UnaryExpression extends MyExpression {
+public abstract class UnaryExpression<E> extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected UnaryExpression(MyExpression operand) {
+	protected UnaryExpression(E operand) {
 		setOperand(operand);
 	}
 
 	
 	/// BASIC PROPERTIES ///
 
-	private MyExpression operand;
+	private E operand;
 
 	
 	/// GETTERS ///
@@ -22,19 +22,19 @@ public abstract class UnaryExpression extends MyExpression {
 	public final int getNbOperands() {
 		return 1;
 	}
-
-	public MyExpression getOperand() {
+	@Override
+	public E getOperand() {
 		return operand;
 	}
 	
 	protected Object getOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		return getOperand().getExpressionResult(program, actualArgs, function);
+		return ((MyExpression) getOperand()).getExpressionResult(program, actualArgs, function);
 	}
 
 	
 	/// SETTERS ///
 
-	protected void setOperand(MyExpression operand) {
+	protected void setOperand(E operand) {
 		this.operand = operand;
 	}
 
@@ -58,7 +58,7 @@ public abstract class UnaryExpression extends MyExpression {
 			if (parameter != null)
 				return parameter;
 			else {
-				if (canHaveAsArithmeticOperand(program, actualArgs, getOperand(), function))
+				if (canHaveAsArithmeticOperand(program, actualArgs, (MyExpression) getOperand(), function))
 					return (double) getOperandResult(program, actualArgs, function);
 				else
 					throw new IllegalArgumentException();

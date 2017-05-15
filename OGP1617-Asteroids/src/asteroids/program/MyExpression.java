@@ -30,17 +30,17 @@ public abstract class MyExpression {
 		try {
 			// UNARY
 			if (this instanceof UnaryExpression) {
-				if (((UnaryExpression) this).getOperand() instanceof ParameterExpression)
-					expressionLeftParameter = (Double) getArgumentExpression(getOperand(), actualArgs);
+				if (getOperand() instanceof ParameterExpression)
+					expressionLeftParameter = (Double) getArgumentExpression((MyExpression) getOperand(), actualArgs);
 			}
 
 			// BINARY
 			if (this instanceof BinaryExpression) {
-				if (((BinaryExpression) this).getLeftOperand() instanceof ParameterExpression)
-					expressionLeftParameter = (Double) getArgumentExpression(getLeftOperand(), actualArgs);
+				if (getLeftOperand() instanceof ParameterExpression)
+					expressionLeftParameter = (Double) getArgumentExpression((MyExpression) getLeftOperand(), actualArgs);
 				
-				if (((BinaryExpression) this).getRightOperand() instanceof ParameterExpression)
-					expressionRightParameter = (Double) getArgumentExpression(getRightOperand(), actualArgs);
+				if (getRightOperand() instanceof ParameterExpression)
+					expressionRightParameter = (Double) getArgumentExpression((MyExpression) getRightOperand(), actualArgs);
 			}
 
 			Double[] parameterArray = { expressionLeftParameter, expressionRightParameter };
@@ -51,15 +51,15 @@ public abstract class MyExpression {
 		}
 	}
 	
-	protected MyExpression getOperand() {
+	protected Object getOperand() {
 		return null;
 	}
 	
-	protected MyExpression getLeftOperand() {
+	protected Object getLeftOperand() {
 		return null;
 	}
 	
-	protected MyExpression getRightOperand() {
+	protected Object getRightOperand() {
 		return null;
 	}
 	

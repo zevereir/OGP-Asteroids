@@ -2,11 +2,11 @@ package asteroids.program;
 
 import java.util.List;
 
-public abstract class BinaryExpression extends MyExpression {
+public abstract class BinaryExpression<E> extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	protected BinaryExpression(MyExpression leftExpression, MyExpression rightExpression)
+	protected BinaryExpression(E leftExpression, E rightExpression)
 			throws IllegalArgumentException {
 		setLeftOperand(leftExpression);
 		setRightOperand(rightExpression);
@@ -15,40 +15,40 @@ public abstract class BinaryExpression extends MyExpression {
 
 	/// BASIC PROPERTIES ///
 
-	protected MyExpression left_operand = null;
-	protected MyExpression right_operand = null;
+	protected E left_operand = null;
+	protected E right_operand = null;
 
 	
 	/// GETTERS ///
-
-	protected MyExpression getLeftOperand() {
+	@Override
+	protected E getLeftOperand() {
 		return left_operand;
 	}
 	
 	protected Object getLeftOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		return getLeftOperand().getExpressionResult(program, actualArgs, function);
+		return ((MyExpression) getLeftOperand()).getExpressionResult(program, actualArgs, function);
 	}
 
 	protected int getNbOperands() {
 		return 2;
 	}
-
-	protected MyExpression getRightOperand() {
+	@Override
+	protected E getRightOperand() {
 		return right_operand;
 	}
 	
 	protected Object getRightOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		return getRightOperand().getExpressionResult(program, actualArgs, function);
+		return ((MyExpression) getRightOperand()).getExpressionResult(program, actualArgs, function);
 	}
 	
 
 	/// SETTERS ///
 
-	protected void setLeftOperand(MyExpression expression) {
+	protected void setLeftOperand(E expression) {
 		left_operand = expression;
 	}
 
-	protected void setRightOperand(MyExpression expression) {
+	protected void setRightOperand(E expression) {
 		right_operand = expression;
 	}
 
@@ -70,7 +70,7 @@ public abstract class BinaryExpression extends MyExpression {
 			if (rightParameter != null)
 				return rightParameter;
 			else {
-				if (canHaveAsArithmeticOperand(program, actualArgs, getRightOperand(), function))
+				if (canHaveAsArithmeticOperand(program, actualArgs, (MyExpression) getRightOperand(), function))
 					return (double) getRightOperandResult(program, actualArgs, function);
 				else
 					throw new IllegalArgumentException();
@@ -84,7 +84,7 @@ public abstract class BinaryExpression extends MyExpression {
 			if (leftParameter != null)
 				return leftParameter;
 			else {
-				if (canHaveAsArithmeticOperand(program, actualArgs, getLeftOperand(), function))
+				if (canHaveAsArithmeticOperand(program, actualArgs, (MyExpression) getLeftOperand(), function))
 					return (double) getLeftOperandResult(program, actualArgs, function);
 				else
 					throw new IllegalArgumentException();
