@@ -4,10 +4,10 @@ import java.util.List;
 
 import asteroids.part3.programs.SourceLocation;
 
-class IfElseStatement extends MyStatement{
+class IfElseStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
-	
+
 	public IfElseStatement(BooleanExpression condition, MyStatement ifBody, MyStatement elseBody) {
 		setCondition(condition);
 		setIfBody(ifBody);
@@ -24,8 +24,16 @@ class IfElseStatement extends MyStatement{
 	
 	/// GETTERS ///
 
-	protected BooleanExpression getCondition() {
-		return this.condition;
+	private MyExpression getCondition() {
+		return (MyExpression) condition;
+	}
+	
+	private MyStatement getElseBody() {
+		return elseBody;
+	}
+	
+	private MyStatement getIfBody() {
+		return ifBody;
 	}
 	
 	
@@ -48,12 +56,12 @@ class IfElseStatement extends MyStatement{
 	
 	protected boolean containsStatement(String name){
 		boolean contains = false;
-		if (ifBody.getClass().getSimpleName().equals(name) && ifBody.containsStatement(name))
+		
+		if (getIfBody().containsStatement(name))
 			contains = true;
 		
-		if (elseBody != null && contains == false)
-			if (elseBody.getClass().getSimpleName().equals(name) && elseBody.containsStatement(name))
-				contains = true;
+		else if (getElseBody() != null && getElseBody().containsStatement(name))
+			contains = true;
 	
 		return contains;
 	}
@@ -64,36 +72,44 @@ class IfElseStatement extends MyStatement{
 	@Override
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
-			if ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs))
-				ifBody.evaluate(program, actualArgs);
-			else if (elseBody != null)
-				elseBody.evaluate(program, actualArgs);
+
+		if ((boolean) getCondition().getExpressionResult(program, actualArgs))
+			getIfBody().evaluate(program, actualArgs);
+		
+		else if (getElseBody() != null)
+			getElseBody().evaluate(program, actualArgs);
 	}
 
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 
-		if ((boolean) ((MyExpression) getCondition()).getExpressionResult(program, actualArgs, function)) {
-			if (ifBody instanceof AssignmentStatement)
-				((AssignmentStatement) ifBody).assignLocalVariable(getStatementProgram(), actualArgs, function);
+		if ((boolean) getCondition().getExpressionResult(program, actualArgs, function)) {
+			if (getIfBody() instanceof AssignmentStatement)
+				((AssignmentStatement) getIfBody()).assignLocalVariable(getStatementProgram(), actualArgs, function);
+
 			else
-				return ifBody.evaluateInFunction(getStatementProgram(), actualArgs, function);
-		} 
-		else if (elseBody != null) {
-			if (elseBody instanceof AssignmentStatement)
-				((AssignmentStatement) elseBody).assignLocalVariable(getStatementProgram(), actualArgs, function);
-			else
-				return elseBody.evaluateInFunction(getStatementProgram(), actualArgs, function);
+				return getIfBody().evaluateInFunction(getStatementProgram(), actualArgs, function);
 		}
+
+		else if (getElseBody() != null) {
+			if (getElseBody() instanceof AssignmentStatement)
+				((AssignmentStatement) getElseBody()).assignLocalVariable(getStatementProgram(), actualArgs, function);
+
+			else
+				return getElseBody().evaluateInFunction(getStatementProgram(), actualArgs, function);
+		}
+
 		return null;
 	}
 
 	@Override
-	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		if ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs))
-			ifBody.skipEvaluationUntilLocation(program, actualArgs, location);
-		else if (elseBody != null)
-			elseBody.skipEvaluationUntilLocation(program, actualArgs, location);
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs,
+			SourceLocation location) {
+		if ((boolean) getCondition().getExpressionResult(program, actualArgs))
+			getIfBody().skipEvaluationUntilLocation(program, actualArgs, location);
+
+		else if (getElseBody() != null)
+			getElseBody().skipEvaluationUntilLocation(program, actualArgs, location);
 	}
 
 }
