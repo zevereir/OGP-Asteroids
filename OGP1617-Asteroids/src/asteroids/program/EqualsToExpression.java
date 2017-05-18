@@ -13,14 +13,12 @@ class EqualsToExpression extends BinaryExpression<MyExpression> implements Boole
 	
 	/// GETTERS ///
 	
-	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
 		
 		//ANONYMOUS CLASS
 		BinaryOperandSolver solver = new BinaryOperandSolver() {
 			
-			@Override
 			public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 				if (getLeftOperand() instanceof ParameterExpression)
 					return (Double) getArgumentExpression(getLeftOperand(), actualArgs);
@@ -28,7 +26,6 @@ class EqualsToExpression extends BinaryExpression<MyExpression> implements Boole
 					return getLeftOperandResult(program, actualArgs, function);
 			}
 
-			@Override
 			public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 				if (getRightOperand() instanceof ParameterExpression)
 					return (Double) getArgumentExpression(getRightOperand(), actualArgs);
