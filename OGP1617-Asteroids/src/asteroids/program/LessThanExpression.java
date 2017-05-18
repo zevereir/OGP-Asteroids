@@ -2,8 +2,9 @@ package asteroids.program;
 
 import java.util.List;
 
-class LessThanExpression extends BinaryExpression<ArithmeticExpression> implements ArithmeticExpression, BooleanExpression {
-	
+class LessThanExpression extends BinaryExpression<ArithmeticExpression>
+		implements ArithmeticExpression, BooleanExpression {
+
 	/// CONSTRUCTOR ///
 
 	protected LessThanExpression(ArithmeticExpression leftExpression, ArithmeticExpression rightExpression)
@@ -17,13 +18,13 @@ class LessThanExpression extends BinaryExpression<ArithmeticExpression> implemen
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-		
+
 		BinaryArithmeticExpression solved = new BinaryArithmeticExpression();
-		
-		Double leftOperand = (double)solved.solveLeftOperand(program, actualArgs, function);
-		Double rightOperand = (double)solved.solveRightOperand(program, actualArgs, function);
+
+		Double leftOperand = (double) solved.solveLeftOperand(program, actualArgs, function);
+		Double rightOperand = (double) solved.solveRightOperand(program, actualArgs, function);
 
 		return leftOperand < rightOperand;
 	}
-	
+
 }

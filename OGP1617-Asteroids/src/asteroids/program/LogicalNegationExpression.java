@@ -17,10 +17,8 @@ class LogicalNegationExpression extends UnaryExpression<BooleanExpression> imple
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function)
 			throws IllegalArgumentException {
 		setExpressionProgram(program);
-		
+
 		return !(Boolean) getOperandResult(program, actualArgs, function);
 	}
 
 }
-
-
