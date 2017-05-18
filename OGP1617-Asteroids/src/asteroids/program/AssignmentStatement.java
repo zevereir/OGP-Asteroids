@@ -20,12 +20,12 @@ class AssignmentStatement extends MyStatement {
 
 	/// GETTERS ///
 	
-	protected MyExpression getAssignmentExpression() {
-		return this.expression;
+	protected MyExpression getExpression() {
+		return expression;
 	}
 
-	protected String getAssignmentVariableName() {
-		return this.variableName;
+	protected String getVariableName() {
+		return variableName;
 	}
 
 	
@@ -53,7 +53,7 @@ class AssignmentStatement extends MyStatement {
 	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 		
-		function.addLocalVariable(variableName, expression.getExpressionResult(program, actualArgs, function));
+		function.addLocalVariable(getVariableName(), getExpression().getExpressionResult(program, actualArgs, function));
 	}
 	
 	
@@ -63,8 +63,9 @@ class AssignmentStatement extends MyStatement {
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 
-		if (isValidVariable(getAssignmentVariableName(), getAssignmentExpression(), actualArgs))
-			getStatementProgram().addVariable(variableName, expression.getExpressionResult(program, actualArgs));
+		if (isValidVariable(getVariableName(), getExpression(), actualArgs))
+			getStatementProgram().addVariable(getVariableName(), getExpression().getExpressionResult(program, actualArgs));
+		
 		else
 			throw new IllegalArgumentException();
 	}
