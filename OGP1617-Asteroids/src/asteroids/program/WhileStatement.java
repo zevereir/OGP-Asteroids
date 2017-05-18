@@ -21,21 +21,6 @@ class WhileStatement extends MyStatement {
 	private boolean broken = false;
 	
 	
-	/// SETTERS ///
-
-	public void setBody(MyStatement body) {
-		this.body = body;
-	}
-
-	public void setBrokenTrue() {
-		broken = true;
-	}
-
-	public void setCondition(BooleanExpression condition) {
-		this.condition = condition;
-	}
-	
-	
 	/// GETTERS ///
 	
 	public MyStatement getBody() {
@@ -48,6 +33,21 @@ class WhileStatement extends MyStatement {
 	
 	public MyExpression getCondition() {
 		return (MyExpression) condition;
+	}
+	
+	
+	/// SETTERS ///
+
+	public void setBody(MyStatement body) {
+		this.body = body;
+	}
+
+	public void setBrokenTrue() {
+		broken = true;
+	}
+
+	public void setCondition(BooleanExpression condition) {
+		this.condition = condition;
 	}
 	
 	
