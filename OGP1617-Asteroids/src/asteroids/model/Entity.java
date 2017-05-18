@@ -619,10 +619,10 @@ public abstract class Entity {
 	 * Set the density of the entity.
 	 * 
 	 * @param 	density
-	 * 			The new density.
+	 * 			The entity's new density.
 	 * 
-	 * @post 	The new density will be equal to the given density.
-	 * 			@see implementation in the abstract methods
+	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default entity density.
+	 * 		 	@see implementation 
 	 */
 	protected abstract void setEntityDensity(double density);
 
@@ -663,10 +663,10 @@ public abstract class Entity {
 	 * Set the mass of the entity.
 	 * 
 	 * @param 	mass
-	 * 			The new mass.
+	 * 			The entity's new mass.
 	 * 
-	 * @post 	The new mass will be equal to the given mass.
-	 * 			@see implementation in the abstract methods
+	 * @post 	The new mass will be equal to the given mass. If the mass wasn't valid, it will be set to a default mass .
+	 * 			@see implementation
 	 */
 	protected abstract void setEntityMass(double mass);
 
@@ -935,7 +935,7 @@ public abstract class Entity {
 	 * 			The density that has to be checked.
 	 * 
 	 * @return 	The boolean that checks whether the given density is valid or not.
-	 * 			@see implementation in the abstract methods
+	 * 			@see implementation 
 	 */
 	protected abstract boolean isValidDensity(double density);
 
@@ -946,7 +946,7 @@ public abstract class Entity {
 	 * 			The mass that has to be checked.
 	 * 
 	 * @return 	The boolean that checks of the mass is valid.
-	 * 			@see implementation in the abstract methods
+	 * 			@see implementation
 	 */
 	protected abstract boolean isValidMass(double mass);
 
@@ -1009,7 +1009,7 @@ public abstract class Entity {
 	 * 			The radius that has to be checked.
 	 * 
 	 * @return 	The boolean that checks if the radius is valid.
-	 * 			@see implementation in the abstract methods
+	 * 			@see implementation 
 	 */
 	protected abstract boolean isValidRadius(double radius);
 
@@ -1262,8 +1262,8 @@ public abstract class Entity {
 	/**
 	 * Terminate the entity.
 	 * 
-	 * @effect 	The entity will be terminated.
-	 *			@see implementation in the abstract methods
+	 * @effect 	The entity will be terminated, the state will be set on TERMINATED.
+	 *			@see implementation 
 	 */
 	public abstract void Terminate();
 

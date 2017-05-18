@@ -128,12 +128,16 @@ public class Asteroid extends MinorPlanet {
 	 * @param 	density
 	 * 			The asteroids new density.
 	 * 
-	 * @post 	The new density will be equal to the given density.
-	 * 		  | new.getEntityDensity == density 
+	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default asteroid density.
+	 * 		 	@see implementation
 	 */
 	protected void setEntityDensity(double density){
-		this.density = density;
+		if (isValidDensity(density))
+			this.density = density;
+		else
+			this.density = getDefaultAsteroidDensity();
 	}
+
 
 	
 	/// CHECKERS ///

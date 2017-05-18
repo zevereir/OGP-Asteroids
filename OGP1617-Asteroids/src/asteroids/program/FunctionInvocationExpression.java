@@ -61,15 +61,15 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 	
 	/// CHECKERS ///
 	
-	protected static boolean isValidFunctionBody(MyStatement body){
-		return (body.containsStatement("ReturnStatement") && 
-				((body instanceof ReturnStatement) || (body instanceof SequenceStatement) || 
-				 (body instanceof IfElseStatement) || (body instanceof WhileStatement)));
+	protected static boolean isValidFunctionBody(MyStatement body) {
+		return (body.containsStatement("ReturnStatement")
+				&& ((body instanceof ReturnStatement) || (body instanceof SequenceStatement)
+						|| (body instanceof IfElseStatement) || (body instanceof WhileStatement)));
 	}
 
 	
 	/// HELP FUNCTIONS ///
-	
+
 	protected List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs, MyFunction function) {
 		List<MyExpression> newActualArgs = new ArrayList<MyExpression>();
 

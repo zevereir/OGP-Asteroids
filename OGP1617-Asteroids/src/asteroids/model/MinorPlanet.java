@@ -95,18 +95,16 @@ public abstract class MinorPlanet extends Entity{
 	 * @param 	mass
 	 * 			The new mass of the bullet.
 	 * 
-	 * @post 	The new mass will be equal to the given mass.
+	 * @post 	The new mass will be equal to the given mass, if the mass isn't valid, the default mass will be used.
 	 * 			@see implementation
 	 * 
-	 * @throws  IllegalArgumentException if the given mass isn't valid.
-	 * 			@see implementation
 	 */
 	@Override
 	protected void setEntityMass(double mass) {
 		if (isValidMass(mass))
 			this.mass = mass;
 		else
-			throw new IllegalArgumentException();
+			this.mass = MassFormula(getEntityRadius(),getEntityDensity());
 	}	
 	
 	

@@ -1,6 +1,6 @@
 package asteroids.program;
 
-public abstract class NameExpression extends MyExpression {
+public abstract class NameExpression extends MyExpression implements ArithmeticExpression{
 
 	/// CONSTRUCTOR ///
 
