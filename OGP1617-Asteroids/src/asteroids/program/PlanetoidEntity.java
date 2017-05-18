@@ -5,7 +5,7 @@ import java.util.List;
 class PlanetoidEntity extends EntityExpression {
 
 	/// CONSTRUCTOR ///
-	
+
 	protected PlanetoidEntity() throws IllegalArgumentException {
 		//
 	}
@@ -15,7 +15,7 @@ class PlanetoidEntity extends EntityExpression {
 	
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-		
+
 		return getClosestEntity(getWorldEntity("Planetoid"));
 	}
 
