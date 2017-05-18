@@ -18,7 +18,7 @@ class SquareRootExpression extends UnaryExpression<ArithmeticExpression> impleme
 		setExpressionProgram(program);
 
 		UnaryArithmeticExpression expression = new UnaryArithmeticExpression();
-		Double Operand = (double)expression.solveOperand(program, actualArgs, function);
+		Double Operand = (double) expression.solveOperand(program, actualArgs, function);
 
 		if (Operand >= 0)
 			return Math.sqrt(Operand);
