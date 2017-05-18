@@ -27,8 +27,6 @@ public abstract class MyStatement {
 	
 	/// CHECKERS ///
 
-	
-	
 	protected boolean containsStatement(String name){
 		return getClass().getSimpleName().equals(name);
 	}
@@ -38,17 +36,22 @@ public abstract class MyStatement {
 
 	protected abstract void evaluate(Program program, List<MyExpression> actualArgs);
 
+	protected void evaluate(Program program) {
+		evaluate(program, null);
+	}
+
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		throw new IllegalArgumentException();
 	}
 
-	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs,
+			SourceLocation location) {
 		//
 	}
 
 	
 	/// RELATIONS WITH OTHER CLASSES ///
-	
+
 	private Program program = null;
-	
+
 }
