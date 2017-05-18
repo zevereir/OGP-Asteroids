@@ -49,7 +49,7 @@ abstract class ActionStatement extends MyStatement {
 			throw new IllegalPathStateException();
 		}
 	}
-	
+
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs,
 			SourceLocation location) {
