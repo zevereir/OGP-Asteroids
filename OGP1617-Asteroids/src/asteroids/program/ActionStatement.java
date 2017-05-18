@@ -5,7 +5,7 @@ import java.util.List;
 import asteroids.part3.programs.SourceLocation;
 
 abstract class ActionStatement extends MyStatement {
-	
+
 	/// BASIC PROPERTIES ///
 	
 	private double decrement_time = 0.2;
@@ -33,10 +33,10 @@ abstract class ActionStatement extends MyStatement {
 	/// EVALUATION ///
 
 	@Override
-	protected void evaluate(Program program, List<MyExpression> actualArgs){
+	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
-		
-		if (getStatementProgram().getTimeLeft() >= getDecrementTime()){	
+
+		if (getStatementProgram().getTimeLeft() >= getDecrementTime()) {
 			getStatementProgram().setMayExecute();
 			getStatementProgram().addTime(-getDecrementTime());
 			execute(program);
@@ -45,13 +45,14 @@ abstract class ActionStatement extends MyStatement {
 		else {
 			getStatementProgram().setSourceLocation(getSourceLocation());
 			getStatementProgram().setMayNotExecute();
-			
+
 			throw new IllegalPathStateException();
 		}
 	}
 	
 	@Override
-	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs,
+			SourceLocation location) {
 		if (getSourceLocation().equals(location)) {
 			evaluate(program, actualArgs);
 		}
