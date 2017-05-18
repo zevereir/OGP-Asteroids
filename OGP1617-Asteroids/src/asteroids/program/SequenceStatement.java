@@ -35,13 +35,13 @@ class SequenceStatement extends MyStatement {
 	
 	/// CHECKERS ///
 	
-	protected boolean containsStatement(String name){
+	protected boolean containsStatement(String name) {
 		boolean contains = false;
-		
-		for (MyStatement statement: statements)
+
+		for (MyStatement statement : statements)
 			if (statement.containsStatement(name))
 				contains = true;
-		
+
 		return contains;
 	}
 	
@@ -72,7 +72,8 @@ class SequenceStatement extends MyStatement {
 	}
 
 	@Override
-	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
+	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs,
+			SourceLocation location) {
 		for (MyStatement statement : statements) {
 			if (program.getMayExecute())
 				statement.evaluate(program, actualArgs);
@@ -80,5 +81,5 @@ class SequenceStatement extends MyStatement {
 				statement.skipEvaluationUntilLocation(program, actualArgs, location);
 		}
 	}
-	
+
 }
