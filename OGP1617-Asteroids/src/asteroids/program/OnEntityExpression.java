@@ -32,7 +32,7 @@ abstract class OnEntityExpression extends MyExpression implements ArithmeticExpr
 	private void setOperand(MyExpression operand) {
 		if (canHaveAsOnEntityExpressionOperand(operand))
 			this.operand = operand;
-		
+
 		else
 			throw new IllegalArgumentException();
 	}
@@ -41,7 +41,8 @@ abstract class OnEntityExpression extends MyExpression implements ArithmeticExpr
 	/// CHECKERS ///
 	
 	private boolean canHaveAsOnEntityExpressionOperand(MyExpression expression) {
-		return (expression instanceof EntityExpression && !(expression instanceof NullEntity));
+		return ((expression instanceof EntityExpression || expression instanceof VariableExpression)
+				&& !(expression instanceof NullEntity));
 	}
 
 }

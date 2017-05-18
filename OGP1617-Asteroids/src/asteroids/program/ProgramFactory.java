@@ -156,28 +156,48 @@ public class ProgramFactory
 	}
 
 	public MyExpression createGetXExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new XPositionExpression(e);
-		return result;
+		try {
+			MyExpression result = new XPositionExpression(e);
+			return result;
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException("You've made a create get X expression on a non-entity");
+		}
 	}
 
 	public MyExpression createGetYExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new YPositionExpression(e);
-		return result;
+		try {
+			MyExpression result = new YPositionExpression(e);
+			return result;
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException("You've made a create get X expression on a non-entity");
+		}
 	}
 
 	public MyExpression createGetVXExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new XVelocityExpression(e);
-		return result;
+		try {
+			MyExpression result = new XVelocityExpression(e);
+			return result;
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException("You've made a create get velocityX expression on a non-entity");
+		}
 	}
 
 	public MyExpression createGetVYExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new YVelocityExpression(e);
-		return result;
+		try {
+			MyExpression result = new YVelocityExpression(e);
+			return result;
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException("You've made a create get velocityY expression on a non-entity");
+		}
 	}
 
 	public MyExpression createGetRadiusExpression(MyExpression e, SourceLocation location) {
-		MyExpression result = new RadiusExpression(e);
-		return result;
+		try {
+			MyExpression result = new RadiusExpression(e);
+			return result;
+		} catch (IllegalArgumentException exception) {
+			throw new IllegalArgumentException("You've made a create get radius expression on a non-entity");
+		}
 	}
 
 	public MyExpression createLessThanExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
