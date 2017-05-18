@@ -17,11 +17,11 @@ class AdditionExpression extends BinaryExpression<ArithmeticExpression> implemen
 	@Override
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-		
+
 		BinaryArithmeticExpression solved = new BinaryArithmeticExpression();
-		
-		Double leftOperand = (double)solved.solveLeftOperand(program, actualArgs, function);
-		Double rightOperand = (double)solved.solveRightOperand(program, actualArgs, function);
+
+		Double leftOperand = (double) solved.solveLeftOperand(program, actualArgs, function);
+		Double rightOperand = (double) solved.solveRightOperand(program, actualArgs, function);
 
 		return leftOperand + rightOperand;
 	}
