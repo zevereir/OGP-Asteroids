@@ -23,7 +23,7 @@ import asteroids.part2.CollisionListener;
  * @invar   The total traveled distance is valid.
  * 		  | isValidTotalTraveledDistance(getPlanetoidTotalTraveledDistance())
  * 
- * @version 29th of April
+ * @version 18th of May
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */

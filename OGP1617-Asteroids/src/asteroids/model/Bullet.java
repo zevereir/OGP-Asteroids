@@ -23,7 +23,7 @@ import asteroids.part2.CollisionListener;
  * @invar   The maximum amount of bounces is valid.
  * 		  |	isValidMaximumBulletBounce(getMaximumBulletBounce)
  * 
- * @version 8th of April
+ * @version 18th of May
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */
