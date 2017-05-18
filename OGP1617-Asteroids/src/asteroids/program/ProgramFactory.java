@@ -228,6 +228,7 @@ public class ProgramFactory
 		return result;
 	}
 
+	
 	@Override
 	public MyStatement createThrustOnStatement(SourceLocation location) {
 		MyStatement result = new ThrustOnAction(location);
