@@ -9,7 +9,7 @@ import asteroids.model.Entity;
 class BulletEntity extends EntityExpression {
 
 	/// CONSTRUCTOR ///
-	
+
 	protected BulletEntity() throws IllegalArgumentException {
 		//
 	}
@@ -23,14 +23,15 @@ class BulletEntity extends EntityExpression {
 		Set<? extends Entity> bullets = getWorldEntity("Bullet");
 
 		bullets.removeIf(bullet -> !isFiredFromShip((Bullet) bullet));
+		
 		return bullets.stream().findAny().orElse(null);
 	}
 
 	
 	/// CHECKERS ///
-	
+
 	private boolean isFiredFromShip(Bullet bullet) {
-		return (getExpressionShip() == bullet.getBulletSource());
+		return (getExpressionShip().equals(bullet.getBulletSource()));
 	}
 
 }
