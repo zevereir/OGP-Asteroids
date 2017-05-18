@@ -308,7 +308,7 @@ public class Ship extends Entity {
 	 *          The new density.
 	 *          
 	 * @post 	If the given density is a valid value, the ship's density will be equal to it.
-	 * 			Otherwise will the density be set to the default value.
+	 * 			Otherwise will the density be set to the default ship density.
 	 *          @see implementation
 	 */
 	protected void setEntityDensity(double density) {

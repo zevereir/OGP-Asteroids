@@ -329,7 +329,7 @@ public class Bullet extends Entity {
 	 * @param 	density
 	 * 			The bullet's new density.
 	 * 
-	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default density.
+	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default bullet density.
 	 * 		 	@see implementation
 	 */
 	protected void setEntityDensity(double density) {

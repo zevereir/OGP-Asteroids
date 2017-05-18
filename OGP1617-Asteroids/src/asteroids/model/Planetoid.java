@@ -183,12 +183,16 @@ public class Planetoid extends MinorPlanet {
 	 * @param 	density
 	 * 			The planetoids new density.
 	 * 
-	 * @post 	The new density will be equal to the given density.
-	 * 		  | new.getEntityDensity == density 
+	 * @post 	If the density is valid, the new density will be equal to the given density. Otherwise, it will be equal to the default planetoid density.
+	 * 		 	@see implementation
 	 */
 	protected void setEntityDensity(double density){
-		this.density = density;
+		if (isValidDensity(density))
+			this.density = density;
+		else
+			this.density = getDefaultPlanetoidDensity();
 	}
+	
 	
 	/**
 	 * Set the planetoids initial radius to a given radius.
@@ -225,7 +229,8 @@ public class Planetoid extends MinorPlanet {
 	 * Update the planetoids radius.
 	 * 
 	 * @effect 	The new radius is 10E-6 times the totalTraveledDistance subtracted from the initialRadius. 
-	 * 			If this new radius is valid, it will be set. When it's not, the planetoid will be terminated.
+	 * 			If this new radius is valid, it will be set and the mass will be updated.
+	 * 			When it's not, the planetoid will be terminated.
 	 * 			@see implementation
 	 */
 	private void updatePlanetoidRadius(){
@@ -233,8 +238,10 @@ public class Planetoid extends MinorPlanet {
 		double totalTraveledDistance = getPlanetoidTotalTraveledDistance();
 		double new_radius = init_radius - 0.000001*totalTraveledDistance;
 		
-		if (isValidRadius(new_radius))
+		if (isValidRadius(new_radius)){
 			setEntityRadius(new_radius);
+			setEntityMass(MassFormula(new_radius, getEntityDensity()));
+		}
 		else
 			Terminate();
 	}
