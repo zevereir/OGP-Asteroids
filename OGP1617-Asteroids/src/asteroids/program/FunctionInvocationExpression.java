@@ -41,7 +41,7 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 	}
 
 	protected MyFunction getFunction() {
-		if (getExpressionProgram().getProgramFunctions().containsKey(functionName))
+		if (getExpressionProgram().getProgramFunctions().containsKey(getFunctionName()))
 			return getExpressionProgram().getProgramFunctions().get(getFunctionName());
 
 		throw new IllegalArgumentException();
@@ -53,6 +53,10 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 
 	
 	/// SETTERS ///
+
+	protected void setArguments(List<MyExpression> actualArgs) {
+		this.actualArgs = actualArgs;
+	}
 
 	protected void setFunctionName(String functionName) {
 		this.functionName = functionName;
@@ -73,7 +77,7 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 	protected List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs, MyFunction function) {
 		List<MyExpression> newActualArgs = new ArrayList<MyExpression>();
 
-		for (MyExpression actualArg : actualArgs)
+		for (MyExpression actualArg : getActualArgs())
 			newActualArgs.add(actualArg);
 
 		for (int i = 0; i < newActualArgs.size(); i++) {
@@ -88,10 +92,6 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 		return newActualArgs;
 	}
 
-	protected void setArguments(List<MyExpression> actualArgs) {
-		this.actualArgs = actualArgs;
-	}
-
 	
 	/// EVALUATION ///
 
@@ -99,6 +99,7 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 			throws IllegalArgumentException {
 		if (isValidFunctionBody(body))
 			return body.evaluateInFunction(getExpressionProgram(), actualArgs, function);
+		
 		else
 			throw new IllegalArgumentException("FunctionInvocationExpression --> Else statement in evaluateFunctionBody");
 	}
