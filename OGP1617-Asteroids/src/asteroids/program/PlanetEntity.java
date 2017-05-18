@@ -5,7 +5,7 @@ import java.util.List;
 class PlanetEntity extends EntityExpression {
 
 	/// CONSTRUCTOR ///
-	
+
 	protected PlanetEntity() throws IllegalArgumentException {
 		//
 	}
@@ -15,7 +15,7 @@ class PlanetEntity extends EntityExpression {
 
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-		
+
 		return getClosestEntity(getWorldEntity("MinorPlanet"));
 	}
 }
