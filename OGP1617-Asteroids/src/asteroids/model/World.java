@@ -15,7 +15,7 @@ import asteroids.part2.CollisionListener;
  * 		  | isValidWidthOrHeight(width)
  * 
  * 
- * @version 30th of April
+ * @version 18th of May
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */

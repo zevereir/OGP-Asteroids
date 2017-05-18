@@ -5,7 +5,7 @@ import be.kuleuven.cs.som.annotate.Value;
 /**
  * A value class that describes position.
  * 
- * @version 7th of April
+ * @version 18th of May
  * @authors Sieben Bocklandt and Ruben Broekx
  * 
  */
