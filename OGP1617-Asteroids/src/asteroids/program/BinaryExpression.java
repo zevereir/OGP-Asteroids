@@ -25,7 +25,7 @@ public abstract class BinaryExpression<E> extends MyExpression {
 	protected E getLeftOperand() {
 		return left_operand;
 	}
-	
+
 	protected Object getLeftOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		return ((MyExpression) getLeftOperand()).getExpressionResult(program, actualArgs, function);
 	}
@@ -33,12 +33,12 @@ public abstract class BinaryExpression<E> extends MyExpression {
 	protected int getNbOperands() {
 		return 2;
 	}
-	
+
 	@Override
 	protected E getRightOperand() {
 		return right_operand;
 	}
-	
+
 	protected Object getRightOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		return ((MyExpression) getRightOperand()).getExpressionResult(program, actualArgs, function);
 	}
@@ -68,7 +68,7 @@ public abstract class BinaryExpression<E> extends MyExpression {
 		public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double rightParameter = parameterArray[1];
-			
+
 			if (rightParameter != null)
 				return rightParameter;
 			else {
@@ -78,11 +78,11 @@ public abstract class BinaryExpression<E> extends MyExpression {
 					throw new IllegalArgumentException();
 			}
 		}
-		
+
 		public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double leftParameter = parameterArray[0];
-				
+
 			if (leftParameter != null)
 				return leftParameter;
 			else {
@@ -96,13 +96,11 @@ public abstract class BinaryExpression<E> extends MyExpression {
 	
 	
 	/// LOCAL INTERFACE ///
-	
-	interface BinaryOperandSolver{
+
+	interface BinaryOperandSolver {
 		public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
+
 		public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
 	}
 	
 }
-	
-	
-
