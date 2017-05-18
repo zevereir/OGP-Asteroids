@@ -34,8 +34,8 @@ public class ProgramFactory
 		try {
 			MyStatement result = new WhileStatement((BooleanExpression) condition, body);
 			return result;
-		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a while statement with a non boolean condition");
+		} catch (ClassCastException error) {
+			throw new IllegalArgumentException("You've made a while statement with a non-boolean condition");
 		}
 	}
 
@@ -57,12 +57,11 @@ public class ProgramFactory
 		try {
 			MyStatement result = new IfElseStatement((BooleanExpression) condition, ifBody, elseBody);
 			return result;
-		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made an if statement with a non boolean condition");
+		} catch (ClassCastException error) {
+			throw new IllegalArgumentException("You've made an if statement with a non-boolean condition");
 		}
 	}
 
-	
 	@Override
 	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
 		MyStatement result = new PrintStatement(value);
@@ -97,17 +96,16 @@ public class ProgramFactory
 			MyExpression result = new NegationExpression((ArithmeticExpression) expression);
 			return result;
 		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a negation with a non arithmetic expression");
+			throw new IllegalArgumentException("You've made a negation with a non-arithmetic expression");
 		}
 	}
 
-	
 	public MyExpression createNotExpression(MyExpression expression, SourceLocation sourceLocation) {
 		try {
 			MyExpression result = new LogicalNegationExpression((BooleanExpression) expression);
 			return result;
 		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a logical negation with a non boolean expression");
+			throw new IllegalArgumentException("You've made a logical negation with a non-boolean expression");
 		}
 
 	}
@@ -184,10 +182,10 @@ public class ProgramFactory
 
 	public MyExpression createLessThanExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
 		try {
-			MyExpression result = new LessThanExpression((ArithmeticExpression)e1, (ArithmeticExpression)e2);
+			MyExpression result = new LessThanExpression((ArithmeticExpression) e1, (ArithmeticExpression) e2);
 			return result;
 		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a less than expression with a non arithmetic operand");
+			throw new IllegalArgumentException("You've made a less than expression with a non-arithmetic operand");
 		}
 	}
 
@@ -198,19 +196,19 @@ public class ProgramFactory
 
 	public MyExpression createAdditionExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
 		try {
-			MyExpression result = new AdditionExpression((ArithmeticExpression)e1, (ArithmeticExpression)e2);
+			MyExpression result = new AdditionExpression((ArithmeticExpression) e1, (ArithmeticExpression) e2);
 			return result;
 		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a addition expression with a non arithmetic operand");
+			throw new IllegalArgumentException("You've made a addition expression with a non-arithmetic operand");
 		}
 	}
 
 	public MyExpression createMultiplicationExpression(MyExpression e1, MyExpression e2, SourceLocation location) {
 		try {
-			MyExpression result = new MultiplicationExpression((ArithmeticExpression)e1, (ArithmeticExpression)e2);
+			MyExpression result = new MultiplicationExpression((ArithmeticExpression) e1, (ArithmeticExpression) e2);
 			return result;
 		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a multiplication expression with a non arithmetic operand");
+			throw new IllegalArgumentException("You've made a multiplication expression with a non-arithmetic operand");
 		}
 	}
 
@@ -219,7 +217,7 @@ public class ProgramFactory
 			MyExpression result = new SquareRootExpression((ArithmeticExpression) expression);
 			return result;
 		} catch (ClassCastException e) {
-			throw new IllegalArgumentException("you've made a sqrt expression with a non arithmetic operand");
+			throw new IllegalArgumentException("You've made a sqrt expression with a non-arithmetic operand");
 		}
 	}
 
@@ -228,7 +226,6 @@ public class ProgramFactory
 		return result;
 	}
 
-	
 	@Override
 	public MyStatement createThrustOnStatement(SourceLocation location) {
 		MyStatement result = new ThrustOnAction(location);
