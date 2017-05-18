@@ -5,17 +5,17 @@ import java.util.List;
 class PrintStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
-	
+
 	public PrintStatement(MyExpression expression) {
 		setExpression(expression);
 	}
 
 	
 	/// BASIC PROPERTIES ///
-	
+
 	private MyExpression expression;
-	
-	
+
+
 	/// SETTERS ///
 
 	private void setExpression(MyExpression expression) {
@@ -24,7 +24,7 @@ class PrintStatement extends MyStatement {
 
 	
 	/// EVALUATION ///
-	
+
 	@Override
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
