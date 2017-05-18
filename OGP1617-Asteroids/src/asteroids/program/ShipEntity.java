@@ -27,4 +27,5 @@ class ShipEntity extends EntityExpression {
 
 		return (Ship) getClosestEntity(ships);
 	}
+	
 }

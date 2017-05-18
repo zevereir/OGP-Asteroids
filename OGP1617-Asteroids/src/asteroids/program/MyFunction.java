@@ -7,7 +7,7 @@ public class MyFunction {
 
 	/// CONSTRUCTOR ///
 
-	public MyFunction(String functionName, MyStatement body) {
+	protected MyFunction(String functionName, MyStatement body) {
 		setFunctionName(functionName);
 		setBody(body);
 	}

@@ -31,7 +31,7 @@ public class Program {
 	
 	/// GETTERS ///
 
-	public MyStatement getMain() {
+	private MyStatement getMain() {
 		return main;
 	}
 
@@ -39,7 +39,7 @@ public class Program {
 		return mayExecute;
 	}
 
-	protected List<Object> getPrintOuts() {
+	private List<Object> getPrintOuts() {
 		return print_outs;
 	}
 
@@ -47,7 +47,7 @@ public class Program {
 		return functions;
 	}
 
-	public Ship getProgramShip() {
+	protected Ship getProgramShip() {
 		return ship;
 	}
 
@@ -66,14 +66,14 @@ public class Program {
 	
 	/// SETTERS ///
 
-	protected void setFunctions(List<MyFunction> functions) {
+	private void setFunctions(List<MyFunction> functions) {
 		for (MyFunction function : functions) {
 			this.functions.put(function.getFunctionName(), function);
 			function.setFunctionProgram(this);
 		}
 	}
 
-	protected void setMain(MyStatement main) {
+	private void setMain(MyStatement main) {
 		this.main = main;
 	}
 

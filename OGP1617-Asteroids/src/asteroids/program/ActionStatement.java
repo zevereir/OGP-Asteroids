@@ -14,11 +14,11 @@ abstract class ActionStatement extends MyStatement {
 	
 	/// GETTERS ///
 	
-	protected double getDecrementTime(){
+	private double getDecrementTime(){
 		return decrement_time;
 	}
 	
-	protected SourceLocation getSourceLocation(){
+	private SourceLocation getSourceLocation(){
 		return sourcelocation;
 	}
 	

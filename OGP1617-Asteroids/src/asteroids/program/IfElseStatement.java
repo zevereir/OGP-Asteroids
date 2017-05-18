@@ -8,7 +8,7 @@ class IfElseStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
 
-	public IfElseStatement(BooleanExpression condition, MyStatement ifBody, MyStatement elseBody) {
+	protected IfElseStatement(BooleanExpression condition, MyStatement ifBody, MyStatement elseBody) {
 		setCondition(condition);
 		setIfBody(ifBody);
 		setElseBody(elseBody);

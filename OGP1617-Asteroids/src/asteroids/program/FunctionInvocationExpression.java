@@ -8,7 +8,7 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 
 	/// CONSTRUCTOR ///
 
-	public FunctionExpression(String functionName, List<MyExpression> actualArgs) {
+	protected FunctionExpression(String functionName, List<MyExpression> actualArgs) {
 		setFunctionName(functionName);
 		setArguments(actualArgs);
 	}
@@ -22,7 +22,7 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 	
 	/// GETTERS ///
 
-	protected List<MyExpression> getActualArgs() {
+	private List<MyExpression> getActualArgs() {
 		return actualArgs;
 	}
 
@@ -40,32 +40,32 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 		return result;
 	}
 
-	protected MyFunction getFunction() {
+	private MyFunction getFunction() {
 		if (getExpressionProgram().getProgramFunctions().containsKey(getFunctionName()))
 			return getExpressionProgram().getProgramFunctions().get(getFunctionName());
 
 		throw new IllegalArgumentException();
 	}
 
-	protected String getFunctionName() {
+	private String getFunctionName() {
 		return functionName;
 	}
 
 	
 	/// SETTERS ///
 
-	protected void setArguments(List<MyExpression> actualArgs) {
+	private void setArguments(List<MyExpression> actualArgs) {
 		this.actualArgs = actualArgs;
 	}
 
-	protected void setFunctionName(String functionName) {
+	private void setFunctionName(String functionName) {
 		this.functionName = functionName;
 	}
 	
 	
 	/// CHECKERS ///
 	
-	protected static boolean isValidFunctionBody(MyStatement body) {
+	private static boolean isValidFunctionBody(MyStatement body) {
 		return (body.containsStatement("ReturnStatement")
 				&& ((body instanceof ReturnStatement) || (body instanceof SequenceStatement)
 						|| (body instanceof IfElseStatement) || (body instanceof WhileStatement)));
@@ -74,7 +74,7 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 	
 	/// HELP FUNCTIONS ///
 
-	protected List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs, MyFunction function) {
+	private List<MyExpression> updateArgs(Program program, List<MyExpression> oldActualArgs, MyFunction function) {
 		List<MyExpression> newActualArgs = new ArrayList<MyExpression>();
 
 		for (MyExpression actualArg : getActualArgs())
@@ -89,13 +89,14 @@ class FunctionExpression extends MyExpression implements ArithmeticExpression {
 				newActualArgs.set(i, newArg);
 			}
 		}
+		
 		return newActualArgs;
 	}
 
 	
 	/// EVALUATION ///
 
-	protected Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs, MyFunction function)
+	private Object evaluateFunctionBody(MyStatement body, List<MyExpression> actualArgs, MyFunction function)
 			throws IllegalArgumentException {
 		if (isValidFunctionBody(body))
 			return body.evaluateInFunction(getExpressionProgram(), actualArgs, function);

@@ -6,7 +6,7 @@ class ReturnStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
 
-	public ReturnStatement(MyExpression expression) {
+	protected ReturnStatement(MyExpression expression) {
 		setReturnExpression(expression);
 	}
 
@@ -18,14 +18,14 @@ class ReturnStatement extends MyStatement {
 	
 	/// GETTERS ///
 
-	protected MyExpression getExpression() {
+	private MyExpression getExpression() {
 		return this.expression;
 	}
 
 	
 	/// SETTERS ///
 	
-	protected void setReturnExpression(MyExpression expression) {
+	private void setReturnExpression(MyExpression expression) {
 		this.expression = expression;
 	}
 	

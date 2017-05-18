@@ -68,7 +68,7 @@ public abstract class MyExpression {
 	}
 
 	protected Program getExpressionProgram() {
-		return this.program;
+		return program;
 	}
 
 	protected abstract Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function);

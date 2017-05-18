@@ -30,7 +30,7 @@ abstract class EntityExpression extends MyExpression {
 		return result;
 	}
 	
-	protected World getWorld() {
+	private World getWorld() {
 		return getExpressionShip().getEntityWorld();
 	}
 	

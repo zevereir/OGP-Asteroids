@@ -6,7 +6,7 @@ class DirectionExpression extends MyExpression {
 
 	/// CONSTRUCTOR ///
 
-	public DirectionExpression() {
+	protected DirectionExpression() {
 		//
 	}
 

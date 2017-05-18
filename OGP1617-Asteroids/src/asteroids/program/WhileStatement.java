@@ -8,7 +8,7 @@ class WhileStatement extends MyStatement {
 	
 	/// CONSTRUCTOR ///
 
-	public WhileStatement(BooleanExpression condition, MyStatement body) {
+	protected WhileStatement(BooleanExpression condition, MyStatement body) {
 		setCondition(condition);
 		setBody(body);
 	}
@@ -23,37 +23,37 @@ class WhileStatement extends MyStatement {
 	
 	/// GETTERS ///
 	
-	public MyStatement getBody() {
+	private MyStatement getBody() {
 		return body;
 	}
 	
-	public boolean getBrokenState() {
+	private boolean getBrokenState() {
 		return broken;
 	}
 	
-	public MyExpression getCondition() {
+	private MyExpression getCondition() {
 		return (MyExpression) condition;
 	}
 	
 	
 	/// SETTERS ///
 
-	public void setBody(MyStatement body) {
+	private void setBody(MyStatement body) {
 		this.body = body;
 	}
 
-	public void setBrokenTrue() {
+	private void setBrokenTrue() {
 		broken = true;
 	}
 
-	public void setCondition(BooleanExpression condition) {
+	private void setCondition(BooleanExpression condition) {
 		this.condition = condition;
 	}
 	
 	
 	/// CHECKERS ///
 
-	protected boolean isNotBroken() {
+	private boolean isNotBroken() {
 		return !getBrokenState();
 	}
 	

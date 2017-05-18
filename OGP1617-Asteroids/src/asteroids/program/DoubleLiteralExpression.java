@@ -6,7 +6,7 @@ class DoubleLiteralExpression extends MyExpression implements ArithmeticExpressi
 
 	/// CONSTRUCTOR ///
 
-	public DoubleLiteralExpression(double value) {
+	protected DoubleLiteralExpression(double value) {
 		setValue(value);
 	}
 
@@ -25,14 +25,14 @@ class DoubleLiteralExpression extends MyExpression implements ArithmeticExpressi
 		return getValue();
 	}
 
-	protected double getValue() {
+	private double getValue() {
 		return value;
 	}
 	
 
 	/// SETTERS ///
 
-	protected void setValue(double value) throws IllegalArgumentException {
+	private void setValue(double value) throws IllegalArgumentException {
 		this.value = value;
 	}
 

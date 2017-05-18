@@ -6,7 +6,7 @@ class PrintStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
 
-	public PrintStatement(MyExpression expression) {
+	protected PrintStatement(MyExpression expression) {
 		setExpression(expression);
 	}
 

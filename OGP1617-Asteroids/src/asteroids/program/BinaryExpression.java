@@ -15,8 +15,8 @@ public abstract class BinaryExpression<E> extends MyExpression {
 
 	/// BASIC PROPERTIES ///
 
-	protected E left_operand = null;
-	protected E right_operand = null;
+	private E left_operand = null;
+	private E right_operand = null;
 
 	
 	/// GETTERS ///
@@ -28,10 +28,6 @@ public abstract class BinaryExpression<E> extends MyExpression {
 
 	protected Object getLeftOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		return ((MyExpression) getLeftOperand()).getExpressionResult(program, actualArgs, function);
-	}
-
-	protected int getNbOperands() {
-		return 2;
 	}
 
 	@Override
@@ -53,18 +49,12 @@ public abstract class BinaryExpression<E> extends MyExpression {
 	protected void setRightOperand(E expression) {
 		right_operand = expression;
 	}
-
-	
-	/// CHECKERS ///
-
-	protected boolean canHaveAsNbOperands(double number) {
-		return number == 2;
-	}
 	
 	
 	/// LOCAL CLASS ///
 	
 	class BinaryArithmeticExpression implements BinaryOperandSolver, ArithmeticExpression{
+		
 		public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double rightParameter = parameterArray[1];
@@ -98,9 +88,9 @@ public abstract class BinaryExpression<E> extends MyExpression {
 	/// LOCAL INTERFACE ///
 
 	interface BinaryOperandSolver {
-		public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
+		Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
 
-		public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
+		Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
 	}
 	
 }

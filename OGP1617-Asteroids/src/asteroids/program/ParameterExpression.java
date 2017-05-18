@@ -6,7 +6,7 @@ class ParameterExpression extends NameExpression {
 
 	/// CONSTRUCTOR ///
 
-	public ParameterExpression(String ParameterName) {
+	protected ParameterExpression(String ParameterName) {
 		super(ParameterName);
 	}
 

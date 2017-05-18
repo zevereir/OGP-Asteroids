@@ -6,7 +6,7 @@ class AssignmentStatement extends MyStatement {
 	
 	/// CONSTRUCTOR ///
 
-	public AssignmentStatement(String variableName, MyExpression expression) {
+	protected AssignmentStatement(String variableName, MyExpression expression) {
 		setVariableName(variableName);
 		setExpression(expression);
 	}
@@ -20,29 +20,29 @@ class AssignmentStatement extends MyStatement {
 
 	/// GETTERS ///
 	
-	protected MyExpression getExpression() {
+	private MyExpression getExpression() {
 		return expression;
 	}
 
-	protected String getVariableName() {
+	private String getVariableName() {
 		return variableName;
 	}
 
 	
 	/// SETTERS ///
 
-	protected void setExpression(MyExpression expression) {
+	private void setExpression(MyExpression expression) {
 		this.expression = expression;
 	}
 	
-	protected void setVariableName(String variableName) {
+	private void setVariableName(String variableName) {
 		this.variableName = variableName;
 	}
 
 	
 	/// CHECKERS ///
 	
-	protected boolean isValidVariable(String variableName, MyExpression expression, List<MyExpression> actualArgs) {
+	private boolean isValidVariable(String variableName, MyExpression expression, List<MyExpression> actualArgs) {
 		return ((!getStatementProgram().getProgramFunctions().containsKey(variableName))
 				&& (expression.getExpressionResult(getStatementProgram(), actualArgs) instanceof Double));
 	}
@@ -50,7 +50,7 @@ class AssignmentStatement extends MyStatement {
 	
 	/// HELP FUNCTIONS ///
 
-	public void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function) {
+	protected void assignLocalVariable(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 		
 		function.addLocalVariable(getVariableName(), getExpression().getExpressionResult(program, actualArgs, function));

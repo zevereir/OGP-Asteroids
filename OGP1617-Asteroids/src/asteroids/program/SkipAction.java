@@ -6,7 +6,7 @@ class SkipAction extends ActionStatement {
 
 	/// CONSTRUCTOR ///
 	
-	public SkipAction(SourceLocation location) {
+	protected SkipAction(SourceLocation location) {
 		setSourceLocation(location);
 	}
 

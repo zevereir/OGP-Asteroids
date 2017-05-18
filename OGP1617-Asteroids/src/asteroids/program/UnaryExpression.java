@@ -18,12 +18,8 @@ public abstract class UnaryExpression<E> extends MyExpression {
 	
 	/// GETTERS ///
 
-	public final int getNbOperands() {
-		return 1;
-	}
-
 	@Override
-	public E getOperand() {
+	protected E getOperand() {
 		return operand;
 	}
 
@@ -37,13 +33,6 @@ public abstract class UnaryExpression<E> extends MyExpression {
 	protected void setOperand(E operand) {
 		this.operand = operand;
 	}
-
-	
-	/// CHECKERS ///
-
-	public final boolean canHaveAsNbOperands(int number) {
-		return number == 1;
-	}
 	
 	
 	/// LOCAL CLASS ///
@@ -56,9 +45,11 @@ public abstract class UnaryExpression<E> extends MyExpression {
 
 			if (parameter != null)
 				return parameter;
+			
 			else {
 				if (canHaveAsArithmeticOperand(program, actualArgs, (MyExpression) getOperand(), function))
 					return (double) getOperandResult(program, actualArgs, function);
+				
 				else
 					throw new IllegalArgumentException();
 			}

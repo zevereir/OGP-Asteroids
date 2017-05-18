@@ -9,7 +9,7 @@ class SequenceStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
 
-	public SequenceStatement(List<MyStatement> statements) {
+	protected SequenceStatement(List<MyStatement> statements) {
 		setStatements(statements);
 	}
 

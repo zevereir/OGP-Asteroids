@@ -6,7 +6,7 @@ class LogicalNegationExpression extends UnaryExpression<BooleanExpression> imple
 
 	/// CONSTRUCTOR ///
 
-	public LogicalNegationExpression(BooleanExpression operand) {
+	protected LogicalNegationExpression(BooleanExpression operand) {
 		super(operand);
 	}
 	

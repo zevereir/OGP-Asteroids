@@ -6,7 +6,7 @@ class BreakStatement extends MyStatement {
 
 	/// CONSTRUCTOR ///
 
-	public BreakStatement() {
+	protected BreakStatement() {
 		//
 	}	
 	

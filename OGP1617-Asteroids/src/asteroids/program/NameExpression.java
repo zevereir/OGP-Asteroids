@@ -4,7 +4,7 @@ public abstract class NameExpression extends MyExpression implements ArithmeticE
 
 	/// CONSTRUCTOR ///
 
-	public NameExpression(String name) {
+	protected NameExpression(String name) {
 		setName(name);
 	}
 	
@@ -23,7 +23,7 @@ public abstract class NameExpression extends MyExpression implements ArithmeticE
 	
 	/// SETTERS ///
 
-	protected void setName(String name) throws IllegalArgumentException {
+	private void setName(String name) throws IllegalArgumentException {
 		this.name = name;
 	}
 

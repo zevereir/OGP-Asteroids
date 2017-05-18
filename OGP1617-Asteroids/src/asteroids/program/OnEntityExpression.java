@@ -18,7 +18,7 @@ abstract class OnEntityExpression extends MyExpression implements ArithmeticExpr
 
 	/// GETTERS ///
 
-	public MyExpression getOperand() {
+	protected MyExpression getOperand() {
 		return operand;
 	}
 
@@ -29,9 +29,10 @@ abstract class OnEntityExpression extends MyExpression implements ArithmeticExpr
 	
 	/// SETTERS ///
 
-	protected void setOperand(MyExpression operand) {
+	private void setOperand(MyExpression operand) {
 		if (canHaveAsOnEntityExpressionOperand(operand))
 			this.operand = operand;
+		
 		else
 			throw new IllegalArgumentException();
 	}
@@ -39,7 +40,7 @@ abstract class OnEntityExpression extends MyExpression implements ArithmeticExpr
 	
 	/// CHECKERS ///
 	
-	public boolean canHaveAsOnEntityExpressionOperand(MyExpression expression) {
+	private boolean canHaveAsOnEntityExpressionOperand(MyExpression expression) {
 		return (expression instanceof EntityExpression && !(expression instanceof NullEntity));
 	}
 
