@@ -50,7 +50,7 @@ class EqualsToExpression extends BinaryExpression<MyExpression> implements Boole
 
 	
 	/// HELP FUNCTIONS ///
-	
+
 	protected void assignExpressionToParameter(List<MyExpression> actualArgs) {
 		if (getLeftOperand() instanceof ParameterExpression)
 			setLeftOperand(actualArgs.get(((ParameterExpression) getLeftOperand()).getParameterNumber() - 1));
