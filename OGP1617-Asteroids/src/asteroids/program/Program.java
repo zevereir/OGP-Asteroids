@@ -103,7 +103,7 @@ public class Program {
 	protected void addTime(double dt) {
 		time_left += dt;
 	}
-	
+
 	protected void addVariable(String string, Object object) {
 		variables.put(string, object);
 	}
@@ -113,28 +113,29 @@ public class Program {
 	
 	public List<Object> execute(double dt) {
 		addTime(dt);
-		
+
 		if (first_time) {
 			first_time = false;
-			
+
 			try {
-				main.evaluate(this, null);
+				getMain().evaluate(this);
+				
 				return getPrintOuts();
 			} catch (IllegalPathStateException illegalPathStateException) {
 				return null;
 			}
-		} 
-		else {
+		} else {
 			try {
-				main.skipEvaluationUntilLocation(this, null, getSourceLocation());
+				getMain().skipEvaluationUntilLocation(this, null, getSourceLocation());
+				
 				return getPrintOuts();
 			} catch (IllegalPathStateException e) {
 				return null;
 			}
 		}
 	}
-	
 
+	
 	/// RELATIONS WITH OTHER CLASSES ///
 
 	private Ship ship;

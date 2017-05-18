@@ -26,5 +26,5 @@ public abstract class NameExpression extends MyExpression implements ArithmeticE
 	protected void setName(String name) throws IllegalArgumentException {
 		this.name = name;
 	}
-	
+
 }

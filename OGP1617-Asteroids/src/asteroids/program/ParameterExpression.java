@@ -1,6 +1,7 @@
 package asteroids.program;
 
 import java.util.List;
+
 class ParameterExpression extends NameExpression {
 
 	/// CONSTRUCTOR ///
@@ -21,7 +22,7 @@ class ParameterExpression extends NameExpression {
 
 	protected int getParameterNumber() {
 		String parameter = getName();
-		
+
 		return Integer.parseInt(parameter.substring(1));
 	}
 

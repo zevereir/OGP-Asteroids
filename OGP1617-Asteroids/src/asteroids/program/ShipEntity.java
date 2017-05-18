@@ -16,15 +16,15 @@ class ShipEntity extends EntityExpression {
 
 	
 	/// GETTERS ///
-	
+
 	protected Object getExpressionResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setExpressionProgram(program);
-		
+
 		Set<? extends Entity> ships = getWorldEntity("Ship");
-		
+
 		// for this method, the ship the program runs on can't be used.
 		ships.remove(getExpressionShip());
-		
+
 		return (Ship) getClosestEntity(ships);
 	}
 }

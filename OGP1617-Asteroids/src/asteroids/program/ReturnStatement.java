@@ -18,7 +18,7 @@ class ReturnStatement extends MyStatement {
 	
 	/// GETTERS ///
 
-	protected MyExpression getReturnExpression() {
+	protected MyExpression getExpression() {
 		return this.expression;
 	}
 
@@ -38,10 +38,10 @@ class ReturnStatement extends MyStatement {
 	}
 
 	protected Object evaluateInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
-		if (expression instanceof VariableExpression)
-			return ((VariableExpression) expression).getExpressionResult(program, actualArgs, function);
+		if (getExpression() instanceof VariableExpression)
+			return ((VariableExpression) getExpression()).getExpressionResult(program, actualArgs, function);
 		else
-			return expression.getExpressionResult(program, actualArgs, function);
+			return getExpression().getExpressionResult(program, actualArgs, function);
 	}
 
 }
