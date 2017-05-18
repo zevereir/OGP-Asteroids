@@ -36,10 +36,25 @@ class WhileStatement extends MyStatement {
 	}
 	
 	
+	/// GETTERS ///
+	
+	public MyStatement getBody() {
+		return body;
+	}
+	
+	public boolean getBrokenState() {
+		return broken;
+	}
+	
+	public MyExpression getCondition() {
+		return (MyExpression) condition;
+	}
+	
+	
 	/// CHECKERS ///
 
 	protected boolean isNotBroken() {
-		return !broken;
+		return !getBrokenState();
 	}
 	
 	
@@ -49,9 +64,9 @@ class WhileStatement extends MyStatement {
 	protected void evaluate(Program program, List<MyExpression> actualArgs) {
 		setStatementProgram(program);
 		
-		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs) && isNotBroken()) {
+		while ((boolean) getCondition().getExpressionResult(program, actualArgs) && isNotBroken()) {
 			try {
-				body.evaluate(program, actualArgs);
+				getBody().evaluate(program, actualArgs);
 			} catch (IllegalAccessError error) {
 				setBrokenTrue();
 			}
@@ -62,12 +77,12 @@ class WhileStatement extends MyStatement {
 	protected void evaluateWhileInFunction(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		setStatementProgram(program);
 
-		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs, function) && isNotBroken()) {
-			if (body instanceof AssignmentStatement)
-				((AssignmentStatement) body).assignLocalVariable(program, actualArgs, function);
+		while ((boolean) getCondition().getExpressionResult(program, actualArgs, function) && isNotBroken()) {
+			if (getBody() instanceof AssignmentStatement)
+				((AssignmentStatement) getBody()).assignLocalVariable(program, actualArgs, function);
 			else {
 				try {
-					body.evaluateInFunction(program, actualArgs, function);
+					getBody().evaluateInFunction(program, actualArgs, function);
 				} catch (IllegalAccessError error) {
 					setBrokenTrue();
 				}
@@ -78,9 +93,9 @@ class WhileStatement extends MyStatement {
 
 	@Override
 	protected void skipEvaluationUntilLocation(Program program, List<MyExpression> actualArgs, SourceLocation location) {
-		while ((boolean) ((MyExpression) condition).getExpressionResult(program, actualArgs) && isNotBroken()) {
+		while ((boolean) getCondition().getExpressionResult(program, actualArgs) && isNotBroken()) {
 			try {
-				body.skipEvaluationUntilLocation(program, actualArgs, location);
+				getBody().skipEvaluationUntilLocation(program, actualArgs, location);
 			} catch (IllegalAccessError error) {
 				setBrokenTrue();
 			}

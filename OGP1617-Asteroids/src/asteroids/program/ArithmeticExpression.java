@@ -2,8 +2,6 @@ package asteroids.program;
 
 import java.util.List;
 
-import asteroids.model.Entity;
-
 public interface ArithmeticExpression {
 	
 	/// CHECKERS ///
@@ -13,8 +11,7 @@ public interface ArithmeticExpression {
 		if (expression instanceof ParameterExpression)
 			return true;
 
-		return (expression.getExpressionResult(program, actualArgs, function) != null
-				&& !(expression.getExpressionResult(program, actualArgs, function) instanceof Entity));
+		return (expression.getExpressionResult(program, actualArgs, function) instanceof Double);
 	}
 	
 }
