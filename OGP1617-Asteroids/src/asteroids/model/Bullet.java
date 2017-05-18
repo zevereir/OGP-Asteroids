@@ -173,7 +173,7 @@ public class Bullet extends Entity {
 	 * @return 	The amount of bounces.
 	 * 			@see implementation
 	 */
-	public int getAmountOfBounces() {
+	private int getAmountOfBounces() {
 		return amountOfBounces;
 	}
 

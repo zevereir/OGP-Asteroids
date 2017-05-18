@@ -232,7 +232,7 @@ public class World {
 	 * @return 	The map.
 	 * 			@see implementation
 	 */
-	public Map<String,Entity> getWorldEntityPositions() {
+	private Map<String,Entity> getWorldEntityPositions() {
 		Map<String, Entity> result = new HashMap<String,Entity>();
 		
 		result.putAll(entity_positions);

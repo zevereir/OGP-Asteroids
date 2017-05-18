@@ -291,7 +291,7 @@ public class Planetoid extends MinorPlanet {
 	 * @effect 	If one of the children cannot be placed in the world, it will be terminated.
 	 * 			@see implementation
 	 */
-	public void planetoidDivision() {
+	private void planetoidDivision() {
 		// Calculating the child properties
 		double total_child_velocity = 1.5 * getEuclidianDistance(getEntityVelocityX(), getDefaultVelocityY());
 		double child_radius = getEntityRadius() / 2;
