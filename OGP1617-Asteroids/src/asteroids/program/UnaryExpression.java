@@ -2,7 +2,6 @@ package asteroids.program;
 
 import java.util.List;
 
-
 public abstract class UnaryExpression<E> extends MyExpression {
 
 	/// CONSTRUCTOR ///
@@ -22,11 +21,12 @@ public abstract class UnaryExpression<E> extends MyExpression {
 	public final int getNbOperands() {
 		return 1;
 	}
+
 	@Override
 	public E getOperand() {
 		return operand;
 	}
-	
+
 	protected Object getOperandResult(Program program, List<MyExpression> actualArgs, MyFunction function) {
 		return ((MyExpression) getOperand()).getExpressionResult(program, actualArgs, function);
 	}
@@ -50,11 +50,10 @@ public abstract class UnaryExpression<E> extends MyExpression {
 	
 	class UnaryArithmeticExpression implements UnaryOperandSolver, ArithmeticExpression {
 
-		@Override
 		public Object solveOperand(Program program, List<MyExpression> actualArgs, MyFunction function) {
 			Double[] parameterArray = getExpressionParameter(actualArgs, function);
 			Double parameter = parameterArray[0];
-			
+
 			if (parameter != null)
 				return parameter;
 			else {
