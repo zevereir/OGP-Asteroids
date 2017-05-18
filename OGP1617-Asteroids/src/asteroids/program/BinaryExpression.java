@@ -20,6 +20,7 @@ public abstract class BinaryExpression<E> extends MyExpression {
 
 	
 	/// GETTERS ///
+	
 	@Override
 	protected E getLeftOperand() {
 		return left_operand;
@@ -32,6 +33,7 @@ public abstract class BinaryExpression<E> extends MyExpression {
 	protected int getNbOperands() {
 		return 2;
 	}
+	
 	@Override
 	protected E getRightOperand() {
 		return right_operand;
@@ -99,6 +101,7 @@ public abstract class BinaryExpression<E> extends MyExpression {
 		public Object solveLeftOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
 		public Object solveRightOperand(Program program, List<MyExpression> actualArgs, MyFunction function);
 	}
+	
 }
 	
 	

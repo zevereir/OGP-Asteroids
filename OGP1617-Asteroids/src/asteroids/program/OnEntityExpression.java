@@ -19,29 +19,28 @@ abstract class OnEntityExpression extends MyExpression implements ArithmeticExpr
 	/// GETTERS ///
 
 	public MyExpression getOperand() {
-		if (canHaveAsOnEntityExpressionOperand(getExpressionProgram(), operand))
-			return operand;
-		else
-			throw new IllegalArgumentException();
+		return operand;
 	}
-	
+
 	protected Entity getOperandResult(Program program) {
-		return (Entity)getOperand().getExpressionResult(program);
+		return (Entity) getOperand().getExpressionResult(program);
 	}
 	
 	
 	/// SETTERS ///
 
 	protected void setOperand(MyExpression operand) {
-		this.operand = operand;
+		if (canHaveAsOnEntityExpressionOperand(operand))
+			this.operand = operand;
+		else
+			throw new IllegalArgumentException();
 	}
 
 	
 	/// CHECKERS ///
 	
-	public boolean canHaveAsOnEntityExpressionOperand(Program program, MyExpression expression) {
-		return (expression.getExpressionResult(program) != null
-				&& expression.getExpressionResult(program) instanceof Entity);
+	public boolean canHaveAsOnEntityExpressionOperand(MyExpression expression) {
+		return (expression instanceof EntityExpression && !(expression instanceof NullEntity));
 	}
 
 }
